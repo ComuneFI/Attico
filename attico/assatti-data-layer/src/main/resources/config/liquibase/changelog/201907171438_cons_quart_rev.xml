@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    
+    <changeSet author="mazzottada" id="201907171438-1">
+    	<sql>
+			INSERT INTO configurazione_task
+			(nome, codice, id_tipo_configurazione_task, obbligatoria, multipla, proponente, ufficio_corrente, data_creazione, data_modifica, imposta_scadenza, uffici_livello_superiore)
+			VALUES('Cons. Quartiere e Rev. Contabili', 'CONS_QUART_REV_CONT', (select id_tipo_configurazione_task from tipo_configurazione_task where lower(nome) = 'ufficio'), 0, 1, 0, 0, NOW(), NULL, 1, 0);
+			
+			INSERT INTO aoo
+			(codice, descrizione, telefono, fax, email, pec, identitavisiva, validodal, validoal, profiloresponsabile_id, profilorelatore_id, indirizzo_id, tipoaoo_id, logo, aooPadre, uo)
+			VALUES('026004', 'Commissione Consiglio di Quartiere 1', '', '', '', '', '', now(), null, null, null, null, (select id from tipoaoo where lower(descrizione) = 'commissione'), null, (select uff.id from aoo as uff where codice = '026'), 1);
+			
+			INSERT INTO aoo
+			(codice, descrizione, telefono, fax, email, pec, identitavisiva, validodal, validoal, profiloresponsabile_id, profilorelatore_id, indirizzo_id, tipoaoo_id, logo, aooPadre, uo)
+			VALUES('026005', 'Commissione Consiglio di Quartiere 2', '', '', '', '', '', now(), null, null, null, null, (select id from tipoaoo where lower(descrizione) = 'commissione'), null, (select uff.id from aoo as uff where codice = '026'), 1);
+			
+			INSERT INTO aoo
+			(codice, descrizione, telefono, fax, email, pec, identitavisiva, validodal, validoal, profiloresponsabile_id, profilorelatore_id, indirizzo_id, tipoaoo_id, logo, aooPadre, uo)
+			VALUES('026006', 'Commissione Consiglio di Quartiere 3', '', '', '', '', '', now(), null, null, null, null, (select id from tipoaoo where lower(descrizione) = 'commissione'), null, (select uff.id from aoo as uff where codice = '026'), 1);
+			
+			INSERT INTO configurazione_task_aoo (id_configurazione_task, id_aoo) VALUES((select id_configurazione_task from configurazione_task where codice = 'CONS_QUART_REV_CONT'), (select id from aoo where codice = '026004'));
+			
+			INSERT INTO configurazione_task_aoo (id_configurazione_task, id_aoo) VALUES((select id_configurazione_task from configurazione_task where codice = 'CONS_QUART_REV_CONT'), (select id from aoo where codice = '026005'));
+			
+			INSERT INTO configurazione_task_aoo (id_configurazione_task, id_aoo) VALUES((select id_configurazione_task from configurazione_task where codice = 'CONS_QUART_REV_CONT'), (select id from aoo where codice = '026006'));
+    	</sql>
+    </changeSet>
+    <changeSet author="mazzottada" id="201907171438-2">
+    	<sql>
+    		update aoo set descrizione = 'Consiglio di Quartiere 1' where codice = '026004';
+    		update aoo set descrizione = 'Consiglio di Quartiere 2' where codice = '026005';
+    		update aoo set descrizione = 'Consiglio di Quartiere 3' where codice = '026006';
+    	</sql>
+    </changeSet>
+</databaseChangeLog>

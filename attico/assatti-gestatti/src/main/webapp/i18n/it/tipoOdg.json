@@ -1,0 +1,18 @@
+{
+    "cifra2gestattiApp": {
+        "tipoOdg" : {
+            "home": {
+                "title": "Tipi di Odg",
+                "createLabel": "Crea nuovo Tipo di Odg",
+                "createOrEditLabel": "Crea o modifica un Tipo di Odg"
+            },
+            "delete": {
+                "question": "Sei sicuro di voler cancellare il Tipo di Odg con ID {{ id }}?"
+            },
+            "detail": {
+                "title": "Tipo di Odg"
+            },
+            "descrizione": "Descrizione"
+        }
+    }
+}

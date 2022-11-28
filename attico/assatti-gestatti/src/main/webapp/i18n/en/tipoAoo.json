@@ -1,0 +1,25 @@
+{
+    "cifra2gestattiApp": {
+        "tipoAoo" : {
+            "home": {
+                "title": "Tipo Uffici",
+                "createLabel": "Create a new TipoUfficio",
+                "createOrEditLabel": "Create or edit a TipoUfficio"
+            },
+            "delete": {
+                "question": "Are you sure you want to delete TipoUfficio {{ id }}?"
+            },
+            "detail": {
+                "title": "TipoUfficio"
+            },
+            "codice": "Codice",
+            "descrizione": "Descrizione",
+            "note": "Note",
+            "messages": {
+	            "error": {
+	                "operationNotPermitted": "Non \u00E8 possibile effettuare l\u0027operazione in quanto l\u0027elemento \u00E8 incluso in uno o pi\u00F9 atti."
+	            }
+	        }
+        }
+    }
+}

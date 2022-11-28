@@ -1,0 +1,24 @@
+{
+    "cifra2gestattiApp": {
+        "ruolo" : {
+            "home": {
+                "title": "Lista Ruoli",
+                "createLabel": "Crea nuovo Ruolo",
+                "createOrEditLabel": "Crea o modifica un Ruolo"
+            },
+            "delete": {
+                "question": "SEi sucuro di voler cancellare il Ruolo {{ id }}?"
+            },
+            "detail": {
+                "title": "Ruolo"
+            },
+            "codice": "Codice",
+            "descrizione": "Descrizione",
+            "tipo":"Tipo",
+            "onlyAdmin": "Ruolo assegnabile solo da profili Admin",
+            "guida":{
+            	"tipo":"\u003Cul\u003E\u003Cli\u003EUn ruolo di sistema \u00E8 un ruolo che non intacca l\u0027operativit\u00E0 nella gestione degli atti amministrativi\u003C/li\u003E\u003Cli\u003EUn ruolo operativo abilita funzionalit\u00E0 operative nella gestione degli atti amministrativi ma non intacca funzionalit\u00E0 di processo\u003C/li\u003E\u003Cli\u003EUn ruolo di processo \u00E8 un ruolo che prende parte attiva negli iter degli atti amministraviti.\u003C/li\u003E\u003C/ul\u003E"
+            }
+        }
+    }
+}

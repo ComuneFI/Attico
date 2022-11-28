@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?><definitions xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://infor.arezzo.it/jente/jfinanziaria/services" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" targetNamespace="http://infor.arezzo.it/jente/jfinanziaria/services" name="JFinanziariaService">
+  <types>
+    <xsd:schema>
+      <xsd:import schemaLocation="JFinanziariaServices.xsd" namespace="http://infor.arezzo.it/jente/jfinanziaria/services"></xsd:import>
+    </xsd:schema>
+  </types>
+  <message name="gestioneProposte">
+    <part element="tns:gestioneProposte" name="parameters"></part>
+  </message>
+  <message name="gestioneProposteResponse">
+    <part element="tns:gestioneProposteResponse" name="parameters"></part>
+  </message>
+  <portType name="JFinanziariaServices">
+    <operation name="gestioneProposte">
+      <input message="tns:gestioneProposte"></input>
+      <output message="tns:gestioneProposteResponse"></output>
+    </operation>
+  </portType>
+  <binding name="JFinanziariaPortBinding" type="tns:JFinanziariaServices">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"></soap:binding>
+    <operation name="gestioneProposte">
+      <soap:operation soapAction=""></soap:operation>
+      <input>
+        <soap:body use="literal"></soap:body>
+      </input>
+      <output>
+        <soap:body use="literal"></soap:body>
+      </output>
+    </operation>
+  </binding>
+  <service name="JFinanziariaService">
+    <port name="JFinanziariaPort" binding="tns:JFinanziariaPortBinding">
+      <soap:address location="http://corsi.infor.arezzo.it:80/jEnte/JFinanziariaServices"></soap:address>
+    </port>
+  </service>
+</definitions>

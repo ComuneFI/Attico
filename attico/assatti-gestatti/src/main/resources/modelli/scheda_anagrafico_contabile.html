@@ -1,0 +1,28 @@
+<br><br><br><br><br><br><title>Scheda Anagrafico Contabile</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><br><br>
+<p style="text-align: center; font-family: Calibri; font-size: 16pt; font-weight: bold;">
+	<span>Scheda Anagrafico Contabile</span>
+</p>
+<p style="text-align: right; font-family: Calibri; font-size: 16pt; font-weight: bold; font-style: italic;">
+	<span>Allegato 1</span>
+</p>
+<p th:if="${atto.numeroAdozione != null and atto.dataAdozione!=null}" style="text-align: left; font-family: Calibri; font-size: 11pt; font-weight: bold; font-style: italic;">
+	<span>N. [[${atto.numeroAdozione}]] di repertorio del [[${atto.dataAdozione.toString("dd/MM/yyyy")}]]</span>
+</p>
+<p style="text-align: left; font-family: Calibri; font-size: 11pt;">
+	<span style="font-weight: bold;">Codice Atto</span><span>: [[${atto.codiceCifra}]]</span>
+</p>
+<p style="text-align: justify; font-family: Calibri; font-size: 11pt;">
+	<span style="font-weight: bold;">Oggetto: </span><span th:utext="${atto.oggetto}"></span>
+</p>
+<p>&nbsp;</p>
+<p th:utext="${atto.informazioniAnagraficoContabili.testo}" style="text-align: justify; font-family: Calibri; font-size: 11pt;"></p>
+<p>&nbsp;</p>
+<p style="text-align: left; font-family: Calibri; font-size: 11pt;" th:if="${atto.qualificaEmanante!=null and atto.qualificaEmanante.denominazione!=null and atto.emananteProfilo!=null and atto.emananteProfilo.utente!=null and atto.emananteProfilo.utente.nome!=null and atto.emananteProfilo.utente.cognome!=null}">
+	<span>[[${atto.qualificaEmanante.denominazione}]]</span>
+	<br>
+	<span>[[${atto.emananteProfilo.utente.nome}]] [[${atto.emananteProfilo.utente.cognome}]]</span>
+</p>
+<p style="font-family: Calibri; font-size: 8pt;">
+	<span>Documento informatico firmato digitalmente ai sensi del Testo Unico D.P.R. 28 dicembre 2000, n. 445 e del D.Lgs 7 marzo 2005, n. 82 e norme collegate che sostituisce il testo cartaceo e la firma autografa.</span>
+</p>

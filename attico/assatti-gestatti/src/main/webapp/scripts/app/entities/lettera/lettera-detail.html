@@ -1,0 +1,62 @@
+
+<div>
+    <h2><span translate="cifra2gestattiApp.lettera.detail.title">Lettera</span> {{lettera.id}}</h2>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th translate="entity.detail.field">Field</th>
+                    <th translate="entity.detail.value">Value</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.lettera.tipoLettera">TipoLettera</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{lettera.tipoLettera}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.lettera.dataPubblicazioneSito">DataPubblicazioneSito</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{lettera.dataPubblicazioneSito | date:'dd-MM-yyyy'}}" ng-disabled="true">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.lettera.idDiogene">IdDiogene</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{lettera.idDiogene}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.lettera.testo">Testo</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{lettera.testo}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.lettera.data">Data</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{lettera.data}}" readonly>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <button type="submit"
+            ui-sref="lettera"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span translate="entity.action.back"> Back</span>
+    </button>
+</div>

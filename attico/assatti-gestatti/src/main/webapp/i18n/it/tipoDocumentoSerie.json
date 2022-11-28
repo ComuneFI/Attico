@@ -1,0 +1,21 @@
+{
+    "cifra2gestattiApp": {
+        "tipoDocumentoSerie" : {
+            "home": {
+                "title": "Destinazione Documentale",
+                "createLabel": "Crea una nuova Destinazione Documentale",
+                "createOrEditLabel": "Crea o modifica una Destinazione Documentale"
+            },
+            "delete": {
+                "question": "Sei sicuro di voler cancellare la Destinazione Documentale {{ id }}?"
+            },
+            "detail": {
+                "title": "Destinazioni Documentale"
+            },
+            "codice": "Codice",
+            "descrizione": "Descrizione",
+            "isProposta": "Proposta",
+            "tipoAtto": "Tipo Atto"
+        }
+    }
+}

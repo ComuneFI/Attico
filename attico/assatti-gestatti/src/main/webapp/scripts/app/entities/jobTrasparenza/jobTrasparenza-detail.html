@@ -1,0 +1,134 @@
+
+<div>
+    <h2><span translate="cifra2gestattiApp.jobTrasparenza.detail.title">Dettaglio Pubblicazioni</span></h2>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <tbody>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.jobTrasparenza.detail.codiceCifra">Cod. CIFRA:</span>
+                    </td>
+                    <td colspan="3">
+                        <input type="text" class="input-sm form-control" value="{{jobTrasparenza.atto.codiceCifra}}" readonly>
+                    </td>
+                </tr>
+               <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.jobTrasparenza.detail.dataCreazione">Data Creazione:</span>
+                    </td>
+                    <td colspan="3">
+                        <input type="text" class="input-sm form-control" value="{{jobTrasparenza.atto.dataCreazione | date:'dd/MM/yyyy'}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.jobTrasparenza.detail.tipoDiAtto">tipoDiAtto:</span>
+                    </td>
+                    <td colspan="3">
+                        <input type="text" class="input-sm form-control" value="{{jobTrasparenza.atto.tipoAtto.descrizione}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.jobTrasparenza.detail.oggetto">oggetto:</span>
+                    </td>
+                    <td colspan="3">
+                        <input type="text" class="input-sm form-control" value="{{jobTrasparenza.atto.oggetto}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.jobTrasparenza.detail.strutturaProponente">strutturaProponente:</span>
+                    </td>
+                    <td colspan="3">
+                        <input type="text" class="input-sm form-control" value="{{jobTrasparenza.atto.aoo.codice}} - {{jobTrasparenza.atto.aoo.descrizione}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.jobTrasparenza.detail.numeroAdozione">numeroAdozione:</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{jobTrasparenza.atto.numeroAdozione}}" readonly>
+                    </td>
+                    <td>
+                        <span translate="cifra2gestattiApp.jobTrasparenza.detail.dataAdozione">dataAdozione:</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{jobTrasparenza.atto.dataAdozione | date:'dd/MM/yyyy'}}" readonly>
+                    </td>
+                </tr>
+                
+                
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.jobTrasparenza.detail.download">download:</span>
+                    </td>
+                    <td colspan="3">
+			    
+			    <a ng-repeat="docPdf in jobTrasparenza.atto.documentiPdfAdozione" class="list-group-item padding"  target="_blank" href="api/attos/{{jobTrasparenza.atto.id}}/documento/{{docPdf.id}}?access_token={{access_token}}"  >
+			                
+	                 <i  class="fa fa-file-pdf-o"></i>
+	             
+	                 {{docPdf.file.nomeFile}}   
+					
+	    			<span class="label label-default pull-right">({{jobTrasparenza.atto.documentiPdfAdozione.length - $index}})</span>
+					<span class="label label-info pull-right">({{docPdf.createdBy}} - {{docPdf.createdDate | date:'medium'}})</span>
+	     
+	                <span class="label label-warning pull-right"  ng-if="docPdf.firmato" ><i   class="fa fa-shield"></i> Firmato digitalmente da {{docPdf.firmatario}}</span>
+	                <span class="label alert-success pull-right"  ng-if="docPdf.numeroProtocollo != null && docPdf.numeroProtocollo != '' && isProvvedimentoRepertoriato()" ><i   class="fa fa-shield"></i> Identificativo di repertorio : {{docPdf.numeroProtocollo}}</span>
+	                <span class="label label-success pull-right"  ng-if="docPdf.numeroProtocollo != null && docPdf.numeroProtocollo != '' && !isProvvedimentoRepertoriato()" ><i   class="fa fa-shield"></i> Protocollato con n. {{docPdf.numeroProtocollo}}</span>
+	    			
+	    			<br/><span style="width: 100%;" ng-if="docPdf.diogenes && docPdf.diogenes.length > 0"> <br /><!-- <span translate="global.diogeneid"></span>: [<span ng-repeat="diogene in docPdf.diogenes track by $index">{{diogene.idDocumentoDiogene}}{{docPdf.diogenes.length - 1 > $index ? ',' : ''}}</span>] </span> -->            
+			    </a>
+                    </td>
+                   
+                </tr>
+				
+                
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.jobTrasparenza.detail.responsabile">responsabile:</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{jobTrasparenza.atto.emananteProfilo.utente.cognome}} {{jobTrasparenza.atto.emananteProfilo.utente.nome}}" readonly>
+                    </td>
+                    <td>
+                        <span translate="cifra2gestattiApp.jobTrasparenza.detail.dataEsecutivita">dataEsecutivita:</span>
+                    </td>
+                    <td>
+                       <input type="text" class="input-sm form-control" value="{{jobTrasparenza.atto.dataEsecutivita | date:'dd/MM/yyyy'}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.jobTrasparenza.detail.dataRichiestaAnnullamento">dataRichiestaAnnullamento:</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{jobTrasparenza.atto.dataRichiestaAnnullamento | date:'dd/MM/yyyy'}}" readonly>
+                    </td>
+                    <td>
+                        <span translate="cifra2gestattiApp.jobTrasparenza.detail.richiedenteAnnullamento">richiedenteAnnullamento:</span>
+                    </td>
+                    <td>
+                       <input type="text" class="input-sm form-control" value="{{jobTrasparenza.atto.richiedenteAnnullamento}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.jobTrasparenza.detail.motivazioneAnnullamento">motivazioneAnnullamento:</span>
+                    </td>
+                    <td colspan="3">
+                        <input type="text" class="input-sm form-control" value="{{jobTrasparenza.atto.motivazioneRichiestaAnnullamento}}" readonly>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <button type="submit"
+            ui-sref="jobTrasparenza"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span translate="entity.action.back"> Back</span>
+    </button>
+</div>

@@ -1,0 +1,222 @@
+<div>
+
+    <h2 translate="cifra2gestattiApp.news.home.titleReport">News</h2>
+	<button class="btn btn-primary btn-sm" style="margin-bottom:5px;" ng-click="aggiorna()"><span id="updateList" class="glyphicon glyphicon-refresh"></span> Aggiorna Lista</button>
+	<div>
+	    <div class="table-responsive crud-search">
+	        <table class="table table-striped">
+	            <thead>
+	                <tr>
+	                	<th width="30px"></th>
+	                    <th translate="cifra2gestattiApp.news.dataUltimaRichiesta">Data Ultima Richiesta Invio</th>
+	                    <th translate="cifra2gestattiApp.news.tipoNotifica">Tipo Notifica</th>
+	                    <th translate="cifra2gestattiApp.news.motivazioneNotifica">Motivazione Notifica</th>
+	                    <th translate="cifra2gestattiApp.news.oggetto">Oggetto</th>
+	                    <th translate="cifra2gestattiApp.news.destinatario">Destinatario</th>
+	                    <th translate="cifra2gestattiApp.news.statoUltimaRichiesta">Stato Ultima Richiesta</th>
+	                    <th translate="cifra2gestattiApp.news.allegato">Allegato</th>
+	                    <th>
+						</th>
+	                    <th>
+	                    </th>
+	                    <th width="30px"></th>
+	                </tr>
+	                <tr>
+	                	<th style="text-align:center;"><button class="btn btn-primary btn-xs" ng-click="ricerca()"><span class="glyphicon glyphicon-search"/> <span translate="global.messages.cerca">Ricerca</span></button> <button class="btn btn-primary btn-xs" ng-click="resetRicerca()"><span translate="global.messages.resetricerca">Reset ricerca</span></button></th>
+	                    <th>
+	                    	<div class="form-group">
+							    <div class="input-group" style="position:inherit;">
+							      <input type="text" ng-model="tempSearch.dataStart" size="7" onkeydown="return false;" bs-datepicker placeholder="Dal">
+							      <div class="input-group-addon" style="padding:0px !important;width:0px;"><button title="Cancella Data" ng-click="tempSearch.dataStart = null;" class="btn btn-xs btn-link"><span class="glyphicon glyphicon-remove"></span></button></div>
+							    </div>
+							</div>
+	                    	<div class="form-group">
+							    <div class="input-group" style="position:inherit;">
+							      <input type="text" ng-model="tempSearch.dataEnd" size="7" onkeydown="return false;" bs-datepicker placeholder="Al">
+							      <div class="input-group-addon" style="padding:0px !important;width:0px;"><button title="Cancella Data" ng-click="tempSearch.dataEnd = null;" class="btn btn-xs btn-link"><span class="glyphicon glyphicon-remove"></span></button></div>
+							    </div>
+							</div>
+				        </th>
+	                    <th>
+	                    	<ui-select ng-model="tempSearch.tipoInvio" theme="bootstrap">
+		                    	<ui-select-match allow-clear="true">{{$select.selected}}</ui-select-match>
+		                    	<ui-select-choices repeat="tipo in tipiInvio | filter: $select.search track by $index">
+		                            <div ng-bind-html="tipo | highlight: $select.search"></div>
+		                    	</ui-select-choices>
+	                      	</ui-select>
+	                    </th>
+	                    <th>
+							<ui-select ng-model="tempSearch.motivazione" theme="bootstrap">
+		                    	<ui-select-match allow-clear="true">{{$select.selected.description}}</ui-select-match>
+		                    	<ui-select-choices repeat="motivazione in motivazioni | filter: $select.search track by $index">
+		                            <div ng-bind-html="motivazione.description | highlight: $select.search"></div>
+		                    	</ui-select-choices>
+	                      	</ui-select>
+						</th>
+	                    <th><input type="text" ng-model="tempSearch.oggetto"></th>
+	                    <th><input type="text"ng-model="tempSearch.destinatario"></th>
+	                    <th>
+	                    	<div class="form-group">
+								<ui-select ng-model="tempSearch.stato" theme="bootstrap">
+			                    	<ui-select-match allow-clear="true">{{$select.selected.description}}</ui-select-match>
+			                    	<ui-select-choices repeat="stato in statos | filter : {viewInSelect:true} | filter: $select.search track by $index">
+			                            <div ng-bind-html="stato.description | highlight: $select.search"></div>
+			                    	</ui-select-choices>
+		                      	</ui-select>
+	                      	</div>
+						</th>
+	                    <th></th>
+	                    <th><button class="btn btn-primary btn-xs" ng-click="ricerca()"><span class="glyphicon glyphicon-search"/> <span translate="global.messages.cerca">Ricerca</span></button> <button class="btn btn-primary btn-xs" ng-click="resetRicerca()"><span translate="global.messages.resetricerca">Reset ricerca</span></button></th>
+	                </tr>
+	            </thead>
+	            <tbody>
+	                <tr ng-repeat="news in lastNews">
+	                    <td></td>
+	                    <td>{{news.dataCreazione | date:'dd-MM-yyyy HH:mm:ss' }}</td>
+	                    <td>{{news.tipoInvio}}</td>
+	                    <td>{{motivazioneMap[news.tipoDocumento]}}</td>
+	                    <td style="word-break: break-all; max-width: 125px;">{{news.oggetto}}</td>
+	                    <td style="word-break: break-all; max-width: 125px;">{{news.destinazioneNotifica}}</td>
+	                    <td align="center"><span ng-class="{'btn btn-xs btn-success' : news.stato == 'DELIVERED', 'btn btn-xs btn-danger' : news.stato == 'FAILED' || news.stato == 'ERROR' || news.stato == 'SENDED_WITH_ERROR' || ((news.stato == 'NEW' || news.stato == 'IN_PROGRESS') && news.tentativi && news.tentativi > 2), 'btn btn-xs btn-primary' : news.stato == 'NEW' && (!news.tentativi || news.tentativi < 3), 'btn btn-xs btn-default' : news.stato == 'IN_PROGRESS' && (!news.tentativi || news.tentativi < 3), 'btn btn-xs btn-warning' : news.stato == 'DONE' || news.stato == 'RECEIVED' , 'btn btn-xs btn-info' : news.stato == 'CANCELED'}">{{statoMap[news.stato]}}</span></td>
+	                    <td align="center"><a ng-if="news.documento && news.documento.id" href="/api/attos/0/documento/{{news.documento.id}}?access_token={{access_token}}" target="_blank"><span class="glyphicon glyphicon-file"></span></a></td>
+	                    <td>
+	                        <button type="button"
+	                        		ng-click="loadStoricoTentativi(news)"
+	                                class="btn btn-info btn-xs">
+	                            <span class="glyphicon glyphicon-eye-open"></span>&nbsp;<span translate="cifra2gestattiApp.news.storicoTentativi">Storico tentativi</span>
+	                        </button>
+	                        <button type="button" ng-if="news.stato == 'NEW' || news.stato == 'ERROR'"
+	                                ng-click="annullaTentativo(news.id)"
+	                                class="btn btn-primary btn-xs">
+	                            <span class="glyphicon glyphicon-pencil"></span>&nbsp;<span translate="cifra2gestattiApp.news.annullaInvio">Annulla invio</span>
+	                        </button>
+	                        <button type="button" ng-if="news.tipoInvio != 'SMS' && (news.stato == 'ERROR' || news.stato == 'CANCELED' || news.stato == 'DONE' || news.stato == 'RECEIVED' || news.stato == 'SENDED_WITH_ERROR' || news.stato == 'FAILED')"
+	                                ng-click="retryInvio(news.id)"
+	                                class="btn btn-warning btn-xs">
+	                            <span class="glyphicon glyphicon-upload"></span>&nbsp;<span translate="cifra2gestattiApp.news.retry">Riprova</span>
+	                        </button>
+	                    </td>
+	                </tr>
+	            </tbody>
+	        </table>
+	        <div ng-if="lastNews && lastNews.length == 0" class="search-no-result"><h3 translate="global.searchNoResult"></h3></div>
+	    </div>
+        <nav>
+            <ul class="pagination">
+                <li ng-show="links['first']" ng-click="loadPage(links['first'])"><a>&lt;&lt;</a></li>
+                <li ng-show="links['prev']" ng-click="loadPage(links['prev'])"><a>&lt;</a></li>
+                <li ng-show="page > 2" ng-click="loadPage(page - 2)"><a>{{page - 2}}</a></li>
+                <li ng-show="page > 1" ng-click="loadPage(page - 1)"><a>{{page - 1}}</a></li>
+                <li class="active"><a>{{page}}</a></li>
+                <li ng-show="page < links['last']" ng-click="loadPage(page + 1)"><a>{{page + 1}}</a></li>
+                <li ng-show="page < links['last'] - 1" ng-click="loadPage(page + 2)"><a>{{page + 2}}</a></li>
+                <li ng-show="links['next']" ng-click="loadPage(links['next'])"><a>&gt;</a></li>
+                <li ng-show="links['last']" ng-click="loadPage(links['last'])"><a>&gt;&gt;</a></li>
+            </ul>
+        </nav>
+    </div>
+</div>
+
+<div class="bs-callout bs-callout-primary">
+		<div class="table-responsive">
+			<h3>Legenda</h3>
+			<table class="table table-striped">
+	             <tr>
+	                <td><span class="btn btn-xs btn-primary">{{statoMap['NEW']}}</span></td>	                
+	             	<td>{{statoTitles['NEW']}}</td>
+	            </tr>
+	            <tr>
+	                <td><span class="btn btn-xs btn-danger">{{statoMap['NEW']}}</span></td>	                
+	             	<td>{{statoTitles['NEW-DANGER']}}</td>
+	            </tr>
+	             <tr>
+	                <td><span class="btn btn-xs btn-default">{{statoMap['IN_PROGRESS']}}</span></td>	                
+	             	<td>{{statoTitles['IN_PROGRESS']}}</td>
+	            </tr>
+	            <tr>
+	                <td><span class="btn btn-xs btn-danger">{{statoMap['IN_PROGRESS']}}</span></td>	                
+	             	<td>{{statoTitles['IN_PROGRESS-DANGER']}}</td>
+	            </tr>
+	             <tr>
+	                <td><span class="btn btn-xs btn-warning">{{statoMap['DONE']}}</span></td>	                
+	             	<td>{{statoTitles['DONE']}}</td>
+	            </tr>
+	             <tr>
+	                <td><span class="btn btn-xs btn-warning">{{statoMap['RECEIVED']}}</span></td>	                
+	             	<td>{{statoTitles['RECEIVED']}}</td>
+	            </tr>
+	             <tr>
+	                <td><span class="btn btn-xs btn-success">{{statoMap['DELIVERED']}}</span></td>	                
+	             	<td>{{statoTitles['DELIVERED']}}</td>
+	            </tr>
+	            <tr>
+	                <td><span class="btn btn-xs btn-danger">{{statoMap['SENDED_WITH_ERROR']}}</span></td>	                
+	             	<td>{{statoTitles['SENDED_WITH_ERROR']}}</td>
+	            </tr>
+	            <tr>
+	                <td><span class="btn btn-xs btn-danger">{{statoMap['ERROR']}}</span></td>	                
+	             	<td>{{statoTitles['ERROR']}}</td>
+	            </tr>
+	            <tr>
+	                <td><span class="btn btn-xs btn-danger">{{statoMap['FAILED']}}</span></td>	                
+	             	<td>{{statoTitles['FAILED']}}</td>
+	            </tr>
+	            <tr>
+	                <td><span class="btn btn-xs btn-info">{{statoMap['CANCELED']}}</span></td>	                
+	             	<td>{{statoTitles['CANCELED']}}</td>
+	            </tr>
+			</table>
+		</div>
+	</div>
+
+<div class="modal fade" id="storicoTentativi">
+    <div class="modal-dialog">
+        <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="clear()">&times;</button>
+                    <h4 class="modal-title">Storico Tentativi di Invio</h4>
+                </div>
+                <div class="modal-body">
+                	<h6>Notifica{{storicoNews.beneficiario ? ' verso beneficiario' : storicoNews.destinatarioInterno ? ' verso ' + storicoNews.destinatarioInterno.tipoDestinatario.descrizione + ' Interno' : storicoNews.destinatarioEsternoId ? ' verso destinatario esterno' : 'verso tipo di destinatario non definito'}}{{storicoNews.tipoInvio ? ' tramite ' + storicoNews.tipoInvio : ''}}</h6>
+                    <table class="table table-responsive">
+                    	<thead>
+                    	<tr>
+		                    <th translate="cifra2gestattiApp.news.statoRichiesta">Stato Richiesta</th>
+		                    <th translate="cifra2gestattiApp.news.dataRichiesta">Data Richiesta Invio</th>
+		                    <th translate="cifra2gestattiApp.news.dataErrore">Data Errore</th>
+		                    <th translate="cifra2gestattiApp.news.dataInvio">Data Invio</th>
+		                    <th translate="cifra2gestattiApp.news.dettaglioErrore">Dettaglio Errore</th>
+	                    </tr>
+	                    </thead>
+	                    <tbody>
+                    	<tr ng-repeat="news in storicoTentativi">
+                    		<td><span ng-class="{'btn btn-xs btn-success' : news.stato == 'DELIVERED', 'btn btn-xs btn-danger' : news.stato == 'ERROR' || news.stato == 'FAILED' || news.stato == 'SENDED_WITH_ERROR', 'btn btn-xs btn-primary' : news.stato == 'NEW', 'btn btn-xs btn-default' : news.stato == 'IN_PROGRESS', 'btn btn-xs btn-warning' : news.stato == 'DONE' || news.stato == 'RECEIVED', 'btn btn-xs btn-info' : news.stato == 'CANCELED'}">{{statoMap[news.stato]}}</span></td>
+		                    <td>{{news.dataCreazione | date:'dd-MM-yyyy HH:mm:ss' }}</td>
+		                    <td>{{news.dataErrore ? (news.dataErrore | date:'dd-MM-yyyy HH:mm:ss') : '-' }}</td>
+		                    <td>{{news.dataInvio ? (news.dataInvio | date:'dd-MM-yyyy HH:mm:ss') : '-' }}</td>
+		                    <td><span ng-if="news.stato == 'ERROR'" class="glyphicon glyphicon-info-sign" data-toggle="tooltip" bs-tooltip data-html="true" data-placement="right" data-title="{{news.dettaglioErrore ? news.dettaglioErrore : 'Nessuna info aggiuntiva'}}"></span></td>
+                    	</tr>
+                    	</tbody>
+                    </table>
+                    <nav>
+			            <ul class="pagination">
+			                <li ng-show="linksStorico['first']" ng-click="loadPageStorico(linksStorico['first'])"><a>&lt;&lt;</a></li>
+			                <li ng-show="linksStorico['prev']" ng-click="loadPageStorico(linksStorico['prev'])"><a>&lt;</a></li>
+			                <li ng-show="pageStorico > 2" ng-click="loadPageStorico(pageStorico - 2)"><a>{{pageStorico - 2}}</a></li>
+			                <li ng-show="pageStorico > 1" ng-click="loadPageStorico(pageStorico - 1)"><a>{{pageStorico - 1}}</a></li>
+			                <li class="active"><a>{{pageStorico}}</a></li>
+			                <li ng-show="pageStorico < linksStorico['last']" ng-click="loadPageStorico(pageStorico + 1)"><a>{{pageStorico + 1}}</a></li>
+			                <li ng-show="pageStorico < linksStorico['last'] - 1" ng-click="loadPageStorico(pageStorico + 2)"><a>{{pageStorico + 2}}</a></li>
+			                <li ng-show="linksStorico['next']" ng-click="loadPageStorico(linksStorico['next'])"><a>&gt;</a></li>
+			                <li ng-show="linksStorico['last']" ng-click="loadPageStorico(linksStorico['last'])"><a>&gt;&gt;</a></li>
+			            </ul>
+			        </nav>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default everActive" data-dismiss="modal"  >
+                        <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.close">Close</span>
+                    </button>
+                </div>
+        </div>
+    </div>
+</div>

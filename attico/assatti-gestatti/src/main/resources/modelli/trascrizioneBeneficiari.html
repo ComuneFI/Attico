@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<br/>
+<h3>Lista dei Beneficiari</h3>
+<br/>
+<div th:each="beneficiario, status: ${beneficiari}">
+    <table border="1" width="100%">
+	<tbody>
+		<tr>
+			<td style="border: 1px solid #000000; padding-top: 0.05cm; padding-bottom: 0.05cm; padding-left: 0.1cm; padding-right: 0.6cm;" colspan="2">ID Sistema Esterno</td>
+			<td style="border: 1px solid #000000; padding-top: 0.05cm; padding-bottom: 0.05cm; padding-left: 0.1cm; padding-right: 0.6cm;" colspan="3"><p><span th:if="${beneficiario.idAscot != null}" th:text="${beneficiario.idAscot}"></span></p></td>
+		</tr>
+		<tr th:if="${beneficiario.tipoSoggetto == null or beneficiario.tipoSoggetto.toString().equals('PRIVATO')}">
+			<td style="border: 1px solid #000000; padding-top: 0.05cm; padding-bottom: 0.05cm; padding-left: 0.1cm; padding-right: 0.6cm;" colspan="2">Nome</td>
+			<td style="border: 1px solid #000000; padding-top: 0.05cm; padding-bottom: 0.05cm; padding-left: 0.1cm; padding-right: 0.6cm;" colspan="3"><p><span th:if="${beneficiario.nome != null}" th:text="${beneficiario.nome}"></span></p></td>
+		</tr>
+		<tr th:if="${beneficiario.tipoSoggetto == null or beneficiario.tipoSoggetto.toString().equals('PRIVATO')}">
+			<td style="border: 1px solid #000000; padding-top: 0.05cm; padding-bottom: 0.05cm; padding-left: 0.1cm; padding-right: 0.6cm;" colspan="2">Cognome</td>
+			<td style="border: 1px solid #000000; padding-top: 0.05cm; padding-bottom: 0.05cm; padding-left: 0.1cm; padding-right: 0.6cm;" colspan="3"><p><span th:if="${beneficiario.cognome != null}" th:text="${beneficiario.cognome}"></span></p></td>
+		</tr>
+		<tr th:if="${beneficiario.tipoSoggetto == null or !beneficiario.tipoSoggetto.toString().equals('PRIVATO')}">
+			<td style="border: 1px solid #000000; padding-top: 0.05cm; padding-bottom: 0.05cm; padding-left: 0.1cm; padding-right: 0.6cm;" colspan="2">Denominazione</td>
+			<td style="border: 1px solid #000000; padding-top: 0.05cm; padding-bottom: 0.05cm; padding-left: 0.1cm; padding-right: 0.6cm;" colspan="3"><p><span th:if="${beneficiario.denominazione != null}" th:text="${beneficiario.denominazione}"></span></p></td>
+		</tr>
+		<tr>
+			<td style="border: 1px solid #000000; padding-top: 0.05cm; padding-bottom: 0.05cm; padding-left: 0.1cm; padding-right: 0.6cm;" colspan="2">Tipo Beneficiario</td>
+			<td style="border: 1px solid #000000; padding-top: 0.05cm; padding-bottom: 0.05cm; padding-left: 0.1cm; padding-right: 0.6cm;" colspan="3"><p><span th:if="${beneficiario.tipoSoggetto != null}" th:text="${beneficiario.tipoSoggetto}"></span></p></td>
+		</tr>
+		<tr>
+			<td style="border: 1px solid #000000; padding-top: 0.05cm; padding-bottom: 0.05cm; padding-left: 0.1cm; padding-right: 0.6cm;" colspan="2">Indirizzo</td>
+			<td style="border: 1px solid #000000; padding-top: 0.05cm; padding-bottom: 0.05cm; padding-left: 0.1cm; padding-right: 0.6cm;" colspan="3"><p><span th:if="${beneficiario.indirizzo1 != null}" th:text="${beneficiario.indirizzo1}"></span></p></td>
+		</tr>
+		<tr>
+			<td style="border: 1px solid #000000; padding-top: 0.05cm; padding-bottom: 0.05cm; padding-left: 0.1cm; padding-right: 0.6cm;" colspan="2">CAP</td>
+			<td style="border: 1px solid #000000; padding-top: 0.05cm; padding-bottom: 0.05cm; padding-left: 0.1cm; padding-right: 0.6cm;" colspan="3"><p><span th:if="${beneficiario.cap != null}" th:text="${beneficiario.cap}"></span></p></td>
+		</tr>
+		<tr>
+			<td style="border: 1px solid #000000; padding-top: 0.05cm; padding-bottom: 0.05cm; padding-left: 0.1cm; padding-right: 0.6cm;" colspan="2">Comune</td>
+			<td style="border: 1px solid #000000; padding-top: 0.05cm; padding-bottom: 0.05cm; padding-left: 0.1cm; padding-right: 0.6cm;" colspan="3"><p><span th:if="${beneficiario.citta1 != null}" th:text="${beneficiario.citta1}"></span></p></td>
+		</tr>
+		<tr>
+			<td style="border: 1px solid #000000; padding-top: 0.05cm; padding-bottom: 0.05cm; padding-left: 0.1cm; padding-right: 0.6cm;" colspan="2">Provincia</td>
+			<td style="border: 1px solid #000000; padding-top: 0.05cm; padding-bottom: 0.05cm; padding-left: 0.1cm; padding-right: 0.6cm;" colspan="3"><p><span th:if="${beneficiario.provincia1 != null}" th:text="${beneficiario.provincia1}"></span></p></td>
+		</tr>
+		<tr>
+			<td style="border: 1px solid #000000; padding-top: 0.05cm; padding-bottom: 0.05cm; padding-left: 0.1cm; padding-right: 0.6cm;" colspan="2">Stato</td>
+			<td style="border: 1px solid #000000; padding-top: 0.05cm; padding-bottom: 0.05cm; padding-left: 0.1cm; padding-right: 0.6cm;" colspan="3"><p><span th:if="${beneficiario.stato != null}" th:text="${beneficiario.stato}"></span></p></td>  
+		</tr>
+		<tr>
+			<td style="border: 1px solid #000000; padding-top: 0.05cm; padding-bottom: 0.05cm; padding-left: 0.1cm; padding-right: 0.6cm;" colspan="2">Codice Fiscale</td>
+			<td style="border: 1px solid #000000; padding-top: 0.05cm; padding-bottom: 0.05cm; padding-left: 0.1cm; padding-right: 0.6cm;" colspan="3"><p><span th:if="${beneficiario.codiceFiscale != null}" th:text="${beneficiario.codiceFiscale}"></span></p></td>
+		</tr>
+		<tr>
+			<td style="border: 1px solid #000000; padding-top: 0.05cm; padding-bottom: 0.05cm; padding-left: 0.1cm; padding-right: 0.6cm;" colspan="2">Codice Fiscale Estero</td>
+			<td style="border: 1px solid #000000; padding-top: 0.05cm; padding-bottom: 0.05cm; padding-left: 0.1cm; padding-right: 0.6cm;" colspan="3"><p><span th:if="${beneficiario.codiceFiscaleEstero != null}" th:text="${beneficiario.codiceFiscaleEstero}"></span></p></td>
+		</tr>
+		<tr>
+			<td style="border: 1px solid #000000; padding-top: 0.05cm; padding-bottom: 0.05cm; padding-left: 0.1cm; padding-right: 0.6cm;" colspan="2">Partita IVA</td>
+			<td style="border: 1px solid #000000; padding-top: 0.05cm; padding-bottom: 0.05cm; padding-left: 0.1cm; padding-right: 0.6cm;" colspan="3"><p><span th:if="${beneficiario.partitaIva != null}" th:text="${beneficiario.partitaIva}"></span></p></td>
+		</tr>
+		<tr>
+			<td style="border: 1px solid #000000; padding-top: 0.05cm; padding-bottom: 0.05cm; padding-left: 0.1cm; padding-right: 0.6cm;" colspan="2">Partita IVA Estero</td>
+			<td style="border: 1px solid #000000; padding-top: 0.05cm; padding-bottom: 0.05cm; padding-left: 0.1cm; padding-right: 0.6cm;" colspan="3"><p><span th:if="${beneficiario.partitaIvaEstero != null}" th:text="${beneficiario.partitaIvaEstero}"></span></p></td>
+		</tr>
+		<tr>
+			<td style="border: 1px solid #000000; padding-top: 0.05cm; padding-bottom: 0.05cm; padding-left: 0.1cm; padding-right: 0.6cm;" colspan="2">PEC</td>
+			<td style="border: 1px solid #000000; padding-top: 0.05cm; padding-bottom: 0.05cm; padding-left: 0.1cm; padding-right: 0.6cm;" colspan="3"><p><span th:if="${beneficiario.pec != null}" th:text="${beneficiario.pec}"></span></p></td>
+		</tr>
+		<tr>
+			<td style="border: 1px solid #000000; padding-top: 0.05cm; padding-bottom: 0.05cm; padding-left: 0.1cm; padding-right: 0.6cm;" colspan="2">E-mail</td>
+			<td style="border: 1px solid #000000; padding-top: 0.05cm; padding-bottom: 0.05cm; padding-left: 0.1cm; padding-right: 0.6cm;" colspan="3"><p><span th:if="${beneficiario.email != null}" th:text="${beneficiario.email}"></span></p></td>
+		</tr>
+		<tr>
+			<td style="border: 1px solid #000000; padding-top: 0.05cm; padding-bottom: 0.05cm; padding-left: 0.1cm; padding-right: 0.6cm;" colspan="2">IBAN</td>
+			<td style="border: 1px solid #000000; padding-top: 0.05cm; padding-bottom: 0.05cm; padding-left: 0.1cm; padding-right: 0.6cm;" colspan="3"><p><span th:if="${beneficiario.iban != null}" th:text="${beneficiario.iban}"></span></p></td>
+		</tr>
+		<tr>
+			<td style="border: 1px solid #000000; padding-top: 0.05cm; padding-bottom: 0.05cm; padding-left: 0.1cm; padding-right: 0.6cm;" colspan="2">Modalit&#224; di Pagamento</td>
+			<td style="border: 1px solid #000000; padding-top: 0.05cm; padding-bottom: 0.05cm; padding-left: 0.1cm; padding-right: 0.6cm;" colspan="3"><p><span th:if="${beneficiario.modalitaPagamento != null}" th:text="${beneficiario.modalitaPagamento}"></span></p></td>
+		</tr>
+		
+		<tr th:if="${beneficiario.fatture != null and not #lists.isEmpty(beneficiario.fatture)}">
+			<td style="border: 1px solid #000000; padding-top: 0.05cm; padding-bottom: 0.05cm; padding-left: 0.1cm; padding-right: 0.6cm;" colspan="5">&nbsp;</td>
+		</tr>
+		<tr th:if="${beneficiario.fatture != null and not #lists.isEmpty(beneficiario.fatture)}">
+			<td style="border: 1px solid #000000; padding-top: 0.05cm; padding-bottom: 0.05cm; padding-left: 0.1cm; padding-right: 0.6cm;" colspan="5">Fatture</td>
+		</tr>
+		<tr th:if="${beneficiario.fatture != null and not #lists.isEmpty(beneficiario.fatture)}">
+			<td style="border: 1px solid #000000; padding-top: 0.05cm; padding-bottom: 0.05cm; padding-left: 0.1cm; padding-right: 0.6cm;">Numero e data fattura</td>
+			<td style="border: 1px solid #000000; padding-top: 0.05cm; padding-bottom: 0.05cm; padding-left: 0.1cm; padding-right: 0.6cm;">Importo</td>
+			<td style="border: 1px solid #000000; padding-top: 0.05cm; padding-bottom: 0.05cm; padding-left: 0.1cm; padding-right: 0.6cm;">Registro unico delle fatture N&#176;</td>
+			<td style="border: 1px solid #000000; padding-top: 0.05cm; padding-bottom: 0.05cm; padding-left: 0.1cm; padding-right: 0.6cm;">Progressivo nel registro unico N&#176;</td>
+			<td style="border: 1px solid #000000; padding-top: 0.05cm; padding-bottom: 0.05cm; padding-left: 0.1cm; padding-right: 0.6cm;">Causale fattura</td>
+		</tr>
+		<tr th:if="${beneficiario.fatture != null and not #lists.isEmpty(beneficiario.fatture)}" th:each="fattura: ${beneficiario.fatture}">
+			<td style="min-width: 20%; border: 1px solid #000000; padding-top: 0.05cm; padding-bottom: 0.05cm; padding-left: 0.1cm; padding-right: 0.6cm;"><span th:if="${fattura.numeroFattura != null}" th:text="${fattura.numeroFattura + ' del '}"></span><span th:if="${fattura.dataFattura != null}" th:text="${fattura.dataFattura.toString('dd/MM/yyyy')}"></span></td>
+			<td style="min-width: 15%; border: 1px solid #000000; padding-top: 0.05cm; padding-bottom: 0.05cm; padding-left: 0.1cm; padding-right: 0.6cm;"><span th:if="${fattura.importo != null}" th:text="${fattura.importo + ' &#8364;'}"></span></td>
+			<td style="min-width: 10%; border: 1px solid #000000; padding-top: 0.05cm; padding-bottom: 0.05cm; padding-left: 0.1cm; padding-right: 0.6cm;"><span th:if="${fattura.numeroRegistro != null}" th:text="${fattura.numeroRegistro}"></span></td>
+			<td style="min-width: 10%; border: 1px solid #000000; padding-top: 0.05cm; padding-bottom: 0.05cm; padding-left: 0.1cm; padding-right: 0.6cm;"><span th:if="${fattura.progressivoRegistro != null}" th:text="${fattura.progressivoRegistro}"></span></td>
+			<td style="min-width: 45%; border: 1px solid #000000; padding-top: 0.05cm; padding-bottom: 0.05cm; padding-left: 0.1cm; padding-right: 0.6cm;"><span th:if="${fattura.causale != null}" th:text="${fattura.causale}"></span></td>
+		</tr>
+	</tbody>
+	</table>
+	<div th:if="${not status.last}"><br/><br/></div>
+</div>
+<br/>
+<br/>

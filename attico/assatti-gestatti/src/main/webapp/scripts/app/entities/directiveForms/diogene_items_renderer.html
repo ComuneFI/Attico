@@ -1,0 +1,17 @@
+<div class="node-embed" ui-tree-handle ng-click="itemSelect(item,this)">
+    <a class="btn btn-clear btn-xs" data-ng-show="item.vociFiglie.length" ng-click="expandNode(this,$event)">
+        <i class="fa" ng-class="{'fa-chevron-right': collapsed, 'fa-chevron-down': !collapsed}"></i>
+    </a>
+    <span class="node-header" ng-if="item.idVoce">
+    	<span ng-if="!item.sottovociLoaded" class="btn btn-xs btn-primary" ng-click="loadSottovoci(item)" data-type="success"  data-title="Carica le sottovoci se esistono" bs-tooltip>
+    		<span ng-class="{'glyphicon glyphicon-refresh glyphicon-refresh-animate':item.loading, 'glyphicon glyphicon-cloud-download':!item.loading}"></span>
+    	</span>
+        <input type="radio" name="voceSelezionata" ng-value="item" ng-model="voceSelezionata" ng-change="voceChanged(voceSelezionata)" node="item" />
+    </span>
+    {{item.idVoce ? ("(ID Voce: " + item.idVoce + ") " + item.codice + ' - ' + item.descrizione) : item.titolo}}
+</div>
+
+<ol ui-tree-nodes="options" ng-model="item.vociFiglie" ng-class="{hidden: collapsed,displayed:!collapsed}">
+  <li ng-repeat="item in item.vociFiglie" ui-tree-node collapsed="true" ng-include="'./scripts/app/entities/directiveForms/diogene_items_renderer.html'">
+  </li>
+</ol>

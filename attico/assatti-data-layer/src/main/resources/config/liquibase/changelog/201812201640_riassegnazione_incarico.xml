@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    
+    <changeSet author="chiriacog" id="201812201640-1">
+    	<sql>
+    	ALTER TABLE `riassegnazione_incarico` 
+			DROP FOREIGN KEY `fk_ri_config_incarico`,
+			DROP FOREIGN KEY `fk_ri_qualifica`;
+		ALTER TABLE `riassegnazione_incarico` 
+			CHANGE COLUMN `id_configurazione_incarico` `id_configurazione_incarico` BIGINT(20) NULL ,
+			CHANGE COLUMN `id_qualifica_assegnazione` `id_qualifica_assegnazione` BIGINT(20) NULL ;
+		ALTER TABLE `riassegnazione_incarico` 
+			ADD CONSTRAINT `fk_ri_config_incarico`
+			  FOREIGN KEY (`id_configurazione_incarico`)
+			  REFERENCES `configurazione_incarico` (`id`)
+			  ON DELETE NO ACTION
+			  ON UPDATE NO ACTION,
+			ADD CONSTRAINT `fk_ri_qualifica`
+			  FOREIGN KEY (`id_qualifica_assegnazione`)
+			  REFERENCES `qualificaprofessionale` (`id`)
+			  ON DELETE NO ACTION
+			  ON UPDATE NO ACTION;
+    	</sql>
+    </changeSet>
+</databaseChangeLog>

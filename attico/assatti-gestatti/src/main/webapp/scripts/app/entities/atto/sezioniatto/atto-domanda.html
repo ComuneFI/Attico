@@ -1,0 +1,17 @@
+<div>
+	<div id="attoDomandaEdit" class="form-group">
+		<label translate="cifra2gestattiApp.atto.domanda">Testo</label>
+		
+		<div>
+			<summernote required ng-model="atto.domanda.testo"  config="summernoteOptions"
+				ng-if="!(atto && newEditorVersion)"
+			></summernote>
+			<textarea class="note-editable" ckeditor required ng-model="atto.domanda.testo" 
+				ng-if="atto && newEditorVersion"
+			></textarea>
+		</div>
+	</div>
+	<div id="attoDomandaButtons" class="import-formcontrol">
+		<ng-include src="'scripts/app/entities/atto/import-formcontrol.html'" ng-init="codeSezImport='domanda'"></ng-include>
+	</div>
+</div>

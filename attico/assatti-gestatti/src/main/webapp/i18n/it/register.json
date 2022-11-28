@@ -1,0 +1,28 @@
+{
+    "register": {
+        "title": "Registrazione",
+        "form": {
+            "button": "Registrati",
+            "buttonAdmin": "Registra nuovo utente"
+        },
+        "messages": {
+            "validate": {
+                "login": {
+                    "required": "Login \u00E8 richiesta.",
+                    "minlength": "Login richiede minimo 1 carattere",
+                    "maxlength": "Login può contenere un massimo di 50 caratteri",
+                    "pattern": "Login può contenere solo lettere, numeri e i caratteri .,-,_"
+                }
+            },
+            "success": "<strong>Richiesta di registrazione eseguita!</strong> Verifica lo stato tramite il tuo codice fiscale",
+            "successAdmin": "<strong>Registrazione eseguita!</strong> Occorre attivare l'utente per concederne l'accesso al sistema.",
+            "backToUsersList":"Torna all'anagrafica utenti.",
+            "error": {
+                "fail": "<strong>Registrazione fallita!</strong> Riprova",
+                "userexists": "<strong>Login \u00E8 gia registrata!</strong> Scegli un'altra login",
+                "emailexists": "<strong>E-mail \u00E8 gi\u00E0 in uso!</strong> Scegli un'altra email",
+                "cfexists": "<strong>Attenzione! Il codice fiscale inserito risulta gi\u00E0 registrato.</strong>"
+            }
+        }
+    }
+}

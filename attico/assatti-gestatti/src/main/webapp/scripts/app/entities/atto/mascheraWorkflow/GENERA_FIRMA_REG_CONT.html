@@ -1,0 +1,79 @@
+<div>
+
+	<input type="hidden" ng-init="initTitoloParere()"
+			ng-model="dtoWorkflow.parere.titolo" />
+			
+	<input type="hidden" name="parere" ng-model="dtoWorkflow.parere.parere" value="">
+	<input type="hidden" name="parereSintetico" ng-model="dtoWorkflow.parere.parereSintetico" value="visto">
+	
+	<div>
+		<br>
+		
+		<div class="form-group">
+			<h4 style="font-weight: bold;">	
+				Questa operazione consentir&agrave; di generare e firmare il documento secondo il modello selezionato, vuoi andare avanti?
+			</h4>
+		</div>
+		<div class="form-group" ng-repeat="tipoDocumento in generaElencoTipoDocumento">
+			<label>{{tipoDocumento.descrizione}}{{tipiDocumentoDaFirmareCodes && generaElencoTipoDocumento.length != tipiDocumentoDaFirmareCodes.length ? (tipiDocumentoDaFirmareCodes.indexOf(tipoDocumento.codice) < 0 ? ' (Sola generazione)' : ' (Generazione e firma)') : ''}}</label>
+   			 <select class="form-control everActive" ng-model="modelloHtml[$index]" ng-options="modello.titolo for modello in tipoDocumento.elencoModelloHtml" required>
+			</select>
+		</div>
+	</div>
+
+	<div class="form-group">
+        <div class="row">
+		    <div class="col-xs-4">
+		      <label for="firmaPsw">Password*:</label>
+		      <input type="password" class="form-control everActive" ng-model="dtoWorkflow.dtoFdr['password']" name="firmaPsw" required>
+		    </div>
+		    <div class="col-xs-4">
+		      <label for="firmaOtp">OTP*:</label>
+		      <input type="password" class="form-control everActive" ng-model="dtoWorkflow.dtoFdr['otp']" name="firmaOtp" required>
+		    </div>
+		    <div class="col-xs-3">
+		    	<br/>
+				<button type="button" ng-disabled="mascheraWorkflow.firmaPsw.$invalid || taskLoading" ng-click="richiediOtp()"
+					class="btn btn-default everActive">Richiedi OTP</button>
+		    </div>
+	  	</div>
+    	<div class="row" ng-if="dtoWorkflow.dtoFdr && ( (dtoWorkflow.dtoFdr.errorMessage && dtoWorkflow.dtoFdr.errorMessage != '') || (dtoWorkflow.dtoFdr.errorCode && dtoWorkflow.dtoFdr.errorCode != ''))">
+	  		<div class="col-md-12" style="padding-top:10px;" ng-switch="dtoWorkflow.dtoFdr.errorCode">
+	  			<label ng-switch-when="0003" style="word-break:normal;" class="alert alert-danger padded-lr text-danger"  
+	  				translate="global.firma.credenzialiErrate"></label>
+	  			
+	  			<label ng-switch-when="0004" style="word-break:normal;" class="alert alert-danger padded-lr text-danger"  
+	  				translate="global.firma.otpErrato"></label>
+	  				
+	  			<label ng-switch-when="0011" style="word-break:normal;" class="alert alert-danger padded-lr text-danger"  
+	  				translate="global.firma.profiloNonTrovato"></label>
+	  			
+	  			<label ng-switch-when="0012" style="word-break:normal;" class="alert alert-danger padded-lr text-danger"  
+	  				translate="global.firma.profiloDuplicato"></label>
+		    	
+		    	<label ng-switch-default style="word-break:normal;" class="alert alert-danger padded-lr text-danger" 
+		    		translate="global.firma.error" translate-values="{msg: '{{dtoWorkflow.dtoFdr.errorMessage}}'}"></label>
+		    	
+	  		</div>
+    	</div>
+    	<div class="row" ng-if="dtoFdr && ( (dtoFdr.errorMessage && dtoFdr.errorMessage != '') || (dtoFdr.errorCode && dtoFdr.errorCode != ''))">
+	  		<div class="col-md-12" style="padding-top:10px;" ng-switch on="dtoFdr.errorCode">
+	  			<label ng-switch-when="0003" style="word-break:normal;" class="alert alert-danger padded-lr text-danger"  
+	  				translate="global.firma.credenzialiErrate"></label>
+	  			
+	  			<label ng-switch-when="0004" style="word-break:normal;" class="alert alert-danger padded-lr text-danger"  
+	  				translate="global.firma.otpErrato"></label>
+	  				
+	  			<label ng-switch-when="0011" style="word-break:normal;" class="alert alert-danger padded-lr text-danger"  
+	  				translate="global.firma.profiloNonTrovato"></label>
+	  			
+	  			<label ng-switch-when="0012" style="word-break:normal;" class="alert alert-danger padded-lr text-danger"  
+	  				translate="global.firma.profiloDuplicato"></label>
+		    	
+		    	<label ng-switch-default style="word-break:normal;" class="alert alert-danger padded-lr text-danger" 
+		    		translate="global.firma.error" translate-values="{msg: '{{dtoFdr.errorMessage}}'}"></label>
+		    	
+	  		</div>
+    	</div>
+	</div>
+</div>

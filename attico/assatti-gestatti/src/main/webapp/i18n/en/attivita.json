@@ -1,0 +1,19 @@
+{
+    "cifra2gestattiApp": {
+        "attivita" : {
+            "home": {
+                "title": "Attivitas",
+                "createLabel": "Create a new Attivita",
+                "createOrEditLabel": "Create or edit a Attivita"
+            },
+            "delete": {
+                "question": "Are you sure you want to delete Attivita {{ id }}?"
+            },
+            "detail": {
+                "title": "Attivita"
+            },
+            "codice": "Codice",
+            "descrizione": "Descrizione"
+        }
+    }
+}

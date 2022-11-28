@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    
+    <changeSet author="mancos" id="201810251430-1">
+    	<sql>
+    		UPDATE `sezione_tipoatto` SET `visibile`=0 WHERE `tipoatto_id`=14 and `sezione_id`=5;
+			UPDATE `sezione_tipoatto` SET `visibile`=0 WHERE `tipoatto_id`=14 and `sezione_id`=9;
+			UPDATE `sezione_tipoatto` SET `visibile`=1 WHERE `tipoatto_id`=14 and `sezione_id`=26;
+			
+			UPDATE `sezione_tipoatto` SET `visibile`=0 WHERE `tipoatto_id`=15 and `sezione_id`=5;
+			UPDATE `sezione_tipoatto` SET `visibile`=0 WHERE `tipoatto_id`=15 and `sezione_id`=9;
+			UPDATE `sezione_tipoatto` SET `visibile`=1 WHERE `tipoatto_id`=15 and `sezione_id`=26;
+			
+			UPDATE `sezione_tipoatto` SET `visibile`=0 WHERE `tipoatto_id`=16 and `sezione_id`=5;
+			UPDATE `sezione_tipoatto` SET `visibile`=0 WHERE `tipoatto_id`=16 and `sezione_id`=9;
+			UPDATE `sezione_tipoatto` SET `visibile`=1 WHERE `tipoatto_id`=16 and `sezione_id`=26;
+			
+			UPDATE `sezione_tipoatto` SET `visibile`=0 WHERE `tipoatto_id`=10 and `sezione_id`=5;
+    	</sql> 
+    </changeSet>
+</databaseChangeLog>

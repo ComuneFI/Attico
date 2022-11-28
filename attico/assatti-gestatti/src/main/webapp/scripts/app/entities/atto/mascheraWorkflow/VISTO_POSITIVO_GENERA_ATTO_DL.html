@@ -1,0 +1,22 @@
+<div>
+	<div class="form-group">
+	
+		<input type="hidden" ng-init="initTitoloParere()"
+			ng-model="dtoWorkflow.parere.titolo" />
+			
+		<input type="hidden" name="parere" ng-model="dtoWorkflow.parere.parere" value="">
+		<input type="hidden" name="parereSintetico" ng-model="dtoWorkflow.parere.parereSintetico" value="visto">
+		
+		
+		<label>Confermi di voler procedere con il visto della proposta? In tal caso la proposta passera' alla fase successiva. Inoltre, in caso di modifiche, il sistema generera' una versione aggiornata di essa.</label>
+		
+		<div class="form-group" ng-repeat="tipoDocumento in generaElencoTipoDocumento">
+			<label  >{{tipoDocumento.descrizione}}</label>
+			<select class="form-control everActive"  ng-model="modelloHtml[$index]" ng-options="modello.titolo for modello in tipoDocumento.elencoModelloHtml" ng-init="modelloHtml[$index]=tipoDocumento.elencoModelloHtml[0]" required>
+    				<option value="" ng-if="false"></option>
+			</select>
+
+			
+		</div> 
+	</div>
+</div>

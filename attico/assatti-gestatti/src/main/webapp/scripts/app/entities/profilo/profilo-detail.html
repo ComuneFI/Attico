@@ -1,0 +1,70 @@
+
+<div>
+    <h2><span translate="cifra2gestattiApp.profilo.detail.title">Profilo</span> {{profilo.id}}</h2>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th translate="entity.detail.field">Field</th>
+                    <th translate="entity.detail.value">Value</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.profilo.descrizione">Descrizione</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{profilo.descrizione}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.profilo.validodal">Validodal</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{profilo.validita.validodal | date:'dd-MM-yyyy'}}" ng-disabled="true">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.profilo.validoal">Validoal</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{profilo.validita.validoal | date:'dd-MM-yyyy'}}" ng-disabled="true">
+                    </td>
+                </tr>
+                <!-- <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.profilo.delega">Delega</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{profilo.delega}}" readonly>
+                    </td>
+                </tr> -->
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.profilo.tipoAtto">tipoAtto</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{profilo.tipoAtto.descrizione}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.profilo.utente">utente</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{profilo.utente.cognome}} {{profilo.utente.nome}}" readonly>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <button type="submit"
+            ui-sref="profilo"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span translate="entity.action.back"> Back</span>
+    </button>
+</div>

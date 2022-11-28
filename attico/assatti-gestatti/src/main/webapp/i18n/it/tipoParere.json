@@ -1,0 +1,24 @@
+{
+    "cifra2gestattiApp": {
+        "tipoParere" : {
+            "home": {
+                "title": "Tipi Parere",
+                "createLabel": "Crea un nuovo Tipo Parere",
+                "createOrEditLabel": "Crea o modifica un Tipo Parere"
+            },
+            "delete": {
+                "question": "Sei dicuro di voler cancellare il Tipo Parere con ID {{ id }}?"
+            },
+            "detail": {
+                "title": "Tipo Parere"
+            },
+            "descrizione": "Descrizione",
+            "vincolante": "Vincolante",
+            "ordine": "Ordine",
+            "tipoIter": "tipoIter",
+            "RuoloFirma": "Ruolo Firma",
+            "RuoloIstruttore": "Ruolo Istruttore"
+            
+        }
+    }
+}

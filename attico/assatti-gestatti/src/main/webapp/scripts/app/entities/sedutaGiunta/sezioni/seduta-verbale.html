@@ -1,0 +1,280 @@
+<ng-include src="'scripts/app/entities/sedutaGiunta/sezioni/seduta-funzioniverbale.html'"></ng-include>
+<hr/>
+    <div ng-if="isOperatoreOdg && sedutaGiunta.organo == 'G'">
+		<div class="form-group">
+				<a target="_blank" href="/api/sedutaGiuntas/generareport/{{profiloattivo.id}}/{{sedutaGiunta.id}}/{{nomeFile(sedutaGiunta)}}?access_token={{access_token}}" class="btn btn-xs btn-success" style="color:white;">
+				    <span class="glyphicon glyphicon-save"></span>&nbsp;<span  >Esporta ODG in Excel</span>
+				</a>
+		</div>
+	</div>
+	<div ng-if="isOperatoreOdg && sedutaGiunta.organo == 'C'">
+		<div class="form-group">
+				<a target="_blank" href="/api/sedutaGiuntas/generareport/{{profiloattivo.id}}/{{sedutaGiunta.id}}/{{nomeFile(sedutaGiunta)}}?access_token={{access_token}}" class="btn btn-xs btn-success" style="color:white;">
+				    <span class="glyphicon glyphicon-save"></span>&nbsp;<span  >Esporta ODL in Excel</span>
+				</a>
+		</div>
+	</div>
+<div ng-if="sedutaGiunta.verbale.stato != sedutaConstants.statiVerbale.verbaleRifiutato">
+	<ul class="nav nav-tabs">
+		<li class="active col-sm-3">
+			<a showtabverbale="" name="narrativaVerbale" href="#narrativaVerbale" update-fn="updateSezioneVerbale(value)">Verbale *</span></a>
+		</li>
+		<li class="col-sm-3">
+			<a showtabverbale="" name="noteVerbale" href="#noteVerbale" update-fn="updateSezioneVerbale(value)">Note Conclusive</span></a>
+		</li>
+		<!-- DISATTIVATA IN ATTICO
+		<li class="col-sm-3">
+			<a showtabverbale="" name="allegatiVerbale" href="#allegatiVerbale" update-fn="updateSezioneVerbale(value)">Allegati</span>
+				<span data-toggle="tooltip"
+					title="<b>GUIDA</b><br/>E’ possibile allegare files di tipo testo: doc, docx, odt, pdf, rtf in formato A4 stampabile. Altri formati documentali possono essere accettati solo come Allegati Non Accorpati. E’ obbligatorio specificare tutte le proprietà dell’Allegato cliccando sul tasto <strong>Visualizza/Modifica</strong>."
+					data-html="true" ng-init="initTooltip()">
+					<i class="fa fa-question" ></i>
+				</span>
+			</a>
+		</li>
+		-->
+		<!-- IN ATTICO NON PREVISTO 
+		<li class="col-sm-3">
+			<a showtabverbale="" name="sottoscrittoriVerbale" href="#sottoscrittoriVerbale" update-fn="updateSezioneVerbale(value)">Sottoscrittori *
+				<span data-toggle="tooltip"
+					title="<b>GUIDA</b><br/>Aggiungere obbligatoriamente almeno un Sottoscrittore Verbale."
+					data-html="true" ng-init="initTooltip()">
+					<i class="fa fa-question" ></i>
+				</span>
+			</a>
+		</li>
+		-->
+	</ul>
+	
+	<!-- TESTO DEL VERBALE -->
+	<div id="narrativaVerbale" ng-if="showSezioneVerbale === 'narrativaVerbale'">
+		<hr/>
+		<div class="form-group">
+			<label translate="cifra2gestattiApp.sedutaGiunta.verbale.label">Verbale *</label>
+			<span data-toggle="tooltip"
+				title="<b>GUIDA</b><br/>Per valorizzare il campo è possibile: importare un file che contiene le informazioni sul Verbale oppure caricare un modello predefinito e personalizzarlo oppure inserire testo libero che potrà successivamente essere conservato come modello.<br />"
+				data-html="true" ng-init="initTooltip()">
+				<i class="fa fa-question" ></i>
+			</span>
+			
+			<summernote required on-init="setContentVerbaleEditable();" ng-model="sedutaGiunta.verbale.narrativa.testo"  config="summernoteOptions"></summernote>
+		</div>
+		<hr/>
+	
+		<div class="form-group">
+			<ng-include src="'scripts/app/entities/sedutaGiunta/import-formcontrol.html'" ng-init="codeSezImport='verbale_narrativa'"></ng-include>
+		</div>
+	</div>
+	
+	<!-- NOTE FINALI DEL VERBALE -->
+	<div id="noteVerbale" ng-if="showSezioneVerbale === 'noteVerbale'">
+		<hr/>
+		<div class="form-group">
+			<label translate="cifra2gestattiApp.sedutaGiunta.verbale.noteFinali">Note Conclusive</label>
+			<span data-toggle="tooltip"
+				title="<b>GUIDA</b><br/>Per valorizzare il campo è possibile: importare un file che contiene le informazioni sulle note conclusive del Verbale oppure caricare un modello predefinito e personalizzarlo oppure inserire testo libero che potrà successivamente essere conservato come modello.<br />"
+				data-html="true" ng-init="initTooltip()">
+				<i class="fa fa-question" ></i>
+			</span>
+			
+			<summernote required on-init="setContentVerbaleEditable();" ng-model="sedutaGiunta.verbale.noteFinali.testo"  config="summernoteOptions"></summernote>
+		</div>
+		<hr/>
+	
+		<div class="form-group">
+			<ng-include src="'scripts/app/entities/sedutaGiunta/import-formcontrol.html'" ng-init="codeSezImport='verbale_note'"></ng-include>
+		</div>
+	</div>
+	
+	<!-- ALLEGATI -->
+	<div id="allegatiVerbale" ng-if="showSezioneVerbale === 'allegatiVerbale'">
+		<!-- <div class="form-group ">
+			<label>Allegati</label>
+			<span data-toggle="tooltip"
+				title="<b>GUIDA</b><br/>E’ possibile allegare files di tipo testo: doc, docx, odt, pdf, rtf in formato A4 stampabile. Altri formati documentali possono essere accettati solo come Allegati Non Accorpati. E’ obbligatorio specificare tutte le proprietà dell’Allegato cliccando sul tasto <strong>Visualizza/Modifica</strong>."
+				data-html="true" ng-init="initTooltip()">
+				<i class="fa fa-question" ></i>
+			</span>
+		</div> -->
+		<hr/>
+		<div class="form-group" ng-if="!allegatoEdit.edit" >
+			<div ng-if="!solaLetturaVerbale"
+				ngf-drop ngf-select  
+				ngf-multiple="true" 
+				ngf-change="fileDropped($files, $event, $rejectedFiles)"
+				class="drop-box input-group" 
+				ngf-drag-over-class="dragover" 
+				ngf-max-size="ngfMaxSize">
+				<h5 data-toggle="tooltip" title="Inserire file di tipo: .doc, .docx, .odt, .pdf, .rtf  e .xls solo per allegati non accorpati" ng-init="initTooltip()">	<i class="fa fa-upload" ></i> Trascina gli allegati qui
+					<i class="fa fa-question" ></i>
+				</h5>
+			</div>
+			<div class="progress" ng-if="!solaLetturaVerbale">
+			  <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" 
+			  		aria-valuenow="{{progressPercentage}}" aria-valuemin="0" aria-valuemax="100" style="width: {{progressPercentage}}%">
+			    <span class="sr-only">{{progressPercentage}}% Complete (success)</span>
+			  </div>
+			</div>
+			
+			<div ui-tree="allegatiOptions" data-drag-enabled="!solaLetturaVerbale" >
+				<ol class="list-group" ui-tree-nodes ng-model="sedutaGiunta.verbale.allegati" data-type="allegato" >
+	
+					<li ng-repeat="allegato in sedutaGiunta.verbale.allegati" ui-tree-node  >
+						<div ui-tree-handle class="tree-node tree-node-content">
+							<div class="form-group row"  ng-if="!allegato.edit">
+								<div class="col-md-6">
+									<label flex><span data-drag class="fa fa-bars"></span> {{allegato.titolo}}-{{allegato.oggetto}}-
+										<a  target="_blank" href="api/verbales/{{sedutaGiunta.verbale.id}}/allegato/{{allegato.id}}?access_token={{access_token}}">{{allegato.file.nomeFile}}</a>
+									</label>
+								</div>
+								
+								<div data-nodrag class="col-md-6 form-group" align="right" ng-if="!allegato.edit">
+									<span data-toggle="tooltip" bs-tooltip data-html="true" data-placement="top" data-title="{{'cifra2gestattiApp.atto.guida.plsEdit' | translate}}">
+										<i class="fa fa-question" ></i>
+									</span>
+									<button class="btn btn-danger btn-sm" data-toggle="tooltip" bs-tooltip data-html="true" 
+										data-placement="top" data-title="{{'cifra2gestattiApp.atto.guida.plsEdit' | translate}}"
+										ng-click="modificaAllegato(allegato)" translate="cifra2gestattiApp.sedutaGiunta.verbale.editAllegato">
+									</button>
+									<button ng-if="allegato.id > 0" type="button" class="btn btn-danger btn-sm" ng-disabled="solaLetturaVerbale" ng-click="deleteAllegato(allegato)" 
+										data-type="success" data-title="Elimina allegato" bs-tooltip> <i class="fa fa-minus"></i></button>
+								</div>
+							</div>
+						</div>
+					</li>
+				</ol>
+			</div>
+		</div> 
+		<div class="form-group"  ng-if="allegatoEdit.edit" >
+			<div class="form-group  col-sm-5">
+				<label translate="cifra2gestattiApp.documentoInformatico.titolo">Titolo</label> *
+				<input type="text" class="form-control" name="titolo"
+				placeholder="Titolo"  ng-model="allegatoEdit.titolo" ng-disabled="solaLetturaVerbale" required>
+			</div>
+	
+			<div class="form-group col-sm-5">
+				<label translate="cifra2gestattiApp.documentoInformatico.oggetto">Oggetto</label>
+				<input type="text" class="form-control" name="oggetto" ng-disabled="solaLetturaVerbale" placeholder="Oggetto"  ng-model="allegatoEdit.oggetto">
+			</div> 
+	
+			<div class="form-group col-sm-2">
+				<label>Accorpato</label> *
+				<span data-toggle="tooltip"
+					title="<b>GUIDA</b><br/>Impostare a <strong>Si</strong> se l’allegato è accorpato al Verbale altrimenti impostare a <strong>No</strong>."
+					data-html="true" ng-init="initTooltip()">
+					<i class="fa fa-question" ></i>
+				</span>
+				<select ng-model="allegatoEdit.parteIntegrante" class="form-control" ng-change="checkFileFormat()"
+				ng-options="item.valore as item.label for item in [{valore:true,label:'SI'},{valore:false,label:'NO'}]" ng-disabled="solaLetturaVerbale" required>
+				</select>
+			</div>  
+	
+			<div class="form-group  col-sm-6" ng-if="allegatoEdit.parteIntegrante == false">
+				<label translate="cifra2gestattiApp.documentoInformatico.numeroProtocollo">Identificativo di Protocollo</label>
+				<input type="text" class="form-control" name="numeroProtocollo" placeholder="Identificativo di Protocollo"  ng-model="allegatoEdit.numeroProtocollo" ng-disabled="solaLetturaVerbale">
+			</div>
+	
+			<div class="form-group col-sm-6" ng-if="allegatoEdit.parteIntegrante == false">
+				<label translate="cifra2gestattiApp.documentoInformatico.dataProtocollo">Data Protocollo</label>
+				<input type="text" class="form-control" ng-disabled="solaLetturaVerbale"
+					onkeydown="return false;" 
+					name="dataProtocollo" 
+					data-date-type="date" 
+					ng-model="allegatoEdit.dataProtocollo" bs-datepicker> 
+				<button title="Cancella Data" class="pull-right" onclick="return false;" ng-click="allegatoEdit.dataProtocollo = null;" ng-hide="solaLetturaVerbale"><span class="glyphicon glyphicon-remove"></span></button>
+			</div> 
+			
+			<div class="form-group col-sm-12">
+				<label><i class="fa fa-globe" ></i> File	</label>
+				<a ng-if="allegatoEdit.file.id >0"  target="_blank" href="api/verbales/{{sedutaGiunta.verbale.id}}/allegato/{{allegatoEdit.id}}?access_token={{access_token}}"  >
+			 		{{allegatoEdit.file.nomeFile}} ({{allegatoEdit.file.createdBy}})
+			 	</a>
+			</div> 
+	
+			<div class="form-group col-sm-12"  >
+				<button type="button" class="btn btn-default btn-sm" ng-click="allegatoAnnullaEdit(allegatoEdit)"  >
+					<span class="glyphicon glyphicon-list"></span>&nbsp;<span >Torna alla lista degli allegati senza salvare</span>
+				</button>
+	
+				<!-- <button type="button" class="btn btn-default btn-sm"  ng-click="salvaAllegato(allegatoEdit)" ng-disabled="solaLettura || verificaCampiObbligatoriAllegato(allegatoEdit)">
+					<span class="glyphicon glyphicon-save  "></span>&nbsp;<span >Salva ed esci</span>
+				</button>
+				-->
+			</div>
+		</div>
+		<hr/>
+	</div>
+	
+	<!-- Sottoscrittori -->
+	<div id="sottoscrittoriVerbale" ng-if="showSezioneVerbale === 'sottoscrittoriVerbale'">
+		<hr/>
+		<button type="button" class="btn btn-default" ng-disabled="solaLetturaVerbale" ng-click="addSottoscrittoreVerbale(sedutaGiunta.verbale)">
+			<i class="fa fa-user-plus"></i> Aggiungi sottoscrittore
+		</button>
+		<span data-toggle="tooltip"
+			title="<b>GUIDA</b><br/>Aggiungere obbligatoriamente almeno un Sottoscrittore Verbale."
+			data-html="true" ng-init="initTooltip()">
+			<i class="fa fa-question" ></i>
+		</span>
+		
+		<input type="text" ng-hide="true" name="required_sottoscrittori" 
+			   ng-model="fake_model" ng-required="sedutaGiunta.verbale.sottoscrittori.length==0" />
+	
+		<div ui-tree="sottoscrittoriOptions" data-drag-enabled="!solaLetturaVerbale" >
+			<ol class="list-group" ui-tree-nodes 
+				ng-model="sedutaGiunta.verbale.sottoscrittori" 
+				data-type="sottoscrittore" >
+		
+				<li  ng-repeat="sottoscrittore in sedutaGiunta.verbale.sottoscrittori"  ui-tree-node>
+					<div ui-tree-handle class="tree-node tree-node-content row">
+						<!-- <i  class="fa fa-bars"  ></i> --> 
+						<div data-nodrag class="col-md-5">
+							<label flex><span data-drag class="fa fa-bars"></span> Sottoscrittore *</label>
+							<ui-select  ng-change="sottoscrittore.edit=true"  name="sottoscrittoreVerbale" ng-disabled="solaLetturaVerbale" ng-model="sottoscrittore.profilo"  theme="bootstrap" title="Ricerca sottoscrittore" required>
+				          		<ui-select-match placeholder="Cerca profili..">{{$select.selected.descrizione}} - {{$select.selected.utente.cognome}} {{$select.selected.utente.nome}} </ui-select-match>
+				            	<ui-select-choices repeat="profilo in profilosVerbali | filter: $select.search">
+				            		<div ng-bind-html="profilo.descrizione | highlight: $select.search"></div>
+				                	<small>
+				                		Ufficio: <span ng-bind-html="profilo.aoo.descrizione| highlight: $select.search"  ></span>
+										Utente: <span ng-bind-html="profilo.utente.cognome +' '+ profilo.utente.nome| highlight: $select.search"  ></span>
+									</small>
+								</ui-select-choices>
+							</ui-select>
+						</div>
+	
+						<div  data-nodrag ng-if="sottoscrittore.profilo.hasQualifica != null && sottoscrittore.profilo.hasQualifica.length == 1" class="col-md-5 ng-scope">
+							<div class="col-md-12"><label translate="cifra2gestattiApp.sottoscrittoreAtto.Qualifica">Qualifica</label> &nbsp;</div>
+							<div class="col-md-12">
+								<label>  {{sottoscrittore.profilo.hasQualifica[0].denominazione}}</label>
+								<input type="hidden" ng-init="sottoscrittore.qualificaProfessionale = sottoscrittore.profilo.hasQualifica[0]">
+							</div>
+						</div>
+						
+						<div  data-nodrag ng-if="sottoscrittore.profilo.hasQualifica != null && sottoscrittore.profilo.hasQualifica.length > 1" class="col-md-5 ng-scope">
+							<div class="col-md-12"><label translate="cifra2gestattiApp.sottoscrittoreAtto.Qualifica">Qualifica</label> &nbsp;</div>
+							<div class="col-md-12"><select ng-change="sottoscrittore.edit=true" class="form-control" 
+									style="font-family: arial; font-weight: normal;" 
+									name="sottoscrittoreVerbaleQualifica" 
+									ng-model="sottoscrittore.qualificaProfessionale" 
+									ng-options="qualifica as qualifica.denominazione for qualifica in sottoscrittore.profilo.hasQualifica track by qualifica.id" 
+									required>
+							</select></div>
+						</div>
+						
+						<div data-nodrag class="pull-right form-group">
+							<button type="button" class="btn btn-danger btn-sm" ng-disabled="solaLetturaVerbale"
+									ng-click="deleteSottoscrittoreVerbale(sedutaGiunta.verbale,$index)" 
+									data-type="success"  data-title="Elimina sottoscrittore" 
+									bs-tooltip> 
+									<i class="fa fa-minus"></i>
+							</button>
+						</div>
+					</div> 
+				</li>
+			</ol>
+		</div> 
+	</div>
+</div>
+
+<div ng-if="sedutaGiunta.verbale.stato == sedutaConstants.statiVerbale.verbaleRifiutato">
+</div>

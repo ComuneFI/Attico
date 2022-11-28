@@ -1,0 +1,27 @@
+{
+    "cifra2gestattiApp": {
+        "tipoDeterminazione" : {
+            "home": {
+                "title": "Tipo Collegamento Tra Atti",
+                "createLabel": "Crea Tipo Collegamento",
+                "createOrEditLabel": "Crea o Modifica Tipo Collegamento"
+            },
+            "delete": {
+                "question": "Sei sicuro di volere eliminare il  Tipo di Collegamento {{ id }}?"
+            },
+            "detail": {
+                "title": "Tipo Collegamento"
+            },
+            "descrizione": "Descrizione",
+            "codice": "Codice",
+            "tipoAtto": "Tipo Atto",
+            "fileVisibiliInTrasparenza": "File Atto Collegato Visibili In Trasparenza",
+            "statoTrasparenza": "Stato Trasparenza",
+            "messages": {
+	            "error": {
+	                "operationNotPermitted": "Non \u00E8 possibile effettuare l\u0027operazione in quanto l\u0027elemento \u00E8 incluso in uno o pi\u00F9 atti."
+	            }
+	        }
+        }
+    }
+}

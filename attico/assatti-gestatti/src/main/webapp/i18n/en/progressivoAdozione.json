@@ -1,0 +1,22 @@
+{
+    "cifra2gestattiApp": {
+        "progressivoAdozione" : {
+            "home": {
+                "title": "ProgressivoAdoziones",
+                "createLabel": "Create a new ProgressivoAdozione",
+                "createOrEditLabel": "Create or edit a ProgressivoAdozione"
+            },
+            "delete": {
+                "question": "Are you sure you want to delete ProgressivoAdozione {{ id }}?"
+            },
+            "detail": {
+                "title": "ProgressivoAdozione"
+            },
+            "anno": "Anno",
+            "progressivo": "Progressivo",
+            "tipoAtto": "tipoAtto",
+            "tipoProgressivo": "Tipo Progressivo",
+            "aoo": "ufficio"
+        }
+    }
+}

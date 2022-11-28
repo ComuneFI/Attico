@@ -1,0 +1,113 @@
+
+<div>
+    <h2><span translate="cifra2gestattiApp.avanzamento.detail.title">Avanzamento</span> {{avanzamento.id}}</h2>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th translate="entity.detail.field">Field</th>
+                    <th translate="entity.detail.value">Value</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.avanzamento.dataAttivita">DataAttivita</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{avanzamento.dataAttivita| date:'short'}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.avanzamento.Atto">Atto</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{avanzamento.atto.codiceCifra}} - {{avanzamento.atto.oggetto}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.avanzamento.Stato">Stato</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{avanzamento.stato}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.avanzamento.Attivita">Attivit&agrave;</span>
+                    </td>
+                    <td>
+                    	<input ng-if="avanzamento.attivita == true" type="text" class="input-sm form-control" value="Si" readonly>
+                        <input ng-if="avanzamento.attivita == false" type="text" class="input-sm form-control" value="No" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.avanzamento.Utente">Utente</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{avanzamento.lastModifiedBy}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.avanzamento.note">Note</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{avanzamento.note}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.avanzamento.Resoconto">Resoconto</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{avanzamento.resoconto.idDiogene}} - {{avanzamento.resoconto.organoDeliberante}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.avanzamento.Lettera">Lettera</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{avanzamento.lettera.tipoLettera}} - {{avanzamento.lettera.data}}" readonly>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.avanzamento.Parere">Parere</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{avanzamento.parere.tipoParere}} - {{avanzamento.parere.parereSintetico}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.avanzamento.Verbale">Verbale</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{avanzamento.verbale.idDiogene}} - {{avanzamento.verbale.organoDeliberante}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.avanzamento.OrdineGiorno">OrdineGiorno</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{avanzamento.ordineGiorno.numeroOdg}} - {{avanzamento.ordineGiorno.oggetto}}" readonly>
+                    </td>
+                </tr>
+                
+            </tbody>
+        </table>
+    </div>
+
+    <button type="submit"
+            ui-sref="avanzamento"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span translate="entity.action.back"> Back</span>
+    </button>
+</div>

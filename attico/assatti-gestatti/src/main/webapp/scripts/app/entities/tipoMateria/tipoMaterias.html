@@ -1,0 +1,458 @@
+<div>
+
+    <h2 translate="cifra2gestattiApp.tipoMateria.home.title">TipoMateria</h2>
+    
+    <div class="modal fade" id="operationNotPermitted">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                   <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                           ng-click="clear()">&times;</button>
+                   <h4 class="modal-title" translate="entity.modify.notPermitted">Operation not permitted</h4>
+               </div>
+               <div class="modal-body">
+                   <p translate="cifra2gestattiApp.tipoMateria.messages.error.operationNotPermitted">Operation not permitted</p>
+               </div>
+            </div>
+        </div>
+    </div>
+
+	<div>
+		<div class="table">
+	        <table class="table table-striped">
+	            <thead>
+	                <tr>
+	                	<th width="30px"></th>
+	                    <th >Tipo Ricerca *</th>
+	                    <th >Descrizione</th>
+	                    <th> 
+			                Ufficio
+		                	<span data-toggle="tooltip"
+								title="<b>GUIDA</b><br/>Inserire il codice Ufficio oppure la denominazione dell’Ufficio."
+								data-html="true" ng-init="initTooltip()">
+								<i class="fa fa-question" ></i>
+							</span>
+		                </th>
+	                    <th translate="cifra2gestattiApp.tipoMateria.filtro.label-stato">Stato</th>
+	                    <th></th>
+	                </tr>
+	                <tr>
+	                	<th style="text-align:center;"><button class="btn btn-primary btn-xs" ng-click="ricerca()" ng-disabled="!search.tipoRicerca || (search.tipoRicerca && !search.descrizione && !search.aoo)"><span class="glyphicon glyphicon-search"/> <span translate="global.messages.cerca">Ricerca</span></button> <button class="btn btn-primary btn-xs" ng-click="resetRicerca()"><span translate="global.messages.resetricerca">Reset ricerca</span></button></th>
+	                    <th class="limited-width">
+	                    	<ui-select ng-model="search.tipoRicerca" theme="bootstrap" ng-change="search.aoo = null;">
+		                    	<ui-select-match allow-clear="true">{{$select.selected.label}}</ui-select-match>
+		                    	<ui-select-choices repeat="tipoRicerca in tipiRicerca | filter: $select.search track by $index">
+		                            <div ng-bind-html="tipoRicerca.label | highlight: $select.search"></div>
+		                    	</ui-select-choices>
+	                      	</ui-select>
+	                    </th>
+	                    <th><input type="text" ng-model="search.descrizione"></th>
+	                    <th><input type="text" ng-model="search.aoo" ng-disabled="!search.tipoRicerca"></th>
+	                    <th class="limited-width">
+	                    	<ui-select ng-model="search.stato" theme="bootstrap" style="display: inline-block; min-width: 120px;">
+								<ui-select-match allow-clear="true">{{$select.selected.denominazione | translate}}</ui-select-match>
+								<ui-select-choices repeat="stato in stati | filter: $select.search">
+									<div ng-bind-html="stato.denominazione | translate | highlight: $select.search"></div>
+								</ui-select-choices>
+							</ui-select>
+	                    </th>
+	                    <th><button class="btn btn-primary btn-xs" ng-click="ricerca()" ng-disabled="!search.tipoRicerca || (search.tipoRicerca && !search.descrizione && !search.aoo)"><span class="glyphicon glyphicon-search"/> <span translate="global.messages.cerca">Ricerca</span></button> <button class="btn btn-primary btn-xs" ng-click="resetRicerca()"><span translate="global.messages.resetricerca">Reset ricerca</span></button></th>
+	                </tr>
+	            </thead>
+	     	</table>
+	     </div>
+     </div>
+
+    <div class="row">
+
+        <div class="col-sm-12">
+
+            <div class="form-group ">
+                <div ui-tree="options" >
+
+
+                    <ol ui-tree-nodes ng-model="tipoMaterias" data-type="tipoMateria" data-nodrag   >
+                        
+
+                        <li ng-repeat="tipoMateria in tipoMaterias" ui-tree-node data-collapsed="true" >
+
+                            <div ui-tree-handle class="tree-node tree-node-content" >
+
+                                <a class="btn btn-success btn-sm" 
+                                    ng-click="toggle(this)">
+                                    <span class="glyphicon" ng-class="{ 'glyphicon-chevron-right': collapsed, 'glyphicon-chevron-down': !collapsed }"></span>
+                                </a>
+                                
+                                <label ng-if="!tipoMateria.edit">{{tipoMateria.descrizione}}
+                                <span ng-if="tipoMateria.aoo !== null " >Aoo: {{tipoMateria.aoo.codice + " - " +tipoMateria.aoo.descrizione}}</span> </label>
+
+                                <form    ng-if="tipoMateria.edit" name="editForm" role="form" novalidate ng-submit="salvaTipoMateria(tipoMateria)" 
+                                show-validation>
+
+
+                                <div class="form-group col-md-12" >
+                                    <label>Descrizione tipo materia *</label>
+                                    <input type="text"  class="form-control" ng-model="tipoMateria.descrizione"   required="true"   
+                                    placeholder="Descrizione tipo materia"/>
+                                </div>
+                                
+                                <div class="form-group col-md-12" >
+                                    <label>Ufficio</label>
+                                    <select class="form-control" name="aoo" ng-model="tipoMateria.aoo.id" ng-disabled="!tipoMateria.add"  >
+                                    	<option ng-value=""></option>
+                                    	<option ng-value="aoo.id" ng-selected="tipoMateria.aoo.id == aoo.id"  ng-repeat="aoo in aoos" >{{"" + aoo.codice + " - " + aoo.descrizione}}</option>
+                        			</select>                                   
+                                </div>
+								
+                                <validita-form ng-model="tipoMateria.validita" ></validita-form>
+
+
+                                <button type="button" class="btn btn-default"  ng-click="cancelEdit(tipoMateria)">
+                                    <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+                                </button>
+
+                                <button type="submit" ng-disabled="editForm.$invalid" class="btn btn-primary">
+                                    <span class="glyphicon glyphicon-save"></span>&nbsp;<span translate="entity.action.save">Save</span>
+                                </button>
+
+
+                            </form>
+                            <div class="pull-right" ng-if="!tipoMateria.edit" >
+                                <a class="btn btn-danger btn-sm"  ng-click="edit(tipoMateria)"  >Modifica tipo materia <span
+                                    class="glyphicon glyphicon-edit"></span></a>&nbsp;
+									<button type="submit"
+			                        		ng-hide="tipoMateria.validita.validoal"
+			                                ng-click="disableTipoMateria(tipoMateria)"
+			                                class="btn btn-warning btn-sm">
+			                            <span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span translate="entity.action.disable"> Disable</span>
+			                        </button>
+			                        <button type="submit"
+			                        		ng-show="tipoMateria.validita.validoal"
+			                                ng-click="enableTipoMateria(tipoMateria)"
+			                                class="btn btn-success btn-sm">
+			                            <span class="glyphicon glyphicon-ok-circle"></span>&nbsp;<span translate="entity.action.enable"> Enable</span>
+                        			</button>
+
+                                </div>
+                            </div>
+
+                            <ol ui-tree-nodes="" ng-model="tipoMateria.materie" data-type="materia"  ng-class="{hidden: collapsed}">
+                                <li ng-repeat="materia in tipoMateria.materie" ui-tree-node data-collapsed="true"  >
+                                    <div ui-tree-handle class="tree-node tree-node-content" >
+
+                                        <a class="btn btn-success btn-sm" 
+                                            ng-click="toggle(this)">
+                                            <span class="glyphicon" ng-class="{ 'glyphicon-chevron-right': collapsed, 'glyphicon-chevron-down': !collapsed }"></span>
+                                        </a>
+                                        <label ng-if="!materia.edit">{{materia.descrizione}}
+                                        <span ng-if="materia.aoo !== null " >Aoo: {{materia.aoo.codice + " - " +materia.aoo.descrizione}}</span> </label>
+
+                                        <form   ng-if="materia.edit" name="editForm" role="form" novalidate ng-submit="salvaMateria(materia)" 
+                                        show-validation>
+
+
+                                        <div class="form-group col-md-12" >
+                                            <label>Descrizione materia *</label>
+                                            <input type="text"  class="form-control" ng-model="materia.descrizione"   required="true"   
+                                            placeholder="Descrizione materia"/>
+                                        </div>
+
+										<!--
+										<div ng-if="tipoMateria.aoo !== null">
+										<input type="hidden"  class="form-control" ng-model="materia.aoo.id" ng-init="materia.aoo.id=tipoMateria.aoo.id"  value="{{materia.aoo.id}}" />
+										</div>
+										<div ng-if="tipoMateria.aoo == null">
+										<input type="hidden"  class="form-control" ng-model="materia.aoo.id" ng-init="materia.aoo=null"  value="{{materia.aoo.id}}" />
+										</div>										
+										-->
+										
+										 <div class="form-group col-md-12" >
+		                                    <label>Ufficio</label>
+		                                    <select class="form-control" name="aoo" ng-model="materia.aoo.id" ng-disabled="!materia.settableAoo"  >
+		                        				<option ng-selected="materia.aoo.id == aoo.id"  ng-repeat="aoo in aoos" ng-value="aoo.id">{{aoo.descrizione}}</option>
+		                        			</select>       
+		                                                                
+		                                </div>
+                                        <validita-form ng-model="materia.validita" ></validita-form> 
+
+                                        <button type="button" class="btn btn-default"  ng-click="cancelEdit(materia)">
+                                            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+                                        </button>
+                                        
+                                       <button type="submit" ng-disabled="editForm.$invalid" class="btn btn-primary">
+                                            <span class="glyphicon glyphicon-save"></span>&nbsp;<span translate="entity.action.save">Save</span>
+                                        </button>
+
+
+                                    </form>
+
+
+                                    <div class="pull-right" ng-if="!materia.edit" >
+                                        <a class="btn btn-danger btn-sm"  ng-click="edit(materia)"  >Modifica materia <span
+                                            class="glyphicon glyphicon-edit"></span></a>&nbsp;
+	                                        <button type="submit"
+				                        		ng-hide="materia.validita.validoal"
+				                                ng-click="disableMateria(materia)"
+				                                class="btn btn-warning btn-sm">
+				                            <span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span translate="entity.action.disable"> Disable</span>
+				                        	</button>
+					                        <button type="submit"
+					                        		ng-show="materia.validita.validoal"
+					                                ng-click="enableMateria(materia)"
+					                                class="btn btn-success btn-sm">
+					                            <span class="glyphicon glyphicon-ok-circle"></span>&nbsp;<span translate="entity.action.enable"> Enable</span>
+		                        			</button>
+                                        </div>
+
+                                        <ol ui-tree-nodes="" ng-model="materia.sottoMaterie" data-type="materia"  ng-class="{hidden: collapsed}">
+                                            <li ng-repeat="sottoMateria in materia.sottoMaterie" ui-tree-node data-collapsed="true">
+
+
+
+                                                <div ui-tree-handle class="tree-node tree-node-content" >
+
+                                                    <label ng-if="!sottoMateria.edit">{{sottoMateria.descrizione}}
+                                                    <span ng-if="sottoMateria.aoo !== null " >Aoo: {{sottoMateria.aoo.codice + " - " +sottoMateria.aoo.descrizione}}</span> </label>
+
+                                                    <form   ng-if="sottoMateria.edit" name="editForm" role="form" novalidate
+                                                    ng-submit="salvaSottoMateria(sottoMateria )" 
+                                                    show-validation>
+
+
+                                                    <div class="form-group col-md-12" >
+                                                        <label>Descrizione sotto materia *</label>
+                                                        <input type="text"  class="form-control" ng-model="sottoMateria.descrizione"   required="true"   
+                                                        placeholder="Descrizione sotto materia"/>
+                                                    </div>
+                                                    
+                                                    <!--
+                                                    <div ng-if="tipoMateria.aoo !== null">
+														<input type="hidden"  class="form-control" ng-model="sottoMateria.aoo.id" ng-init="sottoMateria.aoo.id=tipoMateria.aoo.id"  value="{{sottoMateria.aoo.id}}" />
+													</div>
+													<div ng-if="tipoMateria.aoo == null">
+														<input type="hidden"  class="form-control" ng-model="sottoMateria.aoo.id" ng-init="sottoMateria.aoo=null"  value="{{sottoMateria.aoo.id}}" />
+													</div>
+													-->
+
+                                                    <div class="form-group col-md-12" >
+					                                    <label>Ufficio</label>
+					                                    <select class="form-control" name="aoo" ng-model="sottoMateria.aoo.id" ng-disabled="!sottoMateria.settableAoo"  >
+					                        				<option ng-selected="sottoMateria.aoo.id == aoo.id"  ng-repeat="aoo in aoos" ng-value="aoo.id">{{aoo.descrizione}}</option>
+					                        			</select>       
+					                                 </div>
+					                                 
+                                                    <validita-form ng-model="sottoMateria.validita" ></validita-form>
+
+                                                    <button type="button" class="btn btn-default"  ng-click="cancelEdit(sottoMateria)">
+                                                        <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+                                                    </button>
+													 <button type="submit" ng-disabled="editForm.$invalid" class="btn btn-primary">
+                                                        <span class="glyphicon glyphicon-save"></span>&nbsp;<span translate="entity.action.save">Save</span>
+                                                    </button>
+
+
+                                                </form>
+
+
+                                                <div class="pull-right" ng-if="!sottoMateria.edit" >
+                                                    <a class="btn btn-danger btn-sm"  ng-click="edit(sottoMateria)"  >Modifica sotto materia <span
+                                                        class="glyphicon glyphicon-edit"></span></a>
+													<button type="submit"
+						                        		ng-hide="sottoMateria.validita.validoal"
+						                                ng-click="disableSottoMateria(sottoMateria)"
+						                                class="btn btn-warning btn-sm">
+						                            <span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span translate="entity.action.disable"> Disable</span>
+						                        	</button>
+							                        <button type="submit"
+							                        		ng-show="sottoMateria.validita.validoal"
+							                                ng-click="enableSottoMateria(sottoMateria)"
+							                                class="btn btn-success btn-sm">
+							                            <span class="glyphicon glyphicon-ok-circle"></span>&nbsp;<span translate="entity.action.enable"> Enable</span>
+				                        			</button>
+                                                    </div>
+                                                </div>
+
+
+                                            </li>
+                                            <li  >
+                                                <div ui-tree-handle class="tree-node tree-node-content" >
+                                                    <label>
+                                                        <a class="pull-left btn btn-primary btn-sm"    ng-click="addSottoMateria(materia)"  >Aggiungi sotto materia <span
+                                                            class="glyphicon glyphicon-plus"></span></a>
+                                                        </label>
+                                                    </div>
+                                                </li>
+                                            </ol> 
+                                        </li>
+
+                                        <li>
+                                            <div ui-tree-handle class="tree-node tree-node-content" >
+                                                <label>
+                                                    <a class="pull-left btn btn-primary btn-sm"    ng-click="addMateria(tipoMateria)"  >Aggiungi materia <span
+                                                        class="glyphicon glyphicon-plus"></span></a>
+                                                    </label>
+                                                </div>
+                                            </li>
+
+                                        </ol>
+                                    </li>
+
+                                    <li>
+                                        <div   class="tree-node tree-node-content" >
+                                            <label>
+                                                <a class="pull-left btn btn-primary btn-sm"    ng-click="addTipomateria()"   >Aggiungi Tipo Materia  <span
+                                                    class="glyphicon glyphicon-plus"></span></a>
+                                                </label>
+                                            </div>
+                                        </li>
+
+
+                                    </ol>
+                                    <div ng-if="tipoMaterias && tipoMaterias.length == 0 && !loading" class="search-no-result"><h3 translate="global.searchNoResult"></h3></div>
+									<div ng-if="tipoMaterias && tipoMaterias.length == 0&& loading" class="search-no-result"><h3 translate="global.loading"></h3></div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+ 
+
+
+
+   <!--  <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <button class="btn btn-primary" data-toggle="modal" data-target="#saveTipoMateriaModal" ng-click="clear()">
+                    <span class="glyphicon glyphicon-flash"></span> <span translate="cifra2gestattiApp.tipoMateria.home.createLabel">Create a new TipoMateria</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="saveTipoMateriaModal" tabindex="-1" role="dialog" aria-labelledby="myTipoMateriaLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form name="editForm" role="form" novalidate ng-submit="save()" show-validation>
+
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                                ng-click="clear()">&times;</button>
+                        <h4 class="modal-title" id="myTipoMateriaLabel" translate="cifra2gestattiApp.tipoMateria.home.createOrEditLabel">Create or edit a TipoMateria</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label>ID</label>
+                            <input type="text" class="form-control" name="id"
+                                   ng-model="tipoMateria.id" readonly>
+                        </div>
+
+                        <div class="form-group">
+                            <label translate="cifra2gestattiApp.tipoMateria.descrizione">Descrizione</label>
+                            <input type="text" class="form-control" name="descrizione"
+                                   ng-model="tipoMateria.descrizione">
+
+                            <div ng-show="editForm.descrizione.$invalid">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label translate="cifra2gestattiApp.tipoMateria.aoo">aoo</label>
+                            
+                                                <select class="form-control" name="aooPadre" ng-model="tipoMateria.aoo.id"
+                    ng-options="aoo.id as aoo.descrizione+' (' +aoo.tipoAoo.descrizione + ')'  group by aoo.tipoAoo.descrizione for aoo in aoos| orderBy:['tipoAoo.descrizione ','descrizione']">
+                    </select>
+
+
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
+                            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+                        </button>
+                        <button type="submit" ng-disabled="editForm.$invalid" class="btn btn-primary">
+                            <span class="glyphicon glyphicon-save"></span>&nbsp;<span translate="entity.action.save">Save</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="deleteTipoMateriaConfirmation">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form name="deleteForm" ng-submit="confirmDelete(tipoMateria.id)">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                                ng-click="clear()">&times;</button>
+                        <h4 class="modal-title" translate="entity.delete.title">Confirm delete operation</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p translate="cifra2gestattiApp.tipoMateria.delete.question" translate-values="{id: '{{tipoMateria.id}}'}">Are you sure you want to delete this TipoMateria?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
+                            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+                        </button>
+                        <button type="submit" ng-disabled="deleteForm.$invalid" class="btn btn-danger">
+                            <span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span translate="entity.action.delete">Delete</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="table-responsive crud-search">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th translate="cifra2gestattiApp.tipoMateria.descrizione">Descrizione</th>
+                    <th translate="cifra2gestattiApp.tipoMateria.aoo">aoo</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="tipoMateria in tipoMaterias">
+                    <td><a ui-sref="tipoMateriaDetail({id:tipoMateria.id})">{{tipoMateria.id}}</a></td>
+                    <td>{{tipoMateria.descrizione}}</td>
+                    <td>{{tipoMateria.aoo.id}}</td>
+                    <td>
+                        <button type="submit"
+                                ui-sref="tipoMateriaDetail({id:tipoMateria.id})"
+                                class="btn btn-info btn-sm">
+                            <span class="glyphicon glyphicon-eye-open"></span>&nbsp;<span translate="entity.action.view"> View</span>
+                        </button>
+                        <button type="submit"
+                                ng-click="showUpdate(tipoMateria.id)"
+                                class="btn btn-primary btn-sm">
+                            <span class="glyphicon glyphicon-pencil"></span>&nbsp;<span translate="entity.action.edit"> Edit</span>
+                        </button>
+                        <button type="submit"
+                                ng-click="delete(tipoMateria.id)"
+                                class="btn btn-danger btn-sm">
+                            <span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span translate="entity.action.delete"> Delete</span>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <nav>
+            <ul class="pagination">
+                <li ng-show="links['first']" ng-click="loadPage(links['first'])"><a>&lt;&lt;</a></li>
+                <li ng-show="links['prev']" ng-click="loadPage(links['prev'])"><a>&lt;</a></li>
+                <li ng-show="page > 2" ng-click="loadPage(page - 2)"><a>{{page - 2}}</a></li>
+                <li ng-show="page > 1" ng-click="loadPage(page - 1)"><a>{{page - 1}}</a></li>
+                <li class="active"><a>{{page}}</a></li>
+                <li ng-show="page < links['last']" ng-click="loadPage(page + 1)"><a>{{page + 1}}</a></li>
+                <li ng-show="page < links['last'] - 1" ng-click="loadPage(page + 2)"><a>{{page + 2}}</a></li>
+                <li ng-show="links['next']" ng-click="loadPage(links['next'])"><a>&gt;</a></li>
+                <li ng-show="links['last']" ng-click="loadPage(links['last'])"><a>&gt;&gt;</a></li>
+            </ul>
+        </nav>
+    </div> -->
+</div>

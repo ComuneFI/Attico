@@ -1,0 +1,21 @@
+<p><br></p>
+<p><br></p>
+<p><br></p>
+<div style="text-align: left; font-family: Calibri; font-size: 13pt; line-height: 19.5pt;"><p><span>Codice Atto:</span>						<span>[[${parere.atto.codiceCifra}]]</span></p>
+						<span style="font-weight: bold;">OGGETTO: </span>						<span style="font-weight: bold;">Ritirato in Giunta.</span></div>
+<p><br></p>
+<div style="font-family: Helvetica; font-size: 16px; line-height: 24px; text-align: justify;">Con riferimento alla Seduta di Giunta <span th:if="${seduta.tipoSeduta == 2}">straordinaria</span><span th:if="${seduta.tipoSeduta != 2}">ordinaria</span>&nbsp; n. &nbsp; <span th:if="${seduta.numero != null}">[[${seduta.numero}]]</span>, la proposta con codice Atto <span>: [[${parere.atto.codiceCifra}]]</span> e' stata ritirata in Giunta.</div>
+<p style="font-family: Helvetica; font-size: 16px; line-height: 24px; text-align: justify;" th:utext="${parere.parere}">	<span>+${parere.parere}</span></p>
+<div style="font-family: Helvetica; font-size: 16px; line-height: 28px; text-align: justify;"><br></div>
+<div style="font-family: Helvetica; font-size: 16px; line-height: 28px; text-align: justify;"><span style="font-family: Calibri; font-size: 10pt; font-weight: bold;">Data: [[${#dates.format(#dates.createNow(), 'dd/MM/yyyy')}]]</span><br></div>
+<p><br></p>
+<table style="page-break-inside: avoid;" width="100%" cellspacing="0" cellpadding="0">
+	<tbody>
+		<tr th:each="item: ${#lists.sort(parere.sottoscrittori)}">
+			<td>				<div style="font-family: Calibri; font-size: 10pt;">[[${item.qualificaProfessionale.denominazione}]]</div>
+				<div style="font-family: Calibri; font-size: 10pt;">[[${item.profilo.utente.nome}]] [[${item.profilo.utente.cognome}]]</div>
+				<br>			</td>
+		</tr>
+	</tbody>
+</table>
+<p><span style="font-family: Calibri; font-size: 8pt; text-align: justify;">Documento informatico firmato digitalmente ai sensi del Testo Unico D.P.R. 28 dicembre 2000, n. 445 e del D.Lgs 7 marzo 2005, n. 82 e norme collegate che sostituisce il testo cartaceo e la firma autografa.</span></p>

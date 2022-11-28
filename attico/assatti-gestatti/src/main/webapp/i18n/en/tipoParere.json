@@ -1,0 +1,21 @@
+{
+    "cifra2gestattiApp": {
+        "tipoParere" : {
+            "home": {
+                "title": "TipoPareres",
+                "createLabel": "Create a new TipoParere",
+                "createOrEditLabel": "Create or edit a TipoParere"
+            },
+            "delete": {
+                "question": "Are you sure you want to delete TipoParere {{ id }}?"
+            },
+            "detail": {
+                "title": "TipoParere"
+            },
+            "descrizione": "Descrizione",
+            "vincolante": "Vincolante",
+            "ordine": "Ordine",
+            "tipoIter": "tipoIter"
+        }
+    }
+}

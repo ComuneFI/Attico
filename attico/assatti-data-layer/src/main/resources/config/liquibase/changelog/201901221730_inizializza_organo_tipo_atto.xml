@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    
+    <changeSet author="magria" id="201901221730-1">
+    	<sql>
+    		UPDATE gestatti.tipoatto SET giunta=1 WHERE codice like 'DG';
+			UPDATE gestatti.tipoatto SET consiglio=1 WHERE codice like 'DC';
+			UPDATE gestatti.tipoatto SET giunta=1 WHERE codice like 'DIG';
+			UPDATE gestatti.tipoatto SET consiglio=1 WHERE codice like 'ODG';
+			UPDATE gestatti.tipoatto SET consiglio=1 WHERE codice like 'RIS';
+			UPDATE gestatti.tipoatto SET consiglio=1 WHERE codice like 'MZ';
+			UPDATE gestatti.tipoatto SET giunta=1, consiglio=1 WHERE codice like 'DPC';
+			UPDATE gestatti.tipoatto SET consiglio=1 WHERE codice like 'DEC';
+			UPDATE gestatti.tipoatto SET consiglio=1 WHERE codice like 'COM';
+			UPDATE gestatti.tipoatto SET consiglio=1 WHERE codice like 'DAT';
+			UPDATE gestatti.tipoatto SET consiglio=1 WHERE codice like 'INT';
+			UPDATE gestatti.tipoatto SET consiglio=1 WHERE codice like 'QT';
+			UPDATE gestatti.tipoatto SET consiglio=1 WHERE codice like 'VERB';
+			UPDATE gestatti.tipoatto SET consiglio=1 WHERE codice like 'DIC';
+    	</sql>
+    </changeSet>
+ 
+</databaseChangeLog>

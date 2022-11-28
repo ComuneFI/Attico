@@ -1,0 +1,13 @@
+<div>
+	<div class="form-group">
+		<input type="hidden" ng-init="initTitoloParere()"
+			ng-model="dtoWorkflow.parere.titolo" />
+			
+		<input type="hidden" name="parereSintetico" ng-model="dtoWorkflow.parere.parereSintetico" value="ritiro">
+	
+		<label>Attenzione!!! Si sta procedendo con l'annullamento dell'atto. Si ricorda che <b>il numero di adozione dell'atto continuera' ad essere associato ad esso e non potra' essere assegnato ad altri</b> e che, nel caso in cui siano stati espletati adempimenti contabili, <b>eventuali movimenti dovranno essere annullati dal personale di Ragioneria intervenendo direttamente sul Sistema Contabile</b></label>
+		
+		<label>MOTIVAZIONE</label> *
+		<textarea class="form-control" name="parere" ng-model="dtoWorkflow.parere.parere" required></textarea>
+	</div>
+</div>

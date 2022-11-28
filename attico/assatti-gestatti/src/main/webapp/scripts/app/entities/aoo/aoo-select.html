@@ -1,0 +1,23 @@
+ <span>
+	 <div ng-if="!widthoutDiv" class="form-group">
+	 	<label ng-if="!isUnlabeled && !notRequired || notRequired=='false'" >Ufficio *</label>
+	 	<label ng-if="!isUnlabeled && notRequired=='true'" >Ufficio</label>
+	 	<input  ng-if="!ngModel && !newEntity"  type="text"   class="form-control" name="aoo"   ng-disabled="true"  value="" />
+	 	<input  ng-if="ngModel && !newEntity"  type="text"   class="form-control" name="aoo"   ng-disabled="true"  value="{{ngModel.descrizione+' ('+ngModel.codice+') '+ngModel.stato }}" />
+	 	
+	 	
+	 	<select  ng-if="newEntity"   class="form-control" name="aoo"  ng-model="ngModel.id" ng-options="aoo.id as aoo.codice + ' - ' + aoo.descrizione for aoo in listaAoo | orderBy:'codice'"  ng-required="!notRequired || notRequired=='false'">
+	 	<option></option>
+	 	</select>
+	 </div>
+	  <span ng-if="widthoutDiv" class="form-group">
+	 	<label ng-if="!isUnlabeled && !notRequired || notRequired=='false'" >Ufficio *</label>
+	 	<label ng-if="!isUnlabeled && notRequired=='true'" >Ufficio</label>
+	 	<input  ng-if="!ngModel && !newEntity"  type="text"   class="form-control" name="aoo"   ng-disabled="true"  value="" />
+	 	<input  ng-if="ngModel && !newEntity"  type="text"   class="form-control" name="aoo"   ng-disabled="true"  value="{{ngModel.descrizione+' ('+ngModel.codice+') '+ngModel.stato }}" />
+	 	
+	 	<select  ng-if="newEntity" ng-class="{'form-control':!aooSelectInherit, 'form-control aooSelectInherit' : aooSelectInherit}" name="aoo"  ng-model="ngModel.aooInfo" ng-options="aoo as aoo.codice + ' - ' + aoo.descrizione for aoo in listaAoo | orderBy:'codice'"  ng-required="!notRequired || notRequired=='false'">
+	 	<option></option>
+	 	</select>
+	 </span>
+</span>

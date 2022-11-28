@@ -1,0 +1,81 @@
+<div class="row">
+	<div class="form-group col-sm-12">
+		<label>Num. proposta&#92;Codice Attico : </label> {{attoSel.codiceCifra}}<br>
+		<label>Oggetto : </label> {{attoSel.oggetto}}
+	</div>
+</div>
+<div class="row">
+	<div class="form-group col-sm-12">
+		<label translate="cifra2gestattiApp.pareriQuartRev.gestionePareri.listUffici">uffici</label>*
+		<ui-select ng-model="attoSel.nuovoParere" theme="bootstrap" ng-disabled="!attoSel.editCommissioniEnable" ng-change="inizializzaDataEffettivaRichiesta()">
+			<ui-select-match allow-clear="true">{{$select.selected.descrizione}}</ui-select-match>
+			<ui-select-choices repeat="item in listUfficiFiltrata | filter: $select.search track by item.id">
+				<div ng-bind-html="item.descrizione | highlight: $select.search"></div>
+			</ui-select-choices>
+		</ui-select>
+	</div>
+</div>
+<div class="row">
+	<div class="form-group col-md-4">
+		<label>Data Effettiva Richiesta*</label>
+		<div class="form-group">
+			<div class="input-group" style="position:inherit;">
+				<input type="text" size="10" ng-model="attoSel.dataInvioNew" data-date-type="date"
+					   ng-disabled="!attoSel.editCommissioniEnable" onkeydown="return false;" bs-datepicker>
+				<div class="input-group-addon" style="padding:0px !important;width:0px;"><button title="Cancella Data" ng-click="attoSel.dataInvioNew = null;" class="btn btn-xs btn-link"><span class="glyphicon glyphicon-remove"></span></button></div>
+			</div>
+		</div>
+	</div>
+	<div class="form-group col-md-4">
+		<label translate="cifra2gestattiApp.pareriQuartRev.gestionePareri.dataScadenza">Data Scadenza</label>*
+		<div class="form-group">
+			<div class="input-group" style="position:inherit;">
+				<input type="text" size="10" ng-model="attoSel.dataScadenzaNew" data-date-type="date"
+					   ng-disabled="!attoSel.editCommissioniEnable" onkeydown="return false;" bs-datepicker>
+				<div class="input-group-addon" style="padding:0px !important;width:0px;"><button title="Cancella Data" ng-click="attoSel.dataScadenzaNew = null;" class="btn btn-xs btn-link"><span class="glyphicon glyphicon-remove"></span></button></div>
+			</div>
+		</div>
+	</div>
+	<div class="form-group col-sm-4"><br/>
+		<button ng-click="aggiungiParere(attoSel.nuovoParere, attoSel.dataInvioNew, attoSel.dataScadenzaNew)" ng-disabled="!attoSel.nuovoParere || !attoSel.dataInvioNew || !attoSel.dataScadenzaNew || !attoSel.editCommissioniEnable" class="btn btn-primary btn-sm">
+           <span class="glyphicon glyphicon-pencil"></span>&nbsp;
+           <span translate="cifra2gestattiApp.pareriQuartRev.gestionePareri.aggiungi"> add</span>
+       </button>
+	</div>
+</div>
+
+
+<div class="table-responsive crud-search">
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th width="20%">Denominazione</th>
+				<th width="15%">Data Richiesta Eff.</th>
+				<th width="15%">Data Scadenza</th>
+				<th width="15%">Data Parere</th>
+				<th width="30%">Parere</th>
+				<th width="30%">Azioni</th>
+		</thead>
+		<tbody>
+			<tr ng-repeat="parere in pareri">
+				<td>{{parere.aoo.descrizione}}</td>
+				<td>{{parere.dataInvio | date:'dd-MM-yyyy'}}</td>
+				<td>{{parere.dataScadenza | date:'dd-MM-yyyy'}}</td>
+				<td>{{parere.data | date:'dd-MM-yyyy'}}</td>
+				<td>{{getParereLeggibile(parere.parereSintetico)}}</td>
+				<td>
+					<button ng-click="modificaParere(parere)" class="btn btn-primary btn-sm">
+			           <span class="glyphicon glyphicon-calendar"></span>&nbsp;<span translate="cifra2gestattiApp.pareriQuartRev.gestionePareri.modifica"> Edit</span>
+			       </button>
+					<button ng-disabled="!attoSel.editCommissioniEnable" ng-click="cancellaParere(parere)" class="btn btn-primary btn-sm">
+			           <span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span translate="cifra2gestattiApp.pareriQuartRev.gestionePareri.eliminaParere"> Delete</span>
+			       </button><br/>
+			       <button ng-disabled="!attoSel.editCommissioniEnable" ng-click="parereNonEspresso(parere)" class="btn btn-primary btn-sm">
+			           <span class="glyphicon glyphicon-play"></span>&nbsp;<span translate="cifra2gestattiApp.pareriQuartRev.gestionePareri.nonEspresso"> nonEspresso</span>
+			       </button><br/>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+

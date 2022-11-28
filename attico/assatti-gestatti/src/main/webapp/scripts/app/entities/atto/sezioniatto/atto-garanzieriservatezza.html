@@ -1,0 +1,14 @@
+<div>
+	<div class="form-group">
+		<label translate="cifra2gestattiApp.atto.garanzieRiservatezza">GaranzieRiservatezza</label>
+		<span data-toggle="tooltip"
+			title="<b>GUIDA</b><br/>Per valorizzare il campo è possibile: importare un file che contiene le informazioni sulla Garanzia di Riservatezza oppure caricare un modello predefinito e personalizzarlo oppure inserire testo libero che potrà successivamente essere conservato come modello.<br />"
+			data-html="true" ng-init="initTooltip()">
+			<i class="fa fa-question" ></i>
+		</span>
+		<summernote ng-model="atto.garanzieRiservatezza.testo"  config="summernoteOptions"></summernote>
+	</div>
+	<div class="import-formcontrol">
+		<ng-include src="'scripts/app/entities/atto/import-formcontrol.html'" ng-init="codeSezImport='garanzieRiservatezza'" ></ng-include>
+	</div>
+</div>

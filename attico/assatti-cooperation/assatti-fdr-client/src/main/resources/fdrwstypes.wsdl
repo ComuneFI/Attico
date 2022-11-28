@@ -1,0 +1,368 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:ns1="http://service.ws.fdr.linksmt.it/" name="FdrWsService" targetNamespace="http://service.ws.fdr.linksmt.it/">
+  <wsdl:types>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://service.ws.fdr.linksmt.it/" targetNamespace="http://service.ws.fdr.linksmt.it/" version="1.0">
+
+  <xs:element name="auth" nillable="true" type="xs:anyType"/>
+
+  <xs:element name="configurationResponse" type="tns:configurationResponse"/>
+
+  <xs:element name="fdrParam" type="tns:fdrParam"/>
+
+  <xs:element name="fdrWsResponse" type="tns:fdrWsResponse"/>
+
+  <xs:element name="markParam" type="tns:markParam"/>
+
+  <xs:element name="padesParam" type="tns:padesParam"/>
+
+  <xs:element name="signFiles" type="tns:signFiles"/>
+
+  <xs:element name="signPdfFiles" type="tns:signPdfFiles"/>
+
+  <xs:element name="xadesParam" type="tns:xadesParam"/>
+
+  <xs:complexType name="verificationAuth">
+    <xs:sequence>
+      <xs:element name="codiceFiscale" type="xs:string"/>
+      <xs:element minOccurs="0" name="codiceCertificato" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="fdrParam">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="file" type="xs:base64Binary"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="fdrWsResponse">
+    <xs:complexContent>
+      <xs:extension base="tns:baseResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="date" type="xs:dateTime"/>
+          <xs:element minOccurs="0" name="files" type="tns:fileElement"/>
+          <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="baseResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="listaErrori" type="tns:elencoErrori"/>
+      <xs:element minOccurs="0" name="esito" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="fileElement">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="file" type="xs:base64Binary"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="elencoErrori">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="errore" type="tns:errorResponse"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="errorResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="code" type="xs:string"/>
+      <xs:element minOccurs="0" name="description" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="supportAuth">
+    <xs:sequence>
+      <xs:element name="codiceFiscale" type="xs:string"/>
+      <xs:element minOccurs="0" name="codiceCertificato" type="xs:string"/>
+      <xs:element name="password" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="signatureAuth">
+    <xs:sequence>
+      <xs:element name="codiceFiscale" type="xs:string"/>
+      <xs:element minOccurs="0" name="codiceCertificato" type="xs:string"/>
+      <xs:element minOccurs="0" name="sessionId" type="xs:string"/>
+      <xs:element name="password" type="xs:string"/>
+      <xs:element name="otpPassword" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="markParam">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="mark" type="tns:markParamFiles"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="markParamFiles">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="file" type="xs:base64Binary"/>
+      <xs:element minOccurs="0" name="format" type="tns:markFormat"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="signFiles">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="file" type="xs:base64Binary"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="profilo">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="codiceFiscale" type="xs:string"/>
+      <xs:element minOccurs="0" name="descrizione" type="xs:string"/>
+      <xs:element minOccurs="0" name="flagUtenteAttivo" type="xs:boolean"/>
+      <xs:element minOccurs="0" name="identificativoCA" type="xs:string"/>
+      <xs:element minOccurs="0" name="identificativoCertificato" type="xs:string"/>
+      <xs:element minOccurs="0" name="username" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="configurationResponse">
+    <xs:complexContent>
+      <xs:extension base="tns:baseResponse">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="utente" type="tns:utente"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="utente">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="codiceFiscale" type="xs:string"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="profilo" type="tns:profilo"/>
+      <xs:element minOccurs="0" name="username" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="xadesParam">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="canonicalizedType" type="tns:xadesCanonicalizedType"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="transforms" nillable="true" type="tns:transform"/>
+      <xs:element minOccurs="0" name="type" type="tns:xadesType"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="transform">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="transform" type="tns:xadesTransform"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="xadesTransform">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="typeTransform" type="xs:string"/>
+      <xs:element minOccurs="0" name="value" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="signPdfFiles">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="pdf" type="tns:pdfFile"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="pdfFile">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="file" type="xs:base64Binary"/>
+      <xs:element minOccurs="0" name="password" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="padesParam">
+    <xs:sequence>
+      <xs:element name="flagVisibile" type="xs:boolean"/>
+      <xs:element minOccurs="0" name="location" type="xs:string"/>
+      <xs:element minOccurs="0" name="reason" type="xs:string"/>
+      <xs:element name="page" type="xs:int"/>
+      <xs:element name="leftx" type="xs:int"/>
+      <xs:element name="lefty" type="xs:int"/>
+      <xs:element name="rightx" type="xs:int"/>
+      <xs:element name="righty" type="xs:int"/>
+      <xs:element minOccurs="0" name="image" type="xs:base64Binary"/>
+      <xs:element minOccurs="0" name="testo" type="xs:string"/>
+      <xs:element minOccurs="0" name="padesProfile" type="tns:padesProfile"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:simpleType name="markFormat">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="TSD"/>
+      <xs:enumeration value="TSR"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="xadesCanonicalizedType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="ALGO_ID_C14N11_OMIT_COMMENTS"/>
+      <xs:enumeration value="ALGO_ID_C14N11_WITH_COMMENTS"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="xadesType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="XMLENVELOPED"/>
+      <xs:enumeration value="XMLENVELOPING"/>
+      <xs:enumeration value="XMLDETACHED_INTERNAL"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="padesProfile">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="BASIC"/>
+      <xs:enumeration value="PADESBES"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+</xs:schema>
+  </wsdl:types>
+  <wsdl:message name="padesSignature">
+    <wsdl:part name="auth" type="ns1:signatureAuth">
+    </wsdl:part>
+    <wsdl:part name="files" type="ns1:signPdfFiles">
+    </wsdl:part>
+    <wsdl:part name="padesParam" type="ns1:padesParam">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="cercaProfiliUtentiResponse">
+    <wsdl:part name="listaProfili" type="ns1:configurationResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="sendCredential">
+    <wsdl:part name="auth" type="ns1:supportAuth">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="addCadesSignature">
+    <wsdl:part name="auth" type="ns1:signatureAuth">
+    </wsdl:part>
+    <wsdl:part name="param" type="ns1:fdrParam">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="markFileResponse">
+    <wsdl:part name="signatureResponse" type="ns1:fdrWsResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="cadesSignature">
+    <wsdl:part name="auth" type="ns1:signatureAuth">
+    </wsdl:part>
+    <wsdl:part name="files" type="ns1:signFiles">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="addCadesSignatureResponse">
+    <wsdl:part name="signatureResponse" type="ns1:fdrWsResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="xadesSignatureResponse">
+    <wsdl:part name="signatureResponse" type="ns1:fdrWsResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="checkSignatureResponse">
+    <wsdl:part name="verificationResponse" type="ns1:fdrWsResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="checkMarkTimeResponse">
+    <wsdl:part name="verificationResponse" type="ns1:fdrWsResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="markFile">
+    <wsdl:part name="auth" type="ns1:signatureAuth">
+    </wsdl:part>
+    <wsdl:part name="markParam" type="ns1:markParam">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="padesSignatureResponse">
+    <wsdl:part name="signatureResponse" type="ns1:fdrWsResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="checkSignature">
+    <wsdl:part name="auth" type="ns1:verificationAuth">
+    </wsdl:part>
+    <wsdl:part name="param" type="ns1:fdrParam">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="cercaProfiliUtenti">
+    <wsdl:part name="filter" type="ns1:profilo">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="checkMarkTime">
+    <wsdl:part name="auth" type="ns1:verificationAuth">
+    </wsdl:part>
+    <wsdl:part name="param" type="ns1:fdrParam">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="xadesSignature">
+    <wsdl:part name="auth" type="ns1:signatureAuth">
+    </wsdl:part>
+    <wsdl:part name="files" type="ns1:signFiles">
+    </wsdl:part>
+    <wsdl:part name="xadesParam" type="ns1:xadesParam">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="sendCredentialResponse">
+    <wsdl:part name="baseResponse" type="ns1:baseResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="cadesSignatureResponse">
+    <wsdl:part name="signatureResponse" type="ns1:fdrWsResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="FdrWsService">
+    <wsdl:operation name="checkMarkTime">
+      <wsdl:input message="ns1:checkMarkTime" name="checkMarkTime">
+    </wsdl:input>
+      <wsdl:output message="ns1:checkMarkTimeResponse" name="checkMarkTimeResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="sendCredential">
+      <wsdl:input message="ns1:sendCredential" name="sendCredential">
+    </wsdl:input>
+      <wsdl:output message="ns1:sendCredentialResponse" name="sendCredentialResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="markFile">
+      <wsdl:input message="ns1:markFile" name="markFile">
+    </wsdl:input>
+      <wsdl:output message="ns1:markFileResponse" name="markFileResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="cadesSignature">
+      <wsdl:input message="ns1:cadesSignature" name="cadesSignature">
+    </wsdl:input>
+      <wsdl:output message="ns1:cadesSignatureResponse" name="cadesSignatureResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="addCadesSignature">
+      <wsdl:input message="ns1:addCadesSignature" name="addCadesSignature">
+    </wsdl:input>
+      <wsdl:output message="ns1:addCadesSignatureResponse" name="addCadesSignatureResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="cercaProfiliUtenti">
+      <wsdl:input message="ns1:cercaProfiliUtenti" name="cercaProfiliUtenti">
+    </wsdl:input>
+      <wsdl:output message="ns1:cercaProfiliUtentiResponse" name="cercaProfiliUtentiResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="checkSignature">
+      <wsdl:input message="ns1:checkSignature" name="checkSignature">
+    </wsdl:input>
+      <wsdl:output message="ns1:checkSignatureResponse" name="checkSignatureResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="xadesSignature">
+      <wsdl:input message="ns1:xadesSignature" name="xadesSignature">
+    </wsdl:input>
+      <wsdl:output message="ns1:xadesSignatureResponse" name="xadesSignatureResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="padesSignature">
+      <wsdl:input message="ns1:padesSignature" name="padesSignature">
+    </wsdl:input>
+      <wsdl:output message="ns1:padesSignatureResponse" name="padesSignatureResponse">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+</wsdl:definitions>

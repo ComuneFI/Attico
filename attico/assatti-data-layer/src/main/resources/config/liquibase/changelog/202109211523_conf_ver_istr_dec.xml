@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    <changeSet author="mazzottada" id="202109211523-00001">
+    	<sql>
+    		INSERT INTO configurazione_task (nome, codice, id_tipo_configurazione_task, obbligatoria, multipla, proponente, ufficio_corrente, data_creazione, data_modifica, imposta_scadenza, scadenza_obbligatoria, data_manuale, uffici_livello_superiore, stessa_direzione_proponente) 
+    		VALUES
+    		('Visto Responsabile Istruttoria', 'DEC_VISTO_RESPONSABILE_ISTRUTTORIA_1', 
+    		(select id_tipo_configurazione_task from tipo_configurazione_task where nome = 'PROFILO')
+    		, 0, 0, 0, 0, now(), now(), 0, NULL, NULL, NULL, b'0');
+		</sql>
+    </changeSet>
+    <changeSet author="mazzottada" id="202109211523-00002">
+    	<sql>
+    		INSERT INTO tipodocumento (descrizione,codice,riversamento_tipoatto,dms_content_type,specifica_filename,`type`) VALUES
+			('Proposta Decreto','PROPOSTA_DECRETO',0,'atc:DecretoType',NULL,'PROPOSTA');
+		</sql>
+    </changeSet>
+    <changeSet author="mazzottada" id="202109211523-00003b">
+    	<sql>
+    		INSERT INTO modellohtml (titolo,html,page_orientation,tipodocumento_id) VALUES
+			(
+			'PROPOSTA DECRETO',
+			(select a.html from (select html from modellohtml where titolo = 'DECRETO' limit 1) a),
+			(select a.page_orientation from (select page_orientation from modellohtml where titolo = 'DECRETO' limit 1) a),
+			(SELECT id from tipodocumento where codice = 'PROPOSTA_DECRETO')
+			);
+		</sql>
+    </changeSet>
+    <changeSet author="mazzottada" id="202109211523-00004">
+    	<sql>
+    		INSERT INTO tipodocumentoserie (descrizione,codice,enable) VALUES
+	 		('PROPOSTE DI DECRETO','PROPOSTE_DECRETO',1);
+		</sql>
+    </changeSet>
+    <changeSet author="mazzottada" id="202109211523-00005">
+    	<sql>
+    		INSERT INTO configurazione_riversamento (tipodocumentoserie_id,validodal,validoal,tipodocumento_id,only_pubblicabili,aoo_id,tipoatto_id) VALUES
+			(
+			(select id from tipodocumentoserie where codice = 'PROPOSTE_DECRETO')
+			,now(),NULL,
+			(SELECT id from tipodocumento where codice = 'PROPOSTA_DECRETO')
+			,NULL,0,NULL
+			);
+		</sql>
+    </changeSet>
+</databaseChangeLog>

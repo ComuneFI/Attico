@@ -1,0 +1,17 @@
+{
+    "cifra2gestattiApp": {
+        "sistemaAccreditato" : {
+            "home": {
+                "title": "Sistemi Accreditati Per l'Uso dei WebServices",
+                "createLabel": "Aggiungi un sistema",
+                "createOrEditLabel": "Aggiungi o Modifica un Sistema Accreditato"
+            },
+            "detail": {
+                "title": "Sistema Accreditato"
+            },
+            "codice": "Codice",
+            "descrizione": "Descrizione",
+            "enabled": "Abilitato"
+        }
+    }
+}

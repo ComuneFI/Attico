@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    <changeSet author="mazzottada" id="202001211522-1">
+    	<sql>
+			CREATE TABLE campo (
+			  id bigint(20) NOT NULL AUTO_INCREMENT,
+			  descrizione varchar(255) DEFAULT NULL,
+			  codice varchar(255) DEFAULT NULL,
+			  PRIMARY KEY (id)
+			);
+			
+			CREATE TABLE campo_tipoatto (
+			  tipoatto_id bigint(20) NOT NULL,
+			  campo_id bigint(20) NOT NULL,
+			  visibile bit(1) DEFAULT NULL,
+			  PRIMARY KEY (tipoatto_id,campo_id),
+			  KEY fk_campo_tipoatto_campo_id (campo_id),
+			  CONSTRAINT fk_campo_tipoatto_campo_id FOREIGN KEY (campo_id) REFERENCES campo (id) ON DELETE NO ACTION ON UPDATE NO ACTION,
+			  CONSTRAINT fk_campo_tipoatto_tipoatto_id FOREIGN KEY (tipoatto_id) REFERENCES tipoatto (id) ON DELETE NO ACTION ON UPDATE NO ACTION
+			);
+			
+			INSERT INTO campo(descrizione, codice) VALUES('Immediata eseguibilita', 'ie');
+			INSERT INTO campo_tipoatto(tipoatto_id, campo_id, visibile) select tipoatto.id, campo.id, false from tipoatto left outer join campo on campo.id = campo.id where tipoatto.id not in(select id from tipoatto where codice = 'DG');
+			INSERT INTO campo_tipoatto(tipoatto_id, campo_id, visibile) select tipoatto.id, campo.id, true from tipoatto left outer join campo on campo.id = campo.id where tipoatto.id in(select id from tipoatto where codice = 'DG');
+    	</sql>
+    </changeSet>
+    <changeSet author="mazzottada" id="202001211522-2">
+    	<sql>
+			ALTER TABLE atto ADD ie tinyint(4) NULL;
+    	</sql>
+    </changeSet>
+</databaseChangeLog>

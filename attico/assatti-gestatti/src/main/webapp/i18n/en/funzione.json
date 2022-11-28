@@ -1,0 +1,19 @@
+{
+    "cifra2gestattiApp": {
+        "funzione" : {
+            "home": {
+                "title": "Funziones",
+                "createLabel": "Create a new Funzione",
+                "createOrEditLabel": "Create or edit a Funzione"
+            },
+            "delete": {
+                "question": "Are you sure you want to delete Funzione {{ id }}?"
+            },
+            "detail": {
+                "title": "Funzione"
+            },
+            "codice": "Codice",
+            "nome": "Nome"
+        }
+    }
+}

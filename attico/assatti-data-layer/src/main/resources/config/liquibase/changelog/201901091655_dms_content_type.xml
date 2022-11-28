@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    
+    <changeSet author="chiriacog" id="201901091655-1">
+    	<sql>
+    		UPDATE `tipodocumento` SET `dms_content_type`='atc:AllegatoType' WHERE `id`='69';
+    		
+			UPDATE `tipodocumento` SET `dms_content_type`='atc:AttoType' WHERE `id`='92';
+			UPDATE `tipodocumento` SET `dms_content_type`='atc:AttoType' WHERE `id`='93';
+			UPDATE `tipodocumento` SET `dms_content_type`='atc:AttoType' WHERE `id`='94';
+			UPDATE `tipodocumento` SET `dms_content_type`='atc:AttoType' WHERE `id`='95';
+			UPDATE `tipodocumento` SET `dms_content_type`='atc:AttoType' WHERE `id`='96';
+			UPDATE `tipodocumento` SET `dms_content_type`='atc:AttoType' WHERE `id`='100';
+			UPDATE `tipodocumento` SET `dms_content_type`='atc:AttoType' WHERE `id`='101';
+			UPDATE `tipodocumento` SET `dms_content_type`='atc:AttoType' WHERE `id`='102';
+    	</sql>
+    </changeSet>
+</databaseChangeLog>

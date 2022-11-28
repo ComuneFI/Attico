@@ -1,0 +1,164 @@
+<div class="col-xs-12" id="ricercaLibera">
+<h2>Ricerca libera</h2>
+	<form name="formLibera" ng-model="formLibera">
+	<hr>
+	<div class="row">
+		<div class="col-xs-3" >
+			<div class="row">
+				<div class="col-xs-12">
+					<div class="form-group">
+						<label translate="cifra2gestattiApp.atto.ricerca.colonne">Colonne</label>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="form-group">
+					<div  class="form-inline" ng-show="!$first">
+						<div class="form-group" >
+							<select id="listaCampi" style="font-family: arial; width:100%; font-weight: normal;" class="form-control" name="colonneRicerca" 
+								ng-model="colonnericerca" 
+								multiple
+								ng-options="campo as campo.descrizione for campo in campi track by campo.id" required>
+							</select>
+							&nbsp;&nbsp;&nbsp;
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="col-xs-9" style="border-left: 1px solid #ccc;">
+			<div class="row">
+				<div class="col-xs-3">
+					<div class="form-group">
+						<label translate="cifra2gestattiApp.atto.ricerca.criteriricerca">Criteri di ricerca</label>
+					</div>
+				</div>
+				<div class="col-xs-3">
+					<div class="form-group">
+						<button  type="button" class="btn btn-default" ng-click="addCriterio()"  ><i class="fa fa-user-plus"></i> Aggiungi criterio</button>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<ol class="list-group" ng-model="criteri" data-type="criterio" style="list-style: none;">
+		
+					<li  ng-repeat="criterio  in criteri" >
+		
+						<div class="tree-node tree-node-content row"  >
+		
+							<div  class="form-inline" ng-show="!$first">
+								<div class="form-group" style="margin-left: 45%;margin-bottom: 10px;">
+									<label translate="cifra2gestattiApp.atto.ricerca.relazione">Relazione</label> &nbsp;
+									<select style="font-family: arial; font-weight: normal;" class="form-control" name="relazioneRicerca" 
+										ng-model="criterio.relazioneAltroCampo" 
+		
+										ng-options="relazione as relazione.descrizione for relazione in relazioni track by relazione.id" >
+									</select>
+									&nbsp;&nbsp;&nbsp;
+								</div>
+							</div>
+							<div  class="form-inline" >
+		
+								<div class="form-group">
+									<label translate="cifra2gestattiApp.atto.ricerca.campo">Campo</label> &nbsp;
+									<select style="font-family: arial; font-weight: normal;" class="form-control" name="campoRicerca" 
+										ng-model="criterio.campo" 
+										required
+										ng-options="campo as campo.descrizione for campo in campiCriteria track by campo.id" required>
+									</select>
+									&nbsp;&nbsp;&nbsp;
+								</div>
+								<div class="form-group">
+									<label translate="cifra2gestattiApp.atto.ricerca.operatore">Operatore</label> &nbsp;
+									<select style="font-family: arial; font-weight: normal;" class="form-control" name="operatoreRicerca" 
+										ng-model="criterio.condizione" 
+										required
+										ng-options="operatore as operatore.descrizione for operatore in operatori track by operatore.id" required>
+									</select>
+									&nbsp;&nbsp;&nbsp;
+								</div>
+		
+								<div class="form-group">
+									<label translate="cifra2gestattiApp.atto.ricerca.valore">Valore</label> &nbsp;
+									<input ng-if="!isCampoData(criterio.campo)" type="text" class="form-control" name="valore" placeholder="Valore"  ng-model="criterio.valore" required>
+									<input ng-if="isCampoData(criterio.campo)" type="text" class="form-control" name="valore" placeholder="Valore"  ng-model="criterio.valore" bs-datepicker required>		
+								</div>
+							
+								<div class="pull-right form-group">
+									<button type="button" class="btn btn-danger btn-sm" ng-click="deleteCriterio($index)" 
+									data-type="success"  data-title="Elimina criterio" bs-tooltip > <i class="fa fa-minus"></i></button>
+								</div>
+		
+							</div>	
+						</div>
+					</li>
+				</ol>
+			</div>
+		</div>
+		<div class="col-xs-12" style="text-align: center;margin-bottom: 10px;">
+			<div  class="form-inline" >
+				
+				<div class="form-group">
+					<label translate="cifra2gestattiApp.atto.ricerca.ordinaper">Ordina per</label> &nbsp;
+					<select style="font-family: arial; font-weight: normal;" class="form-control" name="ordinamento" 
+						ng-model="criteria.ordinamento" 
+						ng-options="campo as campo.descrizione for campo in campi track by campo.id" required>
+					</select>
+				</div>
+				<div class="form-group">
+					<select style="font-family: arial; font-weight: normal;" class="form-control" name="tipoOrdinamento" 
+						ng-model="criteria.tipoOrdinamento" 
+						ng-options="ordina as ordina.descrizione for ordina in ordinamenti track by ordina.id" required>
+					</select>
+				</div>
+			</div>
+		
+		</div>
+		<div class="col-xs-12" style="text-align: center">
+			<button class="btn btn-primary btn-sm" ng-click="ricerca()" ng-disabled="formLibera.$invalid || criteri.length == 0"><span class="glyphicon glyphicon-search"/> <span translate="global.messages.cerca">Ricerca</span></button>
+			<button class="btn btn-primary btn-sm" ng-click="resetRicerca()" ><span translate="global.messages.resetricerca">Reset</span></button>
+		</div>
+	</div>
+	</form>
+	
+	<hr>
+
+	<div>
+		<div class="table-responsive">
+			<table class="table table-striped">
+		       	<thead>
+		       		<tr>
+		       			<th ng-repeat="colonna in colonnericerca">{{colonna.descrizione}}</th>	
+		       			<th></th>
+		       		</tr>
+		       	</thead>
+		       	<tbody>
+		       		<tr ng-repeat="atto in attos">
+		       			<td ng-repeat="colonna in colonnericerca">{{atto | getAttoValue:colonna.id}}</td>
+		       			<td>
+		                        <button type="submit"
+		                        ui-sref="attoDetail({id:atto.id})"
+		                        class="btn btn-info btn-sm">
+		                        <span class="glyphicon glyphicon-eye-open"></span>&nbsp;<span translate="entity.action.view"> View</span>
+		                    </button>
+		                </td>
+		       		</tr>
+		       	</tbody>
+		    </table>
+		</div>
+	    <nav>
+	        <ul class="pagination">
+	            <li ng-show="links['first']" ng-click="loadPage(links['first'])"><a>&lt;&lt;</a></li>
+	            <li ng-show="links['prev']" ng-click="loadPage(links['prev'])"><a>&lt;</a></li>
+	            <li ng-show="page > 2" ng-click="loadPage(page - 2)"><a>{{page - 2}}</a></li>
+	            <li ng-show="page > 1" ng-click="loadPage(page - 1)"><a>{{page - 1}}</a></li>
+	            <li class="active"><a>{{page}}</a></li>
+	            <li ng-show="page < links['last']" ng-click="loadPage(page + 1)"><a>{{page + 1}}</a></li>
+	            <li ng-show="page < links['last'] - 1" ng-click="loadPage(page + 2)"><a>{{page + 2}}</a></li>
+	            <li ng-show="links['next']" ng-click="loadPage(links['next'])"><a>&gt;</a></li>
+	            <li ng-show="links['last']" ng-click="loadPage(links['last'])"><a>&gt;&gt;</a></li>
+	        </ul>
+	    </nav>
+	</div>
+</div>

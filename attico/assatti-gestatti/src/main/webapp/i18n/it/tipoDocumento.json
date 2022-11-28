@@ -1,0 +1,22 @@
+{
+    "cifra2gestattiApp": {
+        "tipoDocumento" : {
+            "home": {
+                "title": "Tipi di Documento",
+                "createLabel": "Crea un nuovo Tipo di Documento",
+                "createOrEditLabel": "Crea o modifica un Tipo di Documento"
+            },
+            "delete": {
+                "question": "Sei sicuro di voler cancellare il Tipo di Documento con ID {{ id }}?"
+            },
+            "detail": {
+                "title": "Tipo di Documento"
+            },
+            "descrizione": "Descrizione",
+            "codice":"Codice",
+            "dmsContentType": "Content Type Sistema Documentale",
+            "codiceTooltip":"Si tratta di un codice utilizzato in Cifra come identificativo univoco del Tipo di Documento",
+            "alreadyExists":"Attenzione, il codice del Tipo Documento deve essere univoco. Risulta un altro Tipo Documento con lo stesso codice inserito."
+        }
+    }
+}

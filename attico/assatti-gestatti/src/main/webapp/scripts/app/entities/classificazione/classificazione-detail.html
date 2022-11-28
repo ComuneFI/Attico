@@ -1,0 +1,84 @@
+
+<div>
+    <h2><span translate="cifra2gestattiApp.classificazione.detail.title">Classificazione</span> {{classificazione.id}}</h2>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th translate="entity.detail.field">Field</th>
+                    <th translate="entity.detail.value">Value</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <span">Id Documentale Titolario</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{classificazione.idTitolario}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span>Id Documentale Voce Titolario</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{classificazione.idVoceTitolario}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span>Voce Titolario</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{classificazione.voceTitolarioCodice + ' - ' + classificazione.voceTitolarioDescrizione}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.classificazione.aoo">aoo</span>
+                    </td>
+                    <td ng-if="classificazione.aoo">
+                        <input type="text" class="input-sm form-control" value="{{classificazione.aoo.descrizione}}" readonly>
+                    </td>
+                    <td ng-if="!classificazione.aoo">
+                        <input type="text" class="input-sm form-control" value="Tutte le Aoo" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.classificazione.tipoDocumentoSerie">tipoDocumentoSerie</span>
+                    </td>
+                    <td ng-if="classificazione.tipoDocumentoSerie">
+                        <input type="text" class="input-sm form-control" value="{{classificazione.tipoDocumentoSerie.descrizione}}" readonly>
+                    </td>
+                    <td ng-if="!classificazione.tipoDocumentoSerie">
+                        <input type="text" class="input-sm form-control" value="Tutti i tipi di DocumentoSerie" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.classificazione.validoDal">ValidoDal</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{classificazione.validoDal | date:'dd-MM-yyyy'}}" ng-disabled="true">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.classificazione.validoAl">ValidoAl</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{classificazione.validoAl | date:'dd-MM-yyyy'}}" ng-disabled="true">
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <button type="submit"
+            ui-sref="classificazione"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span translate="entity.action.back"> Back</span>
+    </button>
+</div>

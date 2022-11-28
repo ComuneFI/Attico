@@ -1,0 +1,66 @@
+<div>
+	<div ng-if="isOperatoreOdg && sedutaGiunta.organo == 'G'">
+		<div class="form-group">
+				<a target="_blank" href="/api/sedutaGiuntas/generareport/{{profiloattivo.id}}/{{sedutaGiunta.id}}/{{nomeFile(sedutaGiunta)}}?access_token={{access_token}}" class="btn btn-xs btn-success" style="color:white;">
+				    <span class="glyphicon glyphicon-save"></span>&nbsp;<span  >Esporta ODG in Excel</span>
+				</a>
+		</div>
+	</div>
+	<div ng-if="isOperatoreOdg && sedutaGiunta.organo == 'C'">
+		<div class="form-group">
+				<a target="_blank" href="/api/sedutaGiuntas/generareport/{{profiloattivo.id}}/{{sedutaGiunta.id}}/{{nomeFile(sedutaGiunta)}}?access_token={{access_token}}" class="btn btn-xs btn-success" style="color:white;">
+				    <span class="glyphicon glyphicon-save"></span>&nbsp;<span  >Esporta ODL in Excel</span>
+				</a>
+		</div>
+	</div>
+	<div ng-repeat="odg in sedutaGiunta.odgs">
+			<div ng-if="odg.documentiPdf != null && odg.documentiPdf.length > 0" class="list-group">
+				<h3>Documenti {{odgStr}} {{odg.tipoOdg.descrizione}} <!-- n.  {{(odg.tipoOdg.id == 3 || odg.tipoOdg.id == 4) ? odg.progressivoOdgSeduta : odg.numeroOdg}}  -->  </h3>
+
+				<a ng-repeat="docPdf in odg.documentiPdf" class="list-group-item padding"  target="_blank" href="api/attos/{{odg.id}}/documento/{{docPdf.id}}?access_token={{access_token}}"  >
+			                
+	               <i  class="fa fa-file-pdf-o"></i>
+	             
+	                 {{docPdf.file.nomeFile}}   
+				 
+					 
+	    			<span class="label label-default pull-right">({{odg.documentiPdf.length -$index}})</span>
+					<span class="label label-info pull-right">({{docPdf.createdBy}} - {{docPdf.createdDate | date:'medium'}})</span>
+	     
+	                <span class="label label-warning pull-right"  ng-if="docPdf.firmato" ><i   class="fa fa-shield"></i> Firmato digitalmente da {{docPdf.firmatario}}</span>
+			 		<span class="label label-success pull-right"  ng-if="docPdf.numeroProtocollo != null && docPdf.numeroProtocollo != ''" ><i   class="fa fa-shield"></i> Protocollato con n. {{docPdf.numeroProtocollo}}</span>
+			 	</a>
+			</div>	
+		</div>	
+		
+		<div ng-if="sedutaGiunta.resoconto != null && sedutaGiunta.resoconto.length > 0">
+			<h3>Documenti Resoconto</h3>
+			<div ng-repeat="resoconto in sedutaGiunta.resoconto">
+				<div ng-if="resoconto.documentiPdf != null && resoconto.documentiPdf.length > 0" class="list-group">
+					<a ng-repeat="docPdf in resoconto.documentiPdf" class="list-group-item padding"  target="_blank" href="api/attos/{{resoconto.id}}/documento/{{docPdf.id}}?access_token={{access_token}}"  >
+				    	<i  class="fa fa-file-pdf-o"></i>
+				        {{docPdf.file.nomeFile}}   
+						<span class="label label-info pull-right">({{docPdf.createdBy}} - {{docPdf.createdDate | date:'medium'}})</span>
+				        <span class="label label-warning pull-right"  ng-if="docPdf.firmato" ><i class="fa fa-shield"></i> Firmato digitalmente da {{docPdf.firmatario}}</span>
+				        <span class="label label-success pull-right"  ng-if="docPdf.numeroProtocollo != null && docPdf.numeroProtocollo != ''" ><i   class="fa fa-shield"></i> Protocollato con n. {{docPdf.numeroProtocollo}}</span>
+				    </a>
+				</div>	
+			</div>
+		</div>
+		
+</div>
+
+<div ng-if="isAbilitatoVisDocsVerbale()" class="list-group">
+	<h3>Documenti Verbale </h3>
+
+	<a ng-repeat="docPdf in sedutaGiunta.verbale.documentiPdf" class="list-group-item padding"  target="_blank" href="api/verbales/{{sedutaGiunta.verbale.id}}/documento/{{docPdf.id}}?access_token={{access_token}}"  >
+		<i  class="fa fa-file-pdf-o"></i>
+         
+        {{docPdf.file.nomeFile}}   
+	 
+		<span class="label label-default pull-right">({{sedutaGiunta.verbale.documentiPdf.length -$index}})</span>
+		<span class="label label-info pull-right">({{docPdf.createdBy}} - {{docPdf.createdDate | date:'medium'}})</span>
+		<span class="label label-warning pull-right"  ng-if="docPdf.firmato" ><i   class="fa fa-shield"></i> Firmato digitalmente da {{docPdf.firmatario}}</span>
+		<span class="label label-success pull-right"  ng-if="docPdf.numeroProtocollo != null && docPdf.numeroProtocollo != ''" ><i   class="fa fa-shield"></i> Protocollato con n. {{docPdf.numeroProtocollo}}</span>
+	</a>
+</div>	

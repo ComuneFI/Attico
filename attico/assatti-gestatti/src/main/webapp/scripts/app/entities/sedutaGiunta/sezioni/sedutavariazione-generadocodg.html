@@ -1,0 +1,25 @@
+<div>
+	<div class="form-group">
+		<h4 style="font-weight: bold;">	
+			Questa operazione consentir&agrave; di generare il documento per la firma, sei sicuro che i dati inseriti siano definitivi?
+		</h4>
+	</div>
+	<div class="form-group">
+		<label  >Modello documento</label>
+   			<select class="form-control" name="modelloHtmlId" ng-model="dtoWorkflow.campi['modelloHtmlId']" ng-options="modello.titolo for modello in modelloHtmlsOdg track by modello.id" required>
+		</select>				
+	</div>
+	<!--<div class="form-group">
+		<label translate="cifra2gestattiApp.sedutaGiunta.sottoscrittoreVariaz">Sottoscrittore Doc Variazione</label>
+		<ui-select ng-model="sedutaGiunta.sottoscrittoreDocVariazione" theme="bootstrap" title="Ricerca sottoscrittore..." required>
+			<ui-select-match placeholder="Cerca profili..">{{$select.selected.descrizione}} - {{$select.selected.utente.cognome}} {{$select.selected.utente.nome}}</ui-select-match>
+          		<ui-select-choices repeat="profilo in profilosSottoscrittoriOdg | filter: $select.search">
+				<div ng-bind-html="profilo.descrizione | highlight: $select.search"></div>
+				<small>
+                     Ufficio: <span ng-bind-html="profilo.aoo.descrizione| highlight: $select.search"  ></span>
+                     Utente: <span ng-bind-html="profilo.utente.cognome +' '+ profilo.utente.nome| highlight: $select.search"  ></span>
+				</small>
+			</ui-select-choices>
+		</ui-select>
+	</div> -->
+</div>

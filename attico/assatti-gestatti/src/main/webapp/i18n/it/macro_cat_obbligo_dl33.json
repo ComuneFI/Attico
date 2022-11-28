@@ -1,0 +1,30 @@
+{
+    "cifra2gestattiApp": {
+        "macro_cat_obbligo_dl33" : {
+        	"guida":{
+               "codice":"Il campo Codice della MacroCategoria deve essere valorizzato in modo conforme a quanto indicato nell'Elenco degli obblighi di pubblicazione - D. Lgs. N. 97 del 25/05/2016."
+            },
+            "home": {
+                "title": "Macro Categoria ObbligoDL33",
+                "createLabel": "Crea una nuova Macro Categoria ObbligoDL33",
+                "createOrEditLabel": "Crea o modifica una Macro Categoria ObbligoDL33"
+            },
+            "delete": {
+                "question": "Sei sicuro di voler cancellare la Macro Categoria ObbligoDL33 con ID {{ id }}?"
+            },
+            "detail": {
+                "title": "Macro Categoria ObbligoDL33"
+            },
+            "codice": "Codice",
+            "descrizione": "Descrizione",
+            "attiva": "Attiva",
+            "disabilitazioneAlertText":"Attenzione! Disabilitando la Macro Categoria '{{nome}}' non saranno pi\u00F9 fruibili le seguenti Categorie ed Obblighi ad essa collegati.<br/><br/>Categorie:<br/>{{categorie}}<br/><br/>Obblighi:<br/>{{obblighi}}",
+            "alreadyExists":"Attenzione! Risulta gi\u00E0 presente una Macro Categoria ObbligoDL333 con il codice inserito.",
+            "messages": {
+	            "error": {
+	                "operationNotPermitted": "Non \u00E8 possibile effettuare l\u0027operazione in quanto l\u0027elemento \u00E8 incluso in uno o pi\u00F9 atti."
+	            }
+	        }
+        }
+    }
+}

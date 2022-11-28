@@ -1,0 +1,49 @@
+<div id="pubblicazioneFormFields">
+	<div>
+		<br>
+		<div class="form-group ">
+			<label>Pubblicazione</label>
+			<span data-toggle="tooltip"
+				title="<b>GUIDA</b><br/>Il sistema provvede, in automatico, ad effettuare la sua pubblicazione. In questa sezione &egrave; possibile specificare la durata della pubblicazione dell'Atto."
+				data-html="true" ng-init="initTooltip()">
+				<i class="fa fa-question" ></i>
+			</span>
+		</div>
+		<div ng-if="!isVisibleRiferimentinormativi()" class="form-group ">
+			<label translate="cifra2gestattiApp.atto.riservato">Riservato</label>
+			<span ng-if="showErrAllPubblicabile" style="color: red;">Controllare la
+				sezione degli allegati in quanto sono stati inseriti allegati pubblicabili nonostante l'atto sia riservato.</span>
+			<span data-toggle="tooltip"
+				title="<b>GUIDA</b><br/>Impostare a <strong>Si</strong> se l'Atto non deve essere pubblicato con i documenti.<br>Impostare a <strong>No</strong> se l'Atto è da pubblicare con i documenti.<br />"
+				data-html="true" ng-init="initTooltip()">
+				<i class="fa fa-question" ></i>
+			</span>
+			<select ng-model="atto.riservato" class="form-control" required
+				ng-change="setCampiObbligatoriSez2()"
+				ng-options="item.valore as item.label for item in [{valore:true,label:'SI'},{valore:false,label:'NO'}]">
+			</select>
+		</div>
+		<div ng-if="!isVisibleRiferimentinormativi()" class="form-group">
+			<label translate="cifra2gestattiApp.atto.pubblicazioneIntegrale">PubblicazioneIntegrale</label>
+			<span data-toggle="tooltip"
+				title="<b>GUIDA</b><br/>Impostare a <strong>Si</strong> se l'Atto deve essere pubblicato integralmente.<br>Impostare a <strong>No</strong> se l'Atto deve essere pubblicato nella versione con omissis.<br />"
+				data-html="true" ng-init="initTooltip()">
+				<i class="fa fa-question" ></i>
+			</span>
+			
+			<select ng-model="atto.pubblicazioneIntegrale" class="form-control pubblicazioneIntegrale"
+				ng-required="!atto.riservato"
+				ng-disabled="((!taskBpm || !taskBpm.idAssegnatario) && (!scenariDisabilitazione || scenariDisabilitazione.indexOf('PostPubblicazioneTrasparenza') < 0)) || (atto.riservato == true) || (scenariDisabilitazione && (scenariDisabilitazione && (scenariDisabilitazione.indexOf('DatiPubblicazioneModificabili') > -1 || scenariDisabilitazione.indexOf('PostPubblicazioneTrasparenza') > -1)) && (!atto.documentiPdfAdozioneOmissis || atto.documentiPdfAdozioneOmissis.length < 1))"
+				ng-options="item.valore as item.label for item in [{valore:true,label:'SI'},{valore:false,label:'NO'}]"
+				ng-change="verificaAllegatiRiservato()">
+			</select>
+			<!-- <input ng-if="atto.riservato == false" type="text" ng-model="atto.pubblicazioneIntegrale" value="null"  class="form-control"  disabled/> -->
+		</div>
+
+		<div class="form-group" ng-if="atto.id > 0">
+			<label translate="cifra2gestattiApp.atto.dataPubblicazioneTrasparenza">DataPubblicazioneTrasparenza</label>
+			<input  type="text" class="form-control everActive" name="dataPubblicazioneTrasparenza"
+			value="{{atto.dataPubblicazioneTrasparenza | date:'dd-MM-yyyy'}}" ng-disabled="true">
+		</div>
+	</div>
+</div>

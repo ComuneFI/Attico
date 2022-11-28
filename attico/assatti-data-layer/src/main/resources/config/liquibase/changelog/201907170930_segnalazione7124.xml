@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    
+    <changeSet author="magria" id="201907170930-1">
+    	<sql>
+			INSERT INTO tipoevento (descrizione,codice,categoriaEvento_id) VALUES ('Proposta Inviata a Contabile Proponente','PROPOSTA_INVIATA_A_CONTABILE_PROPONENTE',1) ;
+			INSERT INTO ruolo (codice,descrizione,enabled) VALUES ('ROLE_ISTRUTTORE_CONTABILE_PROPONENTE','Istruttore Contabile Proponente',1) ;
+		</sql>
+    </changeSet>  
+</databaseChangeLog>

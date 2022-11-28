@@ -1,0 +1,75 @@
+<p><br></p>
+<p><br></p>
+<p><br></p>
+
+
+<div style="margin-top:20px; margin-left:5px; text-align: left;">		<div style="font-family: Helvetica; font-size: 28px; line-height: 28px; text-align: justify;">	<b style="font-size: 16px; line-height: 24px;">OGGETTO:</b><span style="font-size: 16px;"> Annullamento Seduta della Giunta Regionale</span><br></div>
+
+
+
+
+</div>
+
+
+
+
+<p><br></p>
+
+
+
+
+<div style="font-family: Helvetica; font-size: 16px; line-height: 28px; text-align: justify;">	La Giunta Regionale già convocata in seduta <span th:if="${sedutaGiunta.tipoSeduta == 2}">straordinaria</span><span th:if="${sedutaGiunta.tipoSeduta != 2}">ordinaria</span>&nbsp; per il giorno &nbsp; <span th:if="${sedutaGiunta.secondaConvocazioneInizio != null}">[[${sedutaGiunta.secondaConvocazioneInizio.toString("dd/MM/yyyy")}]]</span><span th:if="${sedutaGiunta.primaConvocazioneInizio != null && sedutaGiunta.secondaConvocazioneInizio == null}">[[${sedutaGiunta.primaConvocazioneInizio.toString("dd/MM/yyyy")}]]</span>	alle ore <span th:if="${sedutaGiunta.secondaConvocazioneInizio != null}">[[${sedutaGiunta.secondaConvocazioneInizio.toString("HH:mm")}]]</span><span th:if="${sedutaGiunta.primaConvocazioneInizio != null && sedutaGiunta.secondaConvocazioneInizio == null}">[[${sedutaGiunta.primaConvocazioneInizio.toString("HH:mm")}]]</span>, è annullata.</div>
+
+
+
+
+<p><br><span style="font-size: 16px;">Data: [[${#dates.format(#dates.createNow(), 'dd/MM/yyyy')}]]</span></p>
+
+
+
+
+<br><br><p>&nbsp;</p>
+
+
+
+
+<table style="page-break-inside:avoid;" width="100%">
+
+
+
+
+	<tbody>
+
+
+
+
+		<tr>
+
+			<td style="font-family: Helvetica; font-size: 12px; line-height: 18px; padding: 5px;" width="50%" valign="top">
+			</td>
+
+			<td style="font-family: Helvetica; font-size: 12px; line-height: 18px; padding: 5px;" align="center" width="50%" valign="top">
+							<p th:if="${sedutaGiunta.sottoscrittoreDocAnnullamento!=null &amp;&amp; sedutaGiunta.sottoscrittoreDocAnnullamento.descrizione != null}">[[${sedutaGiunta.sottoscrittoreDocAnnullamento.descrizione}]]<br></p>
+							<br><p>__________________________________</p>
+							<p>
+							<span th:if="${sedutaGiunta.sottoscrittoreDocAnnullamento!=null && sedutaGiunta.sottoscrittoreDocAnnullamento.utente!=null && sedutaGiunta.sottoscrittoreDocAnnullamento.utente.nome != null}">([[${sedutaGiunta.sottoscrittoreDocAnnullamento.utente.nome}]] [[${sedutaGiunta.sottoscrittoreDocAnnullamento.utente.cognome}]])</span>
+							</p>
+			</td>
+
+
+		</tr>
+
+
+
+
+	</tbody>
+
+
+
+
+</table>
+
+
+
+
+<br><br>      <p style="text-align: justify;" valign="bottom"><span style="font-size: 12px;">Documento informatico firmato digitalmente ai sensi del Testo Unico D.P.R. 28 dicembre 2000, n. 445 e del D.Lgs 7 marzo 2005, n. 82 e norme collegate che sostituisce il testo cartaceo e la firma autografa.</span></p>

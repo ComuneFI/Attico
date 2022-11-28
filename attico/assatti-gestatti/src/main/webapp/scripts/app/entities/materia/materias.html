@@ -1,0 +1,153 @@
+<div>
+
+    <h2 translate="cifra2gestattiApp.materia.home.title">Materia</h2>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <button class="btn btn-primary" data-toggle="modal" data-target="#saveMateriaModal" ng-click="clear()">
+                    <span class="glyphicon glyphicon-flash"></span> <span translate="cifra2gestattiApp.materia.home.createLabel">Create a new Materia</span>
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal fade" id="operationNotPermitted">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                   <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                           ng-click="clear()">&times;</button>
+                   <h4 class="modal-title" translate="entity.modify.notPermitted">Operation not permitted</h4>
+               </div>
+               <div class="modal-body">
+                   <p translate="cifra2gestattiApp.materia.messages.error.operationNotPermitted">Operation not permitted</p>
+               </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="saveMateriaModal" tabindex="-1" role="dialog" aria-labelledby="myMateriaLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form name="editForm" role="form" novalidate ng-submit="save()" show-validation>
+
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                                ng-click="clear()">&times;</button>
+                        <h4 class="modal-title" id="myMateriaLabel" translate="cifra2gestattiApp.materia.home.createOrEditLabel">Create or edit a Materia</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label>ID</label>
+                            <input type="text" class="form-control" name="id"
+                                   ng-model="materia.id" readonly>
+                        </div>
+
+                        <div class="form-group">
+                            <label translate="cifra2gestattiApp.materia.descrizione">Descrizione</label>
+                            <input type="text" class="form-control" name="descrizione"
+                                   ng-model="materia.descrizione">
+
+                            <div ng-show="editForm.descrizione.$invalid">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label translate="cifra2gestattiApp.materia.tipoMateria">tipoMateria</label>
+                            <select class="form-control" name="tipoMateria" ng-model="materia.tipoMateria.id" ng-options="tipoMateria.id as tipoMateria.id for tipoMateria in tipomaterias">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
+                            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+                        </button>
+                        <button type="submit" ng-disabled="editForm.$invalid" class="btn btn-primary">
+                            <span class="glyphicon glyphicon-save"></span>&nbsp;<span translate="entity.action.save">Save</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="deleteMateriaConfirmation">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form name="deleteForm" ng-submit="confirmDelete(materia.id)">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                                ng-click="clear()">&times;</button>
+                        <h4 class="modal-title" translate="entity.delete.title">Confirm delete operation</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p translate="cifra2gestattiApp.materia.delete.question" translate-values="{id: '{{materia.id}}'}">Are you sure you want to delete this Materia?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
+                            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+                        </button>
+                        <button type="submit" ng-disabled="deleteForm.$invalid" class="btn btn-danger">
+                            <span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span translate="entity.action.delete">Delete</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+	<div>
+	    <div class="table-responsive crud-search">
+	        <table class="table table-striped">
+	            <thead>
+	                <tr>
+	                    <th>ID</th>
+	                    <th translate="cifra2gestattiApp.materia.descrizione">Descrizione</th>
+	                    <th translate="cifra2gestattiApp.materia.tipoMateria">tipoMateria</th>
+	                    <th></th>
+	                </tr>
+	            </thead>
+	            <tbody>
+	                <tr ng-repeat="materia in materias">
+	                    <td><a ui-sref="materiaDetail({id:materia.id})">{{materia.id}}</a></td>
+	                    <td>{{materia.descrizione}}</td>
+	                    <td>{{materia.tipoMateria.id}}</td>
+	                    <td>
+	                        <button type="submit"
+	                                ui-sref="materiaDetail({id:materia.id})"
+	                                class="btn btn-info btn-sm">
+	                            <span class="glyphicon glyphicon-eye-open"></span>&nbsp;<span translate="entity.action.view"> View</span>
+	                        </button>
+	                        <button type="submit"
+	                                ng-click="showUpdate(materia.id)"
+	                                class="btn btn-primary btn-sm">
+	                            <span class="glyphicon glyphicon-pencil"></span>&nbsp;<span translate="entity.action.edit"> Edit</span>
+	                        </button>
+	                        <button type="submit"
+	                                ng-click="delete(materia.id)"
+	                                class="btn btn-danger btn-sm">
+	                            <span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span translate="entity.action.delete"> Delete</span>
+	                        </button>
+	                    </td>
+	                </tr>
+	            </tbody>
+	        </table>
+	        <div ng-if="materias && materias.length == 0" class="search-no-result"><h3 translate="global.searchNoResult"></h3></div>
+	    </div>
+        <nav>
+            <ul class="pagination">
+                <li ng-show="links['first']" ng-click="loadPage(links['first'])"><a>&lt;&lt;</a></li>
+                <li ng-show="links['prev']" ng-click="loadPage(links['prev'])"><a>&lt;</a></li>
+                <li ng-show="page > 2" ng-click="loadPage(page - 2)"><a>{{page - 2}}</a></li>
+                <li ng-show="page > 1" ng-click="loadPage(page - 1)"><a>{{page - 1}}</a></li>
+                <li class="active"><a>{{page}}</a></li>
+                <li ng-show="page < links['last']" ng-click="loadPage(page + 1)"><a>{{page + 1}}</a></li>
+                <li ng-show="page < links['last'] - 1" ng-click="loadPage(page + 2)"><a>{{page + 2}}</a></li>
+                <li ng-show="links['next']" ng-click="loadPage(links['next'])"><a>&gt;</a></li>
+                <li ng-show="links['last']" ng-click="loadPage(links['last'])"><a>&gt;&gt;</a></li>
+            </ul>
+        </nav>
+    </div>
+</div>

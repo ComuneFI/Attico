@@ -1,0 +1,8 @@
+<div ng-if="atto.sedutaGiunta && atto.sedutaGiunta.id && atto.sedutaGiunta.id > 0">
+	<h4>Informazioni sulla seduta</h4>
+	<show-dati-seduta-atto seduta-atto-id="atto.sedutaGiunta.id" atto-sel-id="atto.id"><show-dati-seduta-atto>
+</div>
+
+<div ng-if="!(atto.sedutaGiunta && atto.sedutaGiunta.id && atto.sedutaGiunta.id > 0)">
+	<h4>Il presente Atto non risulta essere inserito in nessuna Seduta.</h4>
+</div>

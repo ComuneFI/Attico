@@ -1,0 +1,15 @@
+<div th:if="${(atto.dataEsecutivita!=null)}">	Data Esecutivita':		[[${atto.dataEsecutivita.toString("dd/MM/yyyy")}]]	</div>
+<div style="text-align: justify;">Elenco Sottoscrittori:</div>
+<table style="page-break-inside: avoid;" width="100%" cellspacing="0" cellpadding="0">
+        <tbody>
+            <tr th:each="item: ${#lists.sort(atto.sottoscrittori)}">
+                <td>                                        <div style="font-family: Calibri; font-size: 12pt; line-height: 16.5pt;">Firmato digitalmente da  [[${item.profilo.utente.nome}]] [[${item.profilo.utente.cognome}]] il [[${item.dataFirma.toString("dd/MM/yyyy")}]]</div>
+                    <br>                </td>
+            </tr>
+        </tbody>
+    </table>
+<div style="text-align: justify;">Le firme, in formato digitale, sono state apposte sull’originale del presente atto ai sensi dell’art. 24 del D.Lgs. 7/3/2005, n. 82 e s.m.i. (CAD). La presente determinazione è conservata in originale negli archivi informatici del Comune di Firenze, ai sensi dell’art.22 del D.Lgs. 82/2005.</div>
+<div style="text-align: justify;"><br></div>
+<div style="text-align: justify;">Si attesta che la presente copia di n. [[${numeroPagineCopiaConforme}]] pagine, è conforme all'originale documento informatico, sottoscritto con firma digitale e contenuto negli archivi informatici del Comune di Firenze.</div>
+<br>
+<div style="text-align: left;">Firenze, il [[${#dates.format(#dates.createNow(), 'dd/MM/yyyy')}]]</div>

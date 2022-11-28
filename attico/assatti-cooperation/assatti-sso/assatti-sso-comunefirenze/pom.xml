@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>it.linksmt.assatti</groupId>
+		<artifactId>assatti-sso</artifactId>
+		<version>1.0</version>
+	</parent>
+
+	<artifactId>assatti-sso-comunefirenze</artifactId>
+	<packaging>jar</packaging>
+
+	<name>assatti-sso-comunefirenze</name>
+
+	<properties>
+		<commons.configurations.version>1.10</commons.configurations.version>
+		<org.slf4j.api.version>1.7.7</org.slf4j.api.version>
+	</properties>
+
+	<dependencies>
+
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-configuration</groupId>
+			<artifactId>commons-configuration</artifactId>
+			<version>${commons.configurations.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+		</dependency>
+		
+		<!-- Apache -->
+		<dependency>
+		    <groupId>org.apache.httpcomponents</groupId>
+		    <artifactId>httpclient</artifactId>
+		    <scope>provided</scope>
+		</dependency>
+
+		<!-- ASSATTI -->
+		<dependency>
+			<groupId>it.linksmt.assatti</groupId>
+			<artifactId>assatti-utility</artifactId>
+			<version>${assatti.version}</version>
+		</dependency>
+<!-- 		<dependency>
+			<groupId>it.linksmt.assatti</groupId>
+			<artifactId>assatti-cmis-client</artifactId>
+			<version>${assatti.version}</version>
+		</dependency> -->
+		<dependency>
+			<groupId>it.linksmt.assatti</groupId>
+			<artifactId>assatti-service-layer</artifactId>
+			<version>${assatti.version}</version>
+		</dependency>
+
+	</dependencies>
+
+</project>

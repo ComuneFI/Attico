@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    
+    <changeSet author="chiriacog" id="201905291700-1">
+    	<sql>
+    		INSERT INTO `ruolo` (`codice`, `descrizione`, `haqualifica`, `enabled`) VALUES ('ROLE_OPERATORE_VISTO_MASSIVO', 'Operatore Visto Massivo', 0, 1);
+			INSERT INTO `ruolo` (`codice`, `descrizione`, `haqualifica`, `enabled`) VALUES ('ROLE_OPERATORE_FIRMA_MASSIVA', 'Operatore Firma Massiva', 0, 1);
+    	</sql>
+    </changeSet>
+ 
+</databaseChangeLog>

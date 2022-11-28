@@ -1,0 +1,22 @@
+{
+    "cifra2gestattiApp": {
+        "schedaDato" : {
+            "home": {
+                "title": "SchedaDatos",
+                "createLabel": "Create a new SchedaDato",
+                "createOrEditLabel": "Create or edit a SchedaDato"
+            },
+            "delete": {
+                "question": "Are you sure you want to delete SchedaDato {{ id }}?"
+            },
+            "detail": {
+                "title": "SchedaDato"
+            },
+            "obbligatorio": "Obbligatorio",
+            "ordine": "Ordine",
+            "Scheda": "Scheda",
+            "Dato": "Dato",
+            "Id": "Id"
+        }
+    }
+}

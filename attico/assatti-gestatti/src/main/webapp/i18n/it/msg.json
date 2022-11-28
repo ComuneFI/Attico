@@ -1,0 +1,26 @@
+{
+    "cifra2gestattiApp": {
+        "msg" : {
+            "home": {
+                "title": "Messaggi",
+                "createLabel": "Nuovo messaggio",
+                "createOrEditLabel": "Crea o modifica un messaggio",
+                "editLabel": "Modifica un messaggio"
+            },
+            "detail": {
+                "title": "Dettaglio messaggio"
+            },
+            "enabled":"Attivo",
+            "validodal":"Valido dal",
+            "validoal":"Valido fino al",
+            "categoria":"Categoria messaggio",
+            "datainserimento":"Data inserimento",
+            "testo":"Testo messaggio",
+            "priorita":"Priorit\u00E0",
+            "destinatari":"Destinatari (Ufficio)",
+            "pubblicatoIntranet":"Pubblicato su Intranet",
+            "pubblicatoInternet":"Pubblicato su Internet",
+            "letto":"Messaggio gi\u00E0 letto"
+        }
+    }
+}

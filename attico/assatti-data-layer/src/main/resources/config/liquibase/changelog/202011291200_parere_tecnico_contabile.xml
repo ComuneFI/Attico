@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    <changeSet author="bellos" id="202011261648-0001">
+    	<sql>
+    		INSERT INTO esito_pareri (codice, valore, tipo, enabled, tipoatto_id) VALUES ('PARERE_FAVOREVOLE_RESP_CONTABILE', 'Parere Favorevole', 'Resp. Contabile', '1', (select id from tipoatto where codice = 'DG' and enabled = 1 limit 1));
+			INSERT INTO esito_pareri (codice, valore, tipo, enabled, tipoatto_id) VALUES ('PARERE_FAVOREVOLE_RESP_TECNICO', 'Parere Favorevole', 'Resp. Tecnico', '1', (select id from tipoatto where codice = 'DG' and enabled = 1 limit 1));
+			INSERT INTO esito_pareri (codice, valore, tipo, enabled, tipoatto_id) VALUES ('PARERE_ARTICOLATO_RESP_CONTABILE', 'Parere Articolato', 'Resp. Contabile', '1', (select id from tipoatto where codice = 'DG' and enabled = 1 limit 1));
+			INSERT INTO esito_pareri (codice, valore, tipo, enabled, tipoatto_id) VALUES ('PARERE_ARTICOLATO_RESP_TECNICO', 'Parere Articolato', 'Resp. Tecnico', '1', (select id from tipoatto where codice = 'DG' and enabled = 1 limit 1));
+			INSERT INTO esito_pareri (codice, valore, tipo, enabled, tipoatto_id) VALUES ('PARERE_FAVOREVOLE_RESP_CONTABILE', 'Parere Favorevole', 'Resp. Contabile', '1', (select id from tipoatto where codice = 'DPC' and enabled = 1 limit 1));
+			INSERT INTO esito_pareri (codice, valore, tipo, enabled, tipoatto_id) VALUES ('PARERE_FAVOREVOLE_RESP_TECNICO', 'Parere Favorevole', 'Resp. Tecnico', '1', (select id from tipoatto where codice = 'DPC' and enabled = 1 limit 1));
+			INSERT INTO esito_pareri (codice, valore, tipo, enabled, tipoatto_id) VALUES ('PARERE_ARTICOLATO_RESP_CONTABILE', 'Parere Articolato', 'Resp. Contabile', '1', (select id from tipoatto where codice = 'DPC' and enabled = 1 limit 1));
+			INSERT INTO esito_pareri (codice, valore, tipo, enabled, tipoatto_id) VALUES ('PARERE_ARTICOLATO_RESP_TECNICO', 'Parere Articolato', 'Resp. Tecnico', '1', (select id from tipoatto where codice = 'DPC' and enabled = 1 limit 1));
+			INSERT INTO tipo_azione (codice, descrizione) VALUES ('parere_resp_tecnico', 'Parere Responsabile Tecnico');
+			INSERT INTO tipo_azione (codice, descrizione) VALUES ('parere_resp_contabile', 'Parere Responsabile Contabile');
+		</sql>
+    </changeSet>
+    <changeSet author="bellos" id="202011261648-0002">
+    	<sql>
+    		INSERT INTO esito_pareri (codice, valore, tipo, enabled, tipoatto_id) VALUES ('PARERE_FAVOREVOLE_RESP_CONTABILE', 'Parere Favorevole', 'Resp. Contabile', '1', (select id from tipoatto where codice = 'DC' and enabled = 1 limit 1));
+			INSERT INTO esito_pareri (codice, valore, tipo, enabled, tipoatto_id) VALUES ('PARERE_FAVOREVOLE_RESP_TECNICO', 'Parere Favorevole', 'Resp. Tecnico', '1', (select id from tipoatto where codice = 'DC' and enabled = 1 limit 1));
+			INSERT INTO esito_pareri (codice, valore, tipo, enabled, tipoatto_id) VALUES ('PARERE_ARTICOLATO_RESP_CONTABILE', 'Parere Articolato', 'Resp. Contabile', '1', (select id from tipoatto where codice = 'DC' and enabled = 1 limit 1));
+			INSERT INTO esito_pareri (codice, valore, tipo, enabled, tipoatto_id) VALUES ('PARERE_ARTICOLATO_RESP_TECNICO', 'Parere Articolato', 'Resp. Tecnico', '1', (select id from tipoatto where codice = 'DC' and enabled = 1 limit 1));
+		</sql>
+    </changeSet>
+</databaseChangeLog>

@@ -1,0 +1,327 @@
+<div>
+
+    <h2 translate="cifra2gestattiApp.configurazioneTask.home.title">Configurazione Task</h2>
+    
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <button class="btn btn-primary" data-toggle="modal" data-target="#saveConfigurazioneTaskModal" ng-click="clear()">
+                    <span class="glyphicon glyphicon-flash"></span> <span translate="cifra2gestattiApp.configurazioneTask.home.createLabel">Create a new ConfigurazioneTask</span>
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal fade" id="operationNotPermitted">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                   <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                           ng-click="clear()">&times;</button>
+                   <h4 class="modal-title" translate="entity.modify.notPermitted">Operation not permitted</h4>
+               </div>
+               <div class="modal-body">
+                   <p translate="cifra2gestattiApp.configurazioneTask.messages.error.operationNotPermitted">Operation not permitted</p>
+               </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal fade" id="saveConfigurazioneTaskModal" tabindex="-1" role="dialog" aria-labelledby="myConfigurazioneTaskLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <form name="editForm" role="form" novalidate ng-submit="save()">
+
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                                ng-click="clear()">&times;</button>
+                        <h4 class="modal-title" id="myConfigurazioneTaskLabel" ng-if="!configurazioneTask.idConfigurazioneTask" translate="cifra2gestattiApp.configurazioneTask.home.createLabel">Create configurazioneTask</h4>
+                        <h4 class="modal-title" id="myConfigurazioneTaskLabel" ng-if="configurazioneTask.idConfigurazioneTask>0" translate="cifra2gestattiApp.configurazioneTask.home.modifyLabel">Modifica configurazioneTask</h4>
+                    </div>
+                    <div class="modal-body">
+
+                    	<div class="form-group">
+                            <label translate="cifra2gestattiApp.configurazioneTask.nome">Nome</label> *
+                            <input type="text" class="form-control" name="nome" ng-model="configurazioneTask.nome" required="required">
+                        </div>
+                        
+                    	<div class="form-group">
+                            <label translate="cifra2gestattiApp.configurazioneTask.codice">Codice</label> *
+                            <input ng-if="!configurazioneTask.idConfigurazioneTask" type="text" class="form-control" name="codice" ng-model="configurazioneTask.codice" required="required">
+                            <div ng-if="configurazioneTask.idConfigurazioneTask>0">{{configurazioneTask.codice}}</div>
+                        </div>
+                        <div class="form-group">
+                            <label translate="cifra2gestattiApp.configurazioneTask.processVarName">processVarName</label> *
+                            <input ng-if="!configurazioneTask.idConfigurazioneTask" type="text" class="form-control" name="codice" ng-model="configurazioneTask.processVarName" required="required">
+                            <div ng-if="configurazioneTask.idConfigurazioneTask>0">{{configurazioneTask.processVarName}}</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label translate="cifra2gestattiApp.configurazioneTask.tipoConfigurazioneTask">TipoConfigurazioneTask</label> *
+							<select 
+							ng-change="deselezionaCheckUffici(configurazioneTask.tipoConfigurazioneTaskId==configurationParams.tipo_conf_task_ufficio_id)"
+							ng-if="!configurazioneTask.idConfigurazioneTask" class="form-control" name="tipoConfigurazioneTaskId" ng-model="configurazioneTask.tipoConfigurazioneTaskId" required="required">
+                            	<option value=""></option>
+                            	<option value="{{configurationParams.tipo_conf_task_profilo_id}}">{{configurationParams.tipo_conf_task_profilo_desc}}</option>
+                            	<option value="{{configurationParams.tipo_conf_task_ufficio_id}}">{{configurationParams.tipo_conf_task_ufficio_desc}}</option>
+                            </select>
+                            <div ng-if="configurazioneTask.idConfigurazioneTask > 0 && configurazioneTask.tipoConfigurazioneTaskId==configurationParams.tipo_conf_task_profilo_id">{{configurationParams.tipo_conf_task_profilo_desc}}</div>
+                            <div ng-if="configurazioneTask.idConfigurazioneTask > 0 && configurazioneTask.tipoConfigurazioneTaskId==configurationParams.tipo_conf_task_ufficio_id">{{configurationParams.tipo_conf_task_ufficio_desc}}</div>
+                        </div>
+                        
+						<div>
+							<div class="col-sm-12">
+				                <div class="checkbox col-sm-4">
+				                    <input id="configurazioneTask_obbligatoria" ng-if="!configurazioneTask.idConfigurazioneTask" type="checkbox" class="" name="obbligatoria" ng-model="configurazioneTask.obbligatoria">
+				                    <span ng-if="configurazioneTask.idConfigurazioneTask>0 && configurazioneTask.obbligatoria" class="glyphicon glyphicon-check"></span>
+				                    <span ng-if="configurazioneTask.idConfigurazioneTask>0 && !configurazioneTask.obbligatoria" class="glyphicon glyphicon-unchecked"></span>
+				                    <label for="configurazioneTask_obbligatoria" ng-if="!configurazioneTask.idConfigurazioneTask" translate="cifra2gestattiApp.configurazioneTask.obbligatoria"> Obbligatoria</label>
+				                    <label for="configurazioneTask_obbligatoria" ng-if="configurazioneTask.idConfigurazioneTask>0" translate="cifra2gestattiApp.configurazioneTask.obbligatoria" style="font-style: italic;"> Obbligatoria</label>
+				                </div>
+				                
+				                <div class="checkbox col-sm-4">
+				                    <input id="configurazioneTask_multipla" type="checkbox" class="" name="multipla" ng-model="configurazioneTask.multipla">
+				                    <label for="configurazioneTask_multipla" translate="cifra2gestattiApp.configurazioneTask.multipla">Multipla</label>
+				                </div>
+				                <div class="checkbox col-sm-4">
+				                    <input id="configurazioneTask_scadenza" type="checkbox" name="scadenza" ng-model="configurazioneTask.impostaScadenza">
+				                    <label for="configurazioneTask_scadenza" translate="cifra2gestattiApp.configurazioneTask.impostaScadenza">Scadenza</label>
+				                </div>
+				            </div>
+		            	</div>
+		            	
+		            	<div>
+							<div class="col-sm-12">
+								<div class="checkbox col-sm-4">
+									<input 
+									ng-change="deselezionaUffici(configurazioneTask.proponente); deselezionaLivelloSuperiore(!configurazioneTask.proponente && !configurazioneTask.ufficioCorrente);"  
+									ng-disabled="!configurazioneTask.tipoConfigurazioneTaskId || configurazioneTask.tipoConfigurazioneTaskId!=configurationParams.tipo_conf_task_profilo_id" 
+									id="configurazioneTask_proponente" type="checkbox" class="" name="proponente" ng-model="configurazioneTask.proponente">
+				                    <label for="configurazioneTask_proponente" translate="cifra2gestattiApp.configurazioneTask.proponente">Proponente</label>
+				                </div>
+				                <div class="checkbox col-sm-4">
+									<input
+									ng-change="deselezionaUffici(configurazioneTask.ufficioCorrente); deselezionaLivelloSuperiore(!configurazioneTask.proponente && !configurazioneTask.ufficioCorrente);"  
+									ng-disabled="!configurazioneTask.tipoConfigurazioneTaskId || configurazioneTask.tipoConfigurazioneTaskId!=configurationParams.tipo_conf_task_profilo_id"
+									id="configurazioneTask_ufficioCorrente" type="checkbox" class="" name="ufficioCorrente" ng-model="configurazioneTask.ufficioCorrente">
+				                    <label for="configurazioneTask_ufficioCorrente" translate="cifra2gestattiApp.configurazioneTask.ufficioCorrente">Ufficio Corrente</label>
+				                </div>
+				                <div class="checkbox col-sm-4">
+									<input
+									ng-change="deselezionaUffici(configurazioneTask.ufficiLivelloSuperiore)"  
+									ng-disabled="!configurazioneTask.tipoConfigurazioneTaskId || configurazioneTask.tipoConfigurazioneTaskId!=configurationParams.tipo_conf_task_profilo_id || (!configurazioneTask.proponente && !configurazioneTask.ufficioCorrente)"
+									id="configurazioneTask_ufficiLivelloSuperiore" type="checkbox" class="" name="ufficiLivelloSuperiore" ng-model="configurazioneTask.ufficiLivelloSuperiore">
+				                    <label for="configurazioneTask_ufficiLivelloSuperiore" translate="cifra2gestattiApp.configurazioneTask.ufficiLivelloSuperiore">Uffici Livello Superiore</label>
+				                </div>
+							</div>
+						</div>
+						
+						<div>
+							<div class="col-sm-12">
+								<div class="checkbox col-sm-4">
+									<input 
+									ng-change="changeStessaDirezioneUffProponente(configurazioneTask.stessaDirezioneProponente);"  
+									ng-disabled="!configurazioneTask.tipoConfigurazioneTaskId || configurazioneTask.tipoConfigurazioneTaskId!=configurationParams.tipo_conf_task_ufficio_id" 
+									id="configurazioneTask_stessaDirezioneProponente" type="checkbox" class="" name="stessaDirezioneProponente" ng-model="configurazioneTask.stessaDirezioneProponente">
+				                    <label for="configurazioneTask_stessaDirezioneProponente" translate="cifra2gestattiApp.configurazioneTask.stessaDirezioneProponente">Stessa Direzione Uff. Proponente</label>
+				                </div>
+								<div class="checkbox col-sm-4">
+									<input id="configurazioneTask_scadenza_obbl" type="checkbox" name="scadenzaObbligatoria" ng-model="configurazioneTask.scadenzaObbligatoria">
+									<label for="configurazioneTask_scadenza_obbl" translate="cifra2gestattiApp.configurazioneTask.scadenzaObbl">Scadenza Obbligatoria</label>
+								</div>
+								<div class="checkbox col-sm-4">
+									<input id="configurazioneTask_data_manuale" type="checkbox" name="dataManuale" ng-model="configurazioneTask.dataManuale">
+									<label for="configurazioneTask_data_manuale" translate="cifra2gestattiApp.configurazioneTask.dataManuale">Data Manuale</label>
+								</div>
+							</div>
+						</div>
+		            	
+		            	<div class="form-group">
+                            <label translate="cifra2gestattiApp.configurazioneTask.uffici" class="{{(configurazioneTask.proponente || configurazioneTask.ufficioCorrente || configurazioneTask.ufficiLivelloSuperiore) ? 'text-muted' : ''}}">Uffici</label>
+                            <div class="row">
+                            	<div class="col-sm-12" ng-if="configurazioneTask">
+                            		<ui-select ng-disabled="configurazioneTask.proponente || configurazioneTask.ufficioCorrente || configurazioneTask.ufficiLivelloSuperiore" multiple ng-model="configurazioneTask.listAooObjList" theme="bootstrap" >
+								        	<ui-select-match placeholder="Seleziona uffici"><span ng-class="{'entityDisabilitata':$item.validita.validoal}">{{$item.descrizione + ' (' + $item.codice + ')' + (!$item.validita || $item.validita.validoal ? ' (Disabilitato)' : '')}}</span></ui-select-match>
+								         <ui-select-choices repeat="aoo in (aoos | orderBy:'descrizione' | filter:{stato:'ATTIVO'} | filter: $select.search) track by aoo.id" >
+								         	<div ng-bind-html="aoo.descrizione + ' (' + aoo.codice + ')' + (!aoo.validita || aoo.validita.validoal ? ' (Disabilitato)' : '') | highlight: $select.search"></div>
+								    		</ui-select-choices>
+								 	</ui-select>
+                            	</div>
+                            </div>
+                        </div>
+			            <div class="form-group">
+                            <label translate="cifra2gestattiApp.configurazioneTask.ruoli">Ruoli</label>
+                            <div class="row">
+                            	<div class="col-sm-12" ng-if="configurazioneTask">
+                            		<ui-select multiple ng-model="configurazioneTask.listRuoliObjList" theme="bootstrap" >
+								        	<ui-select-match placeholder="Seleziona ruoli"><span ng-class="{'entityDisabilitata':!$item.enabled}">{{$item.descrizione + (!$item.enabled ? ' (Disabilitato)' : '')}}</span></ui-select-match>
+								         <ui-select-choices repeat="ruolo in (ruoli | orderBy:'descrizione' | filter:{enabled:true} | filter: $select.search) track by ruolo.id" >
+								         	<div ng-bind-html="ruolo.descrizione + (!ruolo.enabled ? ' (Disabilitato)' : '') | highlight: $select.search"></div>
+								    		</ui-select-choices>
+								 	</ui-select>
+                            	</div>
+                            </div>
+                        </div>
+                        
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
+                            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+                        </button>
+                        <button type="submit" ng-disabled="editForm.$invalid" class="btn btn-primary">
+                            <span class="glyphicon glyphicon-save"></span>&nbsp;<span translate="entity.action.save">Save</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal fade" id="viewConfigurazioneTaskModal" tabindex="-1" role="dialog" aria-labelledby="myConfigurazioneTaskLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form name="viewForm" role="form" novalidate>
+
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                                ng-click="clear()">&times;</button>
+                        <h4 class="modal-title" id="myConfigurazioneTaskLabel" translate="cifra2gestattiApp.configurazioneTask.home.viewLabel">View configurazioneTask</h4>
+                    </div>
+                    <div class="modal-body">
+                    	<div class="form-group">
+                            <label translate="cifra2gestattiApp.configurazioneTask.nome">Nome</label>
+                            <div>{{configurazioneTask.nome}}</div>
+                        </div>
+                        
+                    	<div class="form-group">
+                            <label translate="cifra2gestattiApp.configurazioneTask.codice">Codice</label>
+                            <div>{{configurazioneTask.codice}}</div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label translate="cifra2gestattiApp.configurazioneTask.processVarName">processVarName</label> *
+                            <div>{{configurazioneTask.processVarName}}</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label translate="cifra2gestattiApp.configurazioneTask.tipoConfigurazioneTask">TipoConfigurazioneTask</label>
+                            <div ng-if="configurazioneTask.tipoConfigurazioneTaskId==configurationParams.tipo_conf_task_profilo_id">{{configurationParams.tipo_conf_task_profilo_desc}}</div>
+                            <div ng-if="configurazioneTask.tipoConfigurazioneTaskId==configurationParams.tipo_conf_task_ufficio_id">{{configurationParams.tipo_conf_task_ufficio_desc}}</div>
+                        </div>
+                        
+                        <div class="col-sm-12">
+			            
+			            	<div class="form-group checkbox col-sm-4">
+			                    <span ng-if="configurazioneTask.idConfigurazioneTask>0 && configurazioneTask.obbligatoria" class="glyphicon glyphicon-check"></span>
+			                    <span ng-if="configurazioneTask.idConfigurazioneTask>0 && !configurazioneTask.obbligatoria" class="glyphicon glyphicon-unchecked"></span>
+			                    <label translate="cifra2gestattiApp.configurazioneTask.obbligatoria">Obbligatoria</label>
+			                </div>
+			                
+			            	<div class="form-group checkbox col-sm-4">
+			                    <span ng-if="configurazioneTask.idConfigurazioneTask>0 && configurazioneTask.multipla" class="glyphicon glyphicon-check"></span>
+			                    <span ng-if="configurazioneTask.idConfigurazioneTask>0 && !configurazioneTask.multipla" class="glyphicon glyphicon-unchecked"></span>
+			                    <label translate="cifra2gestattiApp.configurazioneTask.multipla">Multipla</label>
+			                </div>
+			                <div class="form-group checkbox col-sm-4">
+								<span ng-if="configurazioneTask.idConfigurazioneTask>0 && configurazioneTask.impostaScadenza" class="glyphicon glyphicon-check"></span>
+			                    <span ng-if="configurazioneTask.idConfigurazioneTask>0 && !configurazioneTask.impostaScadenza" class="glyphicon glyphicon-unchecked"></span>
+			                    <label translate="cifra2gestattiApp.configurazioneTask.impostaScadenza">Scadenza</label>
+			                </div>
+			            </div>
+                        
+						<div class="col-sm-12">
+	                        <div class="form-group checkbox col-sm-4">
+			                    <span ng-if="configurazioneTask.idConfigurazioneTask>0 && configurazioneTask.proponente" class="glyphicon glyphicon-check"></span>
+			                    <span ng-if="configurazioneTask.idConfigurazioneTask>0 && !configurazioneTask.proponente" class="glyphicon glyphicon-unchecked"></span>
+			                    <label translate="cifra2gestattiApp.configurazioneTask.proponente">Proponente</label>
+			                </div>
+			                
+			                <div class="form-group checkbox col-sm-4">
+			                    <span ng-if="configurazioneTask.idConfigurazioneTask>0 && configurazioneTask.ufficioCorrente" class="glyphicon glyphicon-check"></span>
+			                    <span ng-if="configurazioneTask.idConfigurazioneTask>0 && !configurazioneTask.ufficioCorrente" class="glyphicon glyphicon-unchecked"></span>
+			                    <label translate="cifra2gestattiApp.configurazioneTask.ufficioCorrente">Ufficio Corrente</label>
+			                </div>
+			                
+			                <div class="form-group checkbox col-sm-4">
+			                    <span ng-if="configurazioneTask.idConfigurazioneTask>0 && configurazioneTask.ufficiLivelloSuperiore" class="glyphicon glyphicon-check"></span>
+			                    <span ng-if="configurazioneTask.idConfigurazioneTask>0 && !configurazioneTask.ufficiLivelloSuperiore" class="glyphicon glyphicon-unchecked"></span>
+			                    <label translate="cifra2gestattiApp.configurazioneTask.ufficiLivelloSuperiore">Uffici Livello Superiore</label>
+			                </div>
+			            </div>
+			            
+			            <div class="col-sm-12">
+			            	<div class="form-group checkbox col-sm-4">
+			                    <span ng-if="configurazioneTask.idConfigurazioneTask>0 && configurazioneTask.stessaDirezioneProponente" class="glyphicon glyphicon-check"></span>
+			                    <span ng-if="configurazioneTask.idConfigurazioneTask>0 && !configurazioneTask.stessaDirezioneProponente" class="glyphicon glyphicon-unchecked"></span>
+			                    <label translate="cifra2gestattiApp.configurazioneTask.stessaDirezioneProponente">Stessa Direzione Uff. Proponente</label>
+			                </div>
+			            </div>
+			            
+		            	<div class="form-group">
+                            <label translate="cifra2gestattiApp.configurazioneTask.uffici">Uffici</label>
+                            <div ng-if="!configurazioneTask.listAoo || configurazioneTask.listAoo.length == 0" style="font-style: italic;" translate="cifra2gestattiApp.configurazioneTask.messages.noAooSelected">Nessun Ufficio selezionato</div>
+                            <ul ng-if="configurazioneTask.listAoo.length > 0">
+                            	<li ng-repeat="aooSelected in configurazioneTask.listAoo" ng-bind="getAooDescription(aooSelected)"></li>
+                            </ul>
+                        </div>
+			            
+			            <div class="form-group">
+                            <label translate="cifra2gestattiApp.configurazioneTask.ruoli">Ruoli</label>
+                            <div ng-if="!configurazioneTask.listRuolo || configurazioneTask.listRuolo.length == 0" style="font-style: italic;" translate="cifra2gestattiApp.configurazioneTask.messages.noRuoloSelected">Nessun ruolo presente</div>
+                            <ul ng-if="configurazioneTask.listRuolo.length > 0">
+                            	<li ng-repeat="ruoloSelected in configurazioneTask.listRuolo" ng-bind="getRuoloDescription(ruoloSelected)"></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
+                            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <div>
+	    <div class="table-responsive crud-search">
+	        <table class="table table-striped">
+	            <thead>
+	                <tr>
+	                    <th>ID</th>
+	                    <th translate="cifra2gestattiApp.configurazioneTask.codice">Codice</th>
+	                    <th translate="cifra2gestattiApp.configurazioneTask.nome">Nome</th>
+	                    <th></th>
+	                </tr>
+	            </thead>
+	            <tbody>
+	                <tr ng-repeat="configurazioneTask in configurazioneTasks">
+	                    <td><a ng-click="showDetails(configurazioneTask.idConfigurazioneTask)" class="hand">{{configurazioneTask.idConfigurazioneTask}}</a></td>
+	                    <td>{{configurazioneTask.codice}}</td>
+	                    <td>{{configurazioneTask.nome}}</td>
+	                    <td>
+	                        <button type="submit"
+	                                ng-click="showDetails(configurazioneTask.idConfigurazioneTask)"
+	                                class="btn btn-info btn-sm">
+	                            <span class="glyphicon glyphicon-eye-open"></span>&nbsp;<span translate="entity.action.view"> View</span>
+	                        </button>
+	                        <button type="submit"
+	                                ng-click="showUpdate(configurazioneTask.idConfigurazioneTask)"
+	                                class="btn btn-primary btn-sm">
+	                            <span class="glyphicon glyphicon-pencil"></span>&nbsp;<span translate="entity.action.edit"> Edit</span>
+	                        </button>
+	                        <!-- <button type="submit"
+	                                ng-click="delete(configurazioneTask.id)"
+	                                class="btn btn-danger btn-sm">
+	                            <span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span translate="entity.action.delete"> Delete</span>
+	                        </button> -->
+	                    </td>
+	                </tr>
+	            </tbody>
+	        </table>
+	        <div ng-if="configurazioneTasks && configurazioneTasks.length == 0" class="search-no-result"><h3 translate="global.searchNoResult"></h3></div>
+	    </div>
+    </div>
+	
+</div>

@@ -1,0 +1,192 @@
+<div>
+
+	<aoo-info ng-model="aoo" ></aoo-info>
+
+	<div class="row">
+
+		<div class="col-sm-12">
+
+			<div class="form-group">
+				<div>
+				    <div class="table-responsive">
+						<div class="pull-right" >
+	        				<div class="form-inline form-group">
+	          					<label  > Totale Risultati: {{rubricaDestinatarioEsternos.length}}</label> 
+	          					<input class="form-control"  ng-model="searchText" placeholder="Cerca" >
+	        				</div>
+						</div>
+						<table class="table table-striped">
+							<thead>
+								<tr>
+	                    			<th>ID</th>
+	                    			<th translate="cifra2gestattiApp.rubricaDestinatarioEsterno.tipo">Tipo</th>
+	                   				<th translate="cifra2gestattiApp.rubricaDestinatarioEsterno.denominazione">Denominazione</th>
+	                   				<th translate="cifra2gestattiApp.rubricaDestinatarioEsterno.nome">Nome</th>
+	                   				<th translate="cifra2gestattiApp.rubricaDestinatarioEsterno.cognome">Cognome</th>
+	                    			<th translate="cifra2gestattiApp.rubricaDestinatarioEsterno.email">Email</th>
+	                    			<th translate="cifra2gestattiApp.rubricaDestinatarioEsterno.pec">Pec</th>
+	                    			<th translate="cifra2gestattiApp.rubricaDestinatarioEsterno.indirizzo">indirizzo</th>
+	                    			<th></th>
+	                			</tr>
+	            			</thead>
+	            			<tbody>
+	                			<tr ng-repeat="rubricaDestinatarioEsterno in rubricaDestinatarioEsternos | filter:searchText">
+	                    			<td><a ui-sref="rubricaDestinatarioEsternoDetail({id:rubricaDestinatarioEsterno.id})">{{rubricaDestinatarioEsterno.id}}</a></td>
+	                    			<td>{{rubricaDestinatarioEsterno.tipo}}</td>
+	                    			<td>{{rubricaDestinatarioEsterno.denominazione}}</td>
+	                    			<td>{{rubricaDestinatarioEsterno.nome}}</td>
+	                    			<td>{{rubricaDestinatarioEsterno.cognome}}</td>
+	                    			<td>{{rubricaDestinatarioEsterno.email}}</td>
+	                    			<td>{{rubricaDestinatarioEsterno.pec}}</td>
+	                    			<!-- td>{{rubricaDestinatarioEsterno.aoo.descrizione}}</td -->
+	                    			<td>
+	                        			<!-- button type="submit" 
+	                                			ui-sref="rubricaDestinatarioEsternoDetail({id:rubricaDestinatarioEsterno.id})"
+	                                			class="btn btn-info btn-sm">
+	                           					<span class="glyphicon glyphicon-eye-open"></span>&nbsp;<span translate="entity.action.view"> View</span>
+	                       				</button -->
+	                        			<button type="submit"
+	                                		ng-click="edit(rubricaDestinatarioEsterno)"
+	                                		class="btn btn-primary btn-sm">
+	                            			<span class="glyphicon glyphicon-pencil"></span>&nbsp;<span translate="entity.action.edit"> Edit</span>
+	                        			</button>
+	                        			<button type="submit"
+	                                		ng-click="delete(rubricaDestinatarioEsterno.id)"
+	                                		class="btn btn-danger btn-sm">
+	                            			<span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span translate="entity.action.delete"> Delete</span>
+	                        			</button>
+	                    			</td>
+	                			</tr>
+	            			</tbody>
+	        			</table>
+	        		</div>
+					<div class="tree-node tree-node-content" >
+		  				<label>
+							<a class="pull-left btn btn-primary btn-sm"    ng-click="addRubricaDestinatarioEsterno()"   >Aggiungi destinatario esterno  <span
+								class="glyphicon glyphicon-plus"></span></a>
+		  				</label>
+					</div>
+	        		<nav>
+	            		<ul class="pagination">
+			                <li ng-show="links['first']" ng-click="loadPage(links['first'])"><a>&lt;&lt;</a></li>
+			                <li ng-show="links['prev']" ng-click="loadPage(links['prev'])"><a>&lt;</a></li>
+			                <li ng-show="page > 2" ng-click="loadPage(page - 2)"><a>{{page - 2}}</a></li>
+			                <li ng-show="page > 1" ng-click="loadPage(page - 1)"><a>{{page - 1}}</a></li>
+			                <li class="active"><a>{{page}}</a></li>
+			                <li ng-show="page < links['last']" ng-click="loadPage(page + 1)"><a>{{page + 1}}</a></li>
+			                <li ng-show="page < links['last'] - 1" ng-click="loadPage(page + 2)"><a>{{page + 2}}</a></li>
+			                <li ng-show="links['next']" ng-click="loadPage(links['next'])"><a>&gt;</a></li>
+			                <li ng-show="links['last']" ng-click="loadPage(links['last'])"><a>&gt;&gt;</a></li>
+			            </ul>
+			        </nav>
+			    </div>
+			<!-- div ui-tree="options" ng-if="!editing" >
+
+
+				<ol ui-tree-nodes ng-model="rubricaDestinatarioEsternos"  data-nodrag   >
+					<li ng-repeat="rubricaDestinatarioEsterno in rubricaDestinatarioEsternos" ui-tree-node  >
+
+						<div ui-tree-handle class="tree-node tree-node-content" >
+
+							<label  >{{rubricaDestinatarioEsterno.tipo}} - {{rubricaDestinatarioEsterno.denominazione}}  {{rubricaDestinatarioEsterno.titolo}} {{rubricaDestinatarioEsterno.cognome}} {{rubricaDestinatarioEsterno.nome}} </label>
+
+							
+
+							<div class="pull-right"  >
+								<a class="pull-right btn btn-danger btn-sm"  ng-click="edit(rubricaDestinatarioEsterno)"  >Modifica destinatario esterno <span
+									class="glyphicon glyphicon-edit"></span></a>
+
+
+								</div>
+							</div>
+						</li>
+
+						<li>
+							<div   class="tree-node tree-node-content" >
+								<label>
+									<a class="pull-left btn btn-primary btn-sm"    ng-click="addRubricaDestinatarioEsterno()"   >Aggiungi destinatario esterno  <span
+										class="glyphicon glyphicon-plus"></span></a>
+									</label>
+								</div>
+							</li>
+
+
+						</ol>
+				</div>
+
+
+
+
+						<form    ng-if="editing" name="editForm" role="form" novalidate 
+						   ng-submit="salvaRubricaDestinatarioEsterno( rubricaDestinatarioEsternoEdit )"  show-validation>
+
+								<rubrica-destinatario-esterno-form ng-model="rubricaDestinatarioEsternoEdit" lista-aoo="aoos" disabled-aoo="true" ></rubrica-destinatario-esterno-form>
+
+							  
+
+								<button type="button" class="btn btn-default"  ng-click="cancelEdit(rubricaDestinatarioEsternoEdit)">
+									<span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+								</button>
+
+								<button type="submit" ng-disabled="editForm.$invalid" class="btn btn-primary">
+									<span class="glyphicon glyphicon-save"></span>&nbsp;<span translate="entity.action.save">Save</span>
+								</button>
+
+
+							</form -->
+
+			</div>
+		</div>
+     
+	 	<div class="modal fade" id="saveRubricaDestinatarioEsternoModal" tabindex="-1" role="dialog" aria-labelledby="myRubricaDestinatarioEsternoLabel"
+         	aria-hidden="true">
+       		<div class="modal-dialog">
+            	<div class="modal-content">
+               		<form name="editForm" role="form" novalidate ng-submit="salvaRubricaDestinatarioEsterno( rubricaDestinatarioEsternoEdit )"  show-validation>
+
+                   		<div class="modal-header">
+                        	<button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                            	ng-click="clear()">&times;</button>
+                        	<h4 class="modal-title" id="myRubricaDestinatarioEsternoLabel" translate="cifra2gestattiApp.rubricaDestinatarioEsterno.home.createOrEditLabel">Create or edit a RubricaDestinatarioEsterno</h4>
+                    	</div>
+                    	<div class="modal-body">
+							<rubrica-destinatario-esterno-form ng-model="rubricaDestinatarioEsternoEdit" lista-aoo="aoos" disabled-aoo="true" ></rubrica-destinatario-esterno-form>
+                    	</div>
+                    	<div class="modal-footer">
+                        	<button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
+                           		<span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+                        	</button>
+                        	<button type="submit" ng-disabled="editForm.$invalid" class="btn btn-primary">
+                           		<span class="glyphicon glyphicon-save"></span>&nbsp;<span translate="entity.action.save">Save</span>
+                        	</button>
+                    	</div>
+                	</form>
+            	</div>
+        	</div>
+    	</div>
+		<div class="modal fade" id="deleteRubricaDestinatarioEsternoConfirmation">
+        	<div class="modal-dialog">
+            	<div class="modal-content">
+                	<form name="deleteForm" ng-submit="confirmDelete(rubricaDestinatarioEsternoEdit.id)">
+                    	<div class="modal-header">
+                        	<button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                            	ng-click="clear()">&times;</button>
+                        	<h4 class="modal-title" translate="entity.delete.title">Confirm delete operation</h4>
+                    	</div>
+                    	<div class="modal-body">
+                        	<p translate="cifra2gestattiApp.rubricaDestinatarioEsterno.delete.question" translate-values="{id: '{{rubricaDestinatarioEsternoEdit.id}}'}">Are you sure you want to delete this RubricaDestinatarioEsterno?</p>
+                    	</div>
+                    	<div class="modal-footer">
+                        	<button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
+                            	<span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+                        	</button>
+                        	<button type="submit" ng-disabled="deleteForm.$invalid" class="btn btn-danger">
+                           		<span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span translate="entity.action.delete">Delete</span>
+                        	</button>
+                    	</div>
+                	</form>
+            	</div>
+        	</div>
+    	</div>
+	</div>
+</div>

@@ -1,0 +1,47 @@
+
+<div>
+    <h2><span translate="cifra2gestattiApp.macro_cat_obbligo_dl33.detail.title">Macro_cat_obbligo_dl33</span> {{macro_cat_obbligo_dl33.id}}</h2>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th translate="entity.detail.field">Field</th>
+                    <th translate="entity.detail.value">Value</th>
+                </tr>
+            </thead>
+            <tbody>
+            	<tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.macro_cat_obbligo_dl33.codice">Codice</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{macro_cat_obbligo_dl33.codice}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.macro_cat_obbligo_dl33.descrizione">Descrizione</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{macro_cat_obbligo_dl33.descrizione}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.macro_cat_obbligo_dl33.attiva">Attiva</span>
+                    </td>
+                    <td>
+                        <input ng-if="macro_cat_obbligo_dl33.attiva==true" type="text" class="input-sm form-control" value="Si" readonly>
+                        <input ng-if="macro_cat_obbligo_dl33.attiva==false" type="text" class="input-sm form-control" value="No" readonly>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <button type="submit"
+            ui-sref="macro_cat_obbligo_dl33"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span translate="entity.action.back"> Back</span>
+    </button>
+</div>

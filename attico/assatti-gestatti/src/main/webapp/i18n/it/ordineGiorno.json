@@ -1,0 +1,37 @@
+{
+    "cifra2gestattiApp": {
+        "ordineGiorno" : {
+            "home": {
+                "title": "Ordine del Giorno",
+                "createLabel": "Crea un nuovo Ordine del Giorno",
+                "createOrEditLabel": "Crea o modifica un Ordine del Giorno"
+            },
+            "giacenza": {
+                "title": "Giacenza Atti inseribili all'Ordine del Giorno",
+                "selectlabel": "Seleziona gli Atti da inserire all'Ordine del Giorno"
+            },
+             "dirigenzale": {
+                "title": "Ordine del Giorno Dirigenziale",
+                "createLabel": "Crea nuovo Ordine del Giorno",
+                "createOrEditLabel": "Crea  o modifica Ordine del Giorno"
+            },
+             
+            "delete": {
+                "question": "Sei sicuro di voler eliminare e quindi modificare la lista degli atti da discutere nella Seduta di Giunta dell'Ordine del Giorno: {{ id }}?"
+            },
+            "detail": {
+                "title": "Ordine del Giorno"
+            },
+            "rifOdg":"Ordine del Giorno di riferimento",
+            "numeroOdg":"Numero",
+            "protocollo":"Protocollo",
+            "dataPubblicazioneSito": "Data Pub",
+            "idDiogene":"idDiogene",
+            "SedutaGiunta":"Seduta Giunta",
+            "TipoOdg":"TipoOdg"
+            
+          
+
+        }
+    }
+}

@@ -1,0 +1,26 @@
+{
+    "cifra2gestattiApp": {
+        "modelloHtml" : {
+            "home": {
+                "title": "Modelli Documenti",
+                "createLabel": "Crea nuovo Modello",
+                "createOrEditLabel": "Crea o edita Modello",
+                "populate": "Populate Modello Html"
+            },
+            "delete": {
+                "question": "Sei sicuro di voler cancellare il Modello Html con ID {{ id }}?"
+            },
+            "detail": {
+                "title": "Modello Html"
+            },
+            "titolo": "Titolo",
+            "html": "Html",
+            "TipoAtto": "TipoAtto",
+            "TipoDocumento": "Tipo Documento",
+            "TipoOrientamentoLabel": "Orientamento",
+            "tipoOrientamento": {"Landscape":"Orizzontale",
+            					 "Portrait": "Verticale"
+            					}
+        }
+    }
+}

@@ -1,0 +1,215 @@
+<div>
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <h1 translate="register.title">Registration</h1>
+
+
+            <div class="alert alert-success" ng-show="success" translate="register.messages.success">
+                <strong>Registration saved!</strong> Please check your email for confirmation.
+            </div>
+            
+            <div class="alert alert-success" ng-show="successAdmin">
+                <strong><span translate="register.messages.successAdmin">Registration saved!</span></strong> <a ui-sref="utente"><span translate="register.messages.backToUsersList"></span></a>
+            </div>
+
+            <div class="alert alert-danger" ng-show="error" translate="register.messages.error.fail">
+                <strong>Registration failed!</strong> Please check your input and try again.
+            </div>
+
+            <div class="alert alert-danger" ng-show="errorUserExists" translate="register.messages.error.userexists">
+                <strong>Login name already registered!</strong> Please choose another one.
+            </div>
+
+            <div class="alert alert-danger" ng-show="errorEmailExists" translate="register.messages.error.emailexists">
+                <strong>E-mail is already in use!</strong> Please choose another one.
+            </div>
+            
+            <div class="alert alert-danger" ng-show="errorCfExists" translate="register.messages.error.cfexists">
+                <strong>Codice fiscale is already in use!</strong> Please choose another one.
+            </div>
+            
+
+            <div class="alert alert-danger" ng-show="doNotMatch" translate="global.messages.error.dontmatch">
+                The password and its confirmation do not match!
+            </div>
+
+            <form ng-show="!success && !successAdmin" name="form" role="form" novalidate ng-submit="register()" show-validation>
+
+                <div class="form-group">
+                    <label translate="global.form.username">Login</label>
+                    <input type="text" class="form-control" name="login" placeholder="{{'global.form.username.placeholder' | translate}}"
+                    ng-model="registerAccount.login" ng-minlength=1 ng-maxlength=50 ng-pattern="/^[0-9a-zA-Z._\-]*$/" required>
+                    <div ng-show="form.login.$dirty && form.login.$invalid">
+                        <p class="help-block"
+                        ng-show="form.login.$error.required" translate="register.messages.validate.login.required">
+                        Your login is required.
+                    </p>
+                    <p class="help-block"
+                    ng-show="form.login.$error.minlength" translate="register.messages.validate.login.minlength">
+                    Your login is required to be at least 1 character
+                </p>
+                <p class="help-block"
+                ng-show="form.login.$error.maxlength" translate="register.messages.validate.login.maxlength">
+                Your login cannot be longer than 50 characters
+            </p>
+            <p class="help-block"
+            ng-show="form.login.$error.pattern" translate="register.messages.validate.login.pattern">
+            Your login can only contain lower-case letters and digits
+        </p>
+    </div>
+</div>
+<div class="form-group">
+    <label translate="global.form.email">E-mail</label>
+    <input type="email" class="form-control" name="email" placeholder="{{'global.form.email.placeholder' | translate}}"
+    ng-model="registerAccount.email" ng-minlength=5 ng-maxlength=100 required>
+    <div ng-show="form.email.$dirty && form.email.$invalid">
+        <p class="help-block"
+        ng-show="form.email.$error.required" translate="global.messages.validate.email.required">
+        Your e-mail is required.
+    </p>
+    <p class="help-block"
+    ng-show="form.email.$error.email" translate="global.messages.validate.email.invalid">
+    Your e-mail is invalid.
+</p>
+<p class="help-block"
+ng-show="form.email.$error.minlength" translate="global.messages.validate.email.minlength">
+Your e-mail is required to be at least 5 characters
+</p>
+<p class="help-block"
+ng-show="form.email.$error.maxlength" translate="global.messages.validate.email.maxlength">
+Your e-mail cannot be longer than 100 characters
+</p>
+</div>
+</div>
+<div class="form-group">
+    <label translate="global.form.newpassword">New password</label>
+    <input type="password" class="form-control" name="password" placeholder="{{'global.form.newpassword.placeholder' | translate}}"
+    ng-model="registerAccount.password" ng-minlength=5 ng-maxlength=50 required>
+    <div ng-show="form.password.$dirty && form.password.$invalid">
+        <p class="help-block"
+        ng-show="form.password.$error.required" translate="global.messages.validate.newpassword.required">
+        Your password is required.
+    </p>
+    <p class="help-block"
+    ng-show="form.password.$error.minlength" translate="global.messages.validate.newpassword.minlength">
+    Your password is required to be at least 5 characters
+</p>
+<p class="help-block"
+ng-show="form.password.$error.maxlength" translate="global.messages.validate.newpassword.maxlength">
+Your password cannot be longer than 50 characters
+</p>
+</div>
+<password-strength-bar password-to-check="registerAccount.password"></password-strength-bar>
+</div>
+<div class="form-group">
+    <label translate="global.form.confirmpassword">New password confirmation</label>
+    <input type="password" class="form-control" name="confirmPassword" placeholder="{{'global.form.confirmpassword.placeholder' | translate}}"
+    ng-model="confirmPassword" ng-minlength=5 ng-maxlength=50 required>
+    <div ng-show="form.confirmPassword.$dirty && form.confirmPassword.$invalid">
+        <p class="help-block"
+        ng-show="form.confirmPassword.$error.required" translate="global.messages.validate.confirmpassword.required">
+        Your password confirmation is required.
+    </p>
+    <p class="help-block"
+    ng-show="form.confirmPassword.$error.minlength" translate="global.messages.validate.confirmpassword.minlength">
+    Your password confirmation is required to be at least 5 characters
+</p>
+<p class="help-block"
+ng-show="form.confirmPassword.$error.maxlength" translate="global.messages.validate.confirmpassword.maxlength">
+Your password confirmation cannot be longer than 50 characters
+</p>
+</div>
+</div>
+
+
+
+<div class="form-group">
+
+   <button type="button" class="form-control btn btn-primary" data-toggle="collapse" 
+   data-target="#InformazioniUtente" aria-expanded="true" aria-controls="InformazioniUtente">
+   <label>Informazioni Utente</label>
+</button>
+
+<div id="InformazioniUtente"  >
+
+
+
+    <div class="form-group">
+
+        <div class="form-group col-sm-6">
+            <label translate="cifra2gestattiApp.utente.cognome">Cognome</label>  
+            <input type="text" class="form-control" name="cognome"
+            ng-model="registerAccount.utente.cognome"    required>
+
+            <div ng-show="form.cognome.$invalid">
+            </div>
+        </div>
+        <div class="form-group col-sm-6">
+            <label translate="cifra2gestattiApp.utente.nome">Nome</label>
+            <input type="text" class="form-control" name="nome"
+            ng-model="registerAccount.utente.nome"   required>
+
+            <div ng-show="form.nome.$invalid">
+            </div>
+        </div>
+        <div class="form-group col-sm-6">
+            <label translate="cifra2gestattiApp.utente.codicefiscale">Codicefiscale</label>
+            <input type="text" class="form-control" name="codicefiscale"
+            ng-model="registerAccount.utente.codicefiscale"   required>
+
+            <div ng-show="form.codicefiscale.$invalid">
+            </div>
+        </div>
+
+    </div>
+	
+
+    <div class="form-group">
+
+        <div class="form-group col-sm-6">
+            <label translate="cifra2gestattiApp.utente.telefono">Telefono</label>
+            <input type="text" class="form-control" name="telefono"
+            ng-model="registerAccount.utente.telefono"   >
+
+            <div ng-show="form.telefono.$invalid">
+            </div>
+        </div>
+        <div class="form-group col-sm-6">
+            <label translate="cifra2gestattiApp.utente.altrorecapito">Altrorecapito</label>
+            <input type="text" class="form-control" name="altrorecapito"
+            ng-model="registerAccount.utente.altrorecapito"   >
+
+            <div ng-show="form.altrorecapito.$invalid">
+            </div>
+        </div>
+        <div class="form-group col-sm-6">
+            <label translate="cifra2gestattiApp.utente.fax">Fax</label>
+            <input type="text" class="form-control" name="fax"
+            ng-model="registerAccount.utente.fax"   >
+
+            <div ng-show="form.fax.$invalid">
+            </div>
+        </div>
+        
+        <div class="form-group col-sm-6">
+            <label translate="cifra2gestattiApp.utente.moduloregistrazione">Modulo di Registrazione Firmato</label>
+            <input onchange="angular.element(this).scope().setTempfile()" id="file" type="file" class="form-control" fileread ng-model="tempfilename">
+        </div>
+    </div>
+    <indirizzo-select span="6" ng-model="registerAccount.utente.indirizzo"></indirizzo-select>
+</div>
+
+</div>
+
+
+<button ng-if="!isAuthenticated" type="submit" ng-disabled="form.$invalid" class="btn btn-primary" translate="register.form.button">Register</button>
+<button ng-if="isAuthenticated" type="submit" ng-disabled="form.$invalid" class="btn btn-primary" translate="register.form.buttonAdmin">Register</button>
+</form>
+<p></p>
+<div ng-if="!isAuthenticated" class="alert alert-warning" translate="global.messages.info.authenticated" translate-values="{login_url: '{{configurationParams.login_url}}'}">
+    If you want to <a href="{{login_url}}">authenticate</a>, you can try the default login="admin" and
+    password="admin".
+</div>
+</div>
+</div>
+</div>

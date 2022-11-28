@@ -1,0 +1,332 @@
+<div>
+
+ 	<aoo-info ng-model="aoo" ></aoo-info>
+
+
+	<div class="row" ng-if="!gestioneProfiloEdit">
+<div class="panel">
+<div class="panel-header">
+	<h5><i class="fa fa-search fa-2x" ></i> Ricerca profili utenti</h5> 		
+	 
+</div>
+<div class="panel-body">
+	
+		<form name="searchForm" role="search" novalidate ng-submit="search()" show-validation>
+
+ 
+			<div class="form-group col-sm-4">
+				<label  >Username</label>
+				<input type="text" class="form-control" name="userName"
+				ng-model="criteriaUtente.userName"  >
+
+			</div>
+
+	<!-- 	<div class="form-group col-sm-3">
+				<label >Utente valido</label>
+				<input type="checkbox" class="form-control" name="valido"
+				ng-model="criteriaUtente.valido">
+			</div>
+		-->
+
+		<div class="form-group col-sm-4">
+			<label >Profilo utente già esistente nell'Ufficio selezionato</label>
+			<input type="checkbox" class="form-control" name="hasProfilo"
+			ng-model="criteriaUtente.hasProfilo">
+		</div>
+
+
+		<button type="submit" ng-disabled="searchForm.$invalid" class="btn btn-primary">
+			<span class="glyphicon glyphicon-search"></span>&nbsp;<span  >Cerca</span>
+		</button>
+
+ 
+                <button type="button"  class="btn btn-primary" data-toggle="modal" data-target="#saveUtenteModal" ng-click="clear()">
+                    <span class="fa fa-user"></span> <span translate="cifra2gestattiApp.utente.home.createLabel">Create a new Utente</span>
+                </button>
+             
+
+	</form>
+
+</div>
+
+</div>
+
+</div>
+
+
+
+
+
+
+<div class="modal fade" id="saveUtenteModal" tabindex="-1" role="dialog" aria-labelledby="myUtenteLabel"
+aria-hidden="true">
+<div class="modal-dialog">
+	<div class="modal-content">
+		<form name="editForm" role="form" novalidate ng-submit="save()" show-validation>
+
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+				ng-click="clear()">&times;</button>
+				<h4 class="modal-title" id="myUtenteLabel" translate="cifra2gestattiApp.utente.home.createOrEditLabel">Create or edit a Utente</h4>
+			</div>
+			<div class="modal-body">
+				 
+		 	<utente-form  ng-model="utente" ng-disabled="false" ></utente-form> 
+
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
+					<span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+				</button>
+				<button type="submit" ng-disabled="editForm.$invalid" class="btn btn-primary">
+					<span class="glyphicon glyphicon-save"></span>&nbsp;<span translate="entity.action.save">Save</span>
+				</button>
+			</div>
+		</form>
+	</div>
+</div>
+</div>
+
+
+
+<div class="modal fade" id="attivaUtenteConfirmation">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form name="deleteForm" ng-submit="confirmAttiva(utente.id)">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                    ng-click="clear()">&times;</button>
+                    <h4 class="modal-title" translate="entity.attiva.title">Confirm attiva operation</h4>
+                </div>
+                <div class="modal-body">
+                    <p translate="cifra2gestattiApp.utente.attiva.question" translate-values="{username: '{{utente.username}}'}">Are you sure you want to delete this Utente?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
+                        <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+                    </button>
+                    <button type="submit" ng-disabled="deleteForm.$invalid" class="btn btn-warning">
+                        <span class="fa fa-send"></span>&nbsp;<span translate="entity.action.attiva">attiva</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<div class="row" ng-if="!gestioneProfiloEdit">
+	<div class="table-responsive">
+
+
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th translate="cifra2gestattiApp.utente.cognome">Cognome</th>
+					<th translate="cifra2gestattiApp.utente.nome">Nome</th>
+					<th translate="cifra2gestattiApp.utente.username">Username</th>
+					<th translate="cifra2gestattiApp.utente.codicefiscale">Codicefiscale</th>
+					<th translate="cifra2gestattiApp.utente.email">Email</th>
+					<th translate="cifra2gestattiApp.utente.stato">Stato</th>
+
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="utente in utentes | filter:searchText">
+					<td>{{utente.cognome}}</td>
+					<td>{{utente.nome}}</td>
+					<td>{{utente.username}}</td>
+					<td>{{utente.codicefiscale}}</td>
+					<td>{{utente.email}}</td>
+					<td>{{utente.stato}}</td>
+
+					<td>
+
+						<a href="#/aoo/{{aoo.id}}/associaProfilo/{{utente.id}}"  class="btn btn-info btn-sm">
+							<span class="glyphicon glyphicon-eye-open"></span>&nbsp;<span > Gestione profili</span>
+						</a>
+
+		  				<button type="submit" has-ruolo="ROLE_AMMINISTRATORE_RP,ROLE_ADMIN"    
+		  					ng-click="attiva(utente.id)"  class="btn btn-primary btn-sm" >
+		                	<span class="fa fa-send"></span>&nbsp;<span translate="entity.action.attiva"> attiva</span>
+		             	</button>
+
+						<button type="submit" has-ruolo="ROLE_AMMINISTRATORE_RP,ROLE_ADMIN"
+							ng-click="showUpdate(utente.id)"
+							class="btn btn-primary btn-sm">
+							<span class="glyphicon glyphicon-pencil"></span>&nbsp;<span translate="entity.action.edit"> Edit</span>
+						</button>
+
+						<button type="submit" has-ruolo="ROLE_ADMIN,ROLE_AMMINISTRATORE_RP"
+							ng-click="delete(utente.id)"
+							class="btn btn-danger btn-sm">
+							<span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span translate="entity.action.delete"> Delete</span>
+						</button>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="modal fade" id="deleteUtenteConfirmation">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<form name="deleteForm" ng-submit="confirmDelete(utente.id)">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+					ng-click="clear()">&times;</button>
+					<h4 class="modal-title" translate="entity.delete.title">Confirm delete operation</h4>
+				</div>
+				<div class="modal-body">
+					<p translate="cifra2gestattiApp.utente.delete.question" translate-values="{id: '{{utente.id}}'}">Are you sure you want to delete this Utente?</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
+						<span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+					</button>
+					<button type="submit" ng-disabled="deleteForm.$invalid" class="btn btn-danger">
+						<span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span translate="entity.action.delete">Delete</span>
+					</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+
+
+
+<div class="modal fade" id="attivaUtenteConfirmation">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form name="deleteForm" ng-submit="confirmAttiva(utente.id)">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                    ng-click="clear()">&times;</button>
+                    <h4 class="modal-title" translate="entity.attiva.title">Confirm attiva operation</h4>
+                </div>
+                <div class="modal-body">
+                    <p translate="cifra2gestattiApp.utente.attiva.question" translate-values="{username: '{{utente.username}}'}">Are you sure you want to delete this Utente?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
+                        <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+                    </button>
+                    <button type="submit" ng-disabled="deleteForm.$invalid" class="btn btn-warning">
+                        <span class="fa fa-send"></span>&nbsp;<span translate="entity.action.attiva">attiva</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="row" ng-if="gestioneProfiloEdit">
+
+<div class="form-group ">
+
+	<button type="button" class="form-control btn btn-primary" data-toggle="collapse" 
+	data-target="#Utente" aria-expanded="true" aria-controls="Utente">
+	<label>Informazioni utente {{utente.username}}</label>
+	</button>
+
+	<div id="Utente" class="collapse">
+		 <utente-form  ng-model="utente" ng-disabled="true" ></utente-form>  
+	</div>
+</div>
+
+	<div class="col-sm-12">
+		<div class="form-group ">
+
+			<label>Profili utente associati all'Ufficio {{aoo.descrizione}}</label>
+			
+			<div ui-tree="options" ng-if="!editing" >
+				<ol ui-tree-nodes ng-model="hasProfili" data-nodrag  >
+					<li ng-repeat="profilo in hasProfili" ui-tree-node  >
+
+						<div ui-tree-handle class="tree-node tree-node-content" >
+
+							<label >{{profilo.descrizione}} {{profilo.aoo.id}} </label>
+
+							
+
+					<div class="pull-right"   >
+						<a class="pull-right btn btn-danger btn-sm"  ng-click="edit(profilo)"  >Modifica profilo <span
+							class="glyphicon glyphicon-edit"></span></a>
+
+
+						</div>
+					</div>
+				</li>
+
+				<li>
+					<div   class="tree-node tree-node-content" >
+						<label>
+							<a class="pull-left btn btn-primary btn-sm"    ng-click="addProfilo()"   >Aggiungi profilo  <span
+								class="glyphicon glyphicon-plus"></span></a>
+							</label>
+						</div>
+					</li>
+
+
+				</ol>
+			</div>
+ 
+
+
+
+			<form    ng-if="editing" name="editForm" role="form" novalidate ng-submit="salvaProfilo( profiloEdit  )"  show-validation>
+
+								
+								 
+
+								<profilo-form ng-model="profiloEdit" ng-disabled="true" lista-aoo="aoos"  lista-atto="tipoattos" 
+								lista-qualificaprofessionale="qualificaprofessionales"  lista-grupporuolo="gruppoRuolos"  lista-utente="utentes"
+								> </profilo-form>
+
+
+						 
+
+								<button type="submit" class="btn btn-primary pull-right " ng-disabled="editForm.$invalid" >
+									<span class="glyphicon glyphicon-save"></span>&nbsp;<span translate="entity.action.save">Save</span>
+								</button>
+
+								<button type="button" class="btn btn-default pull-right"  ng-click="cancelEdit(profiloEdit)">
+									<span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+								</button>
+
+
+					 
+ 
+
+					</form>
+
+
+		</div>
+	</div>
+
+</div>
+
+
+
+
+
+</div>
+
+</div>

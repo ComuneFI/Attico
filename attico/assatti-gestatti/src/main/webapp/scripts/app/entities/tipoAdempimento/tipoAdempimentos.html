@@ -1,0 +1,204 @@
+<div>
+
+    <h2 translate="cifra2gestattiApp.tipoAdempimento.home.title">TipoAdempimento</h2>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <button class="btn btn-primary" data-toggle="modal" data-target="#saveTipoAdempimentoModal" ng-click="clear()">
+                    <span class="glyphicon glyphicon-flash"></span> <span translate="cifra2gestattiApp.tipoAdempimento.home.createLabel">Create a new TipoAdempimento</span>
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal fade" id="operationNotPermitted">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                   <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                           ng-click="clear()">&times;</button>
+                   <h4 class="modal-title" translate="entity.modify.notPermitted">Operation not permitted</h4>
+               </div>
+               <div class="modal-body">
+                   <p translate="cifra2gestattiApp.tipoAdempimento.messages.error.operationNotPermitted">Operation not permitted</p>
+               </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="saveTipoAdempimentoModal" tabindex="-1" role="dialog" aria-labelledby="myTipoAdempimentoLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form name="editForm" role="form" novalidate ng-submit="save()" show-validation>
+
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                                ng-click="clear()">&times;</button>
+                        <h4 class="modal-title" id="myTipoAdempimentoLabel" translate="cifra2gestattiApp.tipoAdempimento.home.createOrEditLabel">Create or edit a TipoAdempimento</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label>ID</label>
+                            <input type="text" class="form-control" name="id"
+                                   ng-model="tipoAdempimento.id" readonly>
+                        </div>
+
+                        <div class="form-group">
+                            <label translate="cifra2gestattiApp.tipoAdempimento.descrizione">Descrizione</label> *
+                            <input type="text" class="form-control" name="descrizione"
+                                   ng-model="tipoAdempimento.descrizione" required>
+
+                            <div ng-show="editForm.descrizione.$invalid">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label translate="cifra2gestattiApp.tipoAdempimento.obbligoBeneficiario">Beneficiario obbligatorio</label> *
+                            <select class="form-control" name="tipoAdempimento" ng-model="tipoAdempimento.beneficiarioRequired" required>
+                            	<option value="true" ng-selected="tipoAdempimento.beneficiarioRequired == true">SI</option>
+								<option value="false" ng-selected="tipoAdempimento.beneficiarioRequired == false">NO</option>
+                            </select>
+                            
+                            <div ng-show="editForm.obbligoBeneficiario.$invalid">
+                            </div>
+                        </div>
+                        
+                         <div class="form-group">
+		                        <label translate="cifra2gestattiApp.tipoAdempimento.tipoiter">tipoiter</label> *
+		                        <select required ng-change="tipoAdempimento.generazioneSchedaAnagraficoContabile = null;" class="form-control" name="tipoiter" ng-model="tipoAdempimento.tipoiter" ng-options="tipoIter as tipoIter.descrizione + ' (' + tipoIter.tipoAtto.codice + ')' for tipoIter in tipoiters track by tipoIter.id" >
+		                        </select>
+		                    <div ng-show="editForm.tipoiter.$invalid">  </div>
+		                </div>
+
+						<div class="form-group">
+                            <label translate="cifra2gestattiApp.tipoAdempimento.generazioneSchedaAnagraficoContabile">Generazione Scheda Anagrafica Contabile</label> * <span data-toggle="tooltip" bs-tooltip data-html="true" data-placement="right" data-title="{{'cifra2gestattiApp.tipoAdempimento.guida.schedaAnagraficoContabile' | translate}}">
+								<i class="fa fa-question" ></i>
+							</span>
+                            <select ng-if="tipoAdempimento.tipoiter.codice == ITER_SENZA_VERIFICA_CONTABILE" required class="form-control" name="tipoAdempimento" ng-model="tipoAdempimento.generazioneSchedaAnagraficoContabile" >
+                            	<option value="true" ng-selected="tipoAdempimento.generazioneSchedaAnagraficoContabile == true">SI</option>
+								<option value="false" ng-selected="tipoAdempimento.generazioneSchedaAnagraficoContabile == false">NO</option>
+                            </select>
+                            <input ng-if="tipoAdempimento.tipoiter.codice != ITER_SENZA_VERIFICA_CONTABILE" type="text" class="form-control" disabled="disabled" value="Si" />
+                            <div ng-show="editForm.generazioneSchedaAnagraficoContabile.$invalid">
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
+                            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+                        </button>
+                        <button type="submit" ng-disabled="editForm.$invalid" class="btn btn-primary">
+                            <span class="glyphicon glyphicon-save"></span>&nbsp;<span translate="entity.action.save">Save</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="deleteTipoAdempimentoConfirmation">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form name="deleteForm" ng-submit="confirmDelete(tipoAdempimento.id)">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                                ng-click="clear()">&times;</button>
+                        <h4 class="modal-title" translate="entity.delete.title">Confirm delete operation</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p translate="cifra2gestattiApp.tipoAdempimento.delete.question" translate-values="{id: '{{tipoAdempimento.id}}'}">Are you sure you want to delete this TipoAdempimento?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
+                            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+                        </button>
+                        <button type="submit" ng-disabled="deleteForm.$invalid" class="btn btn-danger">
+                            <span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span translate="entity.action.delete">Delete</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div>
+    	<div class="table-responsive crud-search">
+	        <table class="table table-striped">
+	            <thead>
+	                <tr>
+	                	<th width="30px"></th>
+	                    <th>ID</th>
+	                    <th translate="cifra2gestattiApp.tipoAdempimento.descrizione">Descrizione</th>
+	                    <th translate="cifra2gestattiApp.tipoAdempimento.tipoiter">tipoiter</th>
+	                    <th translate="cifra2gestattiApp.tipoAdempimento.obbligoBeneficiario">obbligoBeneficiario</th>
+	                    <th translate="cifra2gestattiApp.tipoAdempimento.generazioneSchedaAnagraficoContabile">generazione scheda anagrafico contabile</th>
+	                    <th></th>
+	                </tr>
+	                <tr>
+	                	<th style="text-align:center;"><button class="btn btn-primary btn-xs" ng-click="ricerca()"><span class="glyphicon glyphicon-search"/> <span translate="global.messages.cerca">Ricerca</span></button> <button class="btn btn-primary btn-xs" ng-click="resetRicerca()"><span translate="global.messages.resetricerca">Reset ricerca</span></button></th>
+			           <th></th>
+			           <th><input type="text" ng-model="tempSearch.descrizione"></th>
+			           <th class="limited-width">
+			           		<ui-select ng-model="tempSearch.tipoiter" theme="bootstrap">
+		                    	<ui-select-match allow-clear="true">{{$select.selected.descrizione}} ({{$select.selected.tipoAtto.codice}})</ui-select-match>
+		                    	<ui-select-choices repeat="cur in tipoiters | filter: $select.search track by $index">
+		                            <div ng-bind-html="cur.descrizione + ' ('+ cur.tipoAtto.codice +')' | highlight: $select.search"></div>
+		                    	</ui-select-choices>
+	                      	</ui-select>
+			           </th>
+			           <th></th>
+			           <th></th>
+			           <th style="text-align:center;"><button class="btn btn-primary btn-xs" ng-click="ricerca()"><span class="glyphicon glyphicon-search"/> <span translate="global.messages.cerca">Ricerca</span></button> <button class="btn btn-primary btn-xs" ng-click="resetRicerca()"><span translate="global.messages.resetricerca">Reset ricerca</span></button></th>
+			        </tr>
+	            </thead>
+	            <tbody>
+	                <tr ng-repeat="tipoAdempimento in tipoAdempimentos">
+	                    <td></td>
+	                    <td><a ui-sref="tipoAdempimentoDetail({id:tipoAdempimento.id})">{{tipoAdempimento.id}}</a></td>
+	                    <td>{{tipoAdempimento.descrizione}}</td>
+	                    <td>{{tipoAdempimento.tipoiter.descrizione}} ({{tipoAdempimento.tipoiter.tipoAtto.codice}})</td>
+	                    <td>{{(tipoAdempimento.beneficiarioRequired)?'SI':'NO'}}</td>
+	                    <td>
+	                    	<span ng-if="tipoAdempimento.tipoiter.codice == ITER_SENZA_VERIFICA_CONTABILE && tipoAdempimento.generazioneSchedaAnagraficoContabile!=null">{{(tipoAdempimento.generazioneSchedaAnagraficoContabile)?'SI':'NO'}}</span>
+	                    	<span ng-if="tipoAdempimento.tipoiter.codice != ITER_SENZA_VERIFICA_CONTABILE">SI</span>
+	                    </td>
+	                    <td>
+	                        <button type="submit"
+	                                ui-sref="tipoAdempimentoDetail({id:tipoAdempimento.id})"
+	                                class="btn btn-info btn-sm">
+	                            <span class="glyphicon glyphicon-eye-open"></span>&nbsp;<span translate="entity.action.view"> View</span>
+	                        </button>
+	                        <button type="submit"
+	                                ng-click="showUpdate(tipoAdempimento.id)"
+	                                class="btn btn-primary btn-sm">
+	                            <span class="glyphicon glyphicon-pencil"></span>&nbsp;<span translate="entity.action.edit"> Edit</span>
+	                        </button>
+	                        <button type="submit"
+	                                ng-click="delete(tipoAdempimento.id)"
+	                                class="btn btn-danger btn-sm">
+	                            <span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span translate="entity.action.delete"> Delete</span>
+	                        </button>
+	                    </td>
+	                </tr>
+	            </tbody>
+	        </table>
+	        <div ng-if="tipoAdempimentos && tipoAdempimentos.length == 0" class="search-no-result"><h3 translate="global.searchNoResult"></h3></div>
+	    </div>
+        <nav>
+            <ul class="pagination">
+                <li ng-show="links['first']" ng-click="loadPage(links['first'])"><a>&lt;&lt;</a></li>
+                <li ng-show="links['prev']" ng-click="loadPage(links['prev'])"><a>&lt;</a></li>
+                <li ng-show="page > 2" ng-click="loadPage(page - 2)"><a>{{page - 2}}</a></li>
+                <li ng-show="page > 1" ng-click="loadPage(page - 1)"><a>{{page - 1}}</a></li>
+                <li class="active"><a>{{page}}</a></li>
+                <li ng-show="page < links['last']" ng-click="loadPage(page + 1)"><a>{{page + 1}}</a></li>
+                <li ng-show="page < links['last'] - 1" ng-click="loadPage(page + 2)"><a>{{page + 2}}</a></li>
+                <li ng-show="links['next']" ng-click="loadPage(links['next'])"><a>&gt;</a></li>
+                <li ng-show="links['last']" ng-click="loadPage(links['last'])"><a>&gt;&gt;</a></li>
+            </ul>
+        </nav>
+    </div>
+</div>

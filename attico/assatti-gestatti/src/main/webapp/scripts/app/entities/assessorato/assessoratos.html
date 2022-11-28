@@ -1,0 +1,190 @@
+<div>
+
+    <h2 translate="cifra2gestattiApp.assessorato.home.title">Assessoratos</h2>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <button class="btn btn-primary" data-toggle="modal" data-target="#saveAssessoratoModal" ng-click="clear()">
+                    <span class="glyphicon glyphicon-flash"></span> <span translate="cifra2gestattiApp.assessorato.home.createLabel">Create a new Assessorato</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="saveAssessoratoModal" tabindex="-1" role="dialog" aria-labelledby="myAssessoratoLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form name="editForm" role="form" novalidate ng-submit="save()" show-validation>
+
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                                ng-click="clear()">&times;</button>
+                        <h4 class="modal-title" id="myAssessoratoLabel" translate="cifra2gestattiApp.assessorato.home.createOrEditLabel">Create or edit a Assessorato</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group col-sm-12">
+                            <label translate="cifra2gestattiApp.assessorato.id">ID</label>
+                            <input type="text" class="form-control" name="id"
+                                   ng-model="assessorato.id" readonly>
+                        </div>
+
+                        <div class="form-group col-sm-12">
+                        	<div class="form-group col-sm-6">
+								<label translate="cifra2gestattiApp.assessorato.codice">Codice</label>
+								<input type="text" class="form-control" name="codice"
+								ng-model="assessorato.codice" maxlength="3">
+								<div ng-show="editForm.codice.$invalid">  </div>
+							</div>
+                        	<div class="form-group col-sm-6">
+	                            <label translate="cifra2gestattiApp.assessorato.denominazione">Denominazione</label> *
+	                            <input type="text" class="form-control" name="denominazione"
+	                                   ng-model="assessorato.denominazione" required>
+	
+	                            <div ng-show="editForm.denominazione.$invalid">
+	                            </div>
+                       	 	</div>
+                        </div>
+                        <div class="form-group col-sm-12">
+                        	<indirizzo-select span="6" ng-model="assessorato.indirizzo"></indirizzo-select>
+	                        <div class="form-group col-sm-6">
+	                            <label translate="cifra2gestattiApp.assessorato.qualifica">Qualifica</label> *
+	                            <input type="text" class="form-control" name="qualifica"
+	                                   ng-model="assessorato.qualifica" required>
+	
+	                        </div>
+                        </div>
+                        
+                        <div class="form-group col-sm-12">
+                        	<div class="form-group col-sm-6">
+								<label translate="cifra2gestattiApp.assessorato.telefono">Telefono</label>
+								<input type="text" class="form-control" name="telefono"
+								ng-model="assessorato.telefono">
+								<div ng-show="editForm.telefono.$invalid">  </div>
+							</div>
+                        	<div class="form-group col-sm-6">
+	                            <label translate="cifra2gestattiApp.assessorato.fax">Fax</label>
+	                            <input type="text" class="form-control" name="fax"
+	                                   ng-model="assessorato.fax">
+	
+	                            <div ng-show="editForm.fax.$invalid">
+	                            </div>
+                       	 	</div>
+                        </div>
+                        
+                        <div class="form-group col-sm-12">
+							<div class="form-group col-sm-6">
+								<label translate="cifra2gestattiApp.assessorato.profiloresponsabile">Profilo</label> *
+								<select class="form-control" name="profiloResponsabile"
+									ng-model="assessorato.profiloResponsabile.id"
+									ng-options="profilo.id as profilo.descrizione + ' (' + profilo.aoo.codice + ') - ' + profilo.utente.username for profilo in profilos" 
+									ng-change="updateNominativoResponsabile(assessorato.profiloResponsabile.id)" required>
+								</select>
+							</div>
+							<div class="form-group col-sm-6">
+	                            <label translate="cifra2gestattiApp.assessorato.nominativoresponsabile">Nominativo Responsabile</label> *
+	                            <input type="text" class="form-control" name="nominativoResponsabile"
+	                                   ng-model="assessorato.nominativoResponsabile" required>
+	
+	                            <div ng-show="editForm.nominativoResponsabile.$invalid">
+	                            </div>
+                       	 	</div>
+						</div>
+                        <div class="form-group col-sm-12">
+                       	 <validita-form ng-model="assessorato.validita" ></validita-form>
+						</div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
+                            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+                        </button>
+                        <button type="submit" ng-disabled="editForm.$invalid" class="btn btn-primary">
+                            <span class="glyphicon glyphicon-save"></span>&nbsp;<span translate="entity.action.save">Save</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+	<div>
+	    <div class="table-responsive crud-search">
+	        <table class="table table-striped">
+	            <thead>
+	                <tr>
+	                	<th width="30px"></th>
+	                    <th translate="cifra2gestattiApp.assessorato.id">id</th>
+	                    <th translate="cifra2gestattiApp.assessorato.codice">codice</th>
+	                    <th translate="cifra2gestattiApp.assessorato.nominativoresponsabile">responsabile</th>
+	                    <th translate="cifra2gestattiApp.assessorato.denominazione">Denominazione</th>
+	                    <th translate="cifra2gestattiApp.assessorato.qualifica">qualifica</th>
+	                    <th translate="cifra2gestattiApp.assessorato.filtro.label-stato">Stato</th>
+	                    <th width="30px"></th>
+	                </tr>
+	                <tr>
+	                   <th style="text-align:center;"><button class="btn btn-primary btn-xs" ng-click="ricerca()"><span class="glyphicon glyphicon-search"/> <span translate="global.messages.cerca">Ricerca</span></button> <button class="btn btn-primary btn-xs" ng-click="resetRicerca()"><span translate="global.messages.resetricerca">Reset ricerca</span></button></th>
+			           <th><input style="max-width:25px;" type="text" ng-model="tempSearch.id"></th>
+			           <th><input type="text" ng-model="tempSearch.codice" maxlength="3"></th>
+			           <th><input type="text" ng-model="tempSearch.responsabile"></th>
+			           <th><input type="text" ng-model="tempSearch.denominazione"></th>
+			           <th><input type="text" ng-model="tempSearch.qualifica"></th>
+			           <th>
+			           		<ui-select ng-model="tempSearch.stato" theme="bootstrap" style='display: inline-block; min-width: 120px;'>
+								<ui-select-match allow-clear="true">{{$select.selected.denominazione | translate}}</ui-select-match>
+								<ui-select-choices repeat="stato in stati | filter: $select.search">
+									<div ng-bind-html="stato.denominazione | translate | highlight: $select.search"></div>
+								</ui-select-choices>
+							</ui-select>
+			           </th>
+			           <th style="text-align:center;"><button class="btn btn-primary btn-xs" ng-click="ricerca()"><span class="glyphicon glyphicon-search"/> <span translate="global.messages.cerca">Ricerca</span></button> <button class="btn btn-primary btn-xs" ng-click="resetRicerca()"><span translate="global.messages.resetricerca">Reset ricerca</span></button></th>
+	       		   </tr>
+	            </thead>
+	            <tbody>
+	                <tr ng-repeat="assessorato in assessoratos">
+	                    <td></td>
+	                    <td><a ui-sref="assessoratoDetail({id:assessorato.id})">{{assessorato.id}}</a></td>
+	                    <td>{{assessorato.codice}}</td>
+	                    <td>{{assessorato.nominativoResponsabile}}</td>
+	                    <td>{{assessorato.denominazione}}</td>
+	                    <td>{{assessorato.qualifica}}</td>
+	                    <td>
+	                        <button type="submit"
+	                                ui-sref="assessoratoDetail({id:assessorato.id})"
+	                                class="btn btn-info btn-sm">
+	                            <span class="glyphicon glyphicon-eye-open"></span>&nbsp;<span translate="entity.action.view"> View</span>
+	                        </button>
+	                        <button type="submit"
+	                                ng-click="showUpdate(assessorato.id)"
+	                                class="btn btn-primary btn-sm">
+	                            <span class="glyphicon glyphicon-pencil"></span>&nbsp;<span translate="entity.action.edit"> Edit</span>
+	                        </button>
+	                        <button type="submit"
+	                                ng-click="disable(assessorato.id)"
+	                                class="btn btn-warning btn-sm"
+	                                ng-show="assessorato.validita.validoal == null">
+	                            <span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span translate="entity.action.disable"> Disable</span>
+	                        </button>
+	                        <button type="submit"
+	                                ng-click="enable(assessorato.id)"
+	                                class="btn btn-success btn-sm"
+	                                ng-show="assessorato.validita.validoal != null">
+	                            <span class="glyphicon glyphicon-ok-circle"></span>&nbsp;<span translate="entity.action.enable"> Enable</span>
+	                        </button>
+	                    </td>
+	                </tr>
+	            </tbody>
+	        </table>
+	        <div ng-if="assessoratos && assessoratos.length == 0" class="search-no-result"><h3 translate="global.searchNoResult"></h3></div>
+	    </div>
+        <nav>
+            <ul class="pager">
+                <li ng-show="links['first']" ng-click="loadPage(links['first'])"><a href="#">&lt;&lt;</a></li>
+                <li ng-show="links['prev']" ng-click="loadPage(links['prev'])"><a href="#">&lt;</a></li>
+                <li ng-show="links['next']" ng-click="loadPage(links['next'])"><a href="#">&gt;</a></li>
+                <li ng-show="links['last']" ng-click="loadPage(links['last'])"><a href="#">&gt;&gt;</a></li>
+            </ul>
+        </nav>
+    </div>
+</div>

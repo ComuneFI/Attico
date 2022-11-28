@@ -1,0 +1,47 @@
+
+<div>
+    <h2><span translate="cifra2gestattiApp.gruppoRuolo.detail.title">GruppoRuolo</span> {{gruppoRuolo.id}}</h2>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th translate="entity.detail.field">Field</th>
+                    <th translate="entity.detail.value">Value</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.gruppoRuolo.denominazione">Denominazione</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{gruppoRuolo.denominazione}}" readonly>
+                    </td>
+                </tr>
+               <!-- eliminato il collegamento con l'AOO in quanto secondo Innova non ha senso.
+                     	ISSUE: UTE_006: Crud Gruppo Ruolo - eliminare legame AOO 
+                        DATA: 31/05/2016 <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.gruppoRuolo.aoo">aoo</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{gruppoRuolo.aoo.descrizione}}" readonly>
+                    </td>
+                </tr>
+                 -->
+                 <tr>
+                 	<td><span translate="cifra2gestattiApp.gruppoRuolo.ruoli">Ruoli</span></td>
+                 	<td>
+                 		<div ng-repeat="ruolo in gruppoRuolo.hasRuoli"><span >- {{ruolo.descrizione}}</span></div>
+                 	</td>
+                 </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <button type="submit"
+            ui-sref="gruppoRuolo"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span translate="entity.action.back"> Back</span>
+    </button>
+</div>

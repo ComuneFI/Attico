@@ -1,0 +1,336 @@
+<ng-controller ng-controller="RicercaStoricaController">
+	<div class="form-group">
+		<label translate="cifra2gestattiApp.atto.anno">Anno</label> &nbsp;&nbsp;&nbsp;
+		<select ng-options="anno for anno in storicoAnnoList" name="anno" ng-model="criteriaStorico.anno"></select> &nbsp;
+		<button class="btn btn-primary btn-sm" ng-click="loadAllStorico()">
+			<span class="glyphicon glyphicon-search"/> 
+			<span translate="global.messages.cerca">Ricerca</span>
+		</button> 
+	</div>
+		
+	<ul class="nav nav-tabs">
+		<li ng-class="{'active': criteriaStorico.viewtype == 'tutti'}">
+			<a ng-click="" name="tutti" showtabstoricoatti="" href="#storicodet_tutte">Tutte le determine</a></li>
+		<li ng-class="{'active': criteriaStorico.viewtype == 'esecutive'}">
+			<a ng-click="" name="esecutive"  showtabstoricoatti="" href="#storicodet_table">Determine esecutive </a></li>
+		<li ng-class="{'active': criteriaStorico.viewtype == 'annullate'}">
+			<a ng-click="" name="annullate" showtabstoricoatti="" href="#storicodet_table" >Determine annullate o inesistenti</a></li>
+		<!-- <li ng-class="{'active': criteriaStorico.viewtype == 'dir_esecutive'}">
+			<a ng-click="" name="dir_esecutive"  showtabstoricoatti=""  href="#storicodet_table">Lista determine direttamente esecutive</a></li>
+		<li ng-class="{'active': criteriaStorico.viewtype == 'adem_cont'}">
+			<a ng-click="" name="adem_cont"  showtabstoricoatti="" href="#storicodet_table">Lista determine con adempimenti contabili </a></li>
+		<li ng-class="{'active': criteriaStorico.viewtype == 'verif_cont'}">
+			<a ng-click="" name="verif_cont"  showtabstoricoatti="" href="#storicodet_table">Lista determine con verifica contabile </a></li> -->
+	</ul>
+	
+	<!-- TUTTE LE DETERMINE VISTA AGGREGATA -->
+	<div ng-if="criteriaStorico.viewtype == 'tutti'" class="tab-pane fade in active" id="storicodet_tutte">
+		<nav ng-if="attosGroupByAoo && attosGroupByAoo.length > 0">
+	        <ul class="pagination">
+	        	<li><a>Uffici trovati: {{totalResultAoo}}</a></li>
+	            <li ng-show="linkAoos['first']" ng-click="loadPageStorico(linkAoos['first'])"><a>&lt;&lt;</a></li>
+	            <li ng-show="linkAoos['prev']" ng-click="loadPageStorico(linkAoos['prev'])"><a>&lt;</a></li>
+	            <li ng-show="storicoPage > 2" ng-click="loadPageStorico(storicoPage - 2)"><a>{{storicoPage - 2}}</a></li>
+	            <li ng-show="storicoPage > 1" ng-click="loadPageStorico(storicoPage - 1)"><a>{{storicoPage - 1}}</a></li>
+	            <li class="active"><a>{{storicoPage}}</a></li>
+	            <li ng-show="storicoPage < linkAoos['last']" ng-click="loadPageStorico(storicoPage + 1)"><a>{{storicoPage + 1}}</a></li>
+	            <li ng-show="storicoPage < linkAoos['last'] - 1" ng-click="loadPageStorico(storicoPage + 2)"><a>{{storicoPage + 2}}</a></li>
+	            <li ng-show="linkAoos['next']" ng-click="loadPageStorico(linkAoos['next'])"><a>&gt;</a></li>
+	            <li ng-show="linkAoos['last']" ng-click="loadPageStorico(linkAoos['last'])"><a>&gt;&gt;</a></li>
+	        </ul>
+	    </nav>
+	 	<div class="table-responsive crud-search" >
+	        <div ui-tree="options"  ng-if="attosGroupByAoo && attosGroupByAoo.length > 0" >
+	          <ol ui-tree-nodes ng-model="attosGroupByAoo" data-type="aoo" >
+	            <li  data-nodrag ng-repeat="aoo in attosGroupByAoo" ui-tree-node data-collapsed="true" >
+	            	 <div ui-tree-handle class="tree-node tree-node-content" >
+			            <a data-nodrag class="btn btn-success btn-xs" ng-click="caricaStoricoAttiDir(aoo,this,toggle)" >
+			            	<span ng-show="aoo.loading != true" class="glyphicon" ng-class="{'glyphicon-chevron-right': collapsed,'glyphicon-chevron-down': !collapsed}" ></span>
+			            	<span ng-show="aoo.loading == true" class="glyphicon glyphicon-refresh glyphicon-refresh-animate" ></span>
+			            </a>
+			            <label  data-nodrag >{{aoo.codice}} - {{aoo.descrizione}} </label>
+					</div>
+					
+					<ol ui-tree-nodes  ng-model="aoo.storicoAttiDir" data-type="atto"  ng-class="{hidden: collapsed}" >
+					    <li ng-repeat="atto in aoo.storicoAttiDir" ui-tree-node data-collapsed="true" >
+						    <div ui-tree-handle class="tree-node tree-node-content" >
+						    	<a data-nodrag class="btn btn-success btn-xs" ng-click="caricaLavorazioniAttoDirigenziale(atto,this,toggle)" >
+						    		<span ng-show="atto.loading != true" class="glyphicon" ng-class="{'glyphicon-chevron-right': collapsed,'glyphicon-chevron-down': !collapsed}" ></span>
+			            			<span ng-show="atto.loading == true" class="glyphicon glyphicon-refresh glyphicon-refresh-animate" ></span>
+						    	</a>
+				               <label data-nodrag>
+				               		<span>Atto {{atto.codiceCifra}}</span>
+				               		<span ng-if="atto.numeroAdozione != null && atto.numeroAdozione.length > 0"> Nr. Adozione: {{atto.numeroAdozione}}</span>
+				               		<span ng-if="atto.dataProvvedimento != null"> del: {{atto.dataProvvedimento | date:'dd-MM-yyyy'}}</span>
+				               </label>
+				               
+				            </div>
+			            
+			            	<ol ui-tree-nodes  ng-model="atto.listaLavorazioni" data-type="lav"  ng-class="{hidden: collapsed}" >
+			            		<table class="table table-striped">
+	           			 			<thead>
+	           			 				<tr>
+	           			 					<th>Lavorazione Effettuata</th>
+	           			 					<th>Oggetto</th>
+	           			 					<th></th>
+	           			 				</tr>
+	           			 			</thead>
+	           			 			<tbody>
+	           			 				<tr ng-repeat="lav in atto.listaLavorazioni">
+	           			 					<td>{{lav.lavorazione}}</td>
+	           			 					<td>{{lav.oggetto}}</td>
+	           			 					<td>
+						                        <button type="submit" ng-click="storicoAttoDetail(lav.idAtto)" class="btn btn-info btn-sm btn-block">
+						                        	<span class="glyphicon glyphicon-eye-open"></span>&nbsp;<span translate="entity.action.view"> View</span>
+							                    </button>
+							                </td>
+	           			 				</tr>
+	           			 			</tbody>
+	           			 		</table>
+			            	</ol>
+					    </li>
+					</ol>
+					
+	            	<div style="text-align: center">
+	            		<nav ng-if="totalResultAttos[aoo.id] && totalResultAttos[aoo.id] > 0">
+					        <ul class="pagination">
+					        	<li><a>Atti trovati in Aoo {{aoo.codice}}: {{totalResultAttos[aoo.id]}}</a></li>
+					            <li ng-show="linkAttos[aoo.id]['first']" ng-click="loadChildPageAttiDir(aoo, linkAttos[aoo.id]['first'])"><a>&lt;&lt;</a></li>
+					            <li ng-show="linkAttos[aoo.id]['prev']" ng-click="loadChildPageAttiDir(aoo, linkAttos[aoo.id]['prev'])"><a>&lt;</a></li>
+					            <li ng-show="storicoPageArray[aoo.id] > 2" ng-click="loadChildPageAttiDir(aoo, storicoPageArray[aoo.id] - 2)"><a>{{storicoPageArray[aoo.id] - 2}}</a></li>
+					            <li ng-show="storicoPageArray[aoo.id] > 1" ng-click="loadChildPageAttiDir(aoo, storicoPageArray[aoo.id] - 1)"><a>{{storicoPageArray[aoo.id] - 1}}</a></li>
+					            <li class="active"><a>{{storicoPageArray[aoo.id]}}</a></li>
+					            <li ng-show="storicoPageArray[aoo.id] < linkAttos[aoo.id]['last']" ng-click="loadChildPageAttiDir(aoo, storicoPageArray[aoo.id] + 1)"><a>{{storicoPageArray[aoo.id] + 1}}</a></li>
+					            <li ng-show="storicoPageArray[aoo.id] < linkAttos[aoo.id]['last'] - 1" ng-click="loadChildPageAttiDir(aoo, storicoPageArray[aoo.id] + 2)"><a>{{storicoPageArray[aoo.id] + 2}}</a></li>
+					            <li ng-show="linkAttos[aoo.id]['next']" ng-click="loadChildPageAttiDir(aoo, linkAttos[aoo.id]['next'])"><a>&gt;</a></li>
+					            <li ng-show="linkAttos[aoo.id]['last']" ng-click="loadChildPageAttiDir(aoo, linkAttos[aoo.id]['last'])"><a>&gt;&gt;</a></li>
+					        </ul>
+					    </nav>
+				    </div>
+	            </li>
+			  </ol>
+	        </div>
+	        <div ng-if="attosGroupByAoo && attosGroupByAoo.length == 0 && !loading" class="search-no-result"><h3 translate="global.searchNoResult"></h3></div>
+	        <div ng-if="attosGroupByAoo && attosGroupByAoo.length == 0 && loading" class="search-no-result"><h3 translate="global.loading"></h3></div>
+	    </div>
+	    <nav ng-if="attosGroupByAoo && attosGroupByAoo.length > 0">
+	        <ul class="pagination">
+	        	<li><a>Uffici trovati: {{totalResultAoo}}</a></li>
+	            <li ng-show="linkAoos['first']" ng-click="loadPageStorico(linkAoos['first'])"><a>&lt;&lt;</a></li>
+	            <li ng-show="linkAoos['prev']" ng-click="loadPageStorico(linkAoos['prev'])"><a>&lt;</a></li>
+	            <li ng-show="storicoPage > 2" ng-click="loadPageStorico(storicoPage - 2)"><a>{{storicoPage - 2}}</a></li>
+	            <li ng-show="storicoPage > 1" ng-click="loadPageStorico(storicoPage - 1)"><a>{{storicoPage - 1}}</a></li>
+	            <li class="active"><a>{{storicoPage}}</a></li>
+	            <li ng-show="storicoPage < linkAoos['last']" ng-click="loadPageStorico(storicoPage + 1)"><a>{{storicoPage + 1}}</a></li>
+	            <li ng-show="storicoPage < linkAoos['last'] - 1" ng-click="loadPageStorico(storicoPage + 2)"><a>{{storicoPage + 2}}</a></li>
+	            <li ng-show="linkAoos['next']" ng-click="loadPageStorico(linkAoos['next'])"><a>&gt;</a></li>
+	            <li ng-show="linkAoos['last']" ng-click="loadPageStorico(linkAoos['last'])"><a>&gt;&gt;</a></li>
+	        </ul>
+	    </nav>
+	</div>
+	
+	<!-- TUTTE LE LISTE DI DETERMINE VISTA TABELLARE -->
+	<div ng-if="criteriaStorico.viewtype != 'tutti'" class="tab-pane fade in active" id="storicodet_table">
+	 	<div class="table-responsive crud-search">
+	        <table class="table table-striped">
+	        	<thead>
+	                <tr>
+	                	<th colname="01-codiceCifra">
+		                	<a href="#">
+		                		<span ng-click="ordinaStorico('codiceCifra')" translate="cifra2gestattiApp.atto.codiceCifraNotRequired">codiceCifra</span>
+		                		<span ng-show="criteriaStorico.ordinamento == 'codiceCifra' && criteriaStorico.tipoOrdinamento == 'asc'" class="glyphicon glyphicon-sort-by-attributes" aria-hidden="true"></span>
+		                		<span ng-show="criteriaStorico.ordinamento == 'codiceCifra' && criteriaStorico.tipoOrdinamento == 'desc'" class="glyphicon glyphicon-sort-by-attributes-alt" aria-hidden="true"></span>
+		                	</a>
+		                </th>
+		                <th colname="02-dataCreazione">
+		                	<a href="#">
+		                		<span ng-click="ordinaStorico('dataCreazione')" translate="cifra2gestattiApp.atto.dataCreazione">dataCreazione</span>
+		                		<span ng-show="criteriaStorico.ordinamento == 'dataCreazione' && criteriaStorico.tipoOrdinamento == 'asc'" class="glyphicon glyphicon-sort-by-attributes" aria-hidden="true"></span>
+		                		<span ng-show="criteriaStorico.ordinamento == 'dataCreazione' && criteriaStorico.tipoOrdinamento == 'desc'" class="glyphicon glyphicon-sort-by-attributes-alt" aria-hidden="true"></span>
+		                	</a>
+		                </th>
+		                <th colname="03-oggetto">
+		                	<a href="#">
+		                		<span ng-click="ordinaStorico('oggetto')" translate="cifra2gestattiApp.atto.oggettoNotRequired">oggetto</span>
+		                		<span ng-show="criteriaStorico.ordinamento == 'oggetto' && criteriaStorico.tipoOrdinamento == 'asc'" class="glyphicon glyphicon-sort-by-attributes" aria-hidden="true"></span>
+		                		<span ng-show="criteriaStorico.ordinamento == 'oggetto' && criteriaStorico.tipoOrdinamento == 'desc'" class="glyphicon glyphicon-sort-by-attributes-alt" aria-hidden="true"></span>
+		                	</a>
+		                </th>
+	                	<th colname="04-aoo">
+	                		<a href="#">
+	                			<span ng-click="ordinaStorico('codiceArea')" translate="cifra2gestattiApp.atto.aooNotRequired">aoo</span>
+	                			<span ng-show="criteriaStorico.ordinamento == 'codiceArea' && criteriaStorico.tipoOrdinamento == 'asc'" class="glyphicon glyphicon-sort-by-attributes" aria-hidden="true"></span>
+	                			<span ng-show="criteriaStorico.ordinamento == 'codiceArea' && criteriaStorico.tipoOrdinamento == 'desc'" class="glyphicon glyphicon-sort-by-attributes-alt" aria-hidden="true"></span>
+		    	                <span data-toggle="tooltip"	title="<b>GUIDA</b><br/>Inserire il codice Ufficio oppure la denominazione dell’Ufficio."	data-html="true" ng-init="initTooltip()">
+									<i class="fa fa-question" ></i>
+								</span>
+		                    </a>
+		                </th>
+		                <th colname="05-tipoIter" ng-show="criteriaStorico.viewtype == 'esecutive' || criteriaStorico.viewtype == 'annullate'">
+		                	<a href="#">
+		                		<span ng-click="ordinaStorico('tipoIter')" translate="cifra2gestattiApp.atto.tipoIterNotRequired	">tipoIter</span>
+		                		<span ng-show="criteriaStorico.ordinamento == 'tipoIter' && criteriaStorico.tipoOrdinamento == 'asc'" class="glyphicon glyphicon-sort-by-attributes" aria-hidden="true"></span>
+		                		<span ng-show="criteriaStorico.ordinamento == 'tipoIter' && criteriaStorico.tipoOrdinamento == 'desc'" class="glyphicon glyphicon-sort-by-attributes-alt" aria-hidden="true"></span>
+		                	</a>
+		                </th>
+		                <th colname="06-tipoAdempimento" ng-show="criteriaStorico.viewtype == 'adem_cont' || criteriaStorico.viewtype == 'verif_cont'">
+		                	<a href="#">
+		                		<span ng-click="ordinaStorico('tipoAdempimento')" translate="cifra2gestattiApp.atto.tipoAdempimentoNotRequired">tipoAdempimento</span>
+		                		<span ng-show="criteriaStorico.ordinamento == 'tipoIter' && criteriaStorico.tipoOrdinamento == 'asc'" class="glyphicon glyphicon-sort-by-attributes" aria-hidden="true"></span>
+		                		<span ng-show="criteriaStorico.ordinamento == 'tipoIter' && criteriaStorico.tipoOrdinamento == 'desc'" class="glyphicon glyphicon-sort-by-attributes-alt" aria-hidden="true"></span>
+		                	</a>
+		                </th>
+		                <th colname="07-numeroAdozione">
+		                	<a href="#">
+		                		<span ng-click="ordinaStorico('codiceArea;numeroAdozione')" translate="cifra2gestattiApp.atto.numeroAdozione">numeroAdozione</span>
+		                		<span ng-show="criteriaStorico.ordinamento == 'codiceArea;numeroAdozione' && criteriaStorico.tipoOrdinamento == 'asc'" class="glyphicon glyphicon-sort-by-attributes" aria-hidden="true"></span>
+		                		<span ng-show="criteriaStorico.ordinamento == 'codiceArea;numeroAdozione' && criteriaStorico.tipoOrdinamento == 'desc'" class="glyphicon glyphicon-sort-by-attributes-alt" aria-hidden="true"></span>
+		                	</a>
+		                </th>
+		                <th colname="08-dataAdozione">
+		                	<a href="#">
+		                		<span ng-click="ordinaStorico('dataProvvedimento')" translate="cifra2gestattiApp.atto.dataAdozione">dataAdozione</span>
+		                		<span ng-show="criteriaStorico.ordinamento == 'dataProvvedimento' && criteriaStorico.tipoOrdinamento == 'asc'" class="glyphicon glyphicon-sort-by-attributes" aria-hidden="true"></span>
+		                		<span ng-show="criteriaStorico.ordinamento == 'dataProvvedimento' && criteriaStorico.tipoOrdinamento == 'desc'" class="glyphicon glyphicon-sort-by-attributes-alt" aria-hidden="true"></span>
+		                	</a>
+		                </th>
+		                <th colname="09-esitoVerificaCont" ng-show="criteriaStorico.viewtype == 'verif_cont'">
+		                	<a href="#">
+		                		<span ng-click="ordinaStorico('esitoVerificaContabile')" translate="cifra2gestattiApp.atto.esitoVerificaContabile">esitoVerificaContabile</span>
+		                		<span ng-show="criteriaStorico.ordinamento == 'esitoVerificaContabile' && criteriaStorico.tipoOrdinamento == 'asc'" class="glyphicon glyphicon-sort-by-attributes" aria-hidden="true"></span>
+		                		<span ng-show="criteriaStorico.ordinamento == 'esitoVerificaContabile' && criteriaStorico.tipoOrdinamento == 'desc'" class="glyphicon glyphicon-sort-by-attributes-alt" aria-hidden="true"></span>
+		                	</a>
+		                </th>
+		                 <th colname="10-stato" ng-show="criteriaStorico.viewtype == 'annullate'">
+		                	<a href="#">
+		                		<span ng-click="ordinaStorico('stato')" translate="cifra2gestattiApp.atto.stato">stato</span>
+		                		<span ng-show="criteriaStorico.ordinamento == 'stato' && criteriaStorico.tipoOrdinamento == 'asc'" class="glyphicon glyphicon-sort-by-attributes" aria-hidden="true"></span>
+		                		<span ng-show="criteriaStorico.ordinamento == 'stato' && criteriaStorico.tipoOrdinamento == 'desc'" class="glyphicon glyphicon-sort-by-attributes-alt" aria-hidden="true"></span>
+		                	</a>
+		                </th>
+		                <th colname="11-dataEsecutivita" ng-show="criteriaStorico.viewtype == 'esecutive' || criteriaStorico.viewtype == 'verif_cont'">
+		                	<a href="#">
+		                		<span ng-click="ordinaStorico('dataEsecutivita')" translate="cifra2gestattiApp.atto.dataEsecutivita">dataEsecutivita</span>
+		                		<span ng-show="criteriaStorico.ordinamento == 'dataEsecutivita' && criteriaStorico.tipoOrdinamento == 'asc'" class="glyphicon glyphicon-sort-by-attributes" aria-hidden="true"></span>
+		                		<span ng-show="criteriaStorico.ordinamento == 'dataEsecutivita' && criteriaStorico.tipoOrdinamento == 'desc'" class="glyphicon glyphicon-sort-by-attributes-alt" aria-hidden="true"></span>
+		                	</a>
+		                </th>
+		                <th colname="12-dataAffissioneInizio" ng-show="criteriaStorico.viewtype != 'annullate'">
+		                	<a href="#">
+		                		<span ng-click="ordinaStorico('dataAffissioneInizio')" translate="cifra2gestattiApp.atto.dataAffissioneInizio">dataAffissioneInizio</span>
+		                		<span ng-show="criteriaStorico.ordinamento == 'dataAffissioneInizio' && criteriaStorico.tipoOrdinamento == 'asc'" class="glyphicon glyphicon-sort-by-attributes" aria-hidden="true"></span>
+		                		<span ng-show="criteriaStorico.ordinamento == 'dataAffissioneInizio' && criteriaStorico.tipoOrdinamento == 'desc'" class="glyphicon glyphicon-sort-by-attributes-alt" aria-hidden="true"></span>
+		                	</a>
+		                </th>
+		                <th colname="13-dataAffissioneFine" ng-show="criteriaStorico.viewtype != 'annullate'">
+		                	<a href="#">
+		                		<span ng-click="ordinaStorico('dataAffissioneFine')" translate="cifra2gestattiApp.atto.dataAffissioneFine">dataAffissioneFine</span>
+		                		<span ng-show="criteriaStorico.ordinamento == 'dataAffissioneFine' && criteriaStorico.tipoOrdinamento == 'asc'" class="glyphicon glyphicon-sort-by-attributes" aria-hidden="true"></span>
+		                		<span ng-show="criteriaStorico.ordinamento == 'dataAffissioneFine' && criteriaStorico.tipoOrdinamento == 'desc'" class="glyphicon glyphicon-sort-by-attributes-alt" aria-hidden="true"></span>
+		                	</a>
+		                </th>
+		                <th colname="14-redigente">
+		                	<a href="#">
+		                		<span ng-click="ordinaStorico('redigente')" translate="cifra2gestattiApp.atto.redigente">dataAffissioneFine</span>
+		                		<span ng-show="criteriaStorico.ordinamento == 'redigente' && criteriaStorico.tipoOrdinamento == 'asc'" class="glyphicon glyphicon-sort-by-attributes" aria-hidden="true"></span>
+		                		<span ng-show="criteriaStorico.ordinamento == 'redigente' && criteriaStorico.tipoOrdinamento == 'desc'" class="glyphicon glyphicon-sort-by-attributes-alt" aria-hidden="true"></span>
+		                	</a>
+		                </th>
+	                    
+	                    <th></th>
+	                </tr>
+	                <tr>
+	                	<th><input type="text" name="codiceCifra" ng-model="criteriaStorico.codiceCifra"></th>
+	                	<th><input type="text" name="dataCreazione" ng-model="criteriaStorico.dataCreazione" bs-datepicker class="fixed-width" ></th>
+						<th><input type="text" name="oggetto" ng-model="criteriaStorico.oggetto"></th>
+						<th><input type="text" name="area" ng-model="criteriaStorico.area" class="fixed-small-width-150" ></th>
+						<th ng-show="criteriaStorico.viewtype == 'esecutive' || criteriaStorico.viewtype == 'annullate'" class="limited-width">
+	                	   	<ui-select ng-model="criteriaStorico.tipoIter" theme="bootstrap">
+		                    	<ui-select-match allow-clear="true">{{$select.selected}}</ui-select-match>
+		                    	<ui-select-choices repeat="item in tipiIter | filter: $select.search track by $index">
+		                            <div ng-bind-html="item | highlight: $select.search"></div>
+		                    	</ui-select-choices>
+	                      	</ui-select>
+	                    </th>
+	                    <th ng-show="criteriaStorico.viewtype == 'adem_cont' || criteriaStorico.viewtype == 'verif_cont'" class="limited-width">
+	                	   	<ui-select ng-model="criteriaStorico.tipoAdempimento" theme="bootstrap">
+		                    	<ui-select-match allow-clear="true">{{$select.selected}}</ui-select-match>
+		                    	<ui-select-choices repeat="item in tipiAdem | filter: $select.search track by $index">
+		                            <div ng-bind-html="item | highlight: $select.search"></div>
+		                    	</ui-select-choices>
+	                      	</ui-select>
+	                    </th>
+	                	<th><input type="text" name="numeroAdozione" ng-model="criteriaStorico.numeroAdozione" class="fixed-small-width" ></th>
+	               		<th>
+			                <input type="text" name="dataAdozione"  ng-model="criteriaStorico.dataAdozione" placeholder="Da" class="fixed-width" bs-datepicker>
+			                <input type="text" name="dataAdozioneA" ng-model="criteriaStorico.dataAdozioneA" placeholder="A" class="fixed-width" bs-datepicker>
+			            </th>
+	               		<th ng-show="criteriaStorico.viewtype == 'verif_cont'" class="limited-width">
+	                	   	<ui-select ng-model="criteriaStorico.esitoVerificaContabile" theme="bootstrap">
+		                    	<ui-select-match allow-clear="true">{{$select.selected}}</ui-select-match>
+		                    	<ui-select-choices repeat="item in tipiEsitiVerifica | filter: $select.search track by $index">
+		                            <div ng-bind-html="item | highlight: $select.search"></div>
+		                    	</ui-select-choices>
+	                      	</ui-select>
+	                    </th>
+	               		<th ng-show="criteriaStorico.viewtype == 'annullata'"><input type="text" name="stato" ng-model="criteriaStorico.stato"></th>
+	               		<th ng-show="criteriaStorico.viewtype == 'esecutive' || criteriaStorico.viewtype == 'verif_cont'">
+	               			<input type="text" name="dataEsecutivita" ng-model="criteriaStorico.dataEsecutivita" placeholder="Da" class="fixed-width" bs-datepicker >
+	               			<input type="text" name="dataEsecutivitaA" ng-model="criteriaStorico.dataEsecutivitaA" placeholder="A" class="fixed-width" bs-datepicker >
+	               		</th>
+	               		<th ng-show="criteriaStorico.viewtype != 'annullate'">
+	               			<input type="text" name="dataInizioAffissione" ng-model="criteriaStorico.dataInizioAffissione" placeholder="Da" class="fixed-width" bs-datepicker >
+	               			<input type="text" name="dataInizioAffissioneA" ng-model="criteriaStorico.dataInizioAffissioneA" placeholder="A" class="fixed-width" bs-datepicker >
+	               		</th>
+	               		<th ng-show="criteriaStorico.viewtype != 'annullate'">
+	               			<input type="text" name="dataFineAffissione" ng-model="criteriaStorico.dataFineAffissione" placeholder="Da" class="fixed-width" bs-datepicker >
+	               			<input type="text" name="dataFineAffissioneA" ng-model="criteriaStorico.dataFineAffissioneA" placeholder="A" class="fixed-width" bs-datepicker >
+	               		</th>
+	               		<th><input type="text" name="redigente" ng-model="criteriaStorico.redigente"></th>
+	               		
+	                    <th><button class="btn btn-primary btn-sm btn-block" ng-click="loadAllStorico()"><span class="glyphicon glyphicon-search"/> <span translate="global.messages.cerca">Ricerca</span></button> <button class="btn btn-primary btn-sm btn-block" ng-click="resetRicercaStorico()"><span translate="global.messages.resetricerca">Reset ricerca</span></button></th>
+	                </tr>
+	            </thead>
+	            <tbody>
+	                <tr ng-repeat="atto in storicoAttos">
+						<td>{{atto.codiceCifra}}</td>
+						<td>{{atto.dataCreazione | date:'dd-MM-yyyy'}}</td>
+						<td>{{atto.oggetto}}</td>
+						<td>{{atto.codiceArea}}-{{atto.descrizioneArea}}</td>
+						<td ng-show="criteriaStorico.viewtype == 'esecutive' || criteriaStorico.viewtype == 'annullate'">{{atto.tipoIter}}</td>
+						<td ng-show="criteriaStorico.viewtype == 'adem_cont' || criteriaStorico.viewtype == 'verif_cont'">{{atto.tipoAdempimento}}</td>
+						<td>{{atto.numeroAdozione}}</td>
+						<td>{{atto.dataProvvedimento | date:'dd-MM-yyyy'}}</td>
+						<td ng-show="criteriaStorico.viewtype == 'verif_cont'">{{atto.codiceLavorazione == '(esec-adir)' ? 'Atto Esecutivo' : 'Atto Non Esecutivo'}}</td>
+						<td ng-show="criteriaStorico.viewtype == 'annullata'">{{atto.stato}}</td>
+						<td ng-show="criteriaStorico.viewtype == 'esecutive' || criteriaStorico.viewtype == 'verif_cont'">{{atto.dataEsecutivita | date:'dd-MM-yyyy'}}</td>
+						<td ng-show="criteriaStorico.viewtype != 'annullate'">{{atto.dataAffissioneInizio | date:'dd-MM-yyyy'}}</td>
+						<td ng-show="criteriaStorico.viewtype != 'annullate'">{{atto.dataAffissioneFine | date:'dd-MM-yyyy'}}</td>
+						<td>{{atto.redigente}}</td>
+	                    
+	                    <td>
+	                        <button type="submit" ng-click="storicoAttoDetail(atto.id)" class="btn btn-info btn-sm btn-block">
+	                        	<span class="glyphicon glyphicon-eye-open"></span>&nbsp;<span translate="entity.action.view"> View</span>
+		                    </button>
+		                </td>
+		            </tr>
+		        </tbody>
+	    	</table>
+	   		<div ng-if="storicoAttos && storicoAttos.length == 0 && !loading" class="search-no-result"><h3 translate="global.searchNoResult"></h3></div>
+	   		<div ng-if="storicoAttos && storicoAttos.length == 0 && loading" class="search-no-result"><h3 translate="global.loading"></h3></div>
+		</div>
+	    <nav>
+	        <ul class="pagination">
+	            <li ng-show="links['first']" ng-click="loadPageStorico(links['first'])"><a>&lt;&lt;</a></li>
+	            <li ng-show="links['prev']" ng-click="loadPageStorico(links['prev'])"><a>&lt;</a></li>
+	            <li ng-show="storicoPage > 2" ng-click="loadPageStorico(storicoPage - 2)"><a>{{storicoPage - 2}}</a></li>
+	            <li ng-show="storicoPage > 1" ng-click="loadPageStorico(storicoPage - 1)"><a>{{storicoPage - 1}}</a></li>
+	            <li class="active"><a>{{storicoPage}}</a></li>
+	            <li ng-show="storicoPage < links['last']" ng-click="loadPageStorico(storicoPage + 1)"><a>{{storicoPage + 1}}</a></li>
+	            <li ng-show="storicoPage < links['last'] - 1" ng-click="loadPageStorico(storicoPage + 2)"><a>{{storicoPage + 2}}</a></li>
+	            <li ng-show="links['next']" ng-click="loadPageStorico(links['next'])"><a>&gt;</a></li>
+	            <li ng-show="links['last']" ng-click="loadPageStorico(links['last'])"><a>&gt;&gt;</a></li>
+	        </ul>
+	    </nav>
+	</div>
+</ng-controller>

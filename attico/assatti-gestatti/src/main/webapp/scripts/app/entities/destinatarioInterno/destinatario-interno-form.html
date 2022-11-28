@@ -1,0 +1,54 @@
+<div>
+	<div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th translate="cifra2gestattiApp.destinatarioInterno.tipoDestinatarioSearch">Tipo Destinatario</th>
+                    <th translate="cifra2gestattiApp.destinatarioInterno.denominazioneSearch">Denominazione</th>
+                    <th></th>
+                </tr>
+                <tr>
+                    <th><th><ui-select ng-model="search.tipoDestinatario" theme="bootstrap" ng-change="search.denominazione = null;">
+	                    	<ui-select-match allow-clear="true">{{$select.selected.descrizione}}</ui-select-match>
+	                    	<ui-select-choices repeat="tipoDestinatario in tipiDestinatari | filter: $select.search track by $index">
+	                            <div ng-bind-html="tipoRicerca.descrizione | highlight: $select.search"></div>
+	                    	</ui-select-choices>
+                      	</ui-select>
+                    </th></th>
+                    <th><input type="text" ng-model="tempSearch.denominazione"></th>
+                    <th><button class="btn btn-primary btn-sm" ng-click="ricerca()"><span class="glyphicon glyphicon-search"/> <span translate="global.messages.cerca">Ricerca</span></button> <button class="btn btn-primary btn-sm" ng-click="resetRicerca()"><span translate="global.messages.resetricerca">Reset ricerca</span></button></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="destinatario in destinatarios">
+                    <td>{{destinatario.tipoDestinatario.descrizione}}</td>
+                    <td>{{destinatario.destinatario.descrizioneAsDestinatario}}</td>
+                    <td>{{destinatario.destinatario.indirizzo.comune}}</td>
+                    <td>{{destinatario.destinatario.fax}}</td>
+                    <td>{{destinatario.destinatario.email}}</td>
+                    <td>{{destinatario.destinatario.pec}}</td>
+                    <td align="center">
+                        <button type="submit"
+                                ng-click="add(destinatario)"
+                                class="btn btn-warning btn-sm">
+                            <span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span translate="cifra2gestattiApp.destinatarioInterno.btnAggiungi"> Aggiungi</span>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+	</div>
+    <nav>
+        <ul class="pagination">
+            <li ng-show="links['first']" ng-click="loadPage(links['first'])"><a>&lt;&lt;</a></li>
+            <li ng-show="links['prev']" ng-click="loadPage(links['prev'])"><a>&lt;</a></li>
+            <li ng-show="page > 2" ng-click="loadPage(page - 2)"><a>{{page - 2}}</a></li>
+            <li ng-show="page > 1" ng-click="loadPage(page - 1)"><a>{{page - 1}}</a></li>
+            <li class="active"><a>{{page}}</a></li>
+            <li ng-show="page < links['last']" ng-click="loadPage(page + 1)"><a>{{page + 1}}</a></li>
+            <li ng-show="page < links['last'] - 1" ng-click="loadPage(page + 2)"><a>{{page + 2}}</a></li>
+            <li ng-show="links['next']" ng-click="loadPage(links['next'])"><a>&gt;</a></li>
+            <li ng-show="links['last']" ng-click="loadPage(links['last'])"><a>&gt;&gt;</a></li>
+        </ul>
+    </nav>
+</div>

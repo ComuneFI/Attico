@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    <changeSet author="bellos" id="202102081000-0001">
+    	<sql>
+    		ALTER TABLE configurazione_incarico_aoo ADD COLUMN data_manuale DATETIME(6) NULL DEFAULT NULL AFTER data_creazione;
+    		ALTER TABLE configurazione_task ADD COLUMN data_manuale BIT(1) NULL DEFAULT NULL AFTER scadenza_obbligatoria;
+		</sql>
+    </changeSet>
+    <changeSet author="bellos" id="202102081000-0002">
+    	<sql>
+    		UPDATE configurazione_task SET imposta_scadenza = 1, scadenza_obbligatoria = 1, data_manuale = 1 WHERE codice = 'DIR_SEGRETARIO_COMMISSIONE';
+		</sql>
+    </changeSet>
+</databaseChangeLog>

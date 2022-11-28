@@ -1,0 +1,109 @@
+<nav class="navbar  navbar-default md-whiteframe-z3" role="navigation">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <span class="cifra2-brand"></span>
+
+            <a class="navbar-brand" href="#/">
+              
+            
+            <span class="navbar-title" translate="global.title" translate-value-title="{{SITE_TITLE}}">title</span>
+            &nbsp;&nbsp;<span class="navbar-version hidden-xs hidden-sm hidden-md hidden-lg" translate="global.title2">title2</span></a>
+
+
+        </div>
+       
+        <div class="collapse navbar-collapse" id="navbar-collapse" ng-switch="isAuthenticated()">
+            <ul class="nav navbar-nav nav-pills navbar-right">
+                <li ui-sref-active="active">
+                    <a ui-sref="home">
+                        <span class="glyphicon glyphicon-home"></span>
+                        <span translate="global.menu.home">Home</span>
+                        <span ng-show="newNewss>0" class="badge" ng-switch-when="true" has-role="ROLE_USER">{{ newNewss }}</span>
+                    </a>
+                </li>
+
+                  <li ng-if="configurationParams.navbar_contatti_enabled" ui-sref-active="active">
+                    <a ui-sref="contatti">
+                        <span class="fa  fa-users "></span>
+                        <span translate="global.menu.contatti">contatti</span>
+                    </a>
+                </li>
+
+                  <li ui-sref-active="active" ng-switch-when="true">
+                    <a ui-sref="richiestaHDFeedback">
+                        <span class="fa  fa-question-circle"></span>
+                        <span translate="global.menu.help">Help</span>
+                    </a>
+                </li>
+                 <li ng-if="configurationParams.navbar_faq_enabled" ui-sref-active="active">
+                    <a ui-sref="help-faq">
+                        <span class="fa fa-question"></span>
+                        <span translate="global.menu.faq">F.a.q.</span>
+                    </a>
+                </li>
+                  
+                <li ng-if="configurationParams.navbar_manuale_enabled" ui-sref-active="active" ng-switch-when="true">
+                    <a ng-if="configurationParams.navbar_manuale_url_enabled" target="_blank" href="/api/files/manuale">
+                        <span class="fa fa-book"></span>
+                        <span translate="global.menu.manuale">manuale</span>
+                    </a>
+                </li>
+ 
+                    <li ui-sref-active="active" ng-switch-when="true" class="pull-right">
+        <a href="" ng-click="logout()"><span class="glyphicon glyphicon-log-out"></span>
+        &#xA0;<span translate="global.menu.account.logout">Log out</span></a></li>
+    
+    <li ui-sref-active="active" ng-switch-when="false" class="pull-right">
+        <a href="{{configurationParams.login_url}}"><span class="glyphicon glyphicon-log-in"></span>
+        &#xA0;<span translate="global.menu.account.login">Authenticate</span></a></li>
+
+   <li ng-if="configurationParams.component_gestioneregistrazioneutente_enabled && !configurationParams.user_manage_enabled" ui-sref-active="active" ng-switch-when="false" class="pull-right" ><a ui-sref="register"><span class="glyphicon glyphicon-plus-sign"></span>
+        &#xA0;<span translate="global.menu.account.register">Register</span></a></li>
+
+
+
+
+
+
+   <li ng-class="{active: $state.includes('selezionaprofilo')}" class="dropdown pointer"  ng-switch-when="true">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="">
+                                <span>
+                                    <span class="fa fa-user"></span>
+                                    <span class="hidden-tablet"  >
+                                        {{account.login}}
+                                    </span>
+                                    <b class="caret"></b>
+                                </span>
+                    </a>
+                    <ul class="dropdown-menu" ng-controller="SelezionaProfiloController">
+
+                        <li ng-repeat="profiloItem in activeprofilos"  >
+                            <a   href ng-click="selezionaProfiloConWarning(profiloItem)" ng-attr-title="{{titleTipiAtto(profiloItem)}}">
+                            <i class="fa fa-check"  ng-if="profiloattivo.id === profiloItem.id"></i>
+                            {{profiloItem.descrizione}} ({{profiloItem.aoo.codice}} {{profiloItem.aoo.descrizione}}) <span class="label label-primary " > {{profiloItem.aoo.stato}}</span>
+                            </a>
+                        </li>
+                        <!-- 
+                        <li ng-show="activeprofilos.length">
+                        	<a href ng-click="selezionaProfiloConWarning()" >
+                            <i class="fa fa-check"  ng-if="profiloattivo.id === 0"></i> 
+                            	<span translate="global.menu.account.tuttiProfili">Tutti i profili dell'utente</span>
+                            </a>
+                        </li>
+						 -->
+                    </ul>
+                </li>
+
+
+
+            </ul>
+           
+        </div>
+    </div>
+</nav>

@@ -1,0 +1,23 @@
+{
+    "cifra2gestattiApp": {
+        "scheda" : {
+            "home": {
+                "title": "Schede",
+                "createLabel": "Crea una nuova Scheda",
+                "createOrEditLabel": "Crea o modifica una Scheda"
+            },
+            "delete": {
+                "question": "Sei sicuro di voler cancellare la Scheda con ID {{ id }}?",
+                "question_rif_obblighi": "La scheda che si sta tentando di eliminare \u00E8 associata a {{obblighiThatUseScheda}} obblighi DL33 ma non risulta utilizzata su alcun atto. \u003Cbr\u003ECliccando su \u0027Cancella\u0027 oltre alla scheda saranno eliminate anche le sue refenze negli obblighi DL33. Premere \u0027Annulla\u0027 per annullare l\u0027operazione.",
+                "question_rif_atti":"La scheda che si sta tentando di eliminare \u00E8 associata a {{obblighiThatUseScheda}} obblighi DL33. \u003Cbr\u003ELa scheda risulta inoltre utilizzata su {{attiThatUseScheda}} atti per cui non \u00E8 possibile eliminarla. \u003Cbr\u003EPer non far utilizzare in futuro questa scheda, si consiglia di disabilitare gli obblighi DL33 con i seguenti ID: {{obblighiIdsStr}}"
+            },
+            "detail": {
+                "title": "Scheda"
+            },
+            "etichetta": "Etichetta",
+            "ripetitiva": "Ripetitiva",
+            "ordine": "Ordine",
+            "GestSchedaDato": "Gestisci Scheda Dato"
+        }
+    }
+}

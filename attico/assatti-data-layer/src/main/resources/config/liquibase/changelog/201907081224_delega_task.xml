@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    
+    <changeSet author="mazzottada" id="201907081224-01">
+    	<sql>
+			CREATE TABLE delegatask (
+				id bigint(20) NOT NULL AUTO_INCREMENT,
+				created_by varchar(50) NOT NULL,
+				created_date datetime(6) NOT NULL,
+				last_modified_by varchar(50) NULL,
+				last_modified_date datetime(6) NULL,
+				version int(11) NULL,
+				enabled tinyint(4) NOT NULL,
+				profilo_delegante_id bigint(20) NOT NULL,
+				profilo_delegato_id bigint(20) NOT NULL,
+				task_id varchar(64) NOT NULL,
+				assignee_originario varchar(150) NOT NULL,
+				assignee_delegato varchar(150) NOT NULL,
+				atto_id bigint(20) NOT NULL,
+				lavorazione varchar(200) NOT NULL,
+				CONSTRAINT delegatask_pk PRIMARY KEY (id),
+				CONSTRAINT delegatask_profilo_fk FOREIGN KEY (profilo_delegante_id) REFERENCES profilo(id),
+				CONSTRAINT delegatask_profilo_fk_1 FOREIGN KEY (profilo_delegato_id) REFERENCES profilo(id),
+				CONSTRAINT delegatask_atto_fk FOREIGN KEY (atto_id) REFERENCES atto(id)
+			)
+			ENGINE=InnoDB
+			DEFAULT CHARSET=latin1
+			COLLATE=latin1_swedish_ci;
+    	</sql>
+    </changeSet>
+</databaseChangeLog>

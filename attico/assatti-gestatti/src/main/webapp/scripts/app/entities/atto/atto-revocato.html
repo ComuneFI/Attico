@@ -1,0 +1,91 @@
+<ng-form name="collForm" role="form">
+	<div>  
+	    <div class="table-responsive">
+	        <table class="table table-striped">
+	        	<thead>
+
+	                <tr>
+	                	<th></th>
+	                    <th><a ng-click="ordinamento('codiceCifra')">
+			                    <span ng-class="{'glyphicon glyphicon-sort-by-attributes-alt' : tempSearch.ordinamento == 'codiceCifra' && tempSearch.direction == 'desc'}"></span>
+			                    <span ng-class="{'glyphicon glyphicon-sort-by-attributes' : tempSearch.ordinamento == 'codiceCifra' && tempSearch.direction == 'asc'}"></span>
+		                    	<span translate="cifra2gestattiApp.atto.codiceCifraNotRequired">codiceCifra</span>
+	                    	</a>
+	                    </th>
+	                    <!-- <th>
+	                    	<a ng-click="ordinamento('oggetto')">
+	                    		<span ng-class="{'glyphicon glyphicon-sort-by-attributes-alt' : tempSearch.ordinamento == 'oggetto' && tempSearch.direction == 'desc'}"></span>
+		                    	<span ng-class="{'glyphicon glyphicon-sort-by-attributes' : tempSearch.ordinamento == 'oggetto' && tempSearch.direction == 'asc'}"></span>
+	                    		<span translate="cifra2gestattiApp.atto.oggettoNotRequired">oggetto</span>
+	                    	</a>
+	                    	</th>  -->
+	                    <th>
+	                    	<a ng-click="ordinamento('numeroAdozione')">
+	                    		<span ng-class="{'glyphicon glyphicon-sort-by-attributes-alt' : tempSearch.ordinamento == 'numeroAdozione' && tempSearch.direction == 'desc'}"></span>
+		                    	<span ng-class="{'glyphicon glyphicon-sort-by-attributes' : tempSearch.ordinamento == 'numeroAdozione' && tempSearch.direction == 'asc'}"></span>
+	                    		<span translate="cifra2gestattiApp.atto.numeroAdozione">numeroAdozione</span>
+	                    	</a>
+	                    </th>	 
+	                    <th>
+	                    	<a ng-click="ordinamento('dataAdozione')">
+	                    		<span ng-class="{'glyphicon glyphicon-sort-by-attributes-alt' : tempSearch.ordinamento == 'dataAdozione' && tempSearch.direction == 'desc'}"></span>
+		                    	<span ng-class="{'glyphicon glyphicon-sort-by-attributes' : tempSearch.ordinamento == 'dataAdozione' && tempSearch.direction == 'asc'}"></span>
+	                    		<span translate="cifra2gestattiApp.atto.dataAdozione">dataAdozione</span>
+	                    	</a>
+	                    </th>
+	                    <th></th>
+	                </tr>
+	                
+	                <tr>
+	                	<th></th>
+                		<th><input type="text" name="codiceCifra"   ng-model="tempSearch.codiceCifra"></th>
+                		<!--  <th><input type="text" name="oggetto"   ng-model="tempSearch.oggetto"></th>  -->
+                		<th><input class="fixed-small-width" type="text" name="numeroAdozione"  ng-model="tempSearch.numeroAdozione"></th>
+                		
+                		<th class="scrivania">
+	                    	<div class="form-group">
+							    <div class="input-group" style="position:inherit;">
+							      <input type="text" ng-model="tempSearch.dataAdozioneStart" size="7" onkeydown="return false;" bs-datepicker placeholder="Dal">
+							      <div class="input-group-addon" style="padding:0px !important;width:0px;"><button title="Cancella Data" ng-click="tempSearch.dataAdozioneStart = null;" class="btn btn-xs btn-link"><span class="glyphicon glyphicon-remove"></span></button></div>
+							    </div>
+							</div>
+							<div class="form-group">
+							    <div class="input-group" style="position:inherit;">
+							      <input type="text" ng-model="tempSearch.dataAdozioneEnd" size="7" onkeydown="return false;" bs-datepicker placeholder="Al">
+							      <div class="input-group-addon" style="padding:0px !important;width:0px;"><button title="Cancella Data" ng-click="tempSearch.dataAdozioneEnd = null;" class="btn btn-xs btn-link"><span class="glyphicon glyphicon-remove"></span></button></div>
+							    </div>
+							</div>
+	                    </th>
+	                    <th><button class="btn btn-primary btn-sm" ng-click="ricerca()"><span class="glyphicon glyphicon-search"/> <span translate="global.messages.cerca">Ricerca</span></button> <button class="btn btn-primary btn-sm" ng-click="resetRicerca()"><span translate="global.messages.resetricerca">Reset ricerca</span></button></th>
+	                </tr>
+	                
+	            </thead>
+	            <tbody>
+	                <tr ng-repeat="attoris in attos">
+						<td><input required type="radio" name="attoRevocatoRadio" ng-checked="{{attoRevocatoId == attoris.id}}" ng-click="selezionaAttoRevocato(attoris)" ng-model="attoSelezionatoId" ng-value="attoris.id"></td>
+	                    <td>{{attoris.codiceCifra}}</td>
+	                    <!-- <td>{{attoris.oggetto}}</td>  -->
+	                    <td>{{attoris.numeroAdozione}}</td>
+						<td>{{attoris.dataAdozione| date:'dd-MM-yyyy'}}</td>
+						<td></td>
+	            	</tr>
+	        	</tbody>
+	    	</table>
+	    	<div ng-if="attos && attos.length == 0 && !loading" class="search-no-result"><h3 translate="global.searchNoResult"></h3></div>
+			<div ng-if="attos && attos.length == 0 && loading" class="search-no-result"><h3 translate="global.loading"></h3></div>
+	    </div>
+	    <nav>
+	        <ul class="pagination">
+	            <li ng-show="links['first']" ng-click="loadPage(links['first'])"><a>&lt;&lt;</a></li>
+	            <li ng-show="links['prev']" ng-click="loadPage(links['prev'])"><a>&lt;</a></li>
+	            <li ng-show="page > 2" ng-click="loadPage(page - 2)"><a>{{page - 2}}</a></li>
+	            <li ng-show="page > 1" ng-click="loadPage(page - 1)"><a>{{page - 1}}</a></li>
+	            <li class="active"><a>{{page}}</a></li>
+	            <li ng-show="page < links['last']" ng-click="loadPage(page + 1)"><a>{{page + 1}}</a></li>
+	            <li ng-show="page < links['last'] - 1" ng-click="loadPage(page + 2)"><a>{{page + 2}}</a></li>
+	            <li ng-show="links['next']" ng-click="loadPage(links['next'])"><a>&gt;</a></li>
+	            <li ng-show="links['last']" ng-click="loadPage(links['last'])"><a>&gt;&gt;</a></li>
+	        </ul>
+	    </nav>
+    </div>
+</ng-form>

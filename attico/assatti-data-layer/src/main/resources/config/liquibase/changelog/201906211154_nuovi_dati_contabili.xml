@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    
+    <changeSet author="mazzottada" id="201906211154-01">
+    	<sql>
+			ALTER TABLE daticontabili ADD importo_entrata decimal(25,2) NULL;
+			ALTER TABLE daticontabili ADD importo_uscita decimal(25,2) NULL;
+			ALTER TABLE daticontabili ADD data_scadenza date NULL;
+			ALTER TABLE daticontabili ADD data_arrivo_ragioneria date NULL;
+    	</sql>
+    </changeSet>
+ 	<changeSet author="mazzottada" id="201906211154-02">
+    	<sql>
+			ALTER TABLE daticontabili ADD data_ultimo_invio tinyint(4) NULL;
+			ALTER TABLE daticontabili ADD dati_ricevuti tinyint(4) NULL;
+    	</sql>
+    </changeSet>
+    <changeSet author="mazzottada" id="201906211154-03">
+    	<sql>
+			ALTER TABLE daticontabili ADD tipo_bilancio varchar(100) NULL;
+    	</sql>
+    </changeSet>
+    <changeSet author="mazzottada" id="201906211154-04">
+    	<sql>
+			ALTER TABLE daticontabili MODIFY COLUMN data_ultimo_invio DATETIME NULL;
+    	</sql>
+    </changeSet>
+    <changeSet author="mazzottada" id="201906211154-05">
+    	<sql>
+			ALTER TABLE daticontabili MODIFY COLUMN data_arrivo_ragioneria DATETIME NULL;
+    	</sql>
+    </changeSet>
+</databaseChangeLog>

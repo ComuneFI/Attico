@@ -1,0 +1,46 @@
+<p style="text-align: center; margin-top: 1in; color: rgb(0, 0, 0); font-size: 20pt; text-transform: uppercase; padding-bottom: 10px;">	<span style="font-family: &quot;Titillium Web&quot;; font-size: 18px; font-weight: bold;">ORDINANZA DEL SINDACO</span></p>
+<p></p>
+<p></p>
+<table width="100%" cellspacing="0" cellpadding="3">
+	<tbody>
+		<tr>
+			<td style="border: 2px solid #000000;">				<p style="text-align: center; margin: 0pt; font-family: Calibri; font-size: 8.5pt; font-weight: bold;">				</p>
+<div>					&nbsp;Numero: <span th:if="${atto.numeroAdozione !=null}" style="font-weight: bold;">[[${atto.tipoAtto.codice}]]/[[${atto.dataAdozione.toString("yyyy")}]]/[[${atto.numeroAdozione}]]</span>					</div>
+				<div>					&nbsp;Del: <span th:if="${atto.dataAdozione != null}" style="font-weight: bold;">[[${atto.dataAdozione.toString("dd/MM/yyyy")}]]					</span>				</div>
+				<div>					&nbsp;Proponente: <span th:if="${atto.aoo.descrizione !=null}" style="font-weight: bold;">[[${atto.aoo.descrizione}]]</span>				</div>
+				<p></p>
+			</td>
+		</tr>
+	</tbody>
+</table>
+<div>&nbsp;</div>
+<p style="font-family: Calibri; font-size: 11pt; padding-bottom: 20px;">	<span style="font-weight: bold;">OGGETTO: </span> <span>[[${atto.oggetto}]]</span></p>
+<div>&nbsp;</div>
+<div style="text-align: center;">	<b>IL SINDACO</b></div>
+<div>&nbsp;</div>
+<div th:if="${atto.domanda.testo !=null}" th:utext="${atto.domanda.testo}">	<span>+${atto.domanda}</span></div>
+<div th:if="${elencoTitoloAllegato!=null}">	<br>	<p><b>ALLEGATI INTEGRANTI</b></p>
+	<table style="page-break-inside: avoid;" width="100%" cellspacing="0" cellpadding="0">
+		<tbody>
+			<tr th:each="item: ${#lists.sort(elencoTitoloAllegato)}">
+				<td>					<div style="text-align: left; font-family: Calibri; font-size: 11pt;">[[${item}]]</div>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	<br>	<br></div>
+<br><span style="font-weight: bold;">Firenze, lì </span><span style="font-weight: bold;" th:if="${atto.dataAdozione != null}">[[${atto.dataAdozione.toString("dd/MM/yyyy")}]]</span><br><br><br><div style="text-align: right; font-size: 11pt;" th:if="${atto.descrizioneQualificaEmanante!=null}">    <p style="margin: 0pt;">        <span><b>[[${atto.descrizioneQualificaEmanante}]]</b></span>    </p>
+    <p>        <span>[[${atto.emananteProfilo.utente.nome}]]			[[${atto.emananteProfilo.utente.cognome}]]</span>    </p>
+</div>
+<p style="page-break-before:always; border-bottom:1px dashed #000;"></p>
+<div th:if="${(atto.dataEsecutivita!=null)}">	Data Esecutività:		[[${atto.dataEsecutivita.toString("dd/MM/yyyy")}]]	</div>
+<div style="text-align: justify;">Elenco Sottoscrittori:</div>
+<table style="page-break-inside: avoid;" width="100%" cellspacing="0" cellpadding="0">
+        <tbody>
+            <tr th:each="item: ${#lists.sort(atto.sottoscrittori)}">
+                <td>                                        <div style="font-family: Calibri; font-size: 11pt; line-height: 16.5pt;">Firmato digitalmente da  [[${item.profilo.utente.nome}]] [[${item.profilo.utente.cognome}]] il [[${item.dataFirma.toString("dd/MM/yyyy")}]]</div>
+                    <br>                </td>
+            </tr>
+        </tbody>
+    </table>
+<div style="text-align: justify;"><span style="font-size: 12px;">Le firme, in formato digitale, sono state apposte sull’originale del presente atto ai sensi dell’art. 24 del D.Lgs. 7/3/2005, n. 82 e s.m.i. (CAD). La presente ordinanza è conservata in originale negli archivi informatici del Comune di Firenze, ai sensi dell’art.22 del D.Lgs. 82/2005.</span></div>

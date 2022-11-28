@@ -1,0 +1,101 @@
+<div>
+	<!--<div class="row">
+		<div class="form-group col-sm-12">
+			<label translate="cifra2gestattiApp.profilo.utente">utente</label> *
+		
+			<select class="form-control" name="utente" ng-change="updateGruppoModel(ngModel.grupporuolo, ngModel.utente)" ng-model="ngModel.utente.id" 
+			ng-options="utente.id as utente.username for utente in listaUtente | orderBy:'username'"  ng-disabled="ngDisabled"  required>
+			</select>
+			<div ng-show="editForm.utente.$invalid">  </div>
+		</div>
+	</div>-->
+	<div class="row">
+		<div class="form-group col-sm-12">
+			<label translate="cifra2gestattiApp.profilo.utente">utente</label> *
+			<label ng-if="ngModel.id" class="form-control">{{ngModel.utente.username + ' (' + ngModel.utente.nome + ' ' + ngModel.utente.cognome+')'}}</label>
+			<ui-select ng-if="!ngModel.id" ng-model="$parent.ngModel.utente" theme="bootstrap" ng-change="updateGruppoModel(ngModel.grupporuolo, ngModel.utente)" required>
+           	  <ui-select-match placeholder="Seleziona Utente *" allow-clear="true">{{$select.selected.username + ' (  ' + $select.selected.nome + ' ' + $select.selected.cognome  +' )  '}}</ui-select-match>
+	           	  <ui-select-choices repeat="utente in (listaUtente | filter: $select.search) track by utente.id">
+	                   <div ng-bind-html="utente.username + ' ( ' + utente.nome + ' ' + utente.cognome + ')' | highlight: $select.search"></div>
+	           	  </ui-select-choices>
+           </ui-select>
+		</div>
+	</div>
+		
+	<div class="row">
+		
+		<div class="form-group col-sm-4">
+			<label translate="cifra2gestattiApp.profilo.grupporuolo">grupporuolo</label> *
+			<select ng-if="!ngModel.lockGR"  class="form-control" ng-change="updateGruppoModel(ngModel.grupporuolo, ngModel.utente)"  name="grupporuolo" ng-model="ngModel.grupporuolo"
+				ng-options="gruppo as gruppo.denominazione for gruppo in listaGrupporuolo | orderBy:'denominazione' track by gruppo.id"
+				ng-disabled="ngModel.lockGR"
+				required>
+			</select>
+
+			<span ng-if="ngModel.lockGR" class="fa fa-question" data-toggle="tooltip" bs-tooltip data-html="true" data-placement="top" data-title="{{ngModel.lockGR}}"></span>
+			<select ng-if="ngModel.lockGR"
+					class="form-control" name="grupporuolo" ng-model="ngModel.grupporuolo"
+					ng-options="gruppo as gruppo.denominazione for gruppo in [ngModel.grupporuolo] | orderBy:'denominazione' track by gruppo.id"
+					ng-disabled="true" required>
+			</select>
+			<div ng-show="editForm.grupporuolo.$invalid">  </div>
+		</div>
+	
+	
+		<div class="form-group col-sm-8">
+			<label translate="cifra2gestattiApp.profilo.descrizione">Descrizione</label> *
+			<input type="text" class="form-control" name="descrizione"
+			ng-model="ngModel.descrizione" required>
+			<div ng-show="editForm.descrizione.$invalid">  </div>
+		</div>
+	
+		<!-- <div class="form-group col-sm-4">
+			<label translate="cifra2gestattiApp.profilo.delega">Delega</label>
+			<input type="text" class="form-control" name="delega"
+			ng-model="ngModel.delega">
+			<div ng-show="editForm.delega.$invalid">  </div>
+		</div> 
+		-->
+	</div>
+	
+	<div class="row">
+		<div class="form-group col-sm-12">
+			<label translate="cifra2gestattiApp.profilo.tipoAtto">tipoAtto</label> *
+		    <ui-select multiple ng-model="$parent.ngModel.tipiAtto" theme="bootstrap">
+		       	<ui-select-match placeholder="Seleziona Tipi Atto">{{$item.descrizione}}</ui-select-match>
+		        	<ui-select-choices repeat="tipoAtto in (listaAtto | filter: $select.search) track by tipoAtto.id">
+		       	 	<div ng-bind-html="tipoAtto.descrizione | highlight: $select.search"></div>
+		   		</ui-select-choices>
+			</ui-select>
+			<div ng-show="editForm.tipoAtto.$invalid">  </div>
+		</div>
+	</div>
+	
+	<div class="row">
+		<div class="form-group col-sm-12">
+			<label translate="cifra2gestattiApp.profilo.qualificaProfessionale">qualificaProfessionale</label> *
+		     <ui-select multiple ng-model="$parent.ngModel.hasQualifica" theme="bootstrap" >
+		        	<ui-select-match placeholder="Seleziona Qualifiche Professionali"><span ng-class="{'entityDisabilitata':!$item.enabled}">{{$item.denominazione + ($item.enabled ? '' : ' (Disabilitato)')}}</span></ui-select-match>
+		         <ui-select-choices repeat="qualificaProfessionale in listaQualificaprofessionale | orderBy: qualificaProfessionale.denominazione | entityAttoDetailFilter :{'enabled': true, entityId:qualificaProfessionale.id} | filter: $select.search track by qualificaProfessionale.id" >
+		         	<div ng-bind-html="qualificaProfessionale.denominazione | highlight: $select.search"></div>
+		    		</ui-select-choices>
+		 	</ui-select>
+		</div>
+	</div>
+	
+	<div class="row">
+		<validita-form ng-model="ngModel.validita"></validita-form>
+	</div>
+	<div class="row">
+		<div class="form-group col-sm-12">
+			<label ng-if="ngModel.id" class="form-control">{{ngModel.aoo.descrizione + ' (' + ngModel.aoo.codice +')'}}</label>
+			<ui-select ng-if="!ngModel.id" ng-model="$parent.ngModel.aoo" theme="bootstrap">
+           	  <ui-select-match placeholder="Seleziona AOO" allow-clear="true">{{$select.selected.codice + ' - ' + $select.selected.descrizione}}</ui-select-match>
+	           	  <ui-select-choices repeat="aoo in (listaAoo | filter: $select.search) track by aoo.id">
+	                   <div ng-bind-html="aoo.codice + ' - ' + aoo.descrizione | highlight: $select.search"></div>
+	           	  </ui-select-choices>
+           </ui-select>
+			<!-- <aoo-select ng-model="ngModel.aoo" lista-aoo="listaAoo" new-entity="!ngModel.id>0" ></aoo-select> -->
+		</div>
+	</div>
+</div>

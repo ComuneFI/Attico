@@ -1,0 +1,35 @@
+<nav ng-if="sedutaGiunta.odgs == null || sedutaGiunta.odgs.length == 0">
+	<ul class="nav nav-pills">
+		<li class="pull-left" >&nbsp;
+			<button type="button"
+				ng-if="isOperatoreOdg == true "
+				ng-click="creaNuovoOdg(sedutaGiunta.tipoSeduta)"
+				class="btn btn-primary btn-sm">
+				<i class="fa fa-spinner fa-pulse" ng-if="taskLoading"></i>
+				Crea nuovo {{odgStr}} base
+			</button>
+		</li>
+	</ul>
+</nav>
+<br>
+<div ng-if="isOperatoreOdg && sedutaGiunta.organo == 'G'">
+		<div class="form-group">
+				<a target="_blank" href="/api/sedutaGiuntas/generareport/{{profiloattivo.id}}/{{sedutaGiunta.id}}/{{nomeFile(sedutaGiunta)}}?access_token={{access_token}}" class="btn btn-xs btn-success" style="color:white;">
+				    <span class="glyphicon glyphicon-save"></span>&nbsp;<span  >Esporta ODG in Excel</span>
+				</a>
+		</div>
+	</div>
+	<div ng-if="isOperatoreOdg && sedutaGiunta.organo == 'C'">
+		<div class="form-group">
+				<a target="_blank" href="/api/sedutaGiuntas/generareport/{{profiloattivo.id}}/{{sedutaGiunta.id}}/{{nomeFile(sedutaGiunta)}}?access_token={{access_token}}" class="btn btn-xs btn-success" style="color:white;">
+				    <span class="glyphicon glyphicon-save"></span>&nbsp;<span  >Esporta ODL in Excel</span>
+				</a>
+		</div>
+	</div>
+<div ng-repeat="odg in sedutaGiunta.odgs | returnOdgBase">
+	<div ng-include="'scripts/app/entities/sedutaGiunta/sezioni/seduta-funzioniodg.html'" ></div>
+	<div>
+		<div ng-if="!isSolaLettura(odg)"  ng-include="'scripts/app/entities/sedutaGiunta/sezioni/seduta-datiodg.html'" ></div>
+		<div ng-if="isSolaLettura(odg)" ng-include="'scripts/app/entities/sedutaGiunta/sezioni/seduta-datiodg-consolidati.html'" ></div>
+	</div>
+</div>

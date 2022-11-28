@@ -1,0 +1,42 @@
+{
+    "cifra2gestattiApp": {
+        "documentoInformatico" : {
+            "home": {
+                "title": "DocumentoInformaticos",
+                "createLabel": "Crea un nuovo DocumentoInformatico",
+                "createOrEditLabel": "Crea o modifica un DocumentoInformatico"
+            },
+            "delete": {
+                "question": "Sei sicuro di voler eliminare il file {{ nomeFile }} dagli allegati?"
+            },
+            "detail": {
+                "title": "DocumentoInformatico"
+            },
+            "titolo": "Titolo",
+            "note": "Annotazioni",
+            "titoloAvviso": "(Attenzione, non inserire dati sensibili nel titolo del file)",
+            "nomeFile": "NomeFile",
+            "idDiogene": "IdDiogene",
+            "ordineInclusione": "OrdineInclusione",
+            "pubblicabile": "Pubblicazione e visibilit\u00E0 allegato",
+            "riservato": "Visibilit\u00E0 riservata, per ricerche atti interne al sistema ATTICO",
+            "omissis": "Omissis",
+            "oggetto": "Oggetto",
+            "Atto": "Atto",
+            "TipoDocumento": "TipoDocumento",
+            "Serie": "Serie",
+            "Parere": "Parere",
+            "Resoconto": "Resoconto",
+            "File": "File",
+            "fileomissis": "File omissis",
+            "Lettera": "Lettera",
+            "Verbale": "Verbale",
+            "Fascicolo": "Fascicolo",
+            "Avanzamento": "Avanzamento",
+            "parteIntegrante":"Parte Integrante",
+            "tipoAllegato":"Tipo Allegato",
+            "numeroProtocollo": "Identificativo di Protocollo",
+            "dataProtocollo": "Data Protocollo"
+        }
+    }
+}

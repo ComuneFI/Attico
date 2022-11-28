@@ -1,0 +1,84 @@
+
+<div>
+    <h2><span>Assessorato</span> {{assessorato.id}}</h2>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th translate="entity.detail.field">Field</th>
+                    <th translate="entity.detail.value">Value</th>
+                </tr>
+            </thead>
+            <tbody>
+            	<tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.assessorato.codice">Codice</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{assessorato.codice}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.assessorato.denominazione">Denominazione</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{assessorato.denominazione}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.assessorato.indirizzo">Indirizzo</span>
+                    </td>
+                    <td>
+                    	<input type="text" class="input-sm form-control" ng-if="assessorato.indirizzo.provincia" value="{{assessorato.indirizzo.dug}} {{assessorato.indirizzo.toponimo}} {{assessorato.indirizzo.civico}} {{assessorato.indirizzo.cap}} {{assessorato.indirizzo.comune}} ({{assessorato.indirizzo.provincia}}) " readonly>
+                        <input type="text" class="input-sm form-control" ng-if="!assessorato.indirizzo.provincia" value="{{assessorato.indirizzo.dug}} {{assessorato.indirizzo.toponimo}} {{assessorato.indirizzo.civico}} {{assessorato.indirizzo.cap}} {{assessorato.indirizzo.comune}} " readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.assessorato.qualifica">Qualifica</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{assessorato.qualifica}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.assessorato.nominativoresponsabile">Nominativo responsabile</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{assessorato.nominativoResponsabile}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.assessorato.telefono">Telefono</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{assessorato.telefono}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.assessorato.fax">Fax</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{assessorato.fax}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                         <validita-form ng-model="assessorato.validita" readonly></validita-form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <button type="submit"
+            ui-sref="assessorato"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span> Back</span>
+    </button>
+</div>

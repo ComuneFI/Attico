@@ -1,0 +1,12 @@
+{
+    "cifra2gestattiApp": {
+        "messaggio" : {
+            "home": {
+                "title": "Messaggio Istantaneo",
+                "createLabel": "Invia un Messaggio Istantaneo"
+            },
+            
+            "testo": "Testo Messaggio"
+        }
+    }
+}

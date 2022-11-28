@@ -1,0 +1,38 @@
+
+<div>
+    <h2><span translate="cifra2gestattiApp.tipoMateria.detail.title">TipoMateria</span> {{tipoMateria.id}}</h2>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th translate="entity.detail.field">Field</th>
+                    <th translate="entity.detail.value">Value</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.tipoMateria.descrizione">Descrizione</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{tipoMateria.descrizione}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.tipoMateria.aoo">Ufficio</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{tipoMateria.aoo.id}}" readonly>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <button type="submit"
+            ui-sref="tipoMateria"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span translate="entity.action.back"> Back</span>
+    </button>
+</div>

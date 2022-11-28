@@ -1,0 +1,169 @@
+<div>
+
+    <h2 translate="cifra2gestattiApp.progressivoAdozione.home.title">ProgressivoAdozione</h2>
+
+    <!-- <div class="container">
+        <div class="row">
+            <div class="col-md-4" ng-if="isAdmin">
+                <button class="btn btn-primary" data-toggle="modal" data-target="#saveProgressivoAdozioneModal" ng-click="clear()">
+                    <span class="glyphicon glyphicon-flash"></span> <span translate="cifra2gestattiApp.progressivoAdozione.home.createLabel">Create a new ProgressivoAdozione</span>
+                </button>
+            </div>
+            <div class="col-md-8">
+            </div>
+        </div>
+    </div> -->
+
+    <!-- <div ng-if="isAdmin" class="modal fade" id="saveProgressivoAdozioneModal" tabindex="-1" role="dialog" aria-labelledby="myProgressivoAdozioneLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form name="editForm" role="form" novalidate ng-submit="save()">
+
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                                ng-click="clear()">&times;</button>
+                        <h4 class="modal-title" id="myProgressivoAdozioneLabel" translate="cifra2gestattiApp.progressivoAdozione.home.createOrEditLabel">Create or edit a ProgressivoAdozione</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label translate="cifra2gestattiApp.progressivoAdozione.anno">Anno</label> *
+                            <input type="number" class="form-control" name="anno"
+                                   ng-model="progressivoAdozione.anno" required ng-disabled="progressivoAdozione.id!=null">
+
+                        </div>
+                        <div class="form-group">
+                            <label translate="cifra2gestattiApp.progressivoAdozione.progressivo">Progressivo</label> *
+                            <input type="number" class="form-control" name="progressivo"
+                                   ng-model="progressivoAdozione.progressivo" required>
+
+                        </div>
+
+                        <div class="form-group">
+                            <label translate="cifra2gestattiApp.progressivoAdozione.tipoAtto">tipoAtto</label> *
+                            
+                            <select class="form-control" name="tipoAtto" ng-change="setShowAoo(progressivoAdozione.tipoAtto.id)" ng-model="progressivoAdozione.tipoAtto.id" ng-options="tipoAtto.id as tipoAtto.descrizione for tipoAtto in tipoattos" required ng-disabled="progressivoAdozione.id!=null">
+                            </select>
+                        </div>
+                        
+                        <div ng-if="showAoo">
+                        	<aoo-select ng-model="progressivoAdozione.aoo" lista-aoo="aoos" new-entity="!progressivoAdozione.id>0" ></aoo-select>
+                        </div>
+
+
+ 
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
+                            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+                        </button>
+                        <button type="submit" ng-disabled="editForm.$invalid" class="btn btn-primary">
+                            <span class="glyphicon glyphicon-save"></span>&nbsp;<span translate="entity.action.save">Save</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div> -->
+
+    <div class="modal fade" id="deleteProgressivoAdozioneConfirmation">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form name="deleteForm" ng-submit="confirmDelete(progressivoAdozione.id)">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                                ng-click="clear()">&times;</button>
+                        <h4 class="modal-title" translate="entity.delete.title">Confirm delete operation</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p translate="cifra2gestattiApp.progressivoAdozione.delete.question" translate-values="{id: '{{progressivoAdozione.id}}'}">Are you sure you want to delete this ProgressivoAdozione?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
+                            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+                        </button>
+                        <button type="submit" ng-disabled="deleteForm.$invalid" class="btn btn-danger">
+                            <span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span translate="entity.action.delete">Delete</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+	<div>
+	    <div class="table-responsive">
+	        <table class="table table-striped">
+	            <thead>
+	                <tr>
+	                	<th width="30px"></th>
+	                    <th translate="cifra2gestattiApp.progressivoAdozione.anno">Anno</th>
+	                    <th translate="cifra2gestattiApp.progressivoAdozione.progressivo">Progressivo</th>
+	                    <th translate="cifra2gestattiApp.progressivoAdozione.tipoProgressivo">Tipo Progressivo</th>
+	                    <th translate="cifra2gestattiApp.progressivoAdozione.aoo">aoo</th>
+	                    <th width="30px"></th>
+	                </tr>
+	                <tr>
+	                	<th style="text-align:center;"><button class="btn btn-primary btn-xs"
+								ng-click="ricerca()">
+								<span class="glyphicon glyphicon-search" /> <span
+									translate="global.messages.cerca">Ricerca</span>
+							</button>
+							<button class="btn btn-primary btn-xs" ng-click="resetRicerca()">
+								<span translate="global.messages.resetricerca">Reset
+									ricerca</span>
+							</button></th>
+						<th><input type="number" ng-model="tempSearch.anno"></th>
+						<th><input type="number" ng-model="tempSearch.progressivo"></th>
+						<th class="limited-width"><ui-select ng-model="tempSearch.tipoProgressivo" theme="bootstrap">
+		                    	<ui-select-match allow-clear="true">{{$select.selected.descrizione}}</ui-select-match>
+		                    	<ui-select-choices repeat="tipoCur in tipoprogressivos | filter: $select.search track by $index">
+		                            <div ng-bind-html="tipoCur.descrizione | highlight: $select.search"></div>
+		                    	</ui-select-choices>
+	                      	</ui-select>
+	                    </th>
+						<th><input type="text" ng-model="tempSearch.aoo"></th>
+						<th style="text-align:center;"><button class="btn btn-primary btn-xs"
+								ng-click="ricerca()">
+								<span class="glyphicon glyphicon-search" /> <span
+									translate="global.messages.cerca">Ricerca</span>
+							</button>
+							<button class="btn btn-primary btn-xs" ng-click="resetRicerca()">
+								<span translate="global.messages.resetricerca">Reset
+									ricerca</span>
+							</button></th>
+					</tr>
+	            </thead>
+	            <tbody>
+	                <tr ng-repeat="progressivoAdozione in progressivoAdoziones">
+	                    <td></td>
+	                    <td>{{progressivoAdozione.anno}}</td>
+	                    <td>{{progressivoAdozione.progressivo}}</td>
+	                    <td>{{progressivoAdozione.tipoProgressivo.descrizione}}</td>
+	                    <td>{{progressivoAdozione.aoo.codice}}-{{progressivoAdozione.aoo.descrizione}}</td>
+	                    <td>
+	                        <button type="submit"
+	                                ui-sref="progressivoAdozioneDetail({id:progressivoAdozione.id})"
+	                                class="btn btn-info btn-sm">
+	                            <span class="glyphicon glyphicon-eye-open"></span>&nbsp;<span translate="entity.action.view"> View</span>
+	                        </button>
+	                    </td>
+	                </tr>
+	            </tbody>
+	        </table>
+	    </div>
+        <nav>
+            <ul class="pagination">
+                <li ng-show="links['first']" ng-click="loadPage(links['first'])"><a>&lt;&lt;</a></li>
+                <li ng-show="links['prev']" ng-click="loadPage(links['prev'])"><a>&lt;</a></li>
+                <li ng-show="page > 2" ng-click="loadPage(page - 2)"><a>{{page - 2}}</a></li>
+                <li ng-show="page > 1" ng-click="loadPage(page - 1)"><a>{{page - 1}}</a></li>
+                <li class="active"><a>{{page}}</a></li>
+                <li ng-show="page < links['last']" ng-click="loadPage(page + 1)"><a>{{page + 1}}</a></li>
+                <li ng-show="page < links['last'] - 1" ng-click="loadPage(page + 2)"><a>{{page + 2}}</a></li>
+                <li ng-show="links['next']" ng-click="loadPage(links['next'])"><a>&gt;</a></li>
+                <li ng-show="links['last']" ng-click="loadPage(links['last'])"><a>&gt;&gt;</a></li>
+            </ul>
+        </nav>
+    </div>
+</div>

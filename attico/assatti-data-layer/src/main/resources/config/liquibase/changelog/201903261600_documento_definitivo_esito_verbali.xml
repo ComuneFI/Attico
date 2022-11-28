@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    
+    <changeSet author="chiriacog" id="201903261600-1">
+    	<sql>
+			INSERT INTO `tipodocumento` (`id`, `descrizione`, `codice`, `riversamento_tipoatto`) VALUES ('104', 'Documento Definitivo Esito', 'documento_definitivo_esito', 0);
+			INSERT INTO `tipodocumento` (`id`, `descrizione`, `codice`, `riversamento_tipoatto`) VALUES ('105', 'Documento Definitivo Elenco Verbali', 'documento_definitivo_elenco_verbali', 0);
+		</sql>
+    </changeSet>
+    
+    <changeSet author="chiriacog" id="201903261600-2">
+    	<sql>
+			INSERT INTO `modellohtml` (`id`, `titolo`, `html`, `tipodocumento_id`) VALUES ('133', 'DOCUMENTO DEFINITIVO ESITO', 'TEST', '104');
+			INSERT INTO `modellohtml` (`id`, `titolo`, `html`, `tipodocumento_id`) VALUES ('134', 'DOCUMENTO DEFINITIVO ELENCO VERBALI', 'TEST', '105');
+		</sql>
+    </changeSet>
+ 
+</databaseChangeLog>

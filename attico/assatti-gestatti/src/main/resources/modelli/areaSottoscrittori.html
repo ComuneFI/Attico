@@ -1,0 +1,13 @@
+<div style="font-family: Helvetica; font-size: 12px; line-height: 18px; text-align: justify;" th:utext="${noteFinali.testo}">+${noteFinali}</div>
+<br><br><br>
+<table style="page-break-inside:avoid" width="100%">
+	<tbody>
+		<tr th:each="item: ${#lists.sort(sottoscrittori)}">
+			<td><p><span>[[${item.qualificaProfessionale.denominazione}]]</span></p>
+			<p><span>([[${item.profilo.utente.nome}]]   [[${item.profilo.utente.cognome}]]) ___________________</span></p>
+			</td>
+		</tr>
+	</tbody>
+</table>
+<p></p>
+<p><br></p>

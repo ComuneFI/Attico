@@ -1,0 +1,23 @@
+{
+    "cifra2gestattiApp": {
+        "parere" : {
+            "home": {
+                "title": "Pareres",
+                "createLabel": "Create a new Parere",
+                "createOrEditLabel": "Create or edit a Parere"
+            },
+            "delete": {
+                "question": "Are you sure you want to delete Parere {{ id }}?"
+            },
+            "detail": {
+                "title": "Parere"
+            },
+            "tipoParere": "TipoParere",
+            "parere": "Parere",
+            "idDiogene": "IdDiogene",
+            "data": "Data",
+            "Atto": "Atto",
+            "Aoo": "Ufficio"
+        }
+    }
+}

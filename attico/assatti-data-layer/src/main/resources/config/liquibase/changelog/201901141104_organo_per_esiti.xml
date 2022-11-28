@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    
+    <changeSet author="magria" id="201901141104-1">
+    	<sql>
+    		DELETE FROM gestatti.esito WHERE id !='' ;
+    	</sql>
+    </changeSet>
+    <changeSet author="magria" id="201901141104-2">
+    	<sql>
+			ALTER TABLE gestatti.esito ADD organo varchar(1) DEFAULT 'C' NOT NULL ;
+    	</sql>
+    </changeSet>
+    <changeSet author="magria" id="201901141104-3">
+    	<sql>
+			INSERT INTO gestatti.esito (id, label, tipiatto, registra_votazione, visibilita_presenza, visibilita_votazione, ammette_ie, organo) VALUES('G_approvata', 'Approvata', 'DIG', 1, 1, 1, 0, 'G');
+			INSERT INTO gestatti.esito (id, label, tipiatto, registra_votazione, visibilita_presenza, visibilita_votazione, ammette_ie, organo) VALUES('approvata', 'Approvata', 'DIC,ODG,RIS,MZ', 1, 1, 1, 0, 'C');
+			INSERT INTO gestatti.esito (id, label, tipiatto, registra_votazione, visibilita_presenza, visibilita_votazione, ammette_ie, organo) VALUES('G_approvata_del', 'Approvata', 'DG,DPC', 1, 1, 1, 1, 'G');
+			INSERT INTO gestatti.esito (id, label, tipiatto, registra_votazione, visibilita_presenza, visibilita_votazione, ammette_ie, organo) VALUES('approvata_del', 'Approvata', 'DC,DPC', 1, 1, 1, 1, 'C');
+			INSERT INTO gestatti.esito (id, label, tipiatto, registra_votazione, visibilita_presenza, visibilita_votazione, ammette_ie, organo) VALUES('G_approvata_modifiche', 'Approvata con Modifiche', 'DIG', 1, 1, 1, 0, 'G');
+			INSERT INTO gestatti.esito (id, label, tipiatto, registra_votazione, visibilita_presenza, visibilita_votazione, ammette_ie, organo) VALUES('approvata_modifiche', 'Approvata Emendata', 'DIC,ODG,RIS,MZ', 1, 1, 1, 0, 'C');
+			INSERT INTO gestatti.esito (id, label, tipiatto, registra_votazione, visibilita_presenza, visibilita_votazione, ammette_ie, organo) VALUES('G_approvata_modifiche_del', 'Approvata con Modifiche', 'DG,DPC', 1, 1, 1, 1, 'G');
+			INSERT INTO gestatti.esito (id, label, tipiatto, registra_votazione, visibilita_presenza, visibilita_votazione, ammette_ie, organo) VALUES('approvata_modifiche_del', 'Approvata Emendata', 'DC,DPC', 1, 1, 1, 1, 'C');
+			INSERT INTO gestatti.esito (id, label, tipiatto, registra_votazione, visibilita_presenza, visibilita_votazione, ammette_ie, organo) VALUES('approvato', 'Approvato', 'VERB', 0, 0, 0, 0, 'C');
+			INSERT INTO gestatti.esito (id, label, tipiatto, registra_votazione, visibilita_presenza, visibilita_votazione, ammette_ie, organo) VALUES('decaduta', 'Decaduta', 'QT', 0, 0, 0, 0, 'C');
+			INSERT INTO gestatti.esito (id, label, tipiatto, registra_votazione, visibilita_presenza, visibilita_votazione, ammette_ie, organo) VALUES('G_respinto', 'Respinto', 'DG,DIG,DPC', 1, 1, 1, 0, 'G');
+			INSERT INTO gestatti.esito (id, label, tipiatto, registra_votazione, visibilita_presenza, visibilita_votazione, ammette_ie, organo) VALUES('respinto', 'Respinto', 'DC,DIC,ODG,RIS,MZ,DPC', 1, 1, 1, 0, 'C');
+			INSERT INTO gestatti.esito(id, label, tipiatto, registra_votazione, visibilita_presenza, visibilita_votazione, ammette_ie, organo) VALUES('G_respinto_emendato', 'Respinto Emendato', 'DG', 1, 1, 1, 0, 'G');
+			INSERT INTO gestatti.esito(id, label, tipiatto, registra_votazione, visibilita_presenza, visibilita_votazione, ammette_ie, organo) VALUES('respinto_emendato', 'Respinto Emendato', 'DC,ODG,RIS,MZ', 1, 1, 1, 0, 'C');
+			INSERT INTO gestatti.esito(id, label, tipiatto, registra_votazione, visibilita_presenza, visibilita_votazione, ammette_ie, organo) VALUES('G_rinviato', 'Rinviato', 'DG,DIG,DPC', 0, 0, 0, 0, 'G');
+			INSERT INTO gestatti.esito(id, label, tipiatto, registra_votazione, visibilita_presenza, visibilita_votazione, ammette_ie, organo) VALUES('rinviato', 'Rinviato', 'DC,DIC,INT,VERB,ODG,RIS,MZ,COM', 0, 0, 0, 0, 'C');
+			INSERT INTO gestatti.esito(id, label, tipiatto, registra_votazione, visibilita_presenza, visibilita_votazione, ammette_ie, organo) VALUES('risposta_in_aula', 'Risposta in Aula', 'DAT,INT,QT', 0, 0, 0, 0, 'C');
+			INSERT INTO gestatti.esito(id, label, tipiatto, registra_votazione, visibilita_presenza, visibilita_votazione, ammette_ie, organo) VALUES('ritirato', 'Ritirato', 'INT,QT,ODG,RIS,MZ,COM', 0, 0, 0, 0, 'C');
+			INSERT INTO gestatti.esito(id, label, tipiatto, registra_votazione, visibilita_presenza, visibilita_votazione, ammette_ie, organo) VALUES('svolta', 'Svolta', 'COM', 0, 0, 0, 0, 'C');
+    	</sql>
+    </changeSet>
+</databaseChangeLog>

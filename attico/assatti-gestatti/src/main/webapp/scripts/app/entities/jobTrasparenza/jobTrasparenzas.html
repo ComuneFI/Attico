@@ -1,0 +1,175 @@
+<div>
+
+    <h2 translate="cifra2gestattiApp.jobTrasparenza.home.title">Monitoraggio Pubblicazioni</h2>
+		
+		<button class="btn btn-xs btn-danger dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"  ng-click="esportaRicercaPdf()"><span class="fa fa-file-pdf-o"></span> Esporta Ricerca (PDF)</button>
+			<ul class="dropdown-menu" aria-labelledby="dropdownMenu1" style="background-color:#EE8383;color:white;">
+				<li	ng-repeat="modello in modelloHtmls">
+					<a href target="_blank" ng-click="esportaRicercaPdf(modello.id)">
+						<span class="fa fa-file-pdf-o"></span> <span>{{modello.titolo}}</span>
+					</a>
+				</li>
+			</ul>
+			
+	<div>
+	    <div class="table-responsive">
+	        <table class="table table-striped">
+	            <thead>
+	                <tr>
+	                    <th colname="01-codiceCifra" translate="cifra2gestattiApp.jobTrasparenza.codice">Codice Atto</th>
+	                    <th colname="02-numeroAdozione" translate="cifra2gestattiApp.jobTrasparenza.numeroAdozione">Numero Adozione</th>
+	                    <th colname="03-dataAdozione" translate="cifra2gestattiApp.jobTrasparenza.dataAdozione">Data Adozione Atto</th>
+	                    <th colname="09-oggetto" translate="cifra2gestattiApp.jobTrasparenza.oggetto">Oggetto</th>
+	                    <!--  <th translate="cifra2gestattiApp.jobTrasparenza.statoPubblicazione">Stato Pubblicazione</th>-->
+	                    <!--  <th translate="cifra2gestattiApp.jobTrasparenza.statoProceduraPubblicazione">Stato Procedura Pubblicazione</th>-->
+	                    <!--  <th translate="cifra2gestattiApp.jobTrasparenza.erroriComunicazioneAlbo">Errori Comunicazione Albo</th>-->
+	                    <th translate="cifra2gestattiApp.jobTrasparenza.dataInvio">Data Invio</th>
+	                    <th translate="cifra2gestattiApp.jobTrasparenza.esito">Esito</th>
+	                    <th colname="06-dataInizio" translate="cifra2gestattiApp.jobTrasparenza.dataInizioPubblicazione">Data Inizio Pubblicazione</th>
+	                    <th colname="07-dataFine" translate="cifra2gestattiApp.jobTrasparenza.dataFinePubblicazione">Data Fine Pubblicazione</th>
+	                    <!--  <th translate="cifra2gestattiApp.jobTrasparenza.statoRelata">Stato Relata</th>-->
+	                    <!--  <th colname="04-dataEsecutivita" ng-show="false">Data Esecutivit&agrave;</th>-->
+	                    <!--  <th colname="07-istruttore" ng-show="false">Istruttore Proposta</th>-->
+	                    <!--  <th colname="08-emanante" ng-show="false">Dirigente Emanante</th>-->
+	                    <th width="30px"></th>
+	                </tr>
+	                <tr>
+						<th><input type="text" ng-model="tempSearch.codiceCifra" style="width:100%"></th>
+						<th><input type="text" ng-model="tempSearch.numeroAdozione" style="width:100%" maxlength="5"></th>
+						<th><div class="form-group">
+									    <div class="input-group" style="position:inherit;">
+									      <input type="text" ng-model="tempSearch.dataAdozioneStart" size="7" onkeydown="return false;" bs-datepicker placeholder="Dal">
+									      <div class="input-group-addon" style="padding:0px !important;width:0px;"><button title="Cancella Data" ng-click="tempSearch.dataAdozioneStart = null;" class="btn btn-xs btn-link"><span class="glyphicon glyphicon-remove"></span></button></div>
+									    </div>
+									</div>
+									<div class="form-group">
+									    <div class="input-group" style="position:inherit;">
+									      <input type="text" ng-model="tempSearch.dataAdozioneEnd" size="7" onkeydown="return false;" bs-datepicker placeholder="Al">
+									      <div class="input-group-addon" style="padding:0px !important;width:0px;"><button title="Cancella Data" ng-click="tempSearch.dataAdozioneEnd = null;" class="btn btn-xs btn-link"><span class="glyphicon glyphicon-remove"></span></button></div>
+									    </div>
+									</div>
+						</th>
+						<th><input type="text" ng-model="tempSearch.oggetto" style="width:100%"></th>
+						<!--  <th><input type="text" ng-model="tempSearch.statoPubblicazione" style="width:100%"></th>-->
+						<!--  <th><input type="text" ng-model="tempSearch.statoProceduraPubblicazione" style="width:100%"></th>-->
+						<!--  <th><si-no-select ng-model="tempSearch.errori" ></si-no-select></th>-->
+						<th><div class="form-group">
+									    <div class="input-group" style="position:inherit;">
+									      <input type="text" ng-model="tempSearch.dataInvioStart" size="7" onkeydown="return false;" bs-datepicker placeholder="Dal">
+									      <div class="input-group-addon" style="padding:0px !important;width:0px;"><button title="Cancella Data" ng-click="tempSearch.dataInvioStart = null;" class="btn btn-xs btn-link"><span class="glyphicon glyphicon-remove"></span></button></div>
+									    </div>
+									</div>
+									<div class="form-group">
+									    <div class="input-group" style="position:inherit;">
+									      <input type="text" ng-model="tempSearch.dataInvioEnd" size="7" onkeydown="return false;" bs-datepicker placeholder="Al">
+									      <div class="input-group-addon" style="padding:0px !important;width:0px;"><button title="Cancella Data" ng-click="tempSearch.dataInvioEnd = null;" class="btn btn-xs btn-link"><span class="glyphicon glyphicon-remove"></span></button></div>
+									    </div>
+									</div>
+						</th>
+						<th>
+							<ui-select style="width:100%;" class="form-group" ng-model="tempSearch.esito" theme="bootstrap">
+			                  	<ui-select-match allow-clear="true">{{$select.selected.label}}</ui-select-match>
+			                  	<ui-select-choices repeat="obj.stato as obj in statoInfos | filter: $select.search track by obj.stato">
+			                          <div ng-bind-html="obj.label | highlight: $select.search"></div>
+			                  	</ui-select-choices>
+		                   	</ui-select>
+						</th>
+						<th><div class="form-group">
+									    <div class="input-group" style="position:inherit;">
+									      <input type="text" ng-model="tempSearch.dataInizioPubblicazioneStart" size="7" onkeydown="return false;" bs-datepicker placeholder="Dal">
+									      <div class="input-group-addon" style="padding:0px !important;width:0px;"><button title="Cancella Data" ng-click="tempSearch.dataInizioPubblicazioneStart = null;" class="btn btn-xs btn-link"><span class="glyphicon glyphicon-remove"></span></button></div>
+									    </div>
+									</div>
+									<div class="form-group">
+									    <div class="input-group" style="position:inherit;">
+									      <input type="text" ng-model="tempSearch.dataInizioPubblicazioneEnd" size="7" onkeydown="return false;" bs-datepicker placeholder="Al">
+									      <div class="input-group-addon" style="padding:0px !important;width:0px;"><button title="Cancella Data" ng-click="tempSearch.dataInizioPubblicazioneEnd = null;" class="btn btn-xs btn-link"><span class="glyphicon glyphicon-remove"></span></button></div>
+									    </div>
+									</div>
+						</th>
+						<th><div class="form-group">
+									    <div class="input-group" style="position:inherit;">
+									      <input type="text" ng-model="tempSearch.dataFinePubblicazioneStart" size="7" onkeydown="return false;" bs-datepicker placeholder="Dal">
+									      <div class="input-group-addon" style="padding:0px !important;width:0px;"><button title="Cancella Data" ng-click="tempSearch.dataFinePubblicazioneStart = null;" class="btn btn-xs btn-link"><span class="glyphicon glyphicon-remove"></span></button></div>
+									    </div>
+									</div>
+									<div class="form-group">
+									    <div class="input-group" style="position:inherit;">
+									      <input type="text" ng-model="tempSearch.dataFinePubblicazioneEnd" size="7" onkeydown="return false;" bs-datepicker placeholder="Al">
+									      <div class="input-group-addon" style="padding:0px !important;width:0px;"><button title="Cancella Data" ng-click="tempSearch.dataFinePubblicazioneEnd = null;" class="btn btn-xs btn-link"><span class="glyphicon glyphicon-remove"></span></button></div>
+									    </div>
+									</div>
+						</th>
+						<!--  <th style="width:25%;" class="limited-width">
+		           			<ui-select ng-model="tempSearch.statoRelata" theme="bootstrap" style='display: inline-block; width:100%;'>
+								<ui-select-match allow-clear="true">{{$select.selected.denominazione}}</ui-select-match>
+								<ui-select-choices repeat="statoRelata in statiRelata | filter: $select.search">
+									<div ng-bind-html="statoRelata.denominazione | highlight: $select.search"></div>
+								</ui-select-choices>
+							</ui-select>
+			           </th>-->
+						
+						<th style="text-align:center;"><div class="form-group"><button class="btn btn-primary btn-xs"
+								ng-click="ricerca()">
+								<span class="glyphicon glyphicon-search" /> <span
+									translate="global.messages.cerca">Ricerca</span>
+							</button>
+							<button class="btn btn-primary btn-xs" ng-click="resetRicerca()">
+								<span translate="global.messages.resetricerca">Reset
+									ricerca</span>
+							</button></div></th>
+					</tr>
+	            </thead>
+	            <tbody>
+	                <tr ng-repeat="jobTrasparenza in jobTrasparenzas">
+	                    <!-- <td></td> -->
+	                    <td>{{jobTrasparenza.atto.codiceCifra}}</td>
+	                    <td>{{jobTrasparenza.atto.numeroAdozione}}</td>
+	                    <td>{{jobTrasparenza.atto.dataAdozione | date:'dd/MM/yyyy'}}</td>
+	                    <td>{{jobTrasparenza.atto.oggetto}}</td>
+	                    <!-- <td>{{jobTrasparenza.atto.statoPubblicazione}}</td>-->
+	                    <!--  <td>{{jobTrasparenza.atto.statoProceduraPubblicazione}}</td>-->
+	                    <!--  <td>{{jobTrasparenza.dettaglioErrore}}</td>-->
+	                    <td>{{jobTrasparenza.dataInvioTrasparenza | date:'dd/MM/yyyy'}}</td>
+	                    <td align="center" ng-style="{'color' : jobTrasparenza.info.color}"><span class="{{jobTrasparenza.info.class}}"></span> {{jobTrasparenza.info.label}}</td>
+	                    <td>{{jobTrasparenza.atto && jobTrasparenza.atto.dataInizioPubblicazionePresunta ? (jobTrasparenza.atto.dataInizioPubblicazionePresunta | date:'dd/MM/yyyy') : ''}}</td>
+	                    <td>{{jobTrasparenza && jobTrasparenza.atto && !jobTrasparenza.atto.pubblicazioneTrasparenzaNolimit ? (jobTrasparenza.atto.dataFinePubblicazionePresunta | date:'dd/MM/yyyy') : ''}}</td>
+	                    <!--  <td ng-if="jobTrasparenza.atto.statoRelata == null"></td>
+	                    <td translate="cifra2gestattiApp.jobTrasparenza.statiRelata.daGenerare" ng-if="jobTrasparenza.atto.statoRelata == 0">daGenerare</td>
+	                    <td translate="cifra2gestattiApp.jobTrasparenza.statiRelata.generata" ng-if="jobTrasparenza.atto.statoRelata == 1">generata</td>
+	                    <td translate="cifra2gestattiApp.jobTrasparenza.statiRelata.firmata" ng-if="jobTrasparenza.atto.statoRelata == 2">firmata</td>-->
+	                    <!--  <td ng-show="false">{{jobTrasparenza.atto.dataEsecutivita | date:'dd/MM/yyyy'}}</td>-->
+	                    <!--  <td ng-show="false">{{jobTrasparenza.atto.createdBy}}</td>-->
+	                    <!--  <td ng-show="false">{{jobTrasparenza.atto.emananteProfilo.utente.nome}}</td>-->
+	                      <td>
+	                        <!--<button type="submit"
+	                                ui-sref="jobTrasparenzaDetail({id:jobTrasparenza.id})"
+	                                class="btn btn-info btn-sm">
+	                            <span class="glyphicon glyphicon-eye-open"></span>&nbsp;<span translate="entity.action.view"> View</span>
+	                        </button>-->
+							<button ng-if="jobTrasparenza.atto.fullAccess" type="submit"
+	                                ng-click="show(jobTrasparenza.atto.id)"
+	                                class="btn btn-primary btn-sm">
+	                            <span class="glyphicon glyphicon-pencil"></span>&nbsp;<span translate="entity.action.view"> View</span>
+	                        </button>
+	                    </td>
+	                    <td></td>
+	                </tr>
+	            </tbody>
+	        </table>
+	    </div>
+        <nav>
+            <ul class="pagination">
+                <li ng-show="links['first']" ng-click="loadPage(links['first'])"><a>&lt;&lt;</a></li>
+                <li ng-show="links['prev']" ng-click="loadPage(links['prev'])"><a>&lt;</a></li>
+                <li ng-show="page > 2" ng-click="loadPage(page - 2)"><a>{{page - 2}}</a></li>
+                <li ng-show="page > 1" ng-click="loadPage(page - 1)"><a>{{page - 1}}</a></li>
+                <li class="active"><a>{{page}}</a></li>
+                <li ng-show="page < links['last']" ng-click="loadPage(page + 1)"><a>{{page + 1}}</a></li>
+                <li ng-show="page < links['last'] - 1" ng-click="loadPage(page + 2)"><a>{{page + 2}}</a></li>
+                <li ng-show="links['next']" ng-click="loadPage(links['next'])"><a>&gt;</a></li>
+                <li ng-show="links['last']" ng-click="loadPage(links['last'])"><a>&gt;&gt;</a></li>
+            </ul>
+        </nav>
+    </div>
+</div>

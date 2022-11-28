@@ -1,0 +1,179 @@
+<p style="margin-top:1.0in;">&nbsp;</p>
+<div style="text-align: center; font-size: 20pt; font-weight: bold;">GIUNTA COMUNALE<br><span style="font-size: 14pt;">ESTRATTO DAL VERBALE DELLE DELIBERAZIONI DEL <span th:if="${seduta!=null &amp;&amp; seduta.inizioLavoriEffettiva != null}">[[${seduta.inizioLavoriEffettiva.toString("dd/MM/yyyy")}]]</span> <span th:if="${seduta!=null &amp;&amp; seduta.inizioLavoriEffettiva == null &amp;&amp; seduta.secondaConvocazioneInizio != null}">[[${seduta.secondaConvocazioneInizio.toString("dd/MM/yyyy")}]]</span><span th:if="${seduta!=null &amp;&amp; seduta.inizioLavoriEffettiva == null &amp;&amp; seduta.secondaConvocazioneInizio == null &amp;&amp; seduta.primaConvocazioneInizio != null}">[[${seduta.primaConvocazioneInizio.toString("dd/MM/yyyy")}]]</span></span></div>
+<br><div style="text-align: left; font-size: 14pt; font-weight: bold;">DELIBERAZIONE N. <span th:if="${atto.numeroAdozione !=null}">[[${atto.tipoAtto.codice}]]/[[${atto.dataAdozione.toString("yyyy")}]]/[[${atto.numeroAdozione}]]</span> (PROPOSTA N.[[${atto.codiceCifra}]])</div>
+<p style="font-size: 12pt;"><span style="font-weight: bold;">Oggetto:</span> <span style="text-align: justify" th:utext="${atto.oggetto}"></span> </p>
+<p style="font-size: 12pt; line-height: 12pt; text-align: justify">	La seduta ha luogo il giorno <span th:if="${seduta!=null &amp;&amp; seduta.inizioLavoriEffettiva != null}">[[${seduta.inizioLavoriEffettiva.toString("dd/MM/yyyy")}]]</span> <span th:if="${seduta!=null &amp;&amp; seduta.inizioLavoriEffettiva == null &amp;&amp; seduta.secondaConvocazioneInizio != null}">[[${seduta.secondaConvocazioneInizio.toString("dd/MM/yyyy")}]]</span><span th:if="${seduta!=null &amp;&amp; seduta.inizioLavoriEffettiva == null &amp;&amp; seduta.secondaConvocazioneInizio == null &amp;&amp; seduta.primaConvocazioneInizio != null}">[[${seduta.primaConvocazioneInizio.toString("dd/MM/yyyy")}]]</span>	alle ore <span th:if="${seduta!=null &amp;&amp; seduta.inizioLavoriEffettiva != null}">[[${seduta.inizioLavoriEffettiva.toString("HH:mm")}]]</span> <span th:if="${seduta!=null &amp;&amp; seduta.inizioLavoriEffettiva == null &amp;&amp; seduta.secondaConvocazioneInizio != null}">[[${seduta.secondaConvocazioneInizio.toString("HH:mm")}]]</span><span th:if="${seduta!=null &amp;&amp; seduta.inizioLavoriEffettiva == null &amp;&amp; seduta.secondaConvocazioneInizio == null &amp;&amp; seduta.primaConvocazioneInizio != null}">[[${seduta.primaConvocazioneInizio.toString("HH:mm")}]]</span><span th:if="${seduta!=null &amp;&amp; seduta.luogo != null}">,		in&nbsp;[[${seduta.luogo}]]</span>, 	previa convocazione con apposito avviso.</p>
+<p style="font-size: 12pt; line-height: 12pt;">	<span th:each="item: ${componentiGiunta}" th:if="${item.isPresidenteFine == true}" style="font-weight: bold;">Presiede:</span> <span th:each="item: ${componentiGiunta}" th:if="${item.isPresidenteFine == true &amp;&amp; item.qualificaProfessionale != null}">[[${item.qualificaProfessionale.denominazione}]]  -</span>	<span th:each="item: ${componentiGiunta}" th:if="${item.isPresidenteFine == true}">[[${item.profilo.utente.nome}]] [[${item.profilo.utente.cognome.toUpperCase()}]]</span>	<br>	<span style="font-weight: bold;">Assiste: </span><span th:each="item: ${componentiGiunta}" th:if="${item.isSegretarioFine == true &amp;&amp; item.qualificaProfessionale != null &amp;&amp; segretario == null}">[[${item.qualificaProfessionale.denominazione}]] - </span>  	<span th:each="item: ${componentiGiunta}" th:if="${item.isSegretarioFine == true &amp;&amp; segretario == null}">[[${item.profilo.utente.nome}]] [[${item.profilo.utente.cognome.toUpperCase()}]]</span><span th:if="${segretario != null}">[[${qualificaProfessionaleSegretario.denominazione}]] [[${segretario.utente.nome}]] [[${segretario.utente.cognome.toUpperCase()}]]</span></p>
+<div th:if="${attiOdg!=null}">	<div style="font-size: 12pt; line-height: 12pt; text-align: justify"> Al momento dell'adozione del presente provvedimento risultano presenti i Sigg.:</div>
+	<br><table width="100%" border="0">
+	    <tbody>
+	        <tr th:each="item: ${componentiGiunta}" th:if="${item.presente!=null &amp;&amp; item.presente == true &amp;&amp; item.isSegretarioFine == false}">
+	            <td width="50%" valign="top">                            	<div style="font-size: 12pt; margin: 0 3pt;">            		[[${item.profilo.utente.nome}]] <span style="text-transform: uppercase;">[[${item.profilo.utente.cognome.toUpperCase()}]]</span>            	</div>
+	            </td>
+	            <td width="50%" valign="top"><div style="font-size: 12pt; margin: 0 3pt;" th:if="${item.qualificaProfessionale!=null &amp;&amp; item.qualificaProfessionale.id>0}">[[${item.qualificaProfessionale.denominazione}]]</div>
+	            <div style="font-size: 12pt; margin: 0 3pt;" th:if="${ (!(item.qualificaProfessionale!=null &amp;&amp; item.qualificaProfessionale.id>0)) &amp;&amp;  item.profilo.qualificaProfessionaleGiunta != null &amp;&amp; item.profilo.qualificaProfessionaleGiunta.id > 0}">[[${item.profilo.qualificaProfessionaleGiunta.denominazione}]] </div>
+	            </td>
+	        </tr>
+	    </tbody>
+	</table>
+	<br><div th:if="${stampaAssenti != null &amp;&amp; stampaAssenti == true}" style="font-size: 12pt; line-height: 12pt; text-align: justify">risultano altresì assenti i Sigg.:</div>
+		<table th:if="${stampaAssenti != null &amp;&amp; stampaAssenti == true}" width="100%" border="0">
+		    <tbody>
+		        <tr>
+		            <td width="50%" valign="top">						<div th:each="item: ${componentiGiunta}" th:if="${(item.isSindaco == null || item.isSindaco == false)  &amp;&amp; ((item.presente == null || item.presente == false) &amp;&amp; (item.isSegretarioInizio == null || item.isSegretarioInizio == false) &amp;&amp; (item.isSegretarioFine == null || item.isSegretarioFine == false))}" style="font-size: 12pt; margin: 0 3pt;">            		[[${item.profilo.utente.nome}]] [[${item.profilo.utente.cognome.toUpperCase()}]]            	</div>
+		            </td>
+		        </tr>
+		    </tbody>
+		</table>
+		<br><div style="font-size: 12pt; line-height: 12pt; text-align: justify" th:each="item: ${componentiGiunta}" th:if="${(item.isSindaco != null &amp;&amp; item.isSindaco == true)  &amp;&amp; ((item.presente == null || item.presente == false) &amp;&amp; (item.isSegretarioInizio == null || item.isSegretarioInizio == false) &amp;&amp; (item.isSegretarioFine == null || item.isSegretarioFine == false))}">Risulta altresì assente il Sindaco [[${item.profilo.utente.nome}]] [[${item.profilo.utente.cognome.toUpperCase()}]]</div>
+</div>
+<br><div style="font-size: 11pt; line-height: 16.5pt; text-align: justify;" th:utext="${atto.domanda.testo}">+${atto.domanda}</div>
+<p>&nbsp;</p>
+    <div th:if="${elencoTitoloAllegato!=null}"> <br>        <p><b>ALLEGATI PARTE INTEGRANTE</b></p>
+        <table style="page-break-inside: avoid;" width="100%" cellspacing="0" cellpadding="0">
+            <tbody>
+                <tr th:each="item: ${#lists.sort(elencoTitoloAllegato)}">
+                    <td>                        <div style="text-align: left; font-size: 11pt;">- [[${item}]]</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <br>  </div>
+        <!--inizio modifica mov cont --><div th:if="${(atto.datiContabili != null) and atto.datiContabili.includiMovimentiAtto and !#lists.isEmpty(movimentiContabiliImpAcc)}">	<div style="text-align: Left; font-size: 11pt; font-weight: bold;">		<span>Elenco Movimenti</span>	</div>
+	<br>	<table>
+		<thead>			<tr>
+				<th style="border-bottom: 1px solid #ddd; text-align: right; font-size: 9.5pt; font-weight: bold; margin: 5px 0 2px 0; padding: 2px; white-space: nowrap;">N°</th>
+				<th style="border-bottom: 1px solid #ddd; text-align: right; font-size: 9.5pt; font-weight: bold; margin: 5px 0 2px 0; padding: 2px; white-space: nowrap;">Tipo Mov.</th>
+				<th style="border-bottom: 1px solid #ddd; text-align: right; font-size: 9.5pt; font-weight: bold; margin: 5px 0 2px 0; padding: 2px; white-space: nowrap;">Esercizio</th>
+				<th style="border-bottom: 1px solid #ddd; text-align: right; font-size: 9.5pt; font-weight: bold; margin: 5px 0 2px 0; padding: 2px; white-space: nowrap;">Capitolo</th>
+				<th style="border-bottom: 1px solid #ddd; text-align: right; font-size: 9.5pt; font-weight: bold; margin: 5px 0 2px 0; padding: 2px; white-space: nowrap;">Articolo</th>
+				<th style="border-bottom: 1px solid #ddd; text-align: right; font-size: 9.5pt; font-weight: bold; margin: 5px 0 2px 0; padding: 2px; white-space: nowrap;">Impegno/ Accertamento</th>
+				<th style="border-bottom: 1px solid #ddd; text-align: right; font-size: 9.5pt; font-weight: bold; margin: 5px 0 2px 0; padding: 2px; white-space: nowrap;">Sub					Impegno/Sub Accertamento</th>
+				<th style="border-bottom: 1px solid #ddd; text-align: right; font-size: 9.5pt; font-weight: bold; margin: 5px 0 2px 0; padding: 2px; white-space: nowrap;">Importo</th>
+				<th style="border-bottom: 1px solid #ddd; text-align: right; font-size: 9.5pt; font-weight: bold; margin: 5px 0 2px 0; padding: 2px; white-space: nowrap;">Beneficiario</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="mc,item : ${movimentiContabiliImpAcc}">
+				<td th:text="${{item.index+1}}+')'" style="border-bottom: 1px solid #ddd; text-align: right; font-size: 9.5pt; margin: 5px 0 2px 0; padding: 2px;"></td>
+								<td th:text="${{mc.eu}}" style="border-bottom: 1px solid #ddd; text-align: right; font-size: 9.5pt; margin: 5px 0 2px 0; padding: 2px;"></td>
+				<td th:text="${{mc.esercizio}}" style="border-bottom: 1px solid #ddd; text-align: right; font-size: 9.5pt; margin: 5px 0 2px 0; padding: 2px;"></td>
+				<td th:text="${{mc.capitolo}}" style="border-bottom: 1px solid #ddd; text-align: right; font-size: 9.5pt; margin: 5px 0 2px 0; padding: 2px;"></td>
+				<td th:text="${{mc.articolo}}" style="border-bottom: 1px solid #ddd; text-align: right; font-size: 9.5pt; margin: 5px 0 2px 0; padding: 2px;"></td>
+				<td th:text="${mc.annoImpacc}+'/'+${mc.numeroImpacc}" style="border-bottom: 1px solid #ddd; text-align: right; font-size: 9.5pt; margin: 5px 0 2px 0; padding: 2px;"></td>
+				<td th:text="${{mc.subImpacc}}" style="border-bottom: 1px solid #ddd; text-align: right; font-size: 9.5pt; margin: 5px 0 2px 0; padding: 2px;"></td>
+				<td th:if="${mc.importoImpacc!=null and !#strings.isEmpty(#strings.trim(mc.importoImpacc))}" th:text="'€ '+${mc.importoImpacc}" style="border-bottom: 1px solid #ddd; text-align: right; font-size: 9.5pt; margin: 5px 0 2px 0; padding: 2px;"></td>
+				<td th:if="${mc.importoImpacc==null or #strings.isEmpty(#strings.trim(mc.importoImpacc))}" style="border-bottom: 1px solid #ddd; text-align: right; font-size: 9.5pt; margin: 5px 0 2px 0; padding: 2px;">&nbsp;</td>
+				<td th:text="${mc.codDebBen}+' - '+${mc.descCodDebBen}" style="border-bottom: 1px solid #ddd; text-align: right; font-size: 9.5pt; margin: 5px 0 2px 0; padding: 2px;"></td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+<div th:if="${(atto.datiContabili != null) and atto.datiContabili.includiMovimentiAtto and !#lists.isEmpty(movimentiContabiliLiquidazione)}">	<div style="text-align: Left; font-size: 11pt; font-weight: bold;">		<span>Elenco Liquidazioni</span>	</div>
+	<br>	<table>
+		<thead>			<tr>
+				<th style="border-bottom: 1px solid #ddd; text-align: right; font-size: 9.5pt; font-weight: bold; margin: 5px 0 2px 0; padding: 2px; white-space: nowrap;">Numero					Fattura</th>
+				<th style="border-bottom: 1px solid #ddd; text-align: right; font-size: 9.5pt; font-weight: bold; margin: 5px 0 2px 0; padding: 2px; white-space: nowrap;">Data					Fattura</th>
+				<th style="border-bottom: 1px solid #ddd; text-align: right; font-size: 9.5pt; font-weight: bold; margin: 5px 0 2px 0; padding: 2px; white-space: nowrap;">Importo</th>
+				<th style="border-bottom: 1px solid #ddd; text-align: right; font-size: 9.5pt; font-weight: bold; margin: 5px 0 2px 0; padding: 2px; white-space: nowrap;">Soggetto					Beneficiario</th>
+				<th style="border-bottom: 1px solid #ddd; text-align: right; font-size: 9.5pt; font-weight: bold; margin: 5px 0 2px 0; padding: 2px; white-space: nowrap;">Impegno</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="mc,item : ${movimentiContabiliLiquidazione}">
+				<td th:text="${{mc.numero}}" style="border-bottom: 1px solid #ddd; text-align: right; font-size: 9.5pt; margin: 5px 0 2px 0; padding: 2px;"></td>
+				<td th:text="${{mc.data}}" style="border-bottom: 1px solid #ddd; text-align: right; font-size: 9.5pt; margin: 5px 0 2px 0; padding: 2px;"></td>
+				<td th:if="${mc.importo!=null and !#strings.isEmpty(#strings.trim(mc.importo))}" th:text="${{mc.importo}}" style="border-bottom: 1px solid #ddd; text-align: right; font-size: 9.5pt; margin: 5px 0 2px 0; padding: 2px;"></td>
+<td th:if="${mc.importo==null or #strings.isEmpty(#strings.trim(mc.importo))}" style="border-bottom: 1px solid #ddd; text-align: right; font-size: 9.5pt; margin: 5px 0 2px 0; padding: 2px;">&nbsp;</td>
+				<td th:text="${{mc.documento[0].soggettoNome}}" style="border-bottom: 1px solid #ddd; text-align: right; font-size: 9.5pt; margin: 5px 0 2px 0; padding: 2px;"></td>
+				<td th:text="${mc.documento[0].impegno.anno}+'/'+${mc.documento[0].impegno.numero}" style="border-bottom: 1px solid #ddd; text-align: right; font-size: 9.5pt; margin: 5px 0 2px 0; padding: 2px;"></td>
+			</tr>
+		</tbody>
+	</table>
+	<br>  <br></div>
+<!-- fine modifica mov cont -->                        <div><span style="font-size: 11pt; font-weight: bold; text-align: center; text-transform: uppercase;"><br></span></div>
+    <table th:if="${parereTecnico!=null || parereContabile!=null}" style="page-break-inside: avoid;" width="100%" border="0">
+    	<tbody>
+<tr th:if="${parereTecnico!=null}" style="margin: 0; padding: 0;">
+    		<td colspan="2" style="border: 1px solid #000; text-transform: uppercase; padding:2pt 5pt; margin:0; font-weight: bold;">    			<div style="line-height: 18pt;">Parere di Regolarità Tecnica</div>
+    		</td>
+    	</tr>
+    	<tr th:if="${parereTecnico!=null}" style="margin: 0; padding: 0;">
+    		<td colspan="2" style="border: 1px solid #000; padding:2pt 5pt; margin:0;">    			<div style="line-height: 18pt;">Si esprime parere di regolarità tecnica favorevole ai sensi dell'art.49 c.1 del T.U.E.L. <br> [[${parereTecnicoArticolato!=null ? parereTecnicoArticolato : ''}]]</div>
+</td>
+</tr>
+<tr th:if="${parereTecnico!=null}" style="margin: 0; padding: 0;">
+    			<td witdth="30%" style="border: 1px solid #000; padding:2pt 5pt; margin:0;" align="left">Data [[${parereTecnico.data.toString("dd/MM/yyyy")}]]</td>
+<td witdth="70%" style="border: 1px solid #000; padding:2pt 5pt; margin:0;" nowrap="nowrap"><div style="text-align: center;"><span style="background-color: transparent;">Il Dirigente / Direttore&nbsp;[[${parereTecnico != null and parereTecnico.createUser!=null and !parereTecnico.profilo.utente.username.equalsIgnoreCase(parereTecnico.createUser.username) ? '(Delegato)' : ''}]]</span></div>
+<div style="text-align: center;"><span th:if="${parereTecnico != null and parereTecnico.createUser != null and parereTecnico.profilo.utente.username.equalsIgnoreCase(parereTecnico.createUser.username)}" style="background-color: transparent;">[[${parereTecnico!=null ? parereTecnico.profilo.utente.cognome : ''}]] [[${parereTecnico!=null ? parereTecnico.profilo.utente.nome : ''}]]</span><span th:if="${parereTecnico != null and parereTecnico.createUser !=null and !parereTecnico.profilo.utente.username.equalsIgnoreCase(parereTecnico.createUser.username)}" style="background-color: transparent;">[[${parereTecnico.createUser.cognome}]] [[${parereTecnico.createUser.nome}]]</span></div>
+</td>
+    	</tr>
+    	<tr th:if="${parereContabile!=null}" style="margin: 0; padding: 0;">
+    		<td style="border: 1px solid #000; text-transform: uppercase; padding:2pt 5pt; margin:0; font-weight: bold;" colspan="2">    			<div style="line-height: 18pt;">Parere di Regolarità Contabile</div>
+    		</td>
+    	</tr>
+    	<tr th:if="${parereContabile!=null}" style="margin: 0; padding: 0;">
+    		<td style="border: 1px solid #000; padding:2pt 5pt; margin:0;" colspan="2">    			<div style="line-height: 18pt;">Si esprime parere di regolarità contabile favorevole ai sensi dell'art.49 c.1 del T.U.E.L. <br> [[${parereContabileArticolato!=null ? parereContabileArticolato : ''}]]</div>
+</td>
+</tr>
+<tr th:if="${parereContabile!=null}" style="margin: 0; padding: 0;">
+    			<td witdth="30%" style="border: 1px solid #000; padding:2pt 5pt; margin:0;" align="left">Data [[${parereContabile.data.toString("dd/MM/yyyy")}]]</td>
+<td witdth="70%" style="border: 1px solid #000; padding:2pt 5pt; margin:0;" nowrap="nowrap"><div style="text-align: center;"><span style="background-color: transparent;">Il Dirigente / Direttore&nbsp;[[${parereContabile != null and parereContabile.createUser!=null and !parereContabile.profilo.utente.username.equalsIgnoreCase(parereContabile.createUser.username) ? '(Delegato)' : ''}]]</span></div>
+<div style="text-align: center;"><span th:if="${parereContabile != null and parereContabile.createUser != null and parereContabile.profilo.utente.username.equalsIgnoreCase(parereContabile.createUser.username)}" style="background-color: transparent;">[[${parereContabile!=null ? parereContabile.profilo.utente.cognome : ''}]] [[${parereContabile!=null ? parereContabile.profilo.utente.nome : ''}]]</span><span th:if="${parereContabile != null and parereContabile.createUser !=null and !parereContabile.profilo.utente.username.equalsIgnoreCase(parereContabile.createUser.username)}" style="background-color: transparent;">[[${parereContabile.createUser.cognome}]] [[${parereContabile.createUser.nome}]]</span></div>
+</td>
+    	</tr>
+    </tbody>
+</table>
+<br><div th:if="${atto.adempimentiContabili !=null and atto.adempimentiContabili.stampa == true and atto.adempimentiContabili != null and atto.adempimentiContabili.testo != null and !#strings.isEmpty(#strings.trim(atto.adempimentiContabili.testo))}" style="font-family: Calibri; font-size: 11pt; text-align: justify;"><span style="font-weight: bold;"> Note Contabili:		</span><p th:utext="${atto.adempimentiContabili.testo}">+${atto.adempimentiContabili}</p>
+	</div>
+<br>    <br>    <div th:if="${attiOdg!=null}">	<p style="text-transform: uppercase;" th:if="${(attiOdg.votazioneSegreta==null || attiOdg.votazioneSegreta == false)}">LA GIUNTA APPROVA COL SEGUENTE RISULTATO:</p>
+ <p style="text-transform: uppercase;" th:if="${(attiOdg.votazioneSegreta!=null &amp;&amp; attiOdg.votazioneSegreta == true)}">CON VOTAZIONE SEGRETA, LA GIUNTA APPROVA COL SEGUENTE RISULTATO:</p>
+	<table th:if="${attiOdg!=null}" width="100%" border="0">
+    	<tbody>
+<tr>
+    		<td width="20%" valign="top">Favorevoli</td>
+    		<td style="text-align: right;" width="5%" valign="top">[[${attiOdg.numFavorevoli}]]<span th:if="${attiOdg.numFavorevoli > 0 &amp;&amp; (attiOdg.votazioneSegreta==null || attiOdg.votazioneSegreta == false)}">:</span></td>
+    		<td width="75%" valign="top"> <div th:if="${(attiOdg.votazioneSegreta==null || attiOdg.votazioneSegreta == false)}">	<span th:each="item, iter: ${componentiGiunta}" th:if="${item.votazione == 'FAV' &amp;&amp; (item.isSegretarioFine == null || item.isSegretarioFine == false)}">[[${item.profilo.utente.nome}]] [[${item.profilo.utente.cognome.toUpperCase()}]],</span> </div>
+   		</td>
+    	</tr>
+    	<tr>
+    		<td width="20%" valign="top">Contrari</td>
+    		<td style="text-align: right;" width="5%" valign="top">[[${attiOdg.numContrari}]]<span th:if="${attiOdg.numContrari > 0 &amp;&amp; (attiOdg.votazioneSegreta==null || attiOdg.votazioneSegreta == false)}">:</span></td>
+    		<td width="75%" valign="top"> <div th:if="${(attiOdg.votazioneSegreta==null || attiOdg.votazioneSegreta == false)}">	<span th:each="item, iter: ${componentiGiunta}" th:if="${item.votazione == 'CON' &amp;&amp; (item.isSegretarioFine == null || item.isSegretarioFine == false)}">[[${item.profilo.utente.nome}]] [[${item.profilo.utente.cognome.toUpperCase()}]],</span></div>
+    		</td>
+    	</tr>
+    	<tr>
+    		<td width="20%" valign="top">Astenuti</td>
+    		<td style="text-align: right;" width="5%" valign="top">[[${attiOdg.numAstenuti}]]<span th:if="${attiOdg.numAstenuti > 0 &amp;&amp; (attiOdg.votazioneSegreta==null || attiOdg.votazioneSegreta == false)}">:</span></td>
+    		<td width="75%" valign="top">  <div th:if="${(attiOdg.votazioneSegreta==null || attiOdg.votazioneSegreta == false)}"><span th:each="item, iter: ${componentiGiunta}" th:if="${item.votazione == 'AST' &amp;&amp; (item.isSegretarioFine == null || item.isSegretarioFine == false)}">[[${item.profilo.utente.nome}]] [[${item.profilo.utente.cognome.toUpperCase()}]],</span> </div>
+   		</td>
+    	</tr>
+    	<tr>
+    		<td width="20%" valign="top">Non votanti</td>
+    		<td style="text-align: right;" width="5%" valign="top">[[${attiOdg.numNpv}]]<span th:if="${attiOdg.numNpv > 0 &amp;&amp; (attiOdg.votazioneSegreta==null || attiOdg.votazioneSegreta == false)}">:</span></td>
+    		<td width="75%" valign="top"><div th:if="${(attiOdg.votazioneSegreta==null || attiOdg.votazioneSegreta == false)}"><span th:each="item, iter: ${componentiGiunta}" th:if="${item.votazione == 'NPV' &amp;&amp; (item.isSegretarioFine == null || item.isSegretarioFine == false)}">[[${item.profilo.utente.nome}]] [[${item.profilo.utente.cognome.toUpperCase()}]],</span></div>
+</td>
+    	</tr>
+    </tbody>
+</table>
+</div>
+<br>    <p></p>
+<p><span style="font-weight: 700; font-size: 14px;" th:if="${atto.ie != null &amp;&amp; atto.ie == true}">E CON IDENTICO RISULTATO HA DICHIARATO IMMEDIATAMENTE ESEGUIBILE IL PROVVEDIMENTO.</span></p>
+<p>    </p>
+<table style="page-break-inside: avoid;" width="100%" border="0">
+        <tbody>
+            <tr>
+                <td>                    <table width="100%" border="0">
+                                                    <tbody>
+<tr>
+                                <th style="border: 0px; padding: 5pt;" width="50%">                                    <div style="font-size: 14pt; line-height: 21pt; font-weight: bold; text-align: center;" th:if="${segretario != null}">[[${item.qualificaProfessionaleSegretario.denominazione.substring(0, 1).toUpperCase()}]][[${item.qualificaProfessionaleSegretario.denominazione.substring(1)}]]</div>
+                                </th>
+                                <th style="border: 0px; padding: 5pt;" width="50%">                                    <div style="font-size: 14pt; line-height: 21pt; font-weight: bold; text-align: center;">Il Presidente</div>
+                                </th>
+                            </tr>
+                    </tbody>
+</table>
+                </td>
+            </tr>
+        </tbody>
+    </table>

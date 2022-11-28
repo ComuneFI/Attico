@@ -1,0 +1,35 @@
+<br><br><br><br><br><br><br><div style="text-align: right;">
+	<table width="90%">
+		<tbody>
+			<tr>
+				<td style="padding-top: 30pt;  padding-bottom: 23pt; border-top: 5px solid #000; border-bottom: 5px solid #000; text-align: center; font-family: Cambria; font-size: 18pt; color: #000;" valign="middle">SCHEMA DI DISEGNO DI LEGGE</td>
+			</tr>
+			<tr>
+				<td>
+					<br><br>
+					<div style="text-align: left; font-family: Calibri; font-size: 13pt; line-height: 19.5pt;">
+						<span>Codice Atto</span> <span>: [[${atto.codiceCifra}]]</span>
+						<br><br>
+						<span style="font-weight: bold;">OGGETTO: </span><span th:utext="${#strings.replace( #strings.escapeXml(atto.oggetto),T(java.lang.System).getProperty('line.separator'),'<br></span>')}"></span>
+					</div>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+<p style="page-break-before: always; border-bottom: 1px dashed #000;"></p>
+<div style="font-family: Calibri; font-size: 11pt; text-align: justify;" th:utext="${atto.preambolo.testo}">+${atto.preambolo}</div>
+<p>&nbsp;</p>
+<table style="page-break-inside: avoid;" width="100%" cellspacing="0" cellpadding="0">
+	<tbody>
+		<tr th:each="item: ${#lists.sort(atto.sottoscrittori)}" th:if="${item.qualificaProfessionale != null and item.tipologia == 1}">
+			<td>
+				<div style="font-family: Calibri; font-size: 11pt;"><span th:if="${item.qualificaProfessionale != null}">[[${item.qualificaProfessionale.denominazione}]]</span></div>
+				<div style="font-family: Calibri; font-size: 11pt;"><span>[[${item.profilo.utente.nome}]] [[${item.profilo.utente.cognome}]]</span></div>
+				<br>
+			</td>
+		</tr>
+	</tbody>
+</table>
+<p style="page-break-before: always; border-bottom: 1px dashed #000;"></p>
+<div style="font-family: Calibri; font-size: 11pt; text-align: justify;" th:utext="${atto.motivazione.testo}">+${atto.motivazione}</div>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    <changeSet author="magria" id="202203071042-00001">
+    	<sql>
+    	
+    		CREATE TABLE `tipodeterminazione_tipoatto` (
+			  `tipoatto_id` bigint(20) NOT NULL,
+			  `tipodeterminazione_id` bigint(20) NOT NULL,
+			  PRIMARY KEY (`tipoatto_id`,`tipodeterminazione_id`),
+			  KEY `fk_tipoatto_tipodeterminazione_id` (`tipodeterminazione_id`),
+			  CONSTRAINT `fk_tipodeterminazione_tipoatto_tipodeterminazione_id` FOREIGN KEY (`tipodeterminazione_id`) REFERENCES `tipodeterminazione` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+			  CONSTRAINT `fk_tipodeterminazione_tipoatto_tipoatto_id` FOREIGN KEY (`tipoatto_id`) REFERENCES `tipoatto` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+			) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+    	
+			ALTER TABLE tipodeterminazione ADD file_visibili_in_trasparenza tinyint(4) NOT NULL;
+			ALTER TABLE tipodeterminazione ADD stato_trasparenza varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL;
+		</sql>
+    </changeSet>
+    <changeSet author="magria" id="202203071408-00002">
+	    <sql>
+	    	ALTER TABLE tipodeterminazione ADD CONSTRAINT tipodeterminazione_un UNIQUE KEY (codice);
+	    	INSERT INTO tipodeterminazione (descrizione,codice,file_visibili_in_trasparenza,stato_trasparenza) VALUES ('Modifica-Integrazione','MOD-INT',1,'Modificato-Integrato');
+	    	UPDATE tipodeterminazione SET file_visibili_in_trasparenza=1 WHERE codice like 'ORDINARIO';
+	    	UPDATE tipodeterminazione SET file_visibili_in_trasparenza=1,stato_trasparenza='Revocato' WHERE codice like 'REVOCA';
+	    	INSERT INTO tipodeterminazione_tipoatto (tipoatto_id, tipodeterminazione_id) (select t.id, t2.id from tipoatto t, tipodeterminazione t2 order by t.id);
+	    </sql>
+    </changeSet>
+    <changeSet author="magria" id="202203071540-00003">
+	    <sql>
+    	INSERT INTO tipoevento (descrizione,codice,categoriaEvento_id)	VALUES ('Provvedimento Modificato-Integrato','PROVVEDIMENTO_MODIFICATO_INTEGRATO',1);
+		</sql>
+    </changeSet>
+    <changeSet author="magria" id="202203091035-00004">
+	    <sql>
+    		UPDATE tipodeterminazione SET file_visibili_in_trasparenza=0 WHERE codice like 'REVOCA';
+    		UPDATE tipodeterminazione SET descrizione='Modifica-Integra' WHERE codice like 'MOD-INT';
+		</sql>
+    </changeSet>
+</databaseChangeLog>

@@ -1,0 +1,46 @@
+
+<div>
+    <h2><span translate="cifra2gestattiApp.sottoscrittoreAtto.detail.title">SottoscrittoreAtto</span> {{sottoscrittoreAtto.id}}</h2>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th translate="entity.detail.field">Field</th>
+                    <th translate="entity.detail.value">Value</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.sottoscrittoreAtto.editor">Editor</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{sottoscrittoreAtto.editor}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.sottoscrittoreAtto.Atto">Atto</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{sottoscrittoreAtto.Atto.id}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.sottoscrittoreAtto.Profilo">Profilo</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{sottoscrittoreAtto.Profilo.id}}" readonly>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <button type="submit"
+            ui-sref="sottoscrittoreAtto"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span translate="entity.action.back"> Back</span>
+    </button>
+</div>

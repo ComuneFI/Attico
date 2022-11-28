@@ -1,0 +1,102 @@
+<div class="col-md-12">
+		<nav ng-if="atto.id > 0" >
+			<ul class="pager">
+				<li class="previous"><a ui-sref="attoStorica({tipo: 'atti-dirigenziali'})">Indietro</a></li>
+				<li><span class="md-subhead">{{atto.codiceCifra}}</span></li>
+			</ul>
+		
+			<div class="col-md-12 form-group">
+				<div class="col-md-2"><label>Struttura Proponente</label></div>
+				<div class="col-md-10"><textarea class="form-control" type="text" name="descrizioneArea" ng-model="atto.descrizioneArea" ng-disabled="true"></textarea></div>
+			</div>
+			<div class="col-md-12 form-group">
+				<div class="col-md-2"><label>Data Creazione</label></div>
+				<div class="col-md-10"><input class="form-control" type="text" name="dataCreazione" value="{{atto.dataCreazione | date:'dd-MM-yyyy'}}" ng-disabled="true"></div>
+			</div>
+			<div class="col-md-12 form-group">
+				<div class="col-md-2"><label>Numero di Adozione</label></div>
+				<div class="col-md-10"><input class="form-control" type="text" name="numeroAdozione" ng-model="atto.numeroAdozione" ng-disabled="true"></div>
+			</div>
+			<div class="col-md-12 form-group">
+				<div class="col-md-2"><label>Data Adozione</label></div>
+				<div class="col-md-10"><input class="form-control" type="text" name="dataProvvedimento" value="{{atto.dataProvvedimento | date:'dd-MM-yyyy'}}" ng-disabled="true"></div>
+			</div>
+			<div class="col-md-12 form-group">
+				<div class="col-md-2"><label>Tipo Iter</label></div>
+				<div class="col-md-10"><input class="form-control" type="text" name="tipoIter" ng-model="atto.tipoIter" ng-disabled="true"></div>
+			</div>
+			<div class="col-md-12 form-group">
+				<div class="col-md-2"><label>Tipo Adempimento Contabile</label></div>
+				<div class="col-md-10"><input class="form-control" type="text" name="tipoAdempimento" ng-model="atto.tipoAdempimento" ng-disabled="true"></div>
+			</div>
+			<div class="col-md-12 form-group">
+				<div class="col-md-2"><label>Redigente</label></div>
+				<div class="col-md-10"><input class="form-control" type="text" name="redigente" ng-model="atto.redigente" ng-disabled="true"></div>
+			</div>
+			<div class="col-md-12 form-group">
+				<div class="col-md-2"><label>Responsabile Struttura Proponente</label></div>
+				<div class="col-md-10"><input class="form-control" type="text" name="responsabileSettore" ng-model="atto.responsabileSettore" ng-disabled="true"></div>
+			</div>
+			<div class="col-md-12 form-group">
+				<div class="col-md-2"><label>Delegato alla Firma</label></div>
+				<div class="col-md-10"><input class="form-control" type="text" name="responsabileFF" ng-model="atto.responsabileFF" ng-disabled="true"></div>
+			</div>
+			<div class="col-md-12 form-group">
+				<div class="col-md-2"><label>Estremi Delega</label></div>
+				<div class="col-md-10"><input class="form-control" type="text" name="notaResponsabileFF" ng-model="atto.notaResponsabileFF" ng-disabled="true"></div>
+			</div>
+			<div class="col-md-12 form-group">
+				<div class="col-md-2"><label>Beneficiario</label></div>
+				<div class="col-md-10"><input class="form-control" type="text" name="beneficiario" ng-model="atto.beneficiario" ng-disabled="true"></div>
+			</div>
+			<div class="col-md-12 form-group">
+				<div class="col-md-2"><label>Determinazione Collegata</label></div>
+				<div class="col-md-10"><input class="form-control" type="text" name="deliberaCollegata" ng-model="atto.deliberaCollegata" ng-disabled="true"></div>
+			</div>
+			<div class="col-md-12 form-group">
+				<div class="col-md-2"><label>Legge di Riferimento</label></div>
+				<div class="col-md-10"><input class="form-control" type="text" name="legge" ng-model="atto.legge" ng-disabled="true"></div>
+			</div>
+			<div class="col-md-12 form-group">
+				<div class="col-md-2"><label>Oggetto</label></div>
+				<div class="col-md-10"><textarea class="form-control" name="oggetto" ng-model="atto.oggetto" ng-disabled="true"></textarea></div>
+			</div>
+			<div class="col-md-12 form-group">
+				<div class="col-md-2"><label>Data Esecutivita'</label></div>
+				<div class="col-md-10"><input class="form-control" type="text" name="dataEsecutivita" value="{{atto.dataEsecutivita | date:'dd-MM-yyyy'}}" ng-disabled="true"></div>
+			</div>
+			<div class="col-md-12 form-group">
+				<div class="col-md-2"><label>Data Inizio Affissione Albo</label></div>
+				<div class="col-md-10"><input class="form-control" type="text" name="dataAffissioneInizio" value="{{atto.dataAffissioneInizio | date:'dd-MM-yyyy'}}" ng-disabled="true"></div>
+			</div>
+			<div class="col-md-12 form-group">
+				<div class="col-md-2"><label>Data Fine Affissione Albo</label></div>
+				<div class="col-md-10"><input class="form-control" type="text" name="dataAffissioneFine" value="{{atto.dataAffissioneFine | date:'dd-MM-yyyy'}}" ng-disabled="true"></div>
+			</div>
+			<div class="col-md-12 form-group">
+				<div class="col-md-2"><label>Lavorazione Effettuata</label></div>
+				<div class="col-md-10"><input class="form-control" type="text" name="lavorazioneEffettuata" ng-model="atto.lavorazioneEffettuata" ng-disabled="true"></div>
+			</div>
+			<div class="col-md-12 form-group">
+				<div class="col-md-2"><label>Data Lavorazione</label></div>
+				<div class="col-md-10"><input class="form-control" type="text" name="dataInvio" value="{{atto.dataInvio | date:'dd-MM-yyyy'}}" ng-disabled="true"></div>
+			</div>
+			<div class="col-md-12 form-group">
+				<div class="col-md-2"><label>Note sulla Lavorazione</label></div>
+				<div class="col-md-10"><textarea class="form-control" name="noteLavorazione" ng-model="atto.noteLavorazione" ng-disabled="true"></textarea></div>
+			</div>
+			<div class="col-md-12 form-group">
+				<div class="col-md-2"><label>Annullato</label></div>
+				<div class="col-md-10"><input class="form-control" type="text" name="stato" ng-model="atto.stato" ng-disabled="true"></div>
+			</div>
+			<div class="col-md-12 form-group">
+				<div class="col-md-2"><label>Motivazione</label></div>
+				<div class="col-md-10"><textarea class="form-control" name="motivazione" ng-model="atto.motivazione" ng-disabled="true"></textarea></div>
+			</div>
+
+			<ul class="pager">
+				<li class="previous"><a ui-sref="attoStorica({tipo: 'atti-dirigenziali'})">Indietro</a></li>
+				<li><span class="md-subhead">{{atto.codiceCifra}}</span></li>
+			</ul>
+		</nav>
+</div> 

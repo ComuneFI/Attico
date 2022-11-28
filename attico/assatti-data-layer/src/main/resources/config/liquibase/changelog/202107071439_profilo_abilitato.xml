@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    <changeSet author="mazzottada" id="202107071439-00001">
+    	<sql>
+    		ALTER TABLE profilo ADD future_enabled tinyint(1) DEFAULT 1 NOT NULL;
+		</sql>
+    </changeSet>
+    <changeSet author="mazzottada" id="202107071439-00002">
+    	<sql>
+    		CREATE TABLE runtime_operation (
+				id bigint(20) auto_increment NOT NULL,
+				task varchar(255) NOT NULL,
+				`time` datetime NOT NULL,
+				profilo_id bigint(20) NOT NULL,
+				CONSTRAINT runtime_operation_pk PRIMARY KEY (id),
+				CONSTRAINT runtime_operation_fk FOREIGN KEY (profilo_id) REFERENCES profilo(id)
+			);
+		</sql>
+    </changeSet>
+    <changeSet author="mazzottada" id="202107071439-00003">
+    	<sql>
+    		ALTER TABLE runtime_operation ADD CONSTRAINT runtime_operation_un UNIQUE KEY (task,profilo_id);
+		</sql>
+    </changeSet>
+</databaseChangeLog>

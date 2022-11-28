@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    
+    <changeSet author="magria" id="20181112175-1">
+    	<sql>
+			INSERT INTO `tipoevento` (`descrizione`, `codice`, `categoriaEvento_id`) VALUES ('Proposta Verificata Secondo Istruttore Contabile', 'PROPOSTA_VERIFICATA_SECONDO_ISTRUTTORE_CONTABILE', '1');
+			INSERT INTO `tipoevento` (`descrizione`, `codice`, `categoriaEvento_id`) VALUES ('Proposta Inviata Altro Ufficio Contabile', 'PROPOSTA_INVIATA_ALTRO_UFFICIO_CONTABILE', '1');
+			INSERT INTO `tipo_azione` (`codice`, `descrizione`) VALUES ('visto_contabile_firmatario', 'Visto Responsabile Firmatario');
+			INSERT INTO `tipo_azione` (`codice`, `descrizione`) VALUES ('visto_contabile_istruttore', 'Visto Contabile Istruttore');
+			INSERT INTO `tipo_azione` (`codice`, `descrizione`) VALUES ('visto_contabile_secondo_istruttore', 'Visto Contabile Secondo Istruttore');
+			INSERT INTO `tipo_azione` (`codice`, `descrizione`) VALUES ('visto_contabile_vistino', 'Visto Responsabile Vistino');
+    	</sql>
+    </changeSet>  
+</databaseChangeLog>

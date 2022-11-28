@@ -1,0 +1,31 @@
+{
+    "cifra2gestattiApp": {
+        "modelloCampo" : {
+            "guida":{
+               "tipoAtto":"Ogni modello pu\u00F2 essere associato ad un tipo di atto specifico oppure\u002C se non definito\u002C risulta disponibile per tutti i tipi di atto. Ai modelli campo dei verbali non \u00E8 associabile un tipo di atto.",
+               "aooAdmin":"Non associando alcun ufficio il modello sar\u00E0 disponibile per tutti gli uffici. Associando invece un modello ad uno specifico ufficio esso sar\u00E0 disponibile soltanto agli utenti di tale ufficio\u002C in tal caso \u00E8 possibile propagare la visibilit\u00E0 anche agli utenti degli eventuali uffici di livello direttamente inferiore nell\u0027 organigramma.",
+               "aooReferenteTecnico":"Occorre associare il modello ad un ufficio in modo tale che esso sia disponibile agli utenti di tale ufficio. \u00C8 possibile inoltre propagare la visibilit\u00E0 anche agli utenti degli eventuali uffici di livello direttamente inferiore nell\u0027 organigramma.",
+               "propagazione":"Selezionado questa opzione \u00E8 possibile propagare la visibilit\u00E0 del modello agli utenti degli eventuali uffici di livello direttamente inferiore nell\u0027 organigramma rispetto a quello selezionato."
+            },
+            "home": {
+                "title": "ModelloCampos",
+                "createLabel": "Create a new ModelloCampo",
+                "createOrEditLabel": "Create or edit a ModelloCampo"
+            },
+            "delete": {
+                "question": "Are you sure you want to delete ModelloCampo {{ id }}?"
+            },
+            "detail": {
+                "title": "ModelloCampo"
+            },
+            "codice": "Codice",
+            "titolo": "Titolo",
+            "testo": "Testo",
+            "tipoCampo": "TipoCampo",
+            "Profilo": "Profilo Competente",
+            "tipoatto":"Tipo Atto",
+            "aoo":"Ufficio",
+            "propagazioneAoo":"Propagazione Organigramma"
+        }
+    }
+}

@@ -1,0 +1,22 @@
+{
+    "cifra2gestattiApp": {
+        "progressivoProposta" : {
+            "home": {
+                "title": "Progressivo Proposta",
+                "createLabel": "Crea nuovo Progressivo Proposta",
+                "createOrEditLabel": "Crea o modifica Progressivo Proposta"
+            },
+            "delete": {
+                "question": "Sei sicuro di voler cancellare il Progressivo Proposta {{ id }}?"
+            },
+            "detail": {
+                "title": "Progressivo Proposta"
+            },
+            "anno": "Anno",
+            "progressivo": "Valore corrente",
+            "tipoAtto": "Tipo Atto",
+            "tipoProgressivo": "Tipo Progressivo",
+            "aoo": "Ufficio"
+        }
+    }
+}

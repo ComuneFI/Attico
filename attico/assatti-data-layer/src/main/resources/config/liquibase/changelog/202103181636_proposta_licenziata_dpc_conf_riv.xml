@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    <changeSet author="magria" id="202103181245-0001">
+    	<sql>
+			INSERT INTO configurazione_riversamento (tipodocumento_id,tipodocumentoserie_id,validodal,aoo_id) select (select id from tipodocumento where codice like 'PROPOSTA_LICENZIATA_DALLA_GIUNTA'),tipodocumentoserie_id,validodal,aoo_id from configurazione_riversamento where tipodocumento_id in (select id from tipodocumento where codice like 'PROPOSTA_DELIBERA_DPC'); 
+		</sql>
+    </changeSet>
+</databaseChangeLog>

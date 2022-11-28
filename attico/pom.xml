@@ -1,0 +1,233 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>it.linksmt.assatti</groupId>
+  <artifactId>assatti</artifactId>
+  <version>1.0</version>
+  
+  <packaging>pom</packaging>
+
+  <name>assatti</name>
+  <url>http://maven.apache.org</url> 
+
+  <properties>
+    <log4j2.version>2.17.1</log4j2.version>
+  	<assatti.version>1.0</assatti.version>
+  	
+    <javax.servlet.version>3.1.0</javax.servlet.version>
+    
+    <spring.boot.version>1.2.6.RELEASE</spring.boot.version>
+    <spring.framework.version>4.1.7.RELEASE</spring.framework.version>
+    <spring.data.version>1.7.3.RELEASE</spring.data.version>
+    
+    <spring.security.version>4.0.0.RELEASE</spring.security.version>
+    <spring.security.oauth2.version>2.0.1.RELEASE</spring.security.oauth2.version>
+    	
+    <fasterxml.jackson.version>2.4.6</fasterxml.jackson.version>
+    <google.gson.version>2.3.1</google.gson.version>
+    
+    <itext.pdf.version>5.5.6</itext.pdf.version>
+    <thymeleaf.version>2.1.4.RELEASE</thymeleaf.version>
+    
+    <camunda.version>7.8.0</camunda.version>
+    
+    <commons.lang.version>2.6</commons.lang.version>
+    <commons.io.version>2.4</commons.io.version>
+    
+    <liquibase.version>3.4.1</liquibase.version>
+    <liquibase-slf4j.version>1.2.1</liquibase-slf4j.version>
+        
+    <hicariCP.version>4.0.3</hicariCP.version>
+    
+  </properties>
+  
+  <modules>
+  	<module>assatti-utility</module>
+  	<module>assatti-cooperation</module>
+  	<module>assatti-data-layer</module>
+  	<module>assatti-service-layer</module>
+  	<module>assatti-gestatti</module>
+  </modules>
+
+  <build>
+    <pluginManagement>
+      <plugins>
+		<plugin>
+			<artifactId>maven-resources-plugin</artifactId>
+			<version>3.1.0</version>
+			<configuration>
+				<encoding>UTF-8</encoding>
+			</configuration>
+		</plugin>
+		<plugin>
+			<artifactId>maven-compiler-plugin</artifactId>
+			<version>3.1</version>
+			<configuration>
+				<encoding>UTF-8</encoding>
+				<source>1.7</source>
+				<target>1.7</target>
+			</configuration>
+		</plugin>
+      </plugins>
+    </pluginManagement>    
+  </build>
+  
+  <dependencyManagement>
+  	<dependencies>
+  	
+  		<!-- SPRING -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-dependencies</artifactId>
+            <version>${spring.boot.version}</version>
+            <type>pom</type>
+            <scope>import</scope>
+        </dependency>
+  		 
+  		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+			<version>${spring.framework.version}</version>  		
+  		</dependency>
+  		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-jpa</artifactId>
+			<version>${spring.data.version}</version>  		
+  		</dependency>
+    	<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-core</artifactId>
+			<version>${spring.security.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-config</artifactId>
+			<version>${spring.security.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-ldap</artifactId>
+			<version>${spring.security.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-web</artifactId>
+			<version>${spring.security.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring-tx</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+    		<groupId>org.springframework.security</groupId>
+  			<artifactId>spring-security-data</artifactId>
+  			<version>${spring.security.version}</version>
+    	</dependency>
+  		<dependency>
+    	  <groupId>org.springframework.security.oauth</groupId>
+		  <artifactId>spring-security-oauth2</artifactId>
+		  <version>${spring.security.oauth2.version}</version>
+    	</dependency>
+    	
+    	  		
+  		<!-- JACKSON -->
+  		<dependency>
+  		  <groupId>com.fasterxml.jackson.datatype</groupId>
+		  <artifactId>jackson-datatype-json-org</artifactId>
+		  <version>${fasterxml.jackson.version}</version>
+  		</dependency>
+  		<dependency>
+	  	  <groupId>com.fasterxml.jackson.datatype</groupId>
+		  <artifactId>jackson-datatype-joda</artifactId>
+		  <version>${fasterxml.jackson.version}</version>
+  		</dependency>
+  		<dependency>
+      	  <groupId>com.fasterxml.jackson.datatype</groupId>
+		  <artifactId>jackson-datatype-hibernate4</artifactId>
+      	  <version>${fasterxml.jackson.version}</version>
+    	</dependency>
+    	<dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-hppc</artifactId>
+            <version>${fasterxml.jackson.version}</version>
+        </dependency>
+       
+    	
+    	<!-- UTILITY -->
+    	<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>${javax.servlet.version}</version>
+			<scope>provided</scope>
+		</dependency>
+    	<dependency>
+      	  <groupId>com.google.code.gson</groupId>
+      	  <artifactId>gson</artifactId>
+      	  <version>${google.gson.version}</version>
+    	</dependency>
+    	<dependency>
+    	  <groupId>commons-lang</groupId>
+		  <artifactId>commons-lang</artifactId>
+		  <version>${commons.lang.version}</version>
+    	</dependency>
+    	<dependency>
+    	  <groupId>commons-io</groupId>
+		  <artifactId>commons-io</artifactId>
+		  <version>${commons.io.version}</version>
+    	</dependency>
+    	<dependency>
+			<groupId>commons-fileupload</groupId>
+			<artifactId>commons-fileupload</artifactId>
+			<version>1.2.2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.liquibase</groupId>
+			<artifactId>liquibase-core</artifactId>
+			<version>${liquibase.version}</version>
+		</dependency>
+		<dependency>
+            <groupId>com.mattbertolini</groupId>
+            <artifactId>liquibase-slf4j</artifactId>
+            <version>${liquibase-slf4j.version}</version>
+        </dependency>
+		<dependency>
+            <groupId>com.zaxxer</groupId>
+            <artifactId>HikariCP</artifactId>
+            <version>${hicariCP.version}</version>
+    	</dependency>
+    	
+    	<!-- ITEXT-PDF -->
+    	<dependency>
+          <groupId>com.itextpdf</groupId>
+          <artifactId>itextpdf</artifactId>
+          <version>${itext.pdf.version}</version>
+        </dependency>
+    	<dependency>
+          <groupId>com.itextpdf</groupId>
+          <artifactId>itext-pdfa</artifactId>
+          <version>${itext.pdf.version}</version>
+        </dependency>
+        <dependency>
+          <groupId>com.itextpdf.tool</groupId>
+          <artifactId>xmlworker</artifactId>
+          <version>${itext.pdf.version}</version>
+        </dependency>
+       
+        
+        <!-- THYMELEAF -->
+        <dependency>
+		  <groupId>org.thymeleaf</groupId>
+		  <artifactId>thymeleaf-spring4</artifactId>
+		  <version>${thymeleaf.version}</version>
+		</dependency>
+		
+		   	
+  	</dependencies>
+  
+  </dependencyManagement>
+  
+  
+</project>

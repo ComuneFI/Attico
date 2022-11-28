@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    <changeSet author="mazzottada" id="202107191006-00001e">
+    	<sql>
+    		ALTER TABLE configurazione_task ADD process_var_name varchar(255) NULL;
+		</sql>
+    </changeSet>
+    <changeSet author="mazzottada" id="202107191006-00003f">
+    	<sql>
+    		CREATE TABLE `task_riassegnazione` (
+			  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+			  `atto_id` bigint(20) NOT NULL,
+			  `conf_incarico_id` bigint(20) DEFAULT NULL,
+			  `profilo_origine` bigint(20) NOT NULL,
+			  `profilo_nuovo` bigint(20) NOT NULL,
+			  `qualifica_origine` bigint(20) DEFAULT NULL,
+			  `qualifica_nuova` bigint(20) DEFAULT NULL,
+			  `created_by` varchar(50) NOT NULL,
+			  `created_date` datetime NOT NULL,
+			  `last_modified_by` varchar(50) DEFAULT NULL,
+			  `last_modified_date` datetime DEFAULT NULL,
+			  `version` int(11) DEFAULT NULL,
+			  PRIMARY KEY (`id`),
+			  KEY `task_riassegnazione_fk` (`atto_id`),
+			  KEY `task_riassegnazione_fk_1` (`profilo_origine`),
+			  KEY `task_riassegnazione_fk_2` (`profilo_nuovo`),
+			  KEY `task_riassegnazione_fk_3` (`qualifica_origine`),
+			  KEY `task_riassegnazione_fk_4` (`qualifica_nuova`),
+			  KEY `task_riassegnazione_fk_5` (`conf_incarico_id`,`profilo_origine`),
+			  CONSTRAINT `task_riassegnazione_fk` FOREIGN KEY (`atto_id`) REFERENCES `atto` (`id`),
+			  CONSTRAINT `task_riassegnazione_fk_1` FOREIGN KEY (`profilo_origine`) REFERENCES `profilo` (`id`),
+			  CONSTRAINT `task_riassegnazione_fk_2` FOREIGN KEY (`profilo_nuovo`) REFERENCES `profilo` (`id`),
+			  CONSTRAINT `task_riassegnazione_fk_3` FOREIGN KEY (`qualifica_origine`) REFERENCES `qualificaprofessionale` (`id`),
+			  CONSTRAINT `task_riassegnazione_fk_4` FOREIGN KEY (`qualifica_nuova`) REFERENCES `qualificaprofessionale` (`id`),
+			  CONSTRAINT `task_riassegnazione_fk_5` FOREIGN KEY (`conf_incarico_id`) REFERENCES `configurazione_incarico` (`id`)
+			);
+		</sql>
+	</changeSet>
+	<changeSet author="mazzottada" id="202107191006-0000i3">
+    	<sql>
+    		update configurazione_task set process_var_name = 'GROUP_PARERE_ISTRUTTORIO_RESPONSABILE' where codice = 'DIR_PARERE_ISTRUTTORIO_RESPONSABILE';
+    		update configurazione_task set process_var_name = 'VISTO_RESPONSABILE_ISTRUTTORIA' where codice = 'DIR_VISTO_RESPONSABILE_ISTRUTTORIA';
+    		update configurazione_task set process_var_name = 'VERIFICA_RESPONSABILE_TECNICO' where codice = 'DIR_VERIFICA_RESPONSABILE_TECNICO';
+    		update configurazione_task set process_var_name = 'LIST_VERIFICA_ALTRI_RESPONSABILI' where codice = 'DIR_VERIFICA_ALTRI_RESPONSABILI';
+    		update configurazione_task set process_var_name = 'GROUP_ISTRUTTORE_CONTABILE' where codice = 'DIR_ISTRUTTORE_CONTABILE';
+    		update configurazione_task set process_var_name = 'VERIFICA_RESPONSABILE_CONTABILE' where codice = 'DIR_VERIFICA_RESPONSABILE_CONTABILE';
+    		update configurazione_task set process_var_name = 'GROUP_ALTRO_ISTRUTTORE_CONTABILE' where codice = 'DIR_ISTRUTTORE_CONTABILE_ALTRO_UFFICIO';
+    		update configurazione_task set process_var_name = 'LIST_VISTO_ASSESSORI' where codice = 'VISTO_ASSESSORI';
+    		update configurazione_task set process_var_name = 'LIST_VISTO_CONSIGLIERI' where codice = 'VISTO_CONSIGLIERI';
+    		update configurazione_task set process_var_name = 'LIST_COMMISSIONI' where codice = 'DIR_SEGRETARIO_COMMISSIONE';
+    		update configurazione_task set process_var_name = 'VISTO_AMMINISTRATORE_FIRMATARIO' where codice = 'VISTO_AMMINISTRATORE_FIRMATARIO';
+    		update configurazione_task set process_var_name = 'VISTO_RESPONSABILE_ISTRUTTORIA' where codice = 'ORD_VISTO_RESPONSABILE_ISTRUTTORIA';
+    		update configurazione_task set process_var_name = 'VISTO_RESPONSABILE_ISTRUTTORIA' where codice = 'DEC_VISTO_RESPONSABILE_ISTRUTTORIA';
+    		update configurazione_task set process_var_name = 'VISTO_AMMINISTRATORE_FIRMATARIO' where codice = 'DEC_VISTO_AMMINISTRATORE_FIRMATARIO';
+    		update configurazione_task set process_var_name = 'VERIFICA_RESPONSABILE_CONTABILE_VISTINO' where codice = 'DIR_VERIFICA_RESPONSABILE_CONTABILE_VISTINO';
+    		update configurazione_task set process_var_name = 'GROUP_SECONDO_ISTRUTTORE_CONTABILE' where codice = 'DIR_SECONDO_ISTRUTTORE_CONTABILE';
+    		update configurazione_task set process_var_name = 'VERIFICA_RESPONSABILE_TECNICO' where codice = 'DIR_VERIFICA_RESPONSABILE_TECNICO_FIRMATARIO_DELIBERA';
+    		update configurazione_task set process_var_name = 'VERIFICA_RESPONSABILE_TECNICO' where codice = 'DC_VERIFICA_RESPONSABILE_TECNICO_FIRMATARIO_DELIBERA';
+    		update configurazione_task set process_var_name = 'LIST_VERIFICA_ALTRI_RESPONSABILI' where codice = 'DC_VERIFICA_ALTRI_RESPONSABILI';
+    		update configurazione_task set process_var_name = 'VERIFICA_RESPONSABILE_CONTABILE' where codice = 'DC_VERIFICA_RESPONSABILE_CONTABILE';
+    		update configurazione_task set process_var_name = 'VERIFICA_RESPONSABILE_TECNICO' where codice = 'DIG_VERIFICA_RESPONSABILE_TECNICO_FIRMATARIO_DELIBERA_NO_OBBL';
+    		update configurazione_task set process_var_name = 'GROUP_ISTRUTTORE_CONTABILE_PROPONENTE&#124;&#124;ISTRUTTORE_CONTABILE_PROPONENTE' where codice = 'ISTRUTTORE_CONTABILE_PROPONENTE';
+		</sql>
+    </changeSet>
+    <changeSet author="mazzottada" id="202107191006-0000i4">
+    	<sql>
+    		INSERT INTO configurazione_task (nome,codice,id_tipo_configurazione_task,obbligatoria,multipla,proponente,ufficio_corrente,data_creazione,data_modifica,imposta_scadenza,scadenza_obbligatoria,data_manuale,uffici_livello_superiore,stessa_direzione_proponente,process_var_name) VALUES 
+			('Predisposizione Proposta','PREDISPOSIZIONE_PROPOSTA',1,1,0,1,0,NOW(),NOW(),0,NULL,NULL,1,0,'ISTRUTTORE_ATTO');
+		</sql>
+    </changeSet>
+    <changeSet author="mazzottada" id="202107191006-0000i5">
+    	<sql>
+    		update configurazione_task set process_var_name = 'VISTO_RESPONSABILE_ISTRUTTORIA_1' where codice = 'DEC_VISTO_RESPONSABILE_ISTRUTTORIA_1';
+		</sql>
+    </changeSet>
+    <changeSet author="mazzottada" id="202107191006-00007">
+    	<sql>
+    		ALTER TABLE configurazione_incarico_profilo ADD reassigned tinyint(4) NULL;
+		</sql>
+    </changeSet>
+</databaseChangeLog>

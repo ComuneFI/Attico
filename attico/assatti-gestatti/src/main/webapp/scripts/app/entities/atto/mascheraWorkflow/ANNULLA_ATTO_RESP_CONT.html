@@ -1,0 +1,14 @@
+<div>
+	<div class="form-group">
+		<input type="hidden" ng-init="initTitoloParere()"
+			ng-model="dtoWorkflow.parere.titolo" />
+			
+		<input type="hidden" name="parereSintetico" ng-model="dtoWorkflow.parere.parereSintetico" value="ritiro">
+	
+		<label>ATTENZIONE!!! Confermando l'operazione, l'atto sara' restituito al <b>Responsabile Tecnico che POTRA' ESCLUSIVAMENTE ANNULLARLO.</b><br>
+Inoltre, nel caso in cui siano stati espletati movimenti contabili, il personale di Ragioneria dovra' essere informato in modo tale che possa annullarli, intervenendo direttamente sul Sistema Contabile. Pertanto, <b>siete SICURO di voler procedere al ritiro dell'atto?</b></label>
+		
+		<label>MOTIVAZIONE</label> *
+		<textarea class="form-control" name="parere" ng-model="dtoWorkflow.parere.parere" required></textarea>
+	</div>
+</div>

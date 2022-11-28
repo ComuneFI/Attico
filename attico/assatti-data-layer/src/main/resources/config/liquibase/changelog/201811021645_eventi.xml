@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    
+    <changeSet author="chiriacog" id="201811021645-1">
+    	<sql>
+    		UPDATE `tipoevento` set descrizione = 'Atto in Predisposizione', codice='ATTO_IN_PREDISPOSIZIONE' WHERE codice='TESTO_IN_PREDISPOSIZIONE';
+    		INSERT INTO `tipoevento` (`descrizione`, `codice`, `categoriaEvento_id`) VALUES ('Atto Verificato', 'ATTO_VERIFICATO', '1');
+    		INSERT INTO `tipoevento` (`descrizione`, `codice`, `categoriaEvento_id`) VALUES ('Inseribile in OdL', 'INSERIBILE_ODL', '1');
+			INSERT INTO `tipoevento` (`descrizione`, `codice`, `categoriaEvento_id`) VALUES ('Atto Creato', 'ATTO_CREATO', '1');
+    	</sql> 
+    </changeSet>
+</databaseChangeLog>

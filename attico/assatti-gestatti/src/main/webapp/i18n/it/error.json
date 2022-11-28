@@ -1,0 +1,9 @@
+{
+    "errors": {
+        "titleAttoAccessUnauthorized": "Impossibile accedere all\u0027atto.",
+    	"attoAccessUnauthorized":"Non si dispone dei permessi per accedere all\u0027atto o per operare su di esso.",
+        "title": "Si \u00E8 verificato un problema.",
+        "403": "Non sei autorizzato ad accedere a questa pagina.",
+        "title403":"Pagina non disponibile"
+    }
+}

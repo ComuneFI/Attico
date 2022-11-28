@@ -1,0 +1,24 @@
+<div>
+
+	<!--{{tipomaterias}} {{ngModel}}-->
+	<div class="form-group">
+		<label translate="cifra2gestattiApp.atto.tipoMateria">tipoMateria</label>
+		<select class="form-control" name="tipoMateria" ng-model="ngModel.tipoMateria.id"  ng-change="ngModel.materia = null; ngModel.sottoMateria = null "   ng-options="item.id as item.descrizione for (id, item) in tipomaterias">
+		</select>
+	</div>
+	
+	<!-- {{ngModel.tipoMateria.materie}} -->
+	<div class="form-group">
+		<label translate="cifra2gestattiApp.atto.materia">materia</label>
+		<select class="form-control" name="materia" ng-model="ngModel.materia.id"  ng-change="ngModel.sottoMateria = null " ng-options="materia.id as materia.descrizione for (id,materia) in tipomaterias[ngModel.tipoMateria.id].materie">
+		</select>
+	</div>
+
+	<!-- {{tipomaterias[ngModel.tipoMateria.id].materie}} -->
+	<div class="form-group">
+		<label translate="cifra2gestattiApp.atto.sottoMateria">sottoMateria</label>
+		<select class="form-control" name="sottoMateria" ng-model="ngModel.sottoMateria.id"  ng-options="sottoMateria.id as sottoMateria.descrizione for  (id,sottoMateria) in tipomaterias[ngModel.tipoMateria.id].materie[ngModel.materia.id].sottoMaterie" >
+		</select>
+	</div>  
+	<!-- {{tipomaterias[ngModel.tipoMateria.id].materie[ngModel.materia.id].sottoMaterie}} -->
+</div>

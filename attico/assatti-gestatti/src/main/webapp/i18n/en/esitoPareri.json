@@ -1,0 +1,22 @@
+{
+    "cifra2gestattiApp": {
+        "esitoPareri" : {
+            "home": {
+                "title": "Lista Esiti Pareri",
+                "createLabel": "Crea nuovo Esito Parere",
+                "createOrEditLabel": "Crea o modifica un Esito Parere"
+            },
+            "delete": {
+                "question": "SEi sucuro di voler cancellare l'Esito Parere {{ id }}?"
+            },
+            "detail": {
+                "title": "Esito Parere"
+            },
+            "codice": "Codice",
+            "valore": "Parere",
+            "descrizione": "Descrizione",
+            "tipoAtto": "Tipo Atto",
+            "tipo": "Soggetto che esprime parere"
+        }
+    }
+}

@@ -1,0 +1,21 @@
+<div>
+
+    <h2 translate="cifra2gestattiApp.categoriaMsg.detail.title">Dettaglio CategoriaMsg</h2>
+	<div class="table-responsive">
+		<table class="table table-striped">
+			<tr>
+	         	<td translate="cifra2gestattiApp.categoriaMsg.descrizione">Descrizione</td>
+	         	<td>{{categoriaMsg.descrizione}}</td>
+	        </tr>
+			<tr>
+	         	<td translate="cifra2gestattiApp.categoriaMsg.enabled">Abilitato</td>
+	         	<td>{{categoriaMsg.enabled ? 'Si' : 'No'}}</td>
+	        </tr>
+         </table>
+	</div>
+    <button type="submit"
+            ui-sref="categoriaMsg"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span translate="entity.action.back"> Back</span>
+    </button>
+</div>

@@ -1,0 +1,124 @@
+
+<div>
+    <h2><span translate="cifra2gestattiApp.utente.detail.title">Utente</span> {{utente.id}}</h2>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th translate="entity.detail.field">Field</th>
+                    <th translate="entity.detail.value">Value</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.utente.cognome">Cognome</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{utente.cognome}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.utente.nome">Nome</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{utente.nome}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.utente.username">Username</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{utente.username}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.utente.codicefiscale">Codicefiscale</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{utente.codicefiscale}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.utente.validodal">Validodal</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{utente.validita.validodal| date:'dd-MM-yyyy'}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.utente.validoal">Validoal</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{utente.validita.validoal| date:'dd-MM-yyyy'}}" readonly>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.utente.telefono">Telefono</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{utente.telefono}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.utente.altrorecapito">Altrorecapito</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{utente.altrorecapito}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.utente.fax">Fax</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{utente.fax}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.utente.email">Email</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{utente.email}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.utente.indirizzo">indirizzo</span>
+                    </td>
+                    <td>
+                    	<input type="text" class="input-sm form-control" ng-if="utente.indirizzo.provincia" value="{{utente.indirizzo.dug}} {{utente.indirizzo.toponimo}} {{utente.indirizzo.civico}} {{utente.indirizzo.cap}} {{utente.indirizzo.comune}} ({{utente.indirizzo.provincia}}) " readonly>
+                        <input type="text" class="input-sm form-control" ng-if="!utente.indirizzo.provincia" value="{{utente.indirizzo.dug}} {{utente.indirizzo.toponimo}} {{utente.indirizzo.civico}} {{utente.indirizzo.cap}} {{utente.indirizzo.comune}} " readonly>
+                    </td>
+                </tr>
+                <tr>
+                	<td><span translate="cifra2gestattiApp.utente.moduloregistrazione">Download</span>
+                	<td>
+                		<a id="downloadModulo" href="#" ng-click="downloadModuloreRegistrazione()"><span title="{{'cifra2gestattiApp.utente.downloadtitle' | translate}}" class="glyphicon glyphicon-file"></span> {{'cifra2gestattiApp.utente.downloadtitle' | translate}}</a>
+                	</td>
+                </tr>
+                
+                <!-- TODO: Modifica possibile in base a stato -->
+                <tr>
+                	<td><span translate="cifra2gestattiApp.utente.aggiornamoduloregistrazione">Aggiorna</span>
+                	<td>
+                		<input onchange="angular.element(this).scope().setTempfile(event)" id="file" type="file" required ng-model="tempfilename">
+                		<button class="btn btn-primary" ng-click="updateFile()">Salva</button>
+                	</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <button ui-sref="utente"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span translate="entity.action.back"> Back</span>
+    </button>
+</div>

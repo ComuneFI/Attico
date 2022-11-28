@@ -1,0 +1,23 @@
+{
+    "cifra2gestattiApp": {
+        "impersonifica" : {
+            "home": {
+                "title": "Impersonifica Utente"
+            },
+            "utente": "Utente",
+            "aoo": "Ufficio",
+            "tipoAtto": "Tipo Atto",
+            "grupporuolo": "Grupporuolo",
+            "ruoli": "Ruoli",
+            "qualificaProfessionale": "Qualifica Professionale",
+            "label-stato": "Stato",
+            "filtro":{
+            	"stato" : {
+            		"disattivati" : "Profili disabilitati",
+            		"attivi" : "Profili attivi",
+            		"entrambi" : "Entrambi"
+            	}
+            }
+         }
+       }
+}

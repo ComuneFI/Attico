@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    <changeSet author="magria" id="201810171008-1">
+    	<sql>
+			INSERT INTO tipoevento (descrizione, codice, categoriaEvento_id) VALUES ('Relatore Confermato', 'RELATORE_CONFERMATO', 1);
+			INSERT INTO tipoevento (descrizione, codice, categoriaEvento_id) VALUES( 'Risposta in Aula', 'RISPOSTA_IN_AULA', 1);
+			UPDATE esito SET id='risposta_in_aula' WHERE id='risposta_in_aulta' ;
+			UPDATE tipoatto SET processoBpmName='QuestionTime' WHERE codice='QT' ;
+			UPDATE tipoatto SET processoBpmName='Interrogazione' WHERE codice='INT' ;
+		</sql>
+    </changeSet>   
+</databaseChangeLog>

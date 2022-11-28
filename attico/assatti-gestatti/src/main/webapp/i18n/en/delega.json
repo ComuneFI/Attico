@@ -1,0 +1,22 @@
+{
+    "cifra2gestattiApp": {
+        "delega" : {
+            "home": {
+                "title": "Lista Deleghe Temporali",
+                "createLabel": "Crea nuova Delega",
+                "editLabel": "Modifica Delega",
+                "createOrEditLabel": "Crea o Modifica una Delega"
+            },
+            "delete": {
+                "question": "Sei sicuro di voler modificare lo stato della delega {{ id }}?"
+            },
+            "detail": {
+                "title": "Delega"
+            },
+            "delegante": "Delegante",
+            "delegati": "Delegati",
+            "validodal": "Valida dal",
+            "validoal": "Valida al"
+        }
+    }
+}

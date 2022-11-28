@@ -1,0 +1,20 @@
+{
+    "cifra2gestattiApp": {
+        "tipoIter" : {
+            "home": {
+                "title": "Tipo Iter Burocratico",
+                "createLabel": "Crea nuovo Tipo Iter",
+                "createOrEditLabel": "Crea o modifica un Tipo Iter"
+            },
+            "delete": {
+                "question": "Sei  sicuro di volere eliminare il Tipo Iter {{ descrizione }}?"
+            },
+            "detail": {
+                "title": "TipoIter"
+            },
+            "descrizione": "Descrizione",
+            "codice": "Codice",
+            "tipoAtto":"Tipo Atto"
+        }
+    }
+}

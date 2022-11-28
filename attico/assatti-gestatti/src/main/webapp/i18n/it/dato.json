@@ -1,0 +1,23 @@
+{
+    "cifra2gestattiApp": {
+        "dato" : {
+            "home": {
+                "title": "Dati",
+                "createLabel": "Crea un nuovo Dato",
+                "createOrEditLabel": "Crea o modifica un Dato"
+            },
+            "delete": {
+                "question": "Sei sicuro di voler cancellare il Dato con ID {{ id }}?"
+            },
+            "detail": {
+                "title": "Dato"
+            },
+            "etichetta": "Etichetta",
+            "multivalore": "Multivalore",
+            "stile": "Stile",
+            "valore_legame": "Valore Legame",
+            "dato_datosup_fk": "Dato Superiore",
+            "dato_tipdat_fk": "Tipo Dato"
+        }
+    }
+}

@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    
+    <changeSet author="mazzottada" id="201906101225-1">
+    	<sql>
+    		ALTER TABLE tipoatto ADD ricerca_colonne_nascoste varchar(255) NULL;
+			ALTER TABLE tipoatto ADD ricerca_stato_concluso varchar(255) NULL;
+			
+			CREATE TABLE `ricerca_criterio` (
+			  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+			  `tipo` char(1) NOT NULL,
+			  `aoo_based` tinyint(4) NOT NULL DEFAULT '0',
+			  `codice` varchar(255) NOT NULL,
+			  `ordine` int(11) NOT NULL,
+			  PRIMARY KEY (`id`)
+			) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+			
+			CREATE TABLE `ricerca_fase` (
+			  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+			  `codice` varchar(255) NOT NULL,
+			  `ordine` int(11) NOT NULL,
+			  PRIMARY KEY (`id`)
+			) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+			
+			CREATE TABLE `tipoatto_has_fase_ricerca` (
+			  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+			  `tipoatto_id` bigint(20) NOT NULL,
+			  `fase_id` bigint(20) NOT NULL,
+			  PRIMARY KEY (`id`),
+			  KEY `tipoatto_has_fase_ricerca_ricerca_fase_fk` (`fase_id`),
+			  KEY `tipoatto_has_fase_ricerca_tipoatto_fk` (`tipoatto_id`),
+			  CONSTRAINT `tipoatto_has_fase_ricerca_ricerca_fase_fk` FOREIGN KEY (`fase_id`) REFERENCES `ricerca_fase` (`id`),
+			  CONSTRAINT `tipoatto_has_fase_ricerca_tipoatto_fk` FOREIGN KEY (`tipoatto_id`) REFERENCES `tipoatto` (`id`)
+			) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+			
+			CREATE TABLE `ricerca_fase_has_ricerca_criterio` (
+			  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+			  `ricerca_fase_tipoatto_id` bigint(20) NOT NULL,
+			  `ricerca_criterio_id` bigint(20) NOT NULL,
+			  `value` tinyint(4) NOT NULL DEFAULT '0',
+			  PRIMARY KEY (`id`),
+			  KEY `ricerca_fase_has_ricerca_criterio_tipoatto_has_fase_ricerca_fk` (`ricerca_fase_tipoatto_id`),
+			  KEY `ricerca_fase_has_ricerca_criterio_ricerca_criterio_fk` (`ricerca_criterio_id`),
+			  CONSTRAINT `ricerca_fase_has_ricerca_criterio_ricerca_criterio_fk` FOREIGN KEY (`ricerca_criterio_id`) REFERENCES `ricerca_criterio` (`id`),
+			  CONSTRAINT `ricerca_fase_has_ricerca_criterio_tipoatto_has_fase_ricerca_fk` FOREIGN KEY (`ricerca_fase_tipoatto_id`) REFERENCES `tipoatto_has_fase_ricerca` (`id`)
+			) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+			
+			CREATE TABLE `ricerca_fase_criterio_has_aoo` (
+			  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+			  `ricerca_fase_criterio_id` bigint(20) NOT NULL,
+			  `aoo_id` bigint(20) NOT NULL,
+			  PRIMARY KEY (`id`),
+			  KEY `ric_fase_crit_has_aoo_ric_fase_has_ric_crit_fk` (`ricerca_fase_criterio_id`),
+			  KEY `ricerca_fase_criterio_has_aoo_aoo_fk` (`aoo_id`),
+			  CONSTRAINT `ric_fase_crit_has_aoo_ric_fase_has_ric_crit_fk` FOREIGN KEY (`ricerca_fase_criterio_id`) REFERENCES `ricerca_fase_has_ricerca_criterio` (`id`),
+			  CONSTRAINT `ricerca_fase_criterio_has_aoo_aoo_fk` FOREIGN KEY (`aoo_id`) REFERENCES `aoo` (`id`)
+			) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+    	</sql>
+    </changeSet>
+ <changeSet author="mazzottada" id="201906101225-2">
+ 	<sql>
+ 		INSERT INTO ricerca_criterio (tipo, codice, ordine) VALUES('I', 'UFFICIO_PROPONENTE', 1);
+ 		INSERT INTO ricerca_criterio (tipo, codice, ordine) VALUES('I', 'TUTTI_GLI_UFFICI', 2);
+ 		INSERT INTO ricerca_criterio (tipo, codice, ordine) VALUES('I', 'ATTI_LAVORATI', 3);
+ 		INSERT INTO ricerca_criterio (tipo, aoo_based, codice, ordine) VALUES('I', 1, 'APPARTENENZA_UFFICIO', 4);
+ 		INSERT INTO ricerca_criterio (tipo, codice, ordine) VALUES('E', 'LINK_DOC_OMISSIS', 5);
+ 		INSERT INTO ricerca_criterio (tipo, codice, ordine) VALUES('E', 'ACCESSO_ATTO_NEGATO', 6);
+ 		
+ 		INSERT INTO ricerca_fase (codice, ordine) VALUES('ITINERE', 1);
+ 		INSERT INTO ricerca_fase (codice, ordine) VALUES('CONCLUSO_NO_RISERV_NO_PUB_INTEG', 2);
+ 		INSERT INTO ricerca_fase (codice, ordine) VALUES('CONCLUSO_RISERVATO', 3);
+ 		INSERT INTO ricerca_fase (codice, ordine) VALUES('CONCLUSO_NO_RISERV_SI_PUB_INTEG', 4);
+ 		
+ 		INSERT INTO tipoatto_has_fase_ricerca (tipoatto_id, fase_id) VALUES((select id from tipoatto where codice = 'DG'), (select id from ricerca_fase where codice = 'ITINERE'));
+ 		INSERT INTO tipoatto_has_fase_ricerca (tipoatto_id, fase_id) VALUES((select id from tipoatto where codice = 'DG'), (select id from ricerca_fase where codice = 'CONCLUSO_NO_RISERV_NO_PUB_INTEG'));
+ 		INSERT INTO tipoatto_has_fase_ricerca (tipoatto_id, fase_id) VALUES((select id from tipoatto where codice = 'DG'), (select id from ricerca_fase where codice = 'CONCLUSO_RISERVATO'));
+ 		INSERT INTO tipoatto_has_fase_ricerca (tipoatto_id, fase_id) VALUES((select id from tipoatto where codice = 'DG'), (select id from ricerca_fase where codice = 'CONCLUSO_NO_RISERV_SI_PUB_INTEG'));
+ 		
+ 		INSERT INTO tipoatto_has_fase_ricerca (tipoatto_id, fase_id) VALUES((select id from tipoatto where codice = 'DD'), (select id from ricerca_fase where codice = 'ITINERE'));
+ 		INSERT INTO tipoatto_has_fase_ricerca (tipoatto_id, fase_id) VALUES((select id from tipoatto where codice = 'DD'), (select id from ricerca_fase where codice = 'CONCLUSO_NO_RISERV_NO_PUB_INTEG'));
+ 		INSERT INTO tipoatto_has_fase_ricerca (tipoatto_id, fase_id) VALUES((select id from tipoatto where codice = 'DD'), (select id from ricerca_fase where codice = 'CONCLUSO_RISERVATO'));
+ 		INSERT INTO tipoatto_has_fase_ricerca (tipoatto_id, fase_id) VALUES((select id from tipoatto where codice = 'DD'), (select id from ricerca_fase where codice = 'CONCLUSO_NO_RISERV_SI_PUB_INTEG'));
+ 		
+ 		INSERT INTO tipoatto_has_fase_ricerca (tipoatto_id, fase_id) VALUES((select id from tipoatto where codice = 'DC'), (select id from ricerca_fase where codice = 'ITINERE'));
+ 		INSERT INTO tipoatto_has_fase_ricerca (tipoatto_id, fase_id) VALUES((select id from tipoatto where codice = 'DC'), (select id from ricerca_fase where codice = 'CONCLUSO_NO_RISERV_NO_PUB_INTEG'));
+ 		INSERT INTO tipoatto_has_fase_ricerca (tipoatto_id, fase_id) VALUES((select id from tipoatto where codice = 'DC'), (select id from ricerca_fase where codice = 'CONCLUSO_RISERVATO'));
+ 		INSERT INTO tipoatto_has_fase_ricerca (tipoatto_id, fase_id) VALUES((select id from tipoatto where codice = 'DC'), (select id from ricerca_fase where codice = 'CONCLUSO_NO_RISERV_SI_PUB_INTEG'));
+ 		
+ 		INSERT INTO tipoatto_has_fase_ricerca (tipoatto_id, fase_id) VALUES((select id from tipoatto where codice = 'DIG'), (select id from ricerca_fase where codice = 'ITINERE'));
+ 		INSERT INTO tipoatto_has_fase_ricerca (tipoatto_id, fase_id) VALUES((select id from tipoatto where codice = 'DIG'), (select id from ricerca_fase where codice = 'CONCLUSO_NO_RISERV_NO_PUB_INTEG'));
+ 		INSERT INTO tipoatto_has_fase_ricerca (tipoatto_id, fase_id) VALUES((select id from tipoatto where codice = 'DIG'), (select id from ricerca_fase where codice = 'CONCLUSO_RISERVATO'));
+ 		INSERT INTO tipoatto_has_fase_ricerca (tipoatto_id, fase_id) VALUES((select id from tipoatto where codice = 'DIG'), (select id from ricerca_fase where codice = 'CONCLUSO_NO_RISERV_SI_PUB_INTEG'));
+ 		
+ 		INSERT INTO tipoatto_has_fase_ricerca (tipoatto_id, fase_id) VALUES((select id from tipoatto where codice = 'ORD'), (select id from ricerca_fase where codice = 'ITINERE'));
+ 		INSERT INTO tipoatto_has_fase_ricerca (tipoatto_id, fase_id) VALUES((select id from tipoatto where codice = 'ORD'), (select id from ricerca_fase where codice = 'CONCLUSO_NO_RISERV_NO_PUB_INTEG'));
+ 		INSERT INTO tipoatto_has_fase_ricerca (tipoatto_id, fase_id) VALUES((select id from tipoatto where codice = 'ORD'), (select id from ricerca_fase where codice = 'CONCLUSO_RISERVATO'));
+ 		INSERT INTO tipoatto_has_fase_ricerca (tipoatto_id, fase_id) VALUES((select id from tipoatto where codice = 'ORD'), (select id from ricerca_fase where codice = 'CONCLUSO_NO_RISERV_SI_PUB_INTEG'));
+ 		
+ 		INSERT INTO tipoatto_has_fase_ricerca (tipoatto_id, fase_id) VALUES((select id from tipoatto where codice = 'DL'), (select id from ricerca_fase where codice = 'ITINERE'));
+ 		INSERT INTO tipoatto_has_fase_ricerca (tipoatto_id, fase_id) VALUES((select id from tipoatto where codice = 'DL'), (select id from ricerca_fase where codice = 'CONCLUSO_NO_RISERV_NO_PUB_INTEG'));
+ 		INSERT INTO tipoatto_has_fase_ricerca (tipoatto_id, fase_id) VALUES((select id from tipoatto where codice = 'DL'), (select id from ricerca_fase where codice = 'CONCLUSO_RISERVATO'));
+ 		INSERT INTO tipoatto_has_fase_ricerca (tipoatto_id, fase_id) VALUES((select id from tipoatto where codice = 'DL'), (select id from ricerca_fase where codice = 'CONCLUSO_NO_RISERV_SI_PUB_INTEG'));
+ 		
+ 		INSERT INTO tipoatto_has_fase_ricerca (tipoatto_id, fase_id) VALUES((select id from tipoatto where codice = 'ODG'), (select id from ricerca_fase where codice = 'ITINERE'));
+ 		INSERT INTO tipoatto_has_fase_ricerca (tipoatto_id, fase_id) VALUES((select id from tipoatto where codice = 'ODG'), (select id from ricerca_fase where codice = 'CONCLUSO_NO_RISERV_NO_PUB_INTEG'));
+ 		INSERT INTO tipoatto_has_fase_ricerca (tipoatto_id, fase_id) VALUES((select id from tipoatto where codice = 'ODG'), (select id from ricerca_fase where codice = 'CONCLUSO_RISERVATO'));
+ 		INSERT INTO tipoatto_has_fase_ricerca (tipoatto_id, fase_id) VALUES((select id from tipoatto where codice = 'ODG'), (select id from ricerca_fase where codice = 'CONCLUSO_NO_RISERV_SI_PUB_INTEG'));
+ 		
+ 		INSERT INTO tipoatto_has_fase_ricerca (tipoatto_id, fase_id) VALUES((select id from tipoatto where codice = 'RIS'), (select id from ricerca_fase where codice = 'ITINERE'));
+ 		INSERT INTO tipoatto_has_fase_ricerca (tipoatto_id, fase_id) VALUES((select id from tipoatto where codice = 'RIS'), (select id from ricerca_fase where codice = 'CONCLUSO_NO_RISERV_NO_PUB_INTEG'));
+ 		INSERT INTO tipoatto_has_fase_ricerca (tipoatto_id, fase_id) VALUES((select id from tipoatto where codice = 'RIS'), (select id from ricerca_fase where codice = 'CONCLUSO_RISERVATO'));
+ 		INSERT INTO tipoatto_has_fase_ricerca (tipoatto_id, fase_id) VALUES((select id from tipoatto where codice = 'RIS'), (select id from ricerca_fase where codice = 'CONCLUSO_NO_RISERV_SI_PUB_INTEG'));
+ 		
+ 		INSERT INTO tipoatto_has_fase_ricerca (tipoatto_id, fase_id) VALUES((select id from tipoatto where codice = 'MZ'), (select id from ricerca_fase where codice = 'ITINERE'));
+ 		INSERT INTO tipoatto_has_fase_ricerca (tipoatto_id, fase_id) VALUES((select id from tipoatto where codice = 'MZ'), (select id from ricerca_fase where codice = 'CONCLUSO_NO_RISERV_NO_PUB_INTEG'));
+ 		INSERT INTO tipoatto_has_fase_ricerca (tipoatto_id, fase_id) VALUES((select id from tipoatto where codice = 'MZ'), (select id from ricerca_fase where codice = 'CONCLUSO_RISERVATO'));
+ 		INSERT INTO tipoatto_has_fase_ricerca (tipoatto_id, fase_id) VALUES((select id from tipoatto where codice = 'MZ'), (select id from ricerca_fase where codice = 'CONCLUSO_NO_RISERV_SI_PUB_INTEG'));
+ 		
+ 		INSERT INTO tipoatto_has_fase_ricerca (tipoatto_id, fase_id) VALUES((select id from tipoatto where codice = 'DPC'), (select id from ricerca_fase where codice = 'ITINERE'));
+ 		INSERT INTO tipoatto_has_fase_ricerca (tipoatto_id, fase_id) VALUES((select id from tipoatto where codice = 'DPC'), (select id from ricerca_fase where codice = 'CONCLUSO_NO_RISERV_NO_PUB_INTEG'));
+ 		INSERT INTO tipoatto_has_fase_ricerca (tipoatto_id, fase_id) VALUES((select id from tipoatto where codice = 'DPC'), (select id from ricerca_fase where codice = 'CONCLUSO_RISERVATO'));
+ 		INSERT INTO tipoatto_has_fase_ricerca (tipoatto_id, fase_id) VALUES((select id from tipoatto where codice = 'DPC'), (select id from ricerca_fase where codice = 'CONCLUSO_NO_RISERV_SI_PUB_INTEG'));
+ 		
+ 		INSERT INTO tipoatto_has_fase_ricerca (tipoatto_id, fase_id) VALUES((select id from tipoatto where codice = 'DEC'), (select id from ricerca_fase where codice = 'ITINERE'));
+ 		INSERT INTO tipoatto_has_fase_ricerca (tipoatto_id, fase_id) VALUES((select id from tipoatto where codice = 'DEC'), (select id from ricerca_fase where codice = 'CONCLUSO_NO_RISERV_NO_PUB_INTEG'));
+ 		INSERT INTO tipoatto_has_fase_ricerca (tipoatto_id, fase_id) VALUES((select id from tipoatto where codice = 'DEC'), (select id from ricerca_fase where codice = 'CONCLUSO_RISERVATO'));
+ 		INSERT INTO tipoatto_has_fase_ricerca (tipoatto_id, fase_id) VALUES((select id from tipoatto where codice = 'DEC'), (select id from ricerca_fase where codice = 'CONCLUSO_NO_RISERV_SI_PUB_INTEG'));
+ 		
+ 		INSERT INTO tipoatto_has_fase_ricerca (tipoatto_id, fase_id) VALUES((select id from tipoatto where codice = 'COM'), (select id from ricerca_fase where codice = 'ITINERE'));
+ 		INSERT INTO tipoatto_has_fase_ricerca (tipoatto_id, fase_id) VALUES((select id from tipoatto where codice = 'COM'), (select id from ricerca_fase where codice = 'CONCLUSO_NO_RISERV_NO_PUB_INTEG'));
+ 		INSERT INTO tipoatto_has_fase_ricerca (tipoatto_id, fase_id) VALUES((select id from tipoatto where codice = 'COM'), (select id from ricerca_fase where codice = 'CONCLUSO_RISERVATO'));
+ 		INSERT INTO tipoatto_has_fase_ricerca (tipoatto_id, fase_id) VALUES((select id from tipoatto where codice = 'COM'), (select id from ricerca_fase where codice = 'CONCLUSO_NO_RISERV_SI_PUB_INTEG'));
+ 		
+ 		INSERT INTO tipoatto_has_fase_ricerca (tipoatto_id, fase_id) VALUES((select id from tipoatto where codice = 'DAT'), (select id from ricerca_fase where codice = 'ITINERE'));
+ 		INSERT INTO tipoatto_has_fase_ricerca (tipoatto_id, fase_id) VALUES((select id from tipoatto where codice = 'DAT'), (select id from ricerca_fase where codice = 'CONCLUSO_NO_RISERV_NO_PUB_INTEG'));
+ 		INSERT INTO tipoatto_has_fase_ricerca (tipoatto_id, fase_id) VALUES((select id from tipoatto where codice = 'DAT'), (select id from ricerca_fase where codice = 'CONCLUSO_RISERVATO'));
+ 		INSERT INTO tipoatto_has_fase_ricerca (tipoatto_id, fase_id) VALUES((select id from tipoatto where codice = 'DAT'), (select id from ricerca_fase where codice = 'CONCLUSO_NO_RISERV_SI_PUB_INTEG'));
+ 		
+ 		INSERT INTO tipoatto_has_fase_ricerca (tipoatto_id, fase_id) VALUES((select id from tipoatto where codice = 'INT'), (select id from ricerca_fase where codice = 'ITINERE'));
+ 		INSERT INTO tipoatto_has_fase_ricerca (tipoatto_id, fase_id) VALUES((select id from tipoatto where codice = 'INT'), (select id from ricerca_fase where codice = 'CONCLUSO_NO_RISERV_NO_PUB_INTEG'));
+ 		INSERT INTO tipoatto_has_fase_ricerca (tipoatto_id, fase_id) VALUES((select id from tipoatto where codice = 'INT'), (select id from ricerca_fase where codice = 'CONCLUSO_RISERVATO'));
+ 		INSERT INTO tipoatto_has_fase_ricerca (tipoatto_id, fase_id) VALUES((select id from tipoatto where codice = 'INT'), (select id from ricerca_fase where codice = 'CONCLUSO_NO_RISERV_SI_PUB_INTEG'));
+ 		
+ 		INSERT INTO tipoatto_has_fase_ricerca (tipoatto_id, fase_id) VALUES((select id from tipoatto where codice = 'QT'), (select id from ricerca_fase where codice = 'ITINERE'));
+ 		INSERT INTO tipoatto_has_fase_ricerca (tipoatto_id, fase_id) VALUES((select id from tipoatto where codice = 'QT'), (select id from ricerca_fase where codice = 'CONCLUSO_NO_RISERV_NO_PUB_INTEG'));
+ 		INSERT INTO tipoatto_has_fase_ricerca (tipoatto_id, fase_id) VALUES((select id from tipoatto where codice = 'QT'), (select id from ricerca_fase where codice = 'CONCLUSO_RISERVATO'));
+ 		INSERT INTO tipoatto_has_fase_ricerca (tipoatto_id, fase_id) VALUES((select id from tipoatto where codice = 'QT'), (select id from ricerca_fase where codice = 'CONCLUSO_NO_RISERV_SI_PUB_INTEG'));
+ 		
+ 		INSERT INTO tipoatto_has_fase_ricerca (tipoatto_id, fase_id) VALUES((select id from tipoatto where codice = 'VERB'), (select id from ricerca_fase where codice = 'ITINERE'));
+ 		INSERT INTO tipoatto_has_fase_ricerca (tipoatto_id, fase_id) VALUES((select id from tipoatto where codice = 'VERB'), (select id from ricerca_fase where codice = 'CONCLUSO_NO_RISERV_NO_PUB_INTEG'));
+ 		INSERT INTO tipoatto_has_fase_ricerca (tipoatto_id, fase_id) VALUES((select id from tipoatto where codice = 'VERB'), (select id from ricerca_fase where codice = 'CONCLUSO_RISERVATO'));
+ 		INSERT INTO tipoatto_has_fase_ricerca (tipoatto_id, fase_id) VALUES((select id from tipoatto where codice = 'VERB'), (select id from ricerca_fase where codice = 'CONCLUSO_NO_RISERV_SI_PUB_INTEG'));
+ 		
+ 		INSERT INTO tipoatto_has_fase_ricerca (tipoatto_id, fase_id) VALUES((select id from tipoatto where codice = 'DIC'), (select id from ricerca_fase where codice = 'ITINERE'));
+ 		INSERT INTO tipoatto_has_fase_ricerca (tipoatto_id, fase_id) VALUES((select id from tipoatto where codice = 'DIC'), (select id from ricerca_fase where codice = 'CONCLUSO_NO_RISERV_NO_PUB_INTEG'));
+ 		INSERT INTO tipoatto_has_fase_ricerca (tipoatto_id, fase_id) VALUES((select id from tipoatto where codice = 'DIC'), (select id from ricerca_fase where codice = 'CONCLUSO_RISERVATO'));
+ 		INSERT INTO tipoatto_has_fase_ricerca (tipoatto_id, fase_id) VALUES((select id from tipoatto where codice = 'DIC'), (select id from ricerca_fase where codice = 'CONCLUSO_NO_RISERV_SI_PUB_INTEG'));
+ 		
+ 		INSERT INTO tipoatto_has_fase_ricerca (tipoatto_id, fase_id) VALUES((select id from tipoatto where codice = 'ORDT'), (select id from ricerca_fase where codice = 'ITINERE'));
+ 		INSERT INTO tipoatto_has_fase_ricerca (tipoatto_id, fase_id) VALUES((select id from tipoatto where codice = 'ORDT'), (select id from ricerca_fase where codice = 'CONCLUSO_NO_RISERV_NO_PUB_INTEG'));
+ 		INSERT INTO tipoatto_has_fase_ricerca (tipoatto_id, fase_id) VALUES((select id from tipoatto where codice = 'ORDT'), (select id from ricerca_fase where codice = 'CONCLUSO_RISERVATO'));
+ 		INSERT INTO tipoatto_has_fase_ricerca (tipoatto_id, fase_id) VALUES((select id from tipoatto where codice = 'ORDT'), (select id from ricerca_fase where codice = 'CONCLUSO_NO_RISERV_SI_PUB_INTEG'));
+
+ 	</sql>
+ </changeSet>
+ <changeSet author="mazzottada" id="201906101225-3">
+ 	<sql>
+ 		INSERT INTO ricerca_fase_has_ricerca_criterio (ricerca_fase_tipoatto_id, ricerca_criterio_id) 
+ 		(select tipoatto_has_fase_ricerca.id, ricerca_criterio.id from tipoatto_has_fase_ricerca 
+ 		inner join ricerca_fase on tipoatto_has_fase_ricerca.fase_id = ricerca_fase.id
+ 		left outer join ricerca_criterio on ricerca_criterio.id = ricerca_criterio.id);
+ 	</sql>
+ </changeSet>
+</databaseChangeLog>

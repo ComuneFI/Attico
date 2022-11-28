@@ -1,0 +1,36 @@
+<div class="container"  ng-if="isAuthenticated() && configurationParams.component_notifiche_popup_enabled">
+
+<div class="chat-box">
+	<input type="checkbox" />
+	<label data-expanded="Chiudi Notifiche" data-collapsed="Apri Notifiche">
+		<span ng-show="newNewss>0" class="badge" ><i class="fa fa-bell fa-1x text-default"></i> {{ newNewss }}</span>
+	</label>
+	
+	<div class="chat-box-content" >
+		
+		
+		<div class="chatmessages" scroll-glue>
+			<ul class="list-unstyled">
+				<li ng-repeat="news in newss | orderBy:'news.dataInvio'" >
+					<div class="talk-bubble">
+						<div class="talktext">
+							<a href="#/news/{{news.id}}"><p class="text-warning"><i class="glyphicon glyphicon-link"></i> {{news.dataCreazione | date:'dd-MM-yyyy HH:mm:ss'}} - {{news.atto ? news.atto.codiceCifra : 'Documento Seduta'}}</p></a>
+						</div>
+					</div> 
+				</li>
+			</ul>
+		</div>
+		<div align="center">
+			<nav>
+	            <ul class="pagination">
+	                <li ng-show="links['first']" ng-click="loadPage(links['first'])"><a>&lt;&lt;</a></li>
+	                <li ng-show="page > 1" ng-click="loadPage(page - 1)"><a>{{page - 1}}</a></li>
+	                <li class="active"><a>{{page}}</a></li>
+	                <li ng-show="page < links['last']" ng-click="loadPage(page + 1)"><a>{{page + 1}}</a></li>
+	                <li ng-show="links['last']" ng-click="loadPage(links['last'])"><a>&gt;&gt;</a></li>
+	            </ul>
+	        </nav>
+        </div>
+	</div>
+</div>
+</div>

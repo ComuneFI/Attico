@@ -1,0 +1,36 @@
+<p><br></p>
+<p><br></p>
+<p><br></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p th:if="${parere.titolo == null}" style="font-family: Calibri; font-size: 18pt; font-weight: bold; text-align: center;">	<span th:if="${parere.tipoParere == 'Parere Contabile'}">Esito adempimenti contabili</span>	<span th:if="${parere.tipoParere != 'Parere Contabile'}">[[${parere.tipoParere}]]</span></p>
+<p th:if="${parere.titolo != null}" style="font-family: Calibri; font-size: 18pt; font-weight: bold; text-align: center;">	<span>[[${parere.titolo}]]</span></p>
+<p>&nbsp;</p>
+<p th:if="${parere.tipoParere == 'Parere Contabile' && parere.atto.tipoAtto.codice == 'DIR'}" style="font-family: Calibri; font-size: 10pt; font-weight: bold; text-align: justify;">	<span>In ordine all'istruttoria effettuata, in data	[[${parere.data.toString("dd/MM/yyyy")}]], sulla Determinazione Dirigenziale:</span></p>
+<p th:if="${parere.tipoParere == 'Parere Contabile' && parere.atto.tipoAtto.codice != 'DIR'}" style="font-family: Calibri; font-size: 10pt; font-weight: bold; text-align: justify;">	<span>In ordine all'istruttoria effettuata, in data	[[${parere.data.toString("dd/MM/yyyy")}]], sulla proposta:</span></p>
+<p th:if="${parere.tipoParere == 'Parere Amministrativo'}" style="font-family: Calibri; font-size: 10pt; font-weight: bold; text-align: justify;">	<span>In ordine all'istruttoria effettuata, in data	[[${parere.data.toString("dd/MM/yyyy")}]], sulla proposta:</span></p>
+<p th:if="${parere.tipoParere != 'Parere Contabile' &amp;&amp; parere.tipoParere != 'Parere Amministrativo'}" style="font-family: Calibri; font-size: 10pt; font-weight: bold; text-align: justify;">	<span>In ordine all'istruttoria effettuata, in data [[${parere.data.toString("dd/MM/yyyy")}]], sulla Determinazione Dirigenziale:</span></p>
+<p th:if="${parere.atto.numeroAdozione != null and parere.atto.dataAdozione!=null}" style="font-family: Calibri; font-size: 10pt; font-weight: bold; font-style: italic; text-align: justify;">	<span th:if="${parere.atto.numeroAdozione != null}">N. [[${parere.atto.numeroAdozione}]] di repertorio del [[${parere.atto.dataAdozione.toString("dd/MM/yyyy")}]]</span></p>
+<p style="font-family: Calibri; font-size: 10pt; font-weight: bold; text-align: justify;">	<span>Codice Atto: [[${parere.atto.codiceCifra}]]</span></p>
+<p style="font-family: Calibri; font-size: 10pt; text-align: justify;">	<span style="font-weight: bold;">Oggetto: </span><span th:utext="${parere.atto.oggetto}"></span></p>
+<p style="font-family: Calibri; font-size: 10pt; font-weight: bold;">	<span>Si esprime parere:</span></p>
+<p style="font-family: Calibri; font-size: 10pt; font-weight: bold; text-transform: uppercase; text-align: center;">	<span th:if="${parere.parereSintetico == 'ritirato_proponente'}">Ritiro su istanza del proponente</span>	<span th:if="${parere.parereSintetico == 'negativo_con_inoltro'}">Inoltro in giunta ai sensi della LR 19/89 art. 13 Comma 4</span>	<span th:if="${parere.parereSintetico != 'ritirato_proponente' and parere.parereSintetico != 'negativo_con_inoltro'}">[[${parere.parereSintetico}]]</span></p>
+<p style="font-family: Calibri; font-size: 10pt; font-weight: bold; text-align: justify;" th:utext="${parere.parere}">	<span>+${parere.parere}</span></p>
+<p style="font-family: Calibri; font-size: 10pt; font-weight: bold; text-align: justify;">	<span>Data: [[${#dates.format(#dates.createNow(), 'dd/MM/yyyy')}]]</span></p>
+<p>&nbsp;</p>
+<p style="font-family: Calibri; font-size: 10pt; font-weight: bold; text-align: justify;">	<span>Sottoscrittori</span></p>
+<table style="page-break-inside: avoid;" width="100%" cellspacing="0" cellpadding="0">
+	<tbody>
+		<tr th:each="item: ${#lists.sort(parere.sottoscrittori)}">
+			<td>				<div style="font-family: Calibri; font-size: 10pt;">[[${item.qualificaProfessionale.denominazione}]]</div>
+				<div style="font-family: Calibri; font-size: 10pt;">[[${item.profilo.utente.nome}]] [[${item.profilo.utente.cognome}]]</div>
+				<br>			</td>
+		</tr>
+	</tbody>
+</table>
+<p>&nbsp;</p>
+<p style="font-family: Calibri; font-size: 8pt; text-align: justify;">	<span>Documento informatico firmato digitalmente ai sensi del Testo Unico D.P.R. 28 dicembre 2000, n. 445 e del D.Lgs 7 marzo 2005, n. 82 e norme collegate che sostituisce il testo cartaceo e la firma autografa.</span></p>

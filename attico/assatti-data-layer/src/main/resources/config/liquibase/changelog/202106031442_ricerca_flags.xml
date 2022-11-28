@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    <changeSet author="mazzottada" id="202106031442-0001">
+    	<sql>
+			INSERT INTO ricerca_criterio (tipo, aoo_based, codice, ordine) VALUES('I', 0, 'UFFICI_ATTI_LAVORATI', 8);
+			INSERT INTO ricerca_criterio (tipo, aoo_based, codice, ordine) VALUES('I', 0, 'RESP_UFFICI_ATTI_LAVORATI', 9);
+		</sql>
+    </changeSet>
+    <changeSet author="mazzottada" id="202106031442-0002">
+    	<sql>
+			ALTER TABLE ricerca_fase_has_ricerca_criterio ADD visibilita_completa tinyint(4) default 0 NULL;
+		</sql>
+    </changeSet>
+    <changeSet author="mazzottada" id="202106031442-0003">
+    	<sql>
+			INSERT INTO ricerca_fase_has_ricerca_criterio (ricerca_fase_tipoatto_id, ricerca_criterio_id, value, visibilita_completa)
+			(select t.id, r.id, false, false from tipoatto_has_fase_ricerca t, ricerca_criterio r where r.codice in ('UFFICI_ATTI_LAVORATI', 'RESP_UFFICI_ATTI_LAVORATI'));
+		</sql>
+    </changeSet>
+    <changeSet author="mazzottada" id="202106031442-0004">
+    	<sql>
+    		UPDATE ricerca_criterio SET ordine = ordine + 1 where ordine &#60; 5;
+			INSERT INTO ricerca_criterio (tipo, aoo_based, codice, ordine) VALUES('I', 1, 'APPARTENENZA_UFFICIO_FULL_VISIB', 5);
+			INSERT INTO ricerca_fase_has_ricerca_criterio (ricerca_fase_tipoatto_id, ricerca_criterio_id, value, visibilita_completa)
+			(select t.id, r.id, false, true from tipoatto_has_fase_ricerca t, ricerca_criterio r where r.codice in ('APPARTENENZA_UFFICIO_FULL_VISIB'));
+			update ricerca_fase_has_ricerca_criterio set visibilita_completa = false where ricerca_criterio_id = (select id from ricerca_criterio where codice = 'APPARTENENZA_UFFICIO');
+		</sql>
+    </changeSet>
+    <changeSet author="mazzottada" id="202106031442-0005b">
+    	<sql>
+    		update ricerca_criterio set ordine = 1 where codice = 'UFFICIO_PROPONENTE';
+			update ricerca_criterio set ordine = 2 where codice = 'TUTTI_GLI_UFFICI';
+			update ricerca_criterio set ordine = 3 where codice = 'ATTI_LAVORATI';
+			update ricerca_criterio set ordine = 4 where codice = 'VISIONE_ATTI_GERARCHICA';
+			update ricerca_criterio set ordine = 5 where codice = 'UFFICI_ATTI_LAVORATI';
+			update ricerca_criterio set ordine = 6 where codice = 'RESP_UFFICI_ATTI_LAVORATI';
+			update ricerca_criterio set ordine = 7 where codice = 'APPARTENENZA_UFFICIO';
+			update ricerca_criterio set ordine = 8 where codice = 'APPARTENENZA_UFFICIO_FULL_VISIB';
+			update ricerca_criterio set ordine = 9 where codice = 'ACCESSO_ATTO_NEGATO';
+			update ricerca_criterio set ordine = 10 where codice = 'LINK_DOC_OMISSIS';
+		</sql>
+    </changeSet>
+</databaseChangeLog>

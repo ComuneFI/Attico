@@ -1,0 +1,60 @@
+<div>
+
+    <h2 translate="cifra2gestattiApp.smsReport.home.title">SmsReport</h2>
+	
+	<div ng-show="waitSmsConnection == true">
+		<img src='assets/images/spinner.gif'>
+		Attesa connessione Sms Gateway...
+		<br>
+	</div>
+	
+	<div ng-show="waitSmsConnection == false">
+	    <div class="table-responsive crud-search">
+	        <table class="table table-striped">
+	            <thead>
+	                <tr>
+	                    <th class="col-xs-2" translate="cifra2gestattiApp.smsReport.dataInvio">DataInvio</th>
+	                    <th class="col-xs-3" translate="cifra2gestattiApp.smsReport.identificativo">Identificativo</th>
+	                    <th class="col-xs-3" translate="cifra2gestattiApp.smsReport.testo">Testo</th>
+	                    <th class="col-xs-2" translate="cifra2gestattiApp.smsReport.stato">Stato</th>
+	                    <th class="col-xs-2"></th>
+	                </tr>
+	                <tr>
+	                	<th>
+	                    	<input type="text" ng-model="tempSearch.dataStart" onkeydown="return false;" bs-datepicker placeholder="Dal" style="width:100px"> <button title="Cancella Data" ng-click="tempSearch.dataStart = null;" class="btn btn-xs"><span class="glyphicon glyphicon-remove"></span></button><br/>
+				            <input type="text" ng-model="tempSearch.dataEnd" onkeydown="return false;" bs-datepicker placeholder="Al" style="width:100px"> <button title="Cancella Data" ng-click="tempSearch.dataEnd = null;" class="btn btn-xs"><span class="glyphicon glyphicon-remove"></span></button>
+			            </th>
+	                    <th></th>
+	                    <th></th>
+	                	<th></th>
+	                    <th><button class="btn btn-primary btn-sm" ng-click="ricerca()"><span class="glyphicon glyphicon-search"/> <span translate="global.messages.cerca">Ricerca</span></button> <button class="btn btn-primary btn-sm" ng-click="resetRicerca()"><span translate="global.messages.resetricerca">Reset ricerca</span></button></th>
+	                </tr>
+	            </thead>
+	            <tbody>
+	                <tr ng-repeat="smsReport in smsReports">
+	                    <td>{{smsReport.dataInvio | date:'dd-MM-yyyy HH:mm:ss'}}</td>
+	                    <td>{{smsReport.nome}}</td>
+	                    <td>{{smsReport.testo}}</td>
+	                    <td>{{smsReport.invioStatoDesc}}</td>
+	                    <td>
+	                        <button type="submit"
+	                                ng-click="detail(smsReport)"
+	                                class="btn btn-info btn-sm">
+	                            <span class="glyphicon glyphicon-eye-open"></span>&nbsp;<span translate="entity.action.view"> View</span>
+	                        </button>
+	                    </td>
+	                </tr>
+	                <tr ng-if="empty">
+	                    <td>Nessun risultato.</td>
+	                </tr>
+	            </tbody>
+	        </table>
+	    </div>
+	    <nav>
+            <ul class="pagination">
+                <li ng-show="history.length>0" ng-click="loadPrev()"><a>&lt;&lt;</a></li>
+                <li ng-show="!empty" ng-click="loadNext()"><a>&gt;&gt;</a></li>
+            </ul>
+        </nav>
+    </div>
+</div>

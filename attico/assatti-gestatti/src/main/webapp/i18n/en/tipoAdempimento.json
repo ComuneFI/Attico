@@ -1,0 +1,28 @@
+{
+    "cifra2gestattiApp": {
+        "tipoAdempimento" : {
+            "guida":{
+               "schedaAnagraficoContabile":"L\u0027abilitazione\u002Fdisabilitazione della generazione della scheda anagrafico contabile \u00E8 possibile solo per i tipi di adempimento associati al tipo iter burocratico \u0022Direttamente Esecutivo \u0028DIR\u0029\u0022. In tutti gli altri casi la scheda anagrafico contabile \u00E8 sempre considerata abilitata."
+            },
+            "home": {
+                "title": "TipoAdempimentos",
+                "createLabel": "Create a new TipoAdempimento",
+                "createOrEditLabel": "Create or edit a TipoAdempimento"
+            },
+            "delete": {
+                "question": "Are you sure you want to delete TipoAdempimento {{ id }}?"
+            },
+            "detail": {
+                "title": "TipoAdempimento"
+            },
+            "descrizione": "Descrizione",
+            "obbligoBeneficiario": "Beneficiario obbligatorio",
+            "generazioneSchedaAnagraficoContabile":"Generazione Scheda Anagrafico Contabile",
+            "messages": {
+	            "error": {
+	                "operationNotPermitted": "Non \u00E8 possibile effettuare l\u0027operazione in quanto l\u0027elemento \u00E8 incluso in uno o pi\u00F9 atti."
+	            }
+	        }
+        }
+    }
+}

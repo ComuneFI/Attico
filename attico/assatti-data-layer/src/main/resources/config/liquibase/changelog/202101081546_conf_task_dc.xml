@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    <changeSet author="magria" id="202101081546-001">
+    	<sql>
+    		INSERT INTO configurazione_task (nome, codice, id_tipo_configurazione_task, obbligatoria, multipla, proponente, ufficio_corrente, data_creazione, data_modifica, imposta_scadenza, uffici_livello_superiore, stessa_direzione_proponente) VALUES('Responsabile Tecnico Firmatario Delibera Consiglio', 'DC_VERIFICA_RESPONSABILE_TECNICO_FIRMATARIO_DELIBERA', 1, 1, 0, 1, 0, NULL, NULL, NULL, 1, 0);
+		</sql>
+    </changeSet>
+    <changeSet author="magria" id="202101081546-002">
+    	<sql>
+    		INSERT INTO configurazione_task (nome, codice, id_tipo_configurazione_task, obbligatoria, multipla, proponente, ufficio_corrente, data_creazione, data_modifica, imposta_scadenza, uffici_livello_superiore, stessa_direzione_proponente) VALUES('Verifica Altri Reponsabili Delibera Consiglio', 'DC_VERIFICA_ALTRI_RESPONSABILI', 1, 0, 1, 0, 0, NULL, NULL, NULL, NULL, 0);
+		</sql>
+    </changeSet>
+    <changeSet author="magria" id="202101081546-003">
+    	<sql>
+    		INSERT INTO configurazione_task (nome, codice, id_tipo_configurazione_task, obbligatoria, multipla, proponente, ufficio_corrente, data_creazione, data_modifica, imposta_scadenza, uffici_livello_superiore, stessa_direzione_proponente) VALUES('Responsabile Contabile Firmatario Delibera Consiglio', 'DC_VERIFICA_RESPONSABILE_CONTABILE', 1, 0, 0, 0, 0, NULL, NULL, NULL, NULL, 0);
+		</sql>
+    </changeSet>
+</databaseChangeLog>

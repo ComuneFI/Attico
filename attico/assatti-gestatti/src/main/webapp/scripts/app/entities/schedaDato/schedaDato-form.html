@@ -1,0 +1,281 @@
+<div>
+
+	
+    <div class="modal  fade" id="saveSchedaDatoModal" tabindex="-1" role="dialog" aria-labelledby="mySchedaDatoLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <form name="editForm" role="form" novalidate ng-submit="addRow()">
+
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                                ng-click="clear()">&times;</button>
+                        <h4 class="modal-title" id="mySchedaDatoLabel" translate="cifra2gestattiApp.schedaDato.home.createOrEditLabel">Create or edit a SchedaDato</h4>
+                    </div>
+                    <div class="modal-body">
+                        
+						<div class="form-group">
+                            <label translate="cifra2gestattiApp.schedaDato.Scheda">Scheda</label>
+                            <input type="text" class="form-control" name="SchedaId"
+                                   ng-model="scheda.etichetta" readonly>
+ 
+                        </div>
+                        <div class="table-responsive">
+                        <table  class="table table-striped">
+                        	<tr>
+                        		
+                        		<th >
+                        			<label translate="cifra2gestattiApp.schedaDato.Dato">Dato</label>
+                       			</th>
+                        		<th >
+                        			<label translate="cifra2gestattiApp.schedaDato.obbligatorio">Obbligatorio</label>
+                       			</th>
+                        		<th  style="width:100px;"  >
+                                    <label translate="cifra2gestattiApp.schedaDato.ordine">Ordine</label>
+                                </th>
+                       			<th style="width:300px;" >
+                                    <label  >Espressione Nascondi</label>
+                                </th>
+                                <th >
+                                    &nbsp;
+                                </th>
+                        	</tr>
+                        	<tbody>
+	                        	<tr >
+	                        		
+	                        		<td >
+	                            		<select class="form-control" name="Dato" ng-model="row.dato" ng-options="dato.id as dato.etichetta for dato in datos">
+	                            		</select>
+	                        		</td>
+	                        		<td >
+	                                   	<input type="checkbox" class="form-control" name="obbligatorio"
+	                                   	ng-model="row.obbligatorio">
+	                        		</td>
+	                        		<td >
+	                                   	<input type="number" class="form-control" name="ordine"
+	                                   	ng-model="row.ordine">
+	                        		</td>
+	                        		
+                                    <td   >
+                                       &nbsp;
+                                    </td>
+
+	                        		
+	                        		<td >
+	                        			<button type="submit" ng-disabled="editForm.$invalid"  class="btn btn-primary">
+	                            			<span class="glyphicon glyphicon-plus"></span>
+	                        			</button>
+	                        		</td>
+	                        	</tr>
+
+	                        	<tr ng-repeat="schedaDato in schedaDatoa">
+	                        		
+				                    <td>
+    			                    	<input type="text" class="form-control" name="obbligatorio"
+	                                   	ng-model="schedaDato.dato.etichetta"  readonly>
+				                    </td>
+				                    <td>
+				                    	<input type="checkbox" class="form-control" name="obbligatorio"
+	                                   	ng-model="schedaDato.obbligatorio"  >
+				                    </td>
+				                    <td>
+				                    	<input type="number" class="form-control" name="ordine"
+
+	                                   	ng-model="schedaDato.ordine" >
+				                    </td> 
+
+
+                                       <td   >
+    
+     <!-- {{schedaDato.hideExpression}} -->
+
+        <expression-builder  ng-init="initConditions(schedaDato)"
+                    conditions="schedaDato.conditions"
+                    condition-strings="schedaDato.hideExpression" boolean-operators="booleanOperators"
+                    left-operands="schedaDatoa" ></expression-builder>
+
+
+
+
+                                        
+                                     <!--     <div      class="form-group col-sm-6">
+                                        <label>Campo Dipendenza</label>
+                                                            <select class="form-control" name="campoDipendenza" 
+                                                                ng-model="schedaDato.campoDipendenza" 
+                                                             ng-click="addExpression(schedaDato.campoDipendenza,schedaDato)"
+                                                             >
+                                                               
+                                                              <option value=" VAL[{{campo.id}}]" ng-repeat="campo in schedaDatoa">{{campo.dato.etichetta}}</option>
+                                                             </select>
+                                        </div>
+                                         <div      class="form-group form-group col-sm-6">
+                                        <label>Operatore</label>
+                                                            <select class="form-control" name="Operatore" ng-model="schedaDato.operatore"
+                                                               ng-click="addExpression(schedaDato.operatore,schedaDato)"  >
+                                                                           
+                                                                    <option value=".length > 0">Se campo pieno</option>
+                                                                    <option value=" ==  ''">Se campo uguale a</option>
+                                                                    <option value=" && ">AND</option>
+                                                                    <option value=" || ">OR</option>
+                                                            </select>
+                                        </div>
+
+                                        
+
+                                        
+                                        <div      class="form-group col-sm-12">
+                                          <label>Espressione</label>
+                                          <textarea   class="form-control" name="hideExpression"
+                                                                                ng-model="schedaDato.hideExpression"></textarea>
+                                                                                </div>
+ -->
+
+                                        
+                                    </td>
+
+				                    <td>
+				                    	<button type="button" ng-disabled="editForm.$invalid"  class="btn btn-primary" ng-click="removeRow($index)">
+	                            			<span class="glyphicon glyphicon-minus"></span>
+	                        			</button>
+				                    </td>
+				                </tr>
+				                    
+                        	</tbody>
+                        </table>
+                       </div>
+                        
+                    </div>
+                    <div class="modal-footer">
+                    	<div id="requiredDiv" style="display:none;" class="alert alert-danger"><label>{{'global.messages.error.requireddata' | translate}}</label></div>
+                        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
+                            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+                        </button>
+                        <button  type="button" ng-disabled="editForm.$invalid" class="btn btn-primary" ng-click="SalvaRighi()">
+                            <span class="glyphicon glyphicon-save"></span>&nbsp;<span translate="entity.action.save">Save</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+	<div class="modal fade" id="updateSchedaDatoModal" tabindex="-1" role="dialog" aria-labelledby="mySchedaDatoLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form name="editForm" role="form" novalidate ng-submit="addRow()">
+
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                                ng-click="clear()">&times;</button>
+                        <h4 class="modal-title" id="mySchedaDatoLabel" translate="cifra2gestattiApp.schedaDato.home.createOrEditLabel">Create or edit a SchedaDato</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label>ID</label>
+                            <input type="text" class="form-control" name="id"
+                                   ng-model="schedaDato.id" readonly>
+                        </div>
+						<div class="form-group">
+                            <label translate="cifra2gestattiApp.schedaDato.Scheda">Scheda</label>
+                            
+                            
+                            <select  class="form-control" name="Scheda" ng-model="schedaDato.scheda.id" ng-options="scheda.id as scheda.etichetta for scheda in schedas">
+                            </select>
+                        </div>
+                        <table width="100%">
+                        	<tr>
+                        		
+                        		<th >
+                        			<label translate="cifra2gestattiApp.schedaDato.Dato">Dato</label>
+                       			</th>
+                        		<th >
+                        			<label translate="cifra2gestattiApp.schedaDato.obbligatorio">Obbligatorio</label>
+                       			</th>
+                        		<th >
+                        			<label translate="cifra2gestattiApp.schedaDato.ordine">Ordine</label>
+                       			</th>
+                       			
+                        	</tr>
+                        	<tbody>
+	                        	<tr >
+	                        		
+	                        		<td >
+	                        			<select  class="form-control" name="Dato" ng-model="schedaDato.dato.id" ng-options="dato.id as dato.etichetta for dato in datos">
+	                            		</select>
+	                        		</td>
+	                        		<td >
+	                        			<input  type="checkbox" class="form-control" name="obbligatorio"
+	                                   	ng-model="schedaDato.obbligatorio">
+	                        		</td>
+	                        		<td >
+	                        			<input type="number" class="form-control" name="ordine"
+	                                   	ng-model="schedaDato.ordine">
+	                        		</td>
+	                        	</tr>
+	                        	<tr ng-repeat="schedaDato in schedaDatoa">
+	                        		
+				                    <td>
+				                    	
+				                    	<input type="text" class="form-control" name="obbligatorio"
+	                                   	ng-model="schedaDato.Dato.etichetta"  readonly>
+				                    </td>
+				                    <td>
+				                    	<input type="checkbox" class="form-control" name="obbligatorio"
+	                                   	ng-model="schedaDato.obbligatorio"  >
+				                    </td>
+				                    <td>
+				                    	<input type="number" class="form-control" name="ordine"
+	                                   	ng-model="schedaDato.ordine" >
+				                    </td>
+				                    <td>
+				                    	<button type="button" ng-disabled="editForm.$invalid"  class="btn btn-primary" ng-click="removeRow($index)">
+	                            			<span class="glyphicon glyphicon-minus"></span>&nbsp;<span translate="entity.action.delete">Cancella</span>
+	                        			</button>
+				                    </td>
+				                </tr>
+				                    
+                        	</tbody>
+                        </table>
+                       
+                        
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
+                            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+                        </button>
+                        <button type="button" ng-disabled="editForm.$invalid" class="btn btn-primary" ng-click="save(schedaDato)">
+                            <span class="glyphicon glyphicon-save"></span>&nbsp;<span translate="entity.action.save">Save</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="deleteSchedaDatoConfirmation">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form name="deleteForm" ng-submit="confirmDelete(schedaDato.id)">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                                ng-click="clear()">&times;</button>
+                        <h4 class="modal-title" translate="entity.delete.title">Confirm delete operation</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p translate="cifra2gestattiApp.schedaDato.delete.question" translate-values="{id: '{{schedaDato.id}}'}">Are you sure you want to delete this SchedaDato?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
+                            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+                        </button>
+                        <button type="submit" ng-disabled="deleteForm.$invalid" class="btn btn-danger">
+                            <span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span translate="entity.action.delete">Delete</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    
+</div>

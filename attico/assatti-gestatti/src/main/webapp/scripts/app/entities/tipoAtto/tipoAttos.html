@@ -1,0 +1,557 @@
+<div>
+
+    <h2 translate="cifra2gestattiApp.tipoAtto.home.title">TipoAtto</h2>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <button class="btn btn-primary" data-toggle="modal" data-target="#saveTipoAttoModal" ng-click="clear()">
+                    <span class="glyphicon glyphicon-flash"></span> <span translate="cifra2gestattiApp.tipoAtto.home.createLabel">Create a new TipoAtto</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+	<div class="modal fade" id="operationNotPermitted">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                   <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                           ng-click="clear()">&times;</button>
+                   <h4 class="modal-title" translate="entity.modify.notPermitted">Operation not permitted</h4>
+               </div>
+               <div class="modal-body">
+                   <p translate="cifra2gestattiApp.tipoAtto.messages.error.operationNotPermitted">Operation not permitted</p>
+               </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal fade" id="saveTipoAttoModal" tabindex="-1" role="dialog" aria-labelledby="myTipoAttoLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <form name="editForm" role="form" novalidate ng-submit="save()" show-validation>
+
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                                ng-click="clear()">&times;</button>
+                        <h4 class="modal-title" id="myTipoAttoLabel" translate="cifra2gestattiApp.tipoAtto.home.createOrEditLabel">Create or edit a TipoAtto</h4>
+                    </div>
+                    <div class="modal-body">
+                    	<ul class="nav nav-tabs">
+						  <li ng-click="switchInfo(0)" ng-class="infoTab==0 ? 'active' : ''" ><a>Dati principali</a></li>
+						  <li ng-click="switchInfo(1)" ng-class="infoTab==1 ? 'active' : ''" ><a>Visibilit&#225; sezioni</a></li>
+						  <li ng-click="switchInfo(3)" ng-class="infoTab==3 ? 'active' : ''" ><a>Visibilit&#225; campi</a></li>
+						  <li ng-click="switchInfo(2)" ng-class="infoTab==2 ? 'active' : ''" ><a>Ricerca</a></li>
+						</ul>
+						<div class="tab-content clearfix">
+							<div ng-if="infoTab==0" ng-class="infoTab==0 ? 'tab-pane active' : 'tab-pane'">
+								<br />
+								<div class="form-group">
+		                            <label>ID</label>
+		                            <input type="text" class="form-control" name="id"
+		                                   ng-model="tipoAtto.id" readonly>
+		                        </div>
+		
+		                        <div class="form-group">
+		                        	<div class="row">
+			                        	<div class="col-md-6">
+			                        		<label translate="cifra2gestattiApp.tipoAtto.codice">Codice</label> *
+				                            <input type="text" class="form-control" name="codice"
+				                                   ng-model="tipoAtto.codice" required>
+				
+				                            <div ng-show="editForm.codice.$invalid"></div>
+			                        	</div>
+			                        	<div class="col-md-6">
+			                        		<label translate="cifra2gestattiApp.tipoAtto.giorniPubblicazioneAlbo">Giorni pubblicazione albo</label>
+				                            <input type="number" class="form-control" name="giorniPubblicazioneAlbo"
+				                                   ng-model="tipoAtto.giorniPubblicazioneAlbo">
+				
+				                            <div ng-show="editForm.giorniPubblicazioneAlbo.$invalid"></div>
+			                        	</div>
+			                        </div>
+		                        </div>
+		                        <div class="form-group">
+		                            <label translate="cifra2gestattiApp.tipoAtto.descrizione">Descrizione</label> *
+		                            <input type="text" class="form-control" name="descrizione"
+		                                   ng-model="tipoAtto.descrizione" required>
+		
+		                            <div ng-show="editForm.descrizione.$invalid"></div>
+		                        </div>
+		                        <div class="form-group">
+                            		<label>L'atto viene inizializzato dalla struttura proponente</label> *
+                           			 <si-no-select ng-model="tipoAtto.proponente" required ></si-no-select>
+                        		</div>
+                        		<div class="form-group">
+                            		<label>Atto di Consiglio</label> *
+                           			 <si-no-select ng-model="tipoAtto.consiglio" required ></si-no-select>
+                        		</div>
+                        		<div class="form-group">
+                            		<label>Atto di Giunta</label> *
+                           			 <si-no-select ng-model="tipoAtto.giunta" required ></si-no-select>
+                        		</div>
+                        		<div class="form-group">
+                            		<label>Modello Documento Copia non Conforme</label> *
+				                            <select class="form-control" name="modelloHtmlCopiaNonConforme" ng-model="tipoAtto.modelloHtmlCopiaNonConforme" ng-options="modelloHtml.titolo for modelloHtml in modelliHtml track by modelloHtml.id">
+				                            	<option value=""> </option>
+				                            </select>
+				                            <div ng-show="editForm.modelloHtmlCopiaNonConforme.$invalid"></div>
+                        		</div>
+		                        <div class="form-group">
+		                        	<div class="row">
+			                        	<div class="col-md-6">
+			                        		<label translate="cifra2gestattiApp.tipoAtto.progessivoPropostaUfficio">Progressivo Proposta per Ufficio</label>
+			                        		<input type="checkbox" class="form-control widthAuto" name="progressivoPropostaAoo" ng-model="tipoAtto.progressivoPropostaAoo"> 
+			                        	</div>
+			                        	<div class="col-md-6">
+			                        		<label translate="cifra2gestattiApp.tipoAtto.progessivoAdozioneUfficio">Progressivo Adozioneper Ufficio</label>
+			                        		<input type="checkbox" class="form-control widthAuto" name="progressivoAdozioneAoo" ng-model="tipoAtto.progressivoAdozioneAoo"> 
+			                        	</div>
+			                        </div>
+		                        </div>
+		                        <!-- <div class="form-group">
+		                        	<label>Stati annullamento automatico programmato</label>
+		                            <ui-select multiple ng-model="tipoAtto.statiAnnullamento"    theme="bootstrap" >
+		                            	<ui-select-match placeholder="Selezioni stati ">{{$item.stato}}</ui-select-match>
+		                                <ui-select-choices repeat="stato in statos | filter: $select.search">
+		                                	<div ng-bind-html="stato.stato | highlight: $select.search"></div>
+		                            	</ui-select-choices>
+		                         	</ui-select>
+		                         </div> -->
+							
+		                        <div class="form-group">
+		                        	<div class="row">
+			                        	<div class="col-md-6">
+				                            <label translate="cifra2gestattiApp.tipoAtto.processoBpmName">processoBpmName</label> *
+				                            <input type="text" class="form-control" name="processoBpmName"
+				                                   ng-model="tipoAtto.processoBpmName" required>
+				
+				                            <div ng-show="editForm.processoBpmName.$invalid"></div>
+			                        	</div>
+			                        	<div class="col-md-6">
+			                        		<label translate="cifra2gestattiApp.tipoAtto.tipoProgressivo">Tipo Progressivo</label> 
+				                            <select class="form-control" name="tipoProgressivo" ng-model="tipoAtto.tipoProgressivo" ng-options="tpProgressivo.descrizione for tpProgressivo in tipiProgressivo track by tpProgressivo.id">
+				                            	<option value=""> </option>
+      											<!-- <option ng-repeat="tpProgressivo in tipiProgressivo" value="{{tpProgressivo.id}}">{{tpProgressivo.descrizione}}</option> -->
+				                            </select>
+				                            <div ng-show="editForm.tipoProgressivo.$invalid"></div>
+			                        	</div>
+			                        	<!-- <div class="col-md-4" ng-if="tipoAtto.id > 0">
+			                        		<label translate="cifra2gestattiApp.tipoAtto.tipiIter">tipiIter</label> 
+			                            	<button  type="button" class="btn btn-default" ng-click="addIter( )"  data-type="success"  data-title="Aggiungi Tipo Iter burocratico" bs-tooltip> <i class="fa fa-plus"></i></button>
+			                        	</div> -->
+		                        	</div>
+		                        </div>
+		                        <div class="form-group">
+		                        	<div class="row">
+			                        	<div class="col-md-12">
+			                        		<label translate="cifra2gestattiApp.tipoAtto.tipiIter">tipiIter</label> 
+			                        	</div>
+			                        </div>
+			                    </div>
+		                     	<div class="form-group" ng-if="tipoAtto.id > 0" ng-repeat="iter in tipoAtto.tipiIter">
+		                     	
+		                     		<div class="row">
+										<div class="col-md-9">{{iter.descrizione}}
+										  <!-- <input type="text" class="form-control " ng-change="iter.edit=true"  ng-model="iter.descrizione"  placeholder="Descrizione" required="true"/> -->
+										</div>
+										
+										<!-- <div class="col-md-1" ng-if="iter.edit">
+										  <button type="button" class="btn btn-success" ng-click="saveTipoIter(iter)"   data-type="success"  data-title="Salva Tipo Iter burocratico" bs-tooltip> <i class="fa fa-save"></i></button>
+										</div>
+										
+										<div class="col-md-1" ng-if="iter.id > 0 && iter.codice=='USERDEFINED_TIPOITER'">
+										  <button type="button" class="btn btn-danger" ng-click="removeIter(iter)"  data-type="success"  data-title="Elimina Tipo Iter burocratico" bs-tooltip> <i class="fa fa-minus"></i></button>
+										</div> -->
+		                     		</div>
+		                     		
+		          				</div>
+							</div>
+							<div ng-if="infoTab==1" ng-class="infoTab==1 ? 'tab-pane active' : 'tab-pane'">
+								<br />
+								<div ng-if="getConfigParam(tipoAttoSezione.codice) && !tipoAtto.id" class="checkbox col-sm-5 col-sm-offset-1" 
+									ng-init="addSezione(tipoAttoSezione,$index)" ng-repeat="tipoAttoSezione in tipoAttoSezioni track by $index">
+									<input type="hidden" ng-model="tipoAtto.sezioni[$index].codice" />
+				                    <input type="hidden" ng-model="tipoAtto.sezioni[$index].descrizione" />
+				                    <input type="hidden" ng-model="tipoAtto.sezioni[$index].id" />
+				                    <input type="hidden" ng-model="tipoAtto.sezioni[$index].idTipoAtto" />
+				                    <input type="checkbox" id="tipoAttoSezione_{{tipoAttoSezione.id}}" ng-init="tipoAtto.sezioni[$index].visibile=true" ng-model="tipoAtto.sezioni[$index].visibile">
+				                    <label for="tipoAttoSezione_{{tipoAttoSezione.id}}">{{tipoAttoSezione.descrizione}}<br /><code>{{tipoAttoSezione.codice}}</code></label>
+				                </div>
+				                <div ng-if="getConfigParam(tipoAttoSezione.codice) && tipoAtto.id > 0" class="checkbox col-sm-5 col-sm-offset-1" 
+				                	ng-repeat="tipoAttoSezione in tipoAtto.sezioni track by $index">
+				                    <input type="checkbox" id="tipoAttoSezione_{{tipoAttoSezione.id}}" ng-model="tipoAttoSezione.visibile" ng-if="checkIfEnabled(tipoAttoSezione.id)" checked="checked">
+				                    <input type="checkbox" id="tipoAttoSezione_{{tipoAttoSezione.id}}" ng-model="tipoAttoSezione.visibile" ng-if="!checkIfEnabled(tipoAttoSezione.id)">
+				                    <input type="hidden" ng-model="tipoAttoSezione.codice" />
+				                    <input type="hidden" ng-model="tipoAttoSezione.descrizione" />
+				                    <input type="hidden" ng-model="tipoAttoSezione.id" />
+				                    <input type="hidden" ng-model="tipoAttoSezione.idTipoAtto" />
+				                    <label for="tipoAttoSezione_{{tipoAttoSezione.id}}">{{tipoAttoSezione.descrizione}}<br /><code>{{tipoAttoSezione.codice}}</code></label>
+				                </div>
+							</div>
+							
+							<div ng-if="infoTab==3" ng-class="infoTab==3 ? 'tab-pane active' : 'tab-pane'">
+								<br />
+								<div ng-if="!tipoAtto.id" class="checkbox col-sm-5 col-sm-offset-1" 
+									ng-init="addCampo(tipoAttoCampo,$index)" ng-repeat="tipoAttoCampo in tipoAttoCampi track by $index">
+									<input type="hidden" ng-model="tipoAtto.campi[$index].codice" />
+				                    <input type="hidden" ng-model="tipoAtto.campi[$index].descrizione" />
+				                    <input type="hidden" ng-model="tipoAtto.campi[$index].id" />
+				                    <input type="hidden" ng-model="tipoAtto.campi[$index].idTipoAtto" />
+				                    <input type="checkbox" id="tipoAttoCampo_{{tipoAttoCampo.id}}" ng-init="tipoAtto.campi[$index].visibile=true" ng-model="tipoAtto.campi[$index].visibile">
+				                    <label for="tipoAttoCampo_{{tipoAttoCampo.id}}">{{tipoAttoCampo.descrizione}}<br /><code>{{tipoAttoCampo.codice}}</code></label>
+				                </div>
+				                <div ng-if="tipoAtto.id > 0" class="checkbox col-sm-5 col-sm-offset-1" 
+				                	ng-repeat="tipoAttoCampo in tipoAtto.campi track by $index">
+				                    <input type="checkbox" id="tipoAttoCampo_{{tipoAttoCampo.id}}" ng-model="tipoAttoCampo.visibile" ng-if="checkIfCampoEnabled(tipoAttoCampo.id)" checked="checked">
+				                    <input type="checkbox" id="tipoAttoCampo_{{tipoAttoCampo.id}}" ng-model="tipoAttoCampo.visibile" ng-if="!checkIfCampoEnabled(tipoAttoCampo.id)">
+				                    <input type="hidden" ng-model="tipoAttoCampo.codice" />
+				                    <input type="hidden" ng-model="tipoAttoCampo.descrizione" />
+				                    <input type="hidden" ng-model="tipoAttoCampo.id" />
+				                    <input type="hidden" ng-model="tipoAttoCampo.idTipoAtto" />
+				                    <label for="tipoAttoCampo_{{tipoAttoCampo.id}}">{{tipoAttoCampo.descrizione}}<br /><code>{{tipoAttoCampo.codice}}</code></label>
+				                </div>
+							</div>
+							
+							<div ng-if="infoTab==2" ng-class="infoTab==2 ? 'tab-pane active' : 'tab-pane'">
+								<br />
+		                        <div class="form-group">
+		                        	<div class="row">
+			                        	<div class="col-md-6">
+			                        		<div class="form-group">
+					                        	<div class="row">
+						                        	<div class="col-md-12">
+						                        		<label translate="cifra2gestattiApp.tipoAtto.ricerca.hiddenColumnsLabel">nascondi colonne</label>: 
+						                        	</div>
+						                        </div>
+						                        <div class="row">
+						                        	<div class="col-md-12">
+						                        		<input type="checkbox" ng-model="tipoAtto.attoRevocatoHidden"> <span translate="cifra2gestattiApp.tipoAtto.ricerca.hiddenColumns.attorevocato">attorevocato</span> 
+						                        	</div>
+						                        </div>
+						                        <div class="row">
+						                        	<div class="col-md-12">
+						                        		<input type="checkbox" ng-model="tipoAtto.tipoIterHidden"> <span translate="cifra2gestattiApp.tipoAtto.ricerca.hiddenColumns.tipoiter">tipoiter</span> 
+						                        	</div>
+						                        </div>
+						                        <div class="row">
+						                        	<div class="col-md-12">
+						                        		<input type="checkbox" ng-model="tipoAtto.codiceCupHidden"> <span translate="cifra2gestattiApp.tipoAtto.ricerca.hiddenColumns.cup">cup</span> 
+						                        	</div>
+						                        </div>
+						                        <div class="row">
+						                        	<div class="col-md-12">
+						                        		<input type="checkbox" ng-model="tipoAtto.codiceCigHidden"> <span translate="cifra2gestattiApp.tipoAtto.ricerca.hiddenColumns.cig">cig</span> 
+						                        	</div>
+						                        </div>
+						                        <div class="row">
+						                        	<div class="col-md-12">
+						                        		<input type="checkbox" ng-model="tipoAtto.tipoFinanziamentoHidden"> <span translate="cifra2gestattiApp.tipoAtto.ricerca.hiddenColumns.tipoFinanziamento">tipoFinanziamento</span> 
+						                        	</div>
+						                        </div>
+						                    </div>
+			                        	</div>
+			                        	<div class="col-md-6">
+			                        		<div class="form-group">
+					                        	<div class="row">
+						                        	<div class="col-md-12">
+						                        		<label translate="cifra2gestattiApp.tipoAtto.ricerca.statoConclusoLabel">stato concluso</label>: 
+						                        	</div>
+						                        </div>
+						                        <div class="row">
+						                        	<div class="col-md-12">
+						                        		<input type="checkbox" ng-model="tipoAtto.statoConclusoDataEsecutivita"> <span translate="cifra2gestattiApp.tipoAtto.ricerca.statoConcluso.conclusoByDataEsecutivita">data esecutivita</span> 
+						                        	</div>
+						                        </div>
+						                        <div class="row">
+						                        	<div class="col-md-12">
+						                        		<input type="checkbox" ng-model="tipoAtto.statoConclusoCompleto"> <span translate="cifra2gestattiApp.tipoAtto.ricerca.statoConcluso.statoConclusoCompleto">completo</span> 
+						                        	</div>
+						                        </div>
+						                        <div class="row">
+						                        	<div class="col-md-12">
+						                        		<input type="checkbox" ng-model="tipoAtto.statoConclusoRitirato"> <span translate="cifra2gestattiApp.tipoAtto.ricerca.statoConcluso.statoConclusoRitirato">ritirato</span> 
+						                        	</div>
+						                        </div>
+						                        <div class="row">
+						                        	<div class="col-md-12">
+						                        		<input type="checkbox" ng-model="tipoAtto.statoConclusoArchiviato"> <span translate="cifra2gestattiApp.tipoAtto.ricerca.statoConcluso.statoConclusoArchiviato">ritirato</span> 
+						                        	</div>
+						                        </div>
+						                        <div class="row">
+						                        	<div class="col-md-12">
+						                        		<input type="checkbox" ng-model="tipoAtto.statoConclusoAnnullato"> <span translate="cifra2gestattiApp.tipoAtto.ricerca.statoConcluso.statoConclusoAnnullato">annullato</span> 
+						                        	</div>
+						                        </div>
+						                        <div class="row">
+						                        	<div class="col-md-12">
+						                        		<input type="checkbox" ng-model="tipoAtto.statoConclusoRespinto"> <span translate="cifra2gestattiApp.tipoAtto.ricerca.statoConcluso.statoConclusoRespinto">respinto</span> 
+						                        	</div>
+						                        </div>
+						                        <div class="row">
+						                        	<div class="col-md-12">
+						                        		<input type="checkbox" ng-model="tipoAtto.statoConclusoDecaduto"> <span translate="cifra2gestattiApp.tipoAtto.ricerca.statoConcluso.statoConclusoDecaduto">decaduto</span> 
+						                        	</div>
+						                        </div>
+						                        <div class="row">
+						                        	<div class="col-md-12">
+						                        		<input type="checkbox" ng-model="tipoAtto.statoConclusoAttesaRelata"> <span translate="cifra2gestattiApp.tipoAtto.ricerca.statoConcluso.statoConclusoAttesaRelata">attesaRelata</span> 
+						                        	</div>
+						                        </div>
+						                    </div>
+			                        	</div>
+			                        </div>
+			                        <div ng-repeat="fase in tipoAtto.fasiRicerca">
+			                        	<div ng-style="{'margin-top' : ($index > 0 ? '30px' : '0px')}" class="row">
+				                        	<div class="col-md-12">
+				                        		<label>{{ ('cifra2gestattiApp.tipoAtto.ricerca.fase.' + fase.fase.codice.toLowerCase()) | translate }}:</label>
+				                        	</div>
+				                        </div>
+			                        	<div class="col-md-6">
+			                        		<div style="border-style: solid;border-color: #e8e3e32b;" ng-repeat="criterio in getCriteriByType(fase.criteri, 'I')" class="form-group">
+				                        		<input type="checkbox" ng-model="criterio.value" ng-change="criterioChanged(criterio)"> <span>{{ ('cifra2gestattiApp.tipoAtto.ricerca.criterio.' + criterio.criterio.codice.toLowerCase()) | translate }}</span>
+				                        		<div ng-if="criterio.criterio.aooBased && criterio.value">
+					                        		<ui-select multiple sortable="true" ng-model="criterio.aoos" theme="bootstrap" class="form-control">
+											        	<ui-select-match><span ng-class="{'entityDisabilitata': $item.highlighted}">{{'(' + $item.codice + ') ' + $item.descrizione + ($item.highlighted ? disableLabel : '')}}</span>
+											        	</ui-select-match>
+											            <ui-select-choices repeat="item in includiRef(aoos, criterio.criterio.aoos, 'descrizione', criterio.criterio.aoos) | filter: $select.search">
+											            	<div ng-bind-html="'(' + item.codice + ') ' + item.descrizione | highlight: $select.search"></div>
+											            </ui-select-choices>
+											        </ui-select>
+										        </div>
+										        <div ng-if="criterio.criterio.profiloBased && criterio.value">
+					                        		<ui-select multiple sortable="true" ng-model="criterio.profilos" theme="bootstrap" class="form-control">
+											        	<ui-select-match><span ng-class="{'entityDisabilitata': $item.highlighted}">{{$item.utente.nome + " "+ $item.utente.cognome + " - " + $item.descrizione + " ("+$item.aoo.codice+")"}}</span>
+											        	</ui-select-match>
+											            <ui-select-choices repeat="profilo in profilos | filter: $select.search track by profilo.id">
+		                            						<div ng-bind-html="profilo.utente ? profilo.utente.nome + ' ' + profilo.utente.cognome + ' - ' + profilo.descrizione + ' (' + profilo.aoo.codice + ')' : profilo.descrizione | highlight: $select.search"></div>
+		                    							</ui-select-choices>
+											        </ui-select>
+										        </div>
+										        <div ng-if="criterio.value">
+										        	<label>{{'cifra2gestattiApp.tipoAtto.ricerca.visibilitaCompleta' | translate}}:</label> 
+										        	<input type="checkbox" ng-model="criterio.visibilitaCompleta" ng-if="['APPARTENENZA_UFFICIO', 'APPARTENENZA_UFFICIO_FULL_VISIB'].indexOf(criterio.criterio.codice.toUpperCase()) < 0"/>
+										        	<input type="checkbox" disabled="disabled" checked="checked" ng-if="['APPARTENENZA_UFFICIO_FULL_VISIB'].indexOf(criterio.criterio.codice.toUpperCase()) > -1"/>
+										        	<input type="checkbox" disabled="disabled" ng-if="['APPARTENENZA_UFFICIO'].indexOf(criterio.criterio.codice.toUpperCase()) > -1"/>
+										        </div>
+						                    </div>
+			                        	</div>
+			                        	<div class="col-md-6">
+			                        		<div style="border-style: solid;border-color: #e8e3e32b;" ng-repeat="criterio in getCriteriByType(fase.criteri, 'E')" class="form-group">
+				                        		<input type="checkbox" ng-model="criterio.value"> <span>{{ ('cifra2gestattiApp.tipoAtto.ricerca.criterio.' + criterio.criterio.codice.toLowerCase()) | translate }}</span>
+				                        		<div ng-if="criterio.criterio.aooBased && criterio.value">
+					                        		<ui-select multiple sortable="true" ng-model="criterio.aoos" theme="bootstrap" class="form-control">
+											        	<ui-select-match><span ng-class="{'entityDisabilitata': $item.highlighted}">{{$item.descrizione + ($item.highlighted ? disableLabel : '')}}</span>
+											        	</ui-select-match>
+											            <ui-select-choices repeat="item in includiRef(aoos, criterio.criterio.aoos, 'descrizione', criterio.criterio.aoos) | filter: $select.search">
+											            	<div ng-bind-html="item.descrizione | highlight: $select.search"></div>
+											            </ui-select-choices>
+											        </ui-select>
+										        </div>
+										        <div ng-if="criterio.criterio.profiloBased && criterio.value">{{criterio.criterio.profiloBased}}{{criterio.value}}
+					                        		<ui-select multiple sortable="true" ng-model="criterio.profilos" theme="bootstrap" class="form-control">
+											        	<ui-select-match><span ng-class="{'entityDisabilitata': $item.highlighted}">{{$item.utente.nome + " "+ $item.utente.cognome + " - " + $item.descrizione + " ("+$item.aoo.codice+")"}}</span>
+											        	</ui-select-match>
+											            <ui-select-choices repeat="profilo in profilos | filter: $select.search track by $index">
+		                            						<div ng-bind-html="profilo.utente ? profilo.utente.nome + ' ' + profilo.utente.cognome + ' - ' + profilo.descrizione + ' (' + profilo.aoo.codice + ')' : profilo.descrizione | highlight: $select.search"></div>
+		                    							</ui-select-choices>
+											        </ui-select>
+											        
+											        <!-- <ui-select multiple sortable="true" ng-model="criterio.profilos" theme="bootstrap" class="form-control"">
+		                    		<span ng-if="$select.selected.id != 0">{{$select.selected.utente.nome}} {{$select.selected.utente.cognome}} - {{$select.selected.descrizione}} ({{$select.selected.aoo.codice}})</span>
+		                    		<span ng-if="$select.selected.id == 0">{{$select.selected.descrizione}}</span>
+		                    	</ui-select-match>
+		                    	<ui-select-choices repeat="profilo in profilosSearch | filter: $select.search track by $index">
+		                            <div ng-bind-html="profilo.utente ? profilo.utente.nome + ' ' + profilo.utente.cognome + ' - ' + profilo.descrizione + ' (' + profilo.aoo.codice + ')' : profilo.descrizione | highlight: $select.search"></div>
+		                    	</ui-select-choices> -->
+										        </div>
+						                    </div>
+			                        	</div>
+			                        </div>
+		                        </div>
+		                    </div>
+							
+						</div>
+                        
+                    </div>
+                    
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
+                            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+                        </button>
+                        <button type="submit" ng-disabled="editForm.$invalid" class="btn btn-primary">
+                            <span class="glyphicon glyphicon-save"></span>&nbsp;<span translate="entity.action.save">Save</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="deleteTipoIterConfirmation">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form name="deleteForm" ng-submit="confirmDeleteIter(tipoIter.id)">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                                ng-click="clear()">&times;</button>
+                        <h4 class="modal-title" translate="entity.delete.title">Confirm delete operation</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p translate="cifra2gestattiApp.tipoIter.delete.question" translate-values="{id: '{{tipoIter.descrizione}}'}">Are you sure you want to delete this TipoIter?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
+                            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+                        </button>
+                        <button type="submit" ng-disabled="deleteForm.$invalid" class="btn btn-danger">
+                            <span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span translate="entity.action.delete">Delete</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="deleteTipoAttoConfirmation">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form name="deleteForm" ng-submit="confirmDelete(tipoAtto.id)">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                                ng-click="clear()">&times;</button>
+                        <h4 class="modal-title" translate="entity.delete.title">Confirm delete operation</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p translate="cifra2gestattiApp.tipoAtto.delete.question" translate-values="{id: '{{tipoAtto.id}}'}">Are you sure you want to delete this TipoAtto?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
+                            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+                        </button>
+                        <button type="submit" ng-disabled="deleteForm.$invalid" class="btn btn-danger">
+                            <span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span translate="entity.action.delete">Delete</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="deleteTipoAttoDeletingError">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                 <div class="modal-header">
+                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                             ng-click="clear()">&times;</button>
+                     <h4 class="modal-title">Errore nella cancellazione</h4>
+                 </div>
+                 <div class="modal-body">
+                     <p>Il tipo di atto selezionato non pu&#242; essere eliminato in quanto risulta referenziato da altre entit&#224; del sistema.</p>
+                     <label class="btn btn-xs btn-primary" ng-click="showDetailErroreCancellazione = !showDetailErroreCancellazione">Visualizza/Nascondi Dettagli Errore</label>
+                     <p ng-show="showDetailErroreCancellazione">{{erroreCancellazione}}</p>
+                 </div>
+                 <div class="modal-footer">
+                     <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
+                         <span>OK</span>
+                     </button>
+                 </div>
+            </div>
+        </div>
+    </div>
+
+	<div>
+	    <div class="table-responsive crud-search">
+	        <table class="table table-striped">
+	            <thead>
+	                <tr>
+	                    <th>ID</th>
+	                    <th translate="cifra2gestattiApp.tipoAtto.codice">Codice</th>
+	                    <th translate="cifra2gestattiApp.tipoAtto.descrizione">Descrizione</th>
+	                    <th translate="cifra2gestattiApp.tipoAtto.tipoProgressivo">Tipo Progressivo</th>
+	                    <th translate="cifra2gestattiApp.tipoAtto.proponente">Proponente</th>
+	                    <th translate="cifra2gestattiApp.tipoAtto.consiglio">Atto di Consiglio</th>
+	                    <th translate="cifra2gestattiApp.tipoAtto.giunta">Atto di Giunta</th>
+	                    <th translate="cifra2gestattiApp.tipoAtto.enabled">Abilitato</th>
+	                    <th></th>
+	                </tr>
+	                <tr>
+			           <th></th>
+			           <th><input type="text" ng-model="tempSearch.codice"></th>
+			           <th><input type="text" ng-model="tempSearch.descrizione"></th>
+			           <th>
+			           		<ui-select ng-model="tempSearch.tipoProgressivo" theme="bootstrap">
+		                    	<ui-select-match allow-clear="true">{{$select.selected.descrizione}}</ui-select-match>
+		                    	<ui-select-choices repeat="cur in tipiProgressivo | filter: $select.search track by $index">
+		                            <div ng-bind-html="cur.descrizione | highlight: $select.search"></div>
+		                    	</ui-select-choices>
+	                      	</ui-select>
+			           </th>
+			           <th><si-no-select ng-model="tempSearch.proponente" ></si-no-select></th>
+			           <th><si-no-select ng-model="tempSearch.consiglio" ></si-no-select></th>
+			           <th><si-no-select ng-model="tempSearch.giunta" ></si-no-select></th>
+			           <th><si-no-select ng-model="tempSearch.enabled" ></si-no-select></th>
+			           <th><button class="btn btn-primary btn-sm" ng-click="ricerca()"><span class="glyphicon glyphicon-search"/> <span translate="global.messages.cerca">Ricerca</span></button> <button class="btn btn-primary btn-sm" ng-click="resetRicerca()"><span translate="global.messages.resetricerca">Reset ricerca</span></button></th>
+			        </tr>
+	            </thead>
+	            <tbody>
+	                <tr ng-repeat="tipoAtto in tipoAttos">
+	                    <td><a ui-sref="tipoAttoDetail({id:tipoAtto.id})">{{tipoAtto.id}}</a></td>
+	                    <td>{{tipoAtto.codice}}</td>
+	                    <td>{{tipoAtto.descrizione}}</td>
+	                    <td>{{tipoAtto.tipoProgressivo.descrizione}}</td>
+	                    <td>{{tipoAtto.proponente ? 'Si' : 'No'}}</td>
+	                    <td>{{tipoAtto.consiglio ? 'Si' : 'No'}}</td>
+	                    <td>{{tipoAtto.giunta ? 'Si' : 'No'}}</td>
+	                    <td>{{tipoAtto.enabled ? 'Si' : 'No'}}</td>
+	                    <td>
+	                        <button type="submit"
+	                                ui-sref="tipoAttoDetail({id:tipoAtto.id})"
+	                                class="btn btn-info btn-sm">
+	                            <span class="glyphicon glyphicon-eye-open"></span>&nbsp;<span translate="entity.action.view"> View</span>
+	                        </button>
+	                        <button type="submit"
+	                                ng-click="showUpdate(tipoAtto.id)"
+	                                class="btn btn-primary btn-sm">
+	                            <span class="glyphicon glyphicon-pencil"></span>&nbsp;<span translate="entity.action.edit"> Edit</span>
+	                        </button>
+	                        <button type="submit"
+	                        		ng-show="tipoAtto.enabled"
+	                                ng-click="disable(tipoAtto)"
+	                                class="btn btn-warning btn-sm">
+	                            <span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span translate="entity.action.disable"> Disable</span>
+	                        </button>
+	                        <button type="submit"
+	                        		ng-hide="tipoAtto.enabled"
+	                                ng-click="enable(tipoAtto)"
+	                                class="btn btn-success btn-sm">
+	                            <span class="glyphicon glyphicon-ok-circle"></span>&nbsp;<span translate="entity.action.enable"> Enable</span>
+	                        </button>
+	                        <button type="submit"
+	                                ng-click="delete(tipoAtto.id)"
+	                                class="btn btn-danger btn-sm">
+	                            <span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span translate="entity.action.delete"> Delete</span>
+	                        </button>
+	                    </td>
+	                </tr>
+	            </tbody>
+	        </table>
+	        <div ng-if="tipoAttos && tipoAttos.length == 0" class="search-no-result"><h3 translate="global.searchNoResult"></h3></div>
+	    </div>
+        <nav>
+            <ul class="pagination">
+                <li ng-show="links['first']" ng-click="loadPage(links['first'])"><a>&lt;&lt;</a></li>
+                <li ng-show="links['prev']" ng-click="loadPage(links['prev'])"><a>&lt;</a></li>
+                <li ng-show="page > 2" ng-click="loadPage(page - 2)"><a>{{page - 2}}</a></li>
+                <li ng-show="page > 1" ng-click="loadPage(page - 1)"><a>{{page - 1}}</a></li>
+                <li class="active"><a>{{page}}</a></li>
+                <li ng-show="page < links['last']" ng-click="loadPage(page + 1)"><a>{{page + 1}}</a></li>
+                <li ng-show="page < links['last'] - 1" ng-click="loadPage(page + 2)"><a>{{page + 2}}</a></li>
+                <li ng-show="links['next']" ng-click="loadPage(links['next'])"><a>&gt;</a></li>
+                <li ng-show="links['last']" ng-click="loadPage(links['last'])"><a>&gt;&gt;</a></li>
+            </ul>
+        </nav>
+    </div>
+</div>

@@ -1,0 +1,44 @@
+{
+    "cifra2gestattiApp": {
+        "profilo" : {
+            "home": {
+                "title": "Lista Profilo",
+                "createLabel": "Crea nuovo Profilo",
+                "createOrEditLabel": "Crea o Modifica un Profilo"
+            },
+            "delete": {
+                "question": "Sei sicuro di voler eliminare il profilo {{ id }}?"
+            },
+            "detail": {
+                "title": "Profilo"
+            },
+            "filtro":{
+                "futureEnabled":"Disabilitato per nuove attivit\u00E0",
+            	"label-stato" : "Stato",
+            	"statoFuture" : {
+            		"disattivati" : "Disabilitati per nuove attivit\u00E0",
+            		"attivi" : "Abilitati per nuove attivit\u00E0",
+            		"entrambi" : "Entrambi"
+            	},
+            	"stato" : {
+            		"disattivati" : "Profili disabilitati",
+            		"attivi" : "Profili attivi",
+            		"entrambi" : "Entrambi"
+            	}
+            },
+            "descrizione": "Descrizione",
+            "validodal": "Valido dal",
+            "validoal": "Valido al",
+            "delega": "Delega",
+            "tipoAtto": "Tipo Atto",
+            "utente": "Utente",
+            "grupporuolo": "Gruppo Ruolo",
+            "ruoli": "Ruoli",
+            "qualificaProfessionale":"Qualifica Professionale",
+            "aoo":"Ufficio",
+            "disableTitle": "Conferma Disabilitazione Profilo",
+            "alreadyExists":"Attenzione. Risulta giÃ  presente nel sistema un profilo con stessa utenza ed Uffici selezionati."
+            
+        }
+    }
+}

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    <changeSet author="magria" id="202103091656-0001">
+    	<sql>
+			INSERT INTO task_per_ricerca (id,tipoatto_id,key_code,descrizione,type_code) VALUES (19,2,'coordinamento_testo_giunta','Coordinamento testo','TASK');
+			INSERT INTO task_per_ricerca (id,tipoatto_id,key_code,descrizione,type_code) VALUES (20,2,'Task_0ruaqdp','Visto Segretario seduta','TASK');
+			INSERT INTO task_per_ricerca (id,tipoatto_id,key_code,descrizione,type_code) VALUES (21,2,'RegolaritaModificaRespContabile','Regolarità modifica Resp contabile','TASK');
+			INSERT INTO task_per_ricerca (id,tipoatto_id,key_code,descrizione,type_code) VALUES (22,2,'RegolaritaModificaRespTecnico','Regolarità modifica Resp tecnico','TASK');
+			INSERT INTO task_per_ricerca (id,tipoatto_id,key_code,descrizione,type_code) VALUES (23,2,'UserTask_11qz3qe','Genera e Firma Atto','TASK');
+			INSERT INTO task_per_ricerca (id,tipoatto_id,key_code,descrizione,type_code) VALUES (24,2,'Task_0xzcxwe','Firma Resp contabile','TASK');
+			INSERT INTO task_per_ricerca (id,tipoatto_id,key_code,descrizione,type_code) VALUES (25,2,'Task_0f0ab3n','Firma Segretario seduta','TASK');
+			INSERT INTO task_per_ricerca (id,tipoatto_id,key_code,descrizione,type_code) VALUES (26,2,'Task_17ibxzt','Firma Presidente seduta','TASK');
+			INSERT INTO task_per_ricerca (id,tipoatto_id,key_code,descrizione,type_code) VALUES (27,2,'Task_1fvjyom','Pubblica atto','TASK');
+			INSERT INTO task_per_ricerca (id,tipoatto_id,key_code,descrizione,type_code) VALUES (28,3,'UserTask_10p5632','Genera e Firma Atto','TASK');
+			INSERT INTO task_per_ricerca (id,tipoatto_id,key_code,descrizione,type_code) VALUES (29,3,'UserTask_0y4t4il','Firma Resp contabile','TASK');
+			INSERT INTO task_per_ricerca (id,tipoatto_id,key_code,descrizione,type_code) VALUES (30,3,'UserTask_0s1z6ns','Firma Presidente seduta','TASK');
+			INSERT INTO task_per_ricerca (id,tipoatto_id,key_code,descrizione,type_code) VALUES (31,3,'UserTask_1e8aggg','Firma Segretario seduta','TASK');
+			INSERT INTO task_per_ricerca (id,tipoatto_id,key_code,descrizione,type_code) VALUES (32,3,'Task_1fvjyom','Pubblica atto','TASK');
+			INSERT INTO task_per_ricerca (id,tipoatto_id,key_code,descrizione,type_code) VALUES (33,19,'coordinamento_testo','Coordinamento testo','TASK');
+			INSERT INTO task_per_ricerca (id,tipoatto_id,key_code,descrizione,type_code) VALUES (34,19,'UserTask_06njlhn','Visto Segretario seduta','TASK');
+			INSERT INTO task_per_ricerca (id,tipoatto_id,key_code,descrizione,type_code) VALUES (35,19,'UserTask_0u5rxyj','Genera Atto','TASK');
+			INSERT INTO task_per_ricerca (id,tipoatto_id,key_code,descrizione,type_code) VALUES (36,19,'Task_1fmeihz','Firma Presidente seduta','TASK');
+			INSERT INTO task_per_ricerca (id,tipoatto_id,key_code,descrizione,type_code) VALUES (37,19,'Task_1fj0rat','Firma Segretario seduta','TASK');
+			INSERT INTO task_per_ricerca (id,tipoatto_id,key_code,descrizione,type_code) VALUES (38,19,'Task_1fvjyom','Pubblica atto','TASK');
+			INSERT INTO task_per_ricerca (id,tipoatto_id,key_code,descrizione,type_code) VALUES (39,11,'coordinamento_testo_giunta','Coordinamento testo','TASK');
+			INSERT INTO task_per_ricerca (id,tipoatto_id,key_code,descrizione,type_code) VALUES (40,11,'UserTask_12ad74k','Visto Segretario seduta','TASK');
+			INSERT INTO task_per_ricerca (id,tipoatto_id,key_code,descrizione,type_code) VALUES (41,11,'Task_116iz7v','Verifica proposta','TASK');
+			INSERT INTO task_per_ricerca (id,tipoatto_id,key_code,descrizione,type_code) VALUES (42,11,'IntermediateCatchEvent_0zw2qdw','Attesa Registrazione Esito Seduta','TASK');
+			INSERT INTO task_per_ricerca (id,tipoatto_id,key_code,descrizione,type_code) VALUES (43,11,'UserTask_0nmaohh','Genera e Firma Atto','TASK');
+			INSERT INTO task_per_ricerca (id,tipoatto_id,key_code,descrizione,type_code) VALUES (44,11,'UserTask_0z951mb','Firma Resp contabile','TASK');
+			INSERT INTO task_per_ricerca (id,tipoatto_id,key_code,descrizione,type_code) VALUES (45,11,'UserTask_0tudefw','Firma Presidente seduta','TASK');
+			INSERT INTO task_per_ricerca (id,tipoatto_id,key_code,descrizione,type_code) VALUES (46,11,'UserTask_0d1nnyv','Firma Segretario seduta','TASK');
+			INSERT INTO task_per_ricerca (id,tipoatto_id,key_code,descrizione,type_code) VALUES (47,11,'Task_1fvjyom','Pubblica atto','TASK');
+			INSERT INTO tipologia_ricerca_task (tip_ricerca_id,task_id) VALUES (3,19);
+			INSERT INTO tipologia_ricerca_task (tip_ricerca_id,task_id) VALUES (3,20);
+			INSERT INTO tipologia_ricerca_task (tip_ricerca_id,task_id) VALUES (3,21);
+			INSERT INTO tipologia_ricerca_task (tip_ricerca_id,task_id) VALUES (3,22);
+			INSERT INTO tipologia_ricerca_task (tip_ricerca_id,task_id) VALUES (3,23);
+			INSERT INTO tipologia_ricerca_task (tip_ricerca_id,task_id) VALUES (3,24);
+			INSERT INTO tipologia_ricerca_task (tip_ricerca_id,task_id) VALUES (3,25);
+			INSERT INTO tipologia_ricerca_task (tip_ricerca_id,task_id) VALUES (3,26);
+			INSERT INTO tipologia_ricerca_task (tip_ricerca_id,task_id) VALUES (3,27);
+			INSERT INTO tipologia_ricerca_task (tip_ricerca_id,task_id) VALUES (4,1);
+			INSERT INTO tipologia_ricerca_task (tip_ricerca_id,task_id) VALUES (4,3);
+			INSERT INTO tipologia_ricerca_task (tip_ricerca_id,task_id) VALUES (4,4);
+			INSERT INTO tipologia_ricerca_task (tip_ricerca_id,task_id) VALUES (4,5);
+			INSERT INTO tipologia_ricerca_task (tip_ricerca_id,task_id) VALUES (4,7);
+			INSERT INTO tipologia_ricerca_task (tip_ricerca_id,task_id) VALUES (4,8);
+			INSERT INTO tipologia_ricerca_task (tip_ricerca_id,task_id) VALUES (4,9);
+			INSERT INTO tipologia_ricerca_task (tip_ricerca_id,task_id) VALUES (4,10);
+			INSERT INTO tipologia_ricerca_task (tip_ricerca_id,task_id) VALUES (4,28);
+			INSERT INTO tipologia_ricerca_task (tip_ricerca_id,task_id) VALUES (4,29);
+			INSERT INTO tipologia_ricerca_task (tip_ricerca_id,task_id) VALUES (4,30);
+			INSERT INTO tipologia_ricerca_task (tip_ricerca_id,task_id) VALUES (4,31);
+			INSERT INTO tipologia_ricerca_task (tip_ricerca_id,task_id) VALUES (4,32);
+			INSERT INTO tipologia_ricerca_task (tip_ricerca_id,task_id) VALUES (4,33);
+			INSERT INTO tipologia_ricerca_task (tip_ricerca_id,task_id) VALUES (4,34);
+			INSERT INTO tipologia_ricerca_task (tip_ricerca_id,task_id) VALUES (4,35);
+			INSERT INTO tipologia_ricerca_task (tip_ricerca_id,task_id) VALUES (4,36);
+			INSERT INTO tipologia_ricerca_task (tip_ricerca_id,task_id) VALUES (4,37);
+			INSERT INTO tipologia_ricerca_task (tip_ricerca_id,task_id) VALUES (4,38);
+			INSERT INTO tipologia_ricerca_task (tip_ricerca_id,task_id) VALUES (3,39);
+			INSERT INTO tipologia_ricerca_task (tip_ricerca_id,task_id) VALUES (3,40);
+			INSERT INTO tipologia_ricerca_task (tip_ricerca_id,task_id) VALUES (4,43);
+			INSERT INTO tipologia_ricerca_task (tip_ricerca_id,task_id) VALUES (4,44);
+			INSERT INTO tipologia_ricerca_task (tip_ricerca_id,task_id) VALUES (4,45);
+			INSERT INTO tipologia_ricerca_task (tip_ricerca_id,task_id) VALUES (4,46);
+			INSERT INTO tipologia_ricerca_task (tip_ricerca_id,task_id) VALUES (4,47);
+		</sql>
+    </changeSet>
+</databaseChangeLog>

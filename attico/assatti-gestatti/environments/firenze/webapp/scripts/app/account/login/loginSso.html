@@ -1,0 +1,82 @@
+<div class="row">
+    <div class="col-md-4 col-md-offset-4">
+        <div class="alert alert-danger" ng-show="authenticationError">
+            <strong>L'utente potrebbe essere non autorizzato o profilato per accedere al sistema</strong> Utilizzare il seguente link per cambiare utente.
+        </div>
+        <button ng-show="authenticationError" class="btn btn-primary" ng-click="changeuser()">Cambia utente</button>
+    </div>
+</div>
+
+<div class="modal fade" id="discardConcurrentSessionFormConfirmation">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form name="exitForm" ng-submit="discardConcurrentSessionConfirmation()">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="clear()">&times;</button>
+                    <h4 class="modal-title">Utente gi&#224; loggato</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Un'altra sessione risulta gi&#224; aperta con la stessa utenza:
+                    <br> - premendo il pulsante "Chiudi Altra Sessione" sar&#224; chiusa l'altra sessione attualmente attiva e sar&#224; poi possibile effettuare un nuovo accesso; 
+                    <br> - premendo il pulsante "Annulla" l'altra sessione non sar&#224; chiusa. 
+                    <br>Si desidera chiudere l'altra sessione attiva con questa utenza?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default everActive" data-dismiss="modal" ng-click="dismissModal()"  >
+                        <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+                    </button>
+                    <button type="submit" class="btn btn-danger everActive">
+                        <span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span>Chiudi Altra Sessione</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="loginGiaEffettuato">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form name="exitForm" ng-submit="logoutLS()">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Utente gi&#224; loggato</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Un'altra sessione risulta gi&#224; aperta in questo stesso browser. Probabilmente si stanno utilizzando finestre o tab multipli.
+                    <br> - premendo il pulsante "Chiudi Altra Sessione" sar&#224; chiusa la sessione attualmente attiva e sar&#224; poi possibile effettuare un nuovo accesso; 
+                    <br> - premendo il pulsante "Annulla" l'altra sessione non sar&#224; chiusa.
+                    <br>Si desidera chiudere l'altra sessione attiva con questa utenza?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default everActive" data-dismiss="modal" ng-click="dismissModal()"  >
+                        <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+                    </button>
+                    <button type="submit" class="btn btn-danger everActive">
+                        <span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span>Chiudi Altra Sessione</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="concurrentSessionDeleted">
+    <div class="modal-dialog">
+        <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="clear()">&times;</button>
+                    <h4 class="modal-title">Altra sessione terminata</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Altra sessione terminata con successo.
+                    <br>&#200; ora possibile effetture un nuovo accesso.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default everActive" data-dismiss="modal" ng-click="goHome()">
+                        <font color="green"><span class="glyphicon glyphicon-ok"></span></font>&nbsp;<span>Ok</span>
+                    </button>
+                </div>
+        </div>
+    </div>
+</div>

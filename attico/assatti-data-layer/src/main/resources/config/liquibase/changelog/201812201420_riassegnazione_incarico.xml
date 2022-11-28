@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    
+    <changeSet author="chiriacog" id="201812201420-1">
+    	<sql>
+    	CREATE TABLE `riassegnazione_incarico` (
+		  `id` BIGINT(20) NOT NULL,
+		  `id_configurazione_incarico` BIGINT(20) NOT NULL,
+		  `id_profilo_provenienza` BIGINT(20) NOT NULL,
+		  `id_profilo_assegnazione` BIGINT(20) NOT NULL,
+		  `id_profilo_responsabile` BIGINT(20) NOT NULL,
+		  `created_date` DATETIME(6) NOT NULL,
+		  `task_id` VARCHAR(255) NOT NULL,
+		  `task_name` VARCHAR(1000) NULL,
+		  PRIMARY KEY (`id`),
+		  INDEX `fk_ri_profilo_prov_idx` (`id_profilo_provenienza` ASC),
+		  INDEX `fk_rii_profilo_dest_idx` (`id_profilo_assegnazione` ASC),
+		  INDEX `fk_ri_profilo_resp_idx` (`id_profilo_responsabile` ASC),
+		  INDEX `fk_ri_config_incarico_idx` (`id_configurazione_incarico` ASC),
+		  CONSTRAINT `fk_ri_profilo_prov`
+		    FOREIGN KEY (`id_profilo_provenienza`)
+		    REFERENCES `profilo` (`id`)
+		    ON DELETE NO ACTION
+		    ON UPDATE NO ACTION,
+		  CONSTRAINT `fk_ri_profilo_dest`
+		    FOREIGN KEY (`id_profilo_assegnazione`)
+		    REFERENCES `profilo` (`id`)
+		    ON DELETE NO ACTION
+		    ON UPDATE NO ACTION,
+		  CONSTRAINT `fk_ri_profilo_resp`
+		    FOREIGN KEY (`id_profilo_responsabile`)
+		    REFERENCES `profilo` (`id`)
+		    ON DELETE NO ACTION
+		    ON UPDATE NO ACTION,
+		  CONSTRAINT `fk_ri_config_incarico`
+		    FOREIGN KEY (`id_configurazione_incarico`)
+		    REFERENCES `configurazione_incarico` (`id`)
+		    ON DELETE NO ACTION
+		    ON UPDATE NO ACTION);
+    	</sql>
+    </changeSet>
+</databaseChangeLog>

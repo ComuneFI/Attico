@@ -1,0 +1,19 @@
+{
+    "cifra2gestattiApp": {
+        "stato" : {
+            "home": {
+                "title": "Elenco Stati",
+                "createLabel": "Crea nuovo Stato",
+                "createOrEditLabel": "Crea/Modifica uno Stato"
+            },
+            "delete": {
+                "question": "Sei sicuro di voler eliminare lo Stato {{ id }}?"
+            },
+            "detail": {
+                "title": "Stato"
+            },
+            "codice": "Codice",
+            "descrizione": "Descrizione"
+        }
+    }
+}

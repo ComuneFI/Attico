@@ -1,0 +1,189 @@
+<div>
+
+ 
+	 <aoo-info ng-model="aoo" ></aoo-info>
+	<div class="row">
+
+		<div class="col-sm-12">
+
+
+
+			<div class="form-group ">
+				<div ui-tree="options" >
+
+
+					<ol ui-tree-nodes ng-model="tipoMaterie" data-type="tipoMateria" data-nodrag   >
+						
+
+						<li ng-repeat="tipoMateria in tipoMaterie" ui-tree-node data-collapsed="true"  >
+
+							<div ui-tree-handle class="tree-node tree-node-content" >
+
+								<a class="btn btn-success btn-sm" ng-if="tipoMateria.materie && tipoMateria.materie.length > 0" 
+									ng-click="toggle(this)">
+									<span class="glyphicon" ng-class="{ 'glyphicon-chevron-right': collapsed, 'glyphicon-chevron-down': !collapsed }"></span>
+								</a>
+								<label ng-if="!tipoMateria.edit">{{tipoMateria.descrizione}}</label>
+
+								<form  ng-if="tipoMateria.edit" name="editForm" role="form" novalidate ng-submit="salvaTipoMateria(tipoMateria)" 
+								show-validation>
+
+								<div class="form-group col-md-12" >
+									<label>Descrizione tipo materia</label>
+									<input type="text"  class="form-control" ng-model="tipoMateria.descrizione"   required="true"   
+									placeholder="Descrizione tipo materia"/>
+								</div>
+
+
+								<validita-form ng-model="tipoMateria.validita" ></validita-form>
+
+
+								<button type="button" class="btn btn-default"  ng-click="cancelEdit(tipoMateria)">
+									<span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+								</button>
+
+								<button type="submit" ng-disabled="editForm.$invalid" class="btn btn-primary">
+									<span class="glyphicon glyphicon-save"></span>&nbsp;<span translate="entity.action.save">Save</span>
+								</button>
+
+
+							</form>
+							<div class="pull-right" ng-if="!tipoMateria.edit && tipoMateria.aoo.id === aoo.id" >
+								<a class="pull-right btn btn-danger btn-sm"  ng-click="edit(tipoMateria)"  >Modifica tipo materia <span
+									class="glyphicon glyphicon-edit"></span></a>
+
+
+								</div>
+							</div>
+
+							<ol ui-tree-nodes="" ng-model="tipoMateria.materie" data-type="materia"  ng-class="{hidden: collapsed}">
+								<li ng-repeat="materia in tipoMateria.materie" ui-tree-node data-collapsed="true"  >
+									<div ui-tree-handle class="tree-node tree-node-content" >
+
+										<a class="btn btn-success btn-sm" ng-if="materia.sottoMaterie && materia.sottoMaterie.length > 0" 
+											ng-click="toggle(this)">
+											<span class="glyphicon" ng-class="{ 'glyphicon-chevron-right': collapsed, 'glyphicon-chevron-down': !collapsed }"></span>
+										</a>
+										<label ng-if="!materia.edit">{{materia.descrizione}} </label>
+
+										<form   ng-if="materia.edit" name="editForm" role="form" novalidate ng-submit="salvaMateria(materia)" 
+										show-validation>
+
+
+										<div class="form-group col-md-12" >
+											<label>Descrizione materia</label>
+											<input type="text"  class="form-control" ng-model="materia.descrizione"   required="true"   
+											placeholder="Descrizione materia"/>
+										</div>
+
+
+										<validita-form ng-model="materia.validita" ></validita-form> 
+
+										<button type="button" class="btn btn-default"  ng-click="cancelEdit(materia)">
+											<span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+										</button>
+
+										<button type="submit" ng-disabled="editForm.$invalid" class="btn btn-primary">
+											<span class="glyphicon glyphicon-save"></span>&nbsp;<span translate="entity.action.save">Save</span>
+										</button>
+
+
+									</form>
+
+
+									<div class="pull-right" ng-if="!materia.edit && materia.aoo.id === aoo.id" >
+										<a class="pull-right btn btn-danger btn-sm"  ng-click="edit(materia)"  >Modifica materia <span
+											class="glyphicon glyphicon-edit"></span></a>
+											
+										</div>
+
+										<ol ui-tree-nodes="" ng-model="materia.sottoMaterie" data-type="materia"  ng-class="{hidden: collapsed}">
+											<li ng-repeat="sottoMateria in materia.sottoMaterie" ui-tree-node data-collapsed="true" >
+
+
+
+												<div ui-tree-handle class="tree-node tree-node-content" >
+
+													<label ng-if="!sottoMateria.edit">{{sottoMateria.descrizione}}</label>
+
+													<form   ng-if="sottoMateria.edit" name="editForm" role="form" novalidate
+													ng-submit="salvaSottoMateria(sottoMateria )" 
+													show-validation>
+
+
+													<div class="form-group col-md-12" >
+														<label>Descrizione sotto materia</label>
+														<input type="text"  class="form-control" ng-model="sottoMateria.descrizione"   required="true"   
+														placeholder="Descrizione sotto materia"/>
+													</div>
+
+													<validita-form ng-model="sottoMateria.validita" ></validita-form>
+
+													<button type="button" class="btn btn-default"  ng-click="cancelEdit(sottoMateria)">
+														<span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+													</button>
+
+													<button type="submit" ng-disabled="editForm.$invalid" class="btn btn-primary">
+														<span class="glyphicon glyphicon-save"></span>&nbsp;<span translate="entity.action.save">Save</span>
+													</button>
+
+
+												</form>
+
+
+												<div class="pull-right" ng-if="!sottoMateria.edit  && sottoMateria.aoo.id === aoo.id" >
+													<a class="pull-right btn btn-danger btn-sm"  ng-click="edit(sottoMateria)"  >Modifica sotto materia <span
+														class="glyphicon glyphicon-edit"></span></a>
+
+													</div>
+												</div>
+
+
+											</li>
+											<li  >
+												<div ui-tree-handle class="tree-node tree-node-content" >
+													<label>
+														<a class="pull-left btn btn-primary btn-sm"    ng-click="addSottoMateria(materia)"  >Aggiungi sotto materia <span
+															class="glyphicon glyphicon-plus"></span></a>
+														</label>
+													</div>
+												</li>
+											</ol> 
+										</li>
+
+										<li>
+											<div ui-tree-handle class="tree-node tree-node-content" >
+												<label>
+													<a class="pull-left btn btn-primary btn-sm"    ng-click="addMateria(tipoMateria)"  >Aggiungi materia <span
+														class="glyphicon glyphicon-plus"></span></a>
+													</label>
+												</div>
+											</li>
+
+										</ol>
+									</li>
+
+									<li>
+										<div   class="tree-node tree-node-content" >
+											<label>
+												<a class="pull-left btn btn-primary btn-sm"    ng-click="addTipomateria()"   >Aggiungi Tipo Materia  <span
+													class="glyphicon glyphicon-plus"></span></a>
+												</label>
+											</div>
+										</li>
+
+
+									</ol>
+								</div>
+							</div>
+						</div>
+
+
+					</div>
+
+
+
+
+
+
+				</div>

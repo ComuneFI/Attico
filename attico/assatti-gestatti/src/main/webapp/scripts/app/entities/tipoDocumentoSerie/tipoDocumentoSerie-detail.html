@@ -1,0 +1,54 @@
+
+<div>
+    <h2><span translate="cifra2gestattiApp.tipoDocumentoSerie.detail.title">TipoDocumentoSerie</span> {{tipoDocumentoSerie.id}}</h2>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th translate="entity.detail.field">Field</th>
+                    <th translate="entity.detail.value">Value</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.tipoDocumentoSerie.descrizione">Descrizione</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{tipoDocumentoSerie.descrizione}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.tipoDocumentoSerie.codice">Codice</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{tipoDocumentoSerie.codice}}" readonly>
+                    </td>
+                </tr>
+<!--                 <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.tipoDocumentoSerie.isProposta">Proposta</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{tipoDocumentoSerie.isProposta ? 'SI' : 'NO' }}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.tipoDocumentoSerie.tipoAtto">TipoAtto</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{tipoDocumentoSerie.tipoAtto.descrizione}}" readonly>
+                    </td>
+                </tr> -->
+            </tbody>
+        </table>
+    </div>
+
+    <button type="submit"
+            ui-sref="tipoDocumentoSerie"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span translate="entity.action.back"> Back</span>
+    </button>
+</div>

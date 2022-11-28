@@ -1,0 +1,32 @@
+{
+    "cifra2gestattiApp": {
+        "tipoMateria" : {
+            "home": {
+                "title": "Gestione Materie LR 15",
+                "createLabel": "Crea nuovo Tipo Materia",
+                "createOrEditLabel": "Crea o modifica Tipo Materia"
+            },
+            "delete": {
+                "question": "Sei sicuro di voler cancellare il Tipo Materia {{ id }}?"
+            },
+            "detail": {
+                "title": "Tipo Materia"
+            },
+            "filtro":{
+            	"label-stato" : "Stato",
+            	"stato" : {
+            		"disattivati" : "Tipi Materia disabilitati",
+            		"attivi" : "Tipi Materia attivi",
+            		"entrambi" : "Entrambi"
+            	}
+            },
+            "descrizione": "Descrizione",
+            "aoo": "ufficio",
+            "messages": {
+	            "error": {
+	                "operationNotPermitted": "Non \u00E8 possibile effettuare l\u0027operazione in quanto l\u0027elemento \u00E8 incluso in uno o pi\u00F9 atti."
+	            }
+	        }
+        }
+    }
+}

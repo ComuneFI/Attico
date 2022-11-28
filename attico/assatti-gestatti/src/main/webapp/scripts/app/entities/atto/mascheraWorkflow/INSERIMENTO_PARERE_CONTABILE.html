@@ -1,0 +1,24 @@
+<div>
+	<div class="form-group">
+		<label>Parere</label>
+		<textarea class="form-control" name="parere" ng-model="dtoWorkflow.parere.parere"></textarea>
+	</div>
+
+	<div class="form-group col-md-6">
+		<label>Parere Sintetico</label> *
+		<select class="form-control everActive"
+			name="parereSintetico" ng-model="dtoWorkflow.parere.parereSintetico"
+			required>
+			<option></option>
+			<option value="positivo">Positivo</option>
+			<option value="negativo">Negativo</option>
+		</select>
+	</div>
+
+	<div class="form-group col-md-6">
+		<i class="fa fa-calendar"></i> <label>Data</label> *
+		<input type="text" class="form-control everActive" name="data" 
+			ng-model="dtoWorkflow.parere.data" bs-datepicker readonly>
+	</div>
+
+</div>

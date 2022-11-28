@@ -1,0 +1,71 @@
+
+<div>
+    <h2><span translate="cifra2gestattiApp.obbligo_DL33.detail.title">Obbligo_DL33</span> {{obbligo_DL33.id}}</h2>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th translate="entity.detail.field">Field</th>
+                    <th translate="entity.detail.value">Value</th>
+                </tr>
+            </thead>
+            <tbody>
+				<tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.obbligo_DL33.codice">Codice</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{obbligo_DL33.codice}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.obbligo_DL33.descrizione">Descrizione</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{obbligo_DL33.descrizione}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.obbligo_DL33.attivo">Attivo</span>
+                    </td>
+                    <td>
+                        <input ng-if="obbligo_DL33.attivo==true" type="text" class="input-sm form-control" value="Si" readonly>
+                        <input ng-if="obbligo_DL33.attivo==false" type="text" class="input-sm form-control" value="No" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.obbligo_DL33.cat_obbligo_DL33">cat_obbligo_DL33</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{obbligo_DL33.cat_obbligo_DL33.descrizione}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.obbligo_DL33.macro_cat_obbligo_DL33">macro_cat_obbligo_DL33</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{obbligo_DL33.cat_obbligo_DL33.fk_cat_obbligo_macro_cat_obbligo_idx.descrizione}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.obbligo_DL33.schede">schede</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{obbligo_DL33.schedas && obbligo_DL33.schedas.length > 0 ? 'Si' : 'No'}}" readonly>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <button type="submit"
+            ui-sref="obbligo_DL33"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span translate="entity.action.back"> Back</span>
+    </button>
+</div>

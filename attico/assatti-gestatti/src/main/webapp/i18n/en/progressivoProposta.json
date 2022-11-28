@@ -1,0 +1,22 @@
+{
+    "cifra2gestattiApp": {
+        "progressivoProposta" : {
+            "home": {
+                "title": "ProgressivoPropostas",
+                "createLabel": "Create a new ProgressivoProposta",
+                "createOrEditLabel": "Create or edit a ProgressivoProposta"
+            },
+            "delete": {
+                "question": "Are you sure you want to delete ProgressivoProposta {{ id }}?"
+            },
+            "detail": {
+                "title": "ProgressivoProposta"
+            },
+            "anno": "Anno",
+            "progressivo": "Progressivo",
+            "tipoAtto": "tipoAtto",
+            "tipoProposta": "Tipo Proposta",
+            "aoo": "ufficio"
+        }
+    }
+}

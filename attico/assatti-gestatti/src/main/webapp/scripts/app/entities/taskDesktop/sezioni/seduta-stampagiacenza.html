@@ -1,0 +1,13 @@
+<div>
+	<div class="form-group">
+		<label  >Modello documento</label>
+  			 <select class="form-control everActive" name="modelloHtmlId" ng-model="modelloHtmlId" ng-options="modello.titolo for modello in modelloHtmlsOdg track by modello.id" required>
+		</select>				
+	</div>
+	<div class="form-group">
+		<label>Includere le proposte sospese?</label>
+  			<select ng-change="onChangeSelectGiacenza(includiSospese)" class="form-control everActive" name="includiSospese" ng-model="includiSospese" 
+  			        ng-options="sel.label for sel in selectIncludiSospeseList track by sel.id" required>
+		</select>				
+	</div>
+</div>

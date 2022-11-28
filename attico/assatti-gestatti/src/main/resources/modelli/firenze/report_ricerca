@@ -1,0 +1,29 @@
+<p><title>Report Ricerca</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></p>
+<p><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></p>
+<p style="text-align: center; "><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><span style="font-size: 24px;">REPORT RICERCA</span></p>
+<p style="font-size:12px;">	<span>Ricerca effettuata da</span><br>	<span><b>Nome Utente: </b>[[${user.get('nome')}]] [[${user.get('cognome')}]]</span><br>	<span><b>AOO: </b></span><span th:each="aoo,iterator : ${aoos}"><span th:if="${iterator.index != (aoos.size()-1) || aoos.size() == 1}">[[${aoo.codice}]] - [[${aoo.descrizione}]]</span><span th:if="${iterator.index + 1 < aoos.size()}"> &gt; </span><span th:if="${iterator.index == (aoos.size()-1) &amp;&amp; aoos.size() != 1}"><b>[[${aoo.codice}]] - [[${aoo.descrizione}]]</b></span></span><br>	<span><b>Data: </b>[[${data}]] ore [[${ora}]]</span></p>
+<div style="margin-top:0px;">	<table width="100%" border="0">
+		<tbody>
+<tr>
+			<td align="center">				<span th:if="${fixedCriteri.tipoAtto!=null and !#strings.isEmpty(#strings.trim(fixedCriteri.tipoAtto))}" style="font-size:12px;"><b>Tipo di Atto</b>: <i>[[${fixedCriteri.tipoAtto}]]</i>&nbsp;&nbsp;&nbsp;</span><span th:if="${fixedCriteri.viewtype!=null and !#strings.isEmpty(#strings.trim(fixedCriteri.viewtype))}" style="font-size:12px;"><b>Tipo di Ricerca</b>: <i>[[${fixedCriteri.viewtype}]]</i>&nbsp;&nbsp;&nbsp;</span><span th:if="${fixedCriteri.anno!=null}" style="font-size:12px;"><b>Anno</b>: <i>[[${fixedCriteri.anno}]]</i></span>			</td>
+		</tr>
+		<tr th:if="${userCriteri.size() >
+ 0}">			<td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000; padding-top: 0.1cm; padding-bottom: 0.1cm; padding-left: 0.1cm; padding-right: 0.1cm" align="center">				<span style="font-size:12px;"><b>CRITERI DI RICERCA</b></span><br>				<span th:each="criterio,iterator : ${userCriteri}" style="font-size:12px;"><b>[[${criterio.key}]]</b>: <i>[[${criterio.value}]]</i>&nbsp;&nbsp;&nbsp;</span>			</td>
+		</tr>
+	</tbody>
+</table>
+</div>
+<div>	<span style="font-size:9px;" th:if="${list.size() > 1}">[[${list.size()-1}]] Risultati trovati</span>    <table width="100%" border="1">
+     	<tbody>
+<tr th:each="riga,iterator : ${list}">
+			<td th:if="${iterator.index == 0}" th:each="col : ${riga}" style="font-weight:bold; background-color:#7FC2BC; border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000; padding-top: 0.05cm; padding-bottom: 0.05cm; padding-left: 0.05cm; padding-right: 0cm">				<span style="font-size:9px;">[[${col}]]</span>			</td>
+			<td th:if="${iterator.index != 0 &amp;&amp; iterator.index % 2 == 0}" style="background-color:#FFFFD0; border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000; padding-top: 0.05cm; padding-bottom: 0.05cm; padding-left: 0.05cm; padding-right: 0cm" th:each="col : ${riga}">				<span style="font-size:7px;">[[${col}]]</span>			</td>
+			<td th:if="${iterator.index != 0 &amp;&amp; iterator.index % 2 != 0}" style="background-color:#F7F7F7; border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000; padding-top: 0.05cm; padding-bottom: 0.05cm; padding-left: 0.05cm; padding-right: 0cm" th:each="col : ${riga}">				<span style="font-size:7px;">[[${col}]]</span>			</td>
+		</tr>
+		<tr>
+			<td th:if="${list.size() == 1}" th:attr="colspan=${list.get(0).size()}" style="background-color:#FFFFD0; border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000; padding-top: 0.05cm; padding-bottom: 0.05cm; padding-left: 0.05cm; padding-right: 0cm" valign="middle" align="center">				<span style="font-size:12px;"><b>Nessun Risultato Trovato</b></span>			</td>
+		</tr>
+	</tbody>
+</table>
+</div>
+<p></p>

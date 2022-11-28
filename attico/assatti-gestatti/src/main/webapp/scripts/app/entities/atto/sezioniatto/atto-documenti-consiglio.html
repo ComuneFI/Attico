@@ -1,0 +1,191 @@
+<div>
+
+	
+			<div class="list-group">
+				<div class="pull-right">
+									<a class="btn btn-info btn-sm everActive ng-binding" ng-if="atto.id > 0 && ( (atto.fineIterDate != null && atto.fineiterTipo != 'ANNULLATO' && atto.fineiterTipo != 'RITIRATO') || atto.dataPubblicazioneTrasparenza != null)" target="_blank" href="/api/attos/copiaConforme/{{profiloattivo.id}}/atto{{atto.id}}.pdf?access_token={{access_token}}&omissis=false">
+										<i class="fa fa-file-pdf-o"></i>&nbsp;<span>GENERA COPIA CONFORME</span>
+									</a>
+									<a class="btn btn-info btn-sm everActive ng-binding" ng-if="atto.pubblicazioneIntegrale == false && ((atto.fineIterDate != null && atto.fineiterTipo != 'ANNULLATO' && atto.fineiterTipo != 'RITIRATO') || atto.dataPubblicazioneTrasparenza != null)" target="_blank" href="/api/attos/copiaConforme/{{profiloattivo.id}}/atto{{atto.id}}.pdf?access_token={{access_token}}&omissis=true">
+										<i class="fa fa-file-pdf-o"></i>&nbsp;<span>GENERA COPIA CONFORME (Omissis)</span>
+									</a>
+									<a class="btn btn-info btn-sm everActive ng-binding" ng-if="atto.id > 0 && atto.tipoAtto.modelloHtmlCopiaNonConformeId > 0 && ((atto.fineIterDate != null && atto.fineiterTipo != 'ANNULLATO' && atto.fineiterTipo != 'RITIRATO') || atto.dataPubblicazioneTrasparenza != null)" target="_blank" href="/api/attos/copiaNonConforme/{{atto.tipoAtto.modelloHtmlCopiaNonConformeId}}/{{profiloattivo.id}}/atto{{atto.id}}.pdf?access_token={{access_token}}&omissis=false">
+										<i class="fa fa-file-pdf-o"></i>&nbsp;<span>GENERA COPIA NON CONFORME</span>
+									</a>
+									<a class="btn btn-info btn-sm everActive ng-binding" ng-if="atto.tipoAtto.modelloHtmlCopiaNonConformeId > 0 && atto.pubblicazioneIntegrale == false && ((atto.fineIterDate != null && atto.fineiterTipo != 'ANNULLATO' && atto.fineiterTipo != 'RITIRATO') || atto.dataPubblicazioneTrasparenza != null)" target="_blank" href="/api/attos/copiaNonConforme/{{atto.tipoAtto.modelloHtmlCopiaNonConformeId}}/{{profiloattivo.id}}/atto{{atto.id}}.pdf?access_token={{access_token}}&omissis=true">
+										<i class="fa fa-file-pdf-o"></i>&nbsp;<span>GENERA COPIA NON CONFORME (Omissis)</span>
+									</a>
+				</div>
+				<h3>Documenti</h3>
+				<div ng-if="atto.documentiPdf && atto.documentiPdf.length && ['DEC'].indexOf(atto.tipoAtto.codice) < 0">
+					<a ng-repeat="docPdf in atto.documentiPdf" class="list-group-item padding"  target="_blank" href="api/attos/{{atto.id}}/documento/{{docPdf.id}}?access_token={{access_token}}"  >
+				                
+		               <i  class="fa fa-file-pdf-o"></i>
+		             
+		                 {{docPdf.file.nomeFile}}   
+					 
+						 
+		    			<span class="label label-default pull-right">({{atto.documentiPdf.length -$index}})</span>
+						<span class="label label-info pull-right">({{docPdf.createdBy}} - {{docPdf.createdDate | date:'medium'}})</span>
+		     
+		                <span class="label label-warning pull-right"  ng-if="docPdf.firmato" ><i   class="fa fa-shield"></i> Firmato digitalmente da {{docPdf.firmatario}}</span>
+		                <span class="label label-success pull-right"  ng-if="docPdf.numeroProtocollo != null && docPdf.numeroProtocollo != ''" ><i   class="fa fa-shield"></i> Protocollato con n. {{docPdf.numeroProtocollo}}</span>
+		                <br/><span style="width: 100%;" ng-if="docPdf.diogenes && docPdf.diogenes.length > 0"></span> <br /><!-- <span translate="global.diogeneid"></span>: [<span ng-repeat="diogene in docPdf.diogenes track by $index">{{diogene.idDocumentoDiogene}}{{docPdf.diogenes.length - 1 > $index ? ',' : ''}}</span>] </span> -->
+				     </a>
+			 	</div>
+			 	<!-- inizio accordion -->
+				<div  class="panel-group" id="accordion" role="tablist" aria-multiselectable="true" ng-if="atto.documentiPdf && atto.documentiPdf.length && ['DEC'].indexOf(atto.tipoAtto.codice) > -1">
+					<div>
+						<a class="list-group-item padding"  target="_blank" href="api/attos/{{atto.id}}/documento/{{atto.documentiPdf[0].id}}?access_token={{access_token}}"  >
+				                
+		               <i  class="fa fa-file-pdf-o"></i>
+		             
+		                 {{atto.documentiPdf[0].file.nomeFile}}   
+					 
+						 
+		    			<span class="label label-default pull-right">({{atto.documentiPdf.length -$index}})</span>
+						<span class="label label-info pull-right">({{atto.documentiPdf[0].createdBy}} - {{atto.documentiPdf[0].createdDate | date:'medium'}})</span>
+		     
+		                <span class="label label-warning pull-right"  ng-if="atto.documentiPdf[0].firmato" ><i   class="fa fa-shield"></i> Firmato digitalmente da {{atto.documentiPdf[0].firmatario}}</span>
+		                <span class="label label-success pull-right"  ng-if="atto.documentiPdf[0].numeroProtocollo != null && atto.documentiPdf[0].numeroProtocollo != ''" ><i   class="fa fa-shield"></i> Protocollato con n. {{atto.documentiPdf[0].numeroProtocollo}}</span>
+		                <br/><span style="width: 100%;" ng-if="atto.documentiPdf[0].diogenes && atto.documentiPdf[0].diogenes.length > 0"></span> <br />
+				     </a>
+					</div>
+				 	<div class="panel panel-default" ng-if="atto.documentiPdf && atto.documentiPdf.length && atto.documentiPdf.length > 1">
+					    <div class="panel-heading" role="tab" >
+							<h5 class="panel-title">
+								<a class="collapsed" data-target="#versioni_precedenti_proposta"
+									data-parent="#accordion" data-toggle="collapse"
+									aria-expanded="false">Versioni Precedenti</a>
+							</h5>
+						</div>
+			
+						<div id="versioni_precedenti_proposta" class="panel-collapse collapse"
+							aria-expanded="false">
+							<div class="panel-body">
+							
+							
+							
+								<div ng-repeat="docPdf in atto.documentiPdf">
+									<a ng-if="$index>0" class="list-group-item padding"  target="_blank" href="api/attos/{{atto.id}}/documento/{{docPdf.id}}?access_token={{access_token}}"  >
+							                
+					               <i  class="fa fa-file-pdf-o"></i>
+					             
+					                 {{docPdf.file.nomeFile}}   
+								 
+									 
+					    			<span class="label label-default pull-right">({{atto.documentiPdf.length -$index}})</span>
+									<span class="label label-info pull-right">({{docPdf.createdBy}} - {{docPdf.createdDate | date:'medium'}})</span>
+					     
+					                <span class="label label-warning pull-right"  ng-if="docPdf.firmato" ><i   class="fa fa-shield"></i> Firmato digitalmente da {{docPdf.firmatario}}</span>
+					                <span class="label label-success pull-right"  ng-if="docPdf.numeroProtocollo != null && docPdf.numeroProtocollo != ''" ><i   class="fa fa-shield"></i> Protocollato con n. {{docPdf.numeroProtocollo}}</span>
+					                <br/><span style="width: 100%;" ng-if="docPdf.diogenes && docPdf.diogenes.length > 0"></span> <br />
+							     </a>
+								</div>
+							<hr />
+							
+							</div>
+						</div>
+				   </div>
+				</div>
+				<!-- fine accordion -->	
+			</div>
+			<!-- <div class="list-group">
+				
+				<h3>Documenti adozione</h3> -->
+				<a ng-repeat="docPdf in atto.documentiPdfAdozione" class="list-group-item padding"  target="_blank" href="api/attos/{{atto.id}}/documento/{{docPdf.id}}?access_token={{access_token}}"  >
+			                
+	                 <i  class="fa fa-file-pdf-o"></i>
+	             
+	                 {{docPdf.file.nomeFile}}   
+					
+	    			<span class="label label-default pull-right">({{atto.documentiPdfAdozione.length - $index}})</span>
+					<span class="label label-info pull-right">({{docPdf.createdBy}} - {{docPdf.createdDate | date:'medium'}})</span>
+	     
+	                <span class="label label-warning pull-right"  ng-if="docPdf.firmato" ><i   class="fa fa-shield"></i> Firmato digitalmente da {{docPdf.firmatario}}</span>
+	                <span class="label alert-success pull-right"  ng-if="docPdf.numeroProtocollo != null && docPdf.numeroProtocollo != '' && isProvvedimentoRepertoriato()" ><i   class="fa fa-shield"></i> Identificativo di repertorio : {{docPdf.numeroProtocollo}}</span>
+	                <span class="label label-success pull-right"  ng-if="docPdf.numeroProtocollo != null && docPdf.numeroProtocollo != '' && !isProvvedimentoRepertoriato()" ><i   class="fa fa-shield"></i> Protocollato con n. {{docPdf.numeroProtocollo}}</span>
+	    			
+	    			<br/><span style="width: 100%;" ng-if="docPdf.diogenes && docPdf.diogenes.length > 0"> <br /><!-- <span translate="global.diogeneid"></span>: [<span ng-repeat="diogene in docPdf.diogenes track by $index">{{diogene.idDocumentoDiogene}}{{docPdf.diogenes.length - 1 > $index ? ',' : ''}}</span>] </span> -->            
+			    </a>
+
+			 
+			</div>
+			
+			<!-- <div class="list-group" class="list-group" ng-if="atto.riservato!=null && atto.riservato == false && atto.pubblicazioneIntegrale!=null && atto.pubblicazioneIntegrale==false"> -->
+			<div class="list-group" class="list-group" ng-if="atto && ((atto.documentiPdfOmissis && atto.documentiPdfOmissis.length > 0) || (atto.documentiPdfAdozioneOmissis && atto.documentiPdfAdozioneOmissis.length > 0))">
+				<h3>Documenti Omissis</h3>
+
+				<a ng-repeat="docPdf in atto.documentiPdfOmissis" class="list-group-item padding"  target="_blank" href="api/attos/{{atto.id}}/documento/{{docPdf.id}}?access_token={{access_token}}"  >
+			                
+	               <i  class="fa fa-file-pdf-o"></i>
+	             
+	                 {{docPdf.file.nomeFile}}   
+				 
+					 
+	    			<span class="label label-default pull-right">({{atto.documentiPdf.length -$index}})</span>
+					<span class="label label-info pull-right">({{docPdf.createdBy}} - {{docPdf.createdDate | date:'medium'}})</span>
+	     
+	                <span class="label label-warning pull-right"  ng-if="docPdf.firmato" ><i   class="fa fa-shield"></i> Firmato digitalmente da {{docPdf.firmatario}}</span>
+	                <span class="label label-success pull-right"  ng-if="docPdf.numeroProtocollo != null && docPdf.numeroProtocollo != ''" ><i   class="fa fa-shield"></i> Protocollato con n. {{docPdf.numeroProtocollo}}</span>
+	                <br/><span style="width: 100%;" ng-if="docPdf.diogenes && docPdf.diogenes.length > 0"> <br /><!-- <span translate="global.diogeneid"></span>: [<span ng-repeat="diogene in docPdf.diogenes track by $index">{{diogene.idDocumentoDiogene}}{{docPdf.diogenes.length - 1 > $index ? ',' : ''}}</span>] </span> -->
+			     </a>
+			 
+			<!--  </div>
+			<div class="list-group" ng-if="atto.riservato!=null && atto.riservato == false && atto.pubblicazioneIntegrale!=null && atto.pubblicazioneIntegrale==false">
+				<h3>Documenti adozione omissis</h3>-->
+				<a ng-repeat="docPdf in atto.documentiPdfAdozioneOmissis" class="list-group-item padding"  target="_blank" href="api/attos/{{atto.id}}/documento/{{docPdf.id}}?access_token={{access_token}}"  >
+			                
+			                 <i  class="fa fa-file-pdf-o"></i>
+			             
+			                 {{docPdf.file.nomeFile}}   
+							
+			    			<span class="label label-default pull-right">({{atto.documentiPdfAdozione.length - $index}})</span>
+							<span class="label label-info pull-right">({{docPdf.createdBy}} - {{docPdf.createdDate | date:'medium'}})</span>
+			     
+			                <span class="label label-warning pull-right"  ng-if="docPdf.firmato" ><i   class="fa fa-shield"></i> Firmato digitalmente da {{docPdf.firmatario}}</span>
+			                <span class="label alert-success pull-right"  ng-if="docPdf.numeroProtocollo != null && docPdf.numeroProtocollo != '' && isProvvedimentoRepertoriato()" ><i   class="fa fa-shield"></i> Identificativo di repertorio : {{docPdf.numeroProtocollo}}</span>
+	                		<span class="label label-success pull-right"  ng-if="docPdf.numeroProtocollo != null && docPdf.numeroProtocollo != '' && !isProvvedimentoRepertoriato()" ><i   class="fa fa-shield"></i> Protocollato con n. {{docPdf.numeroProtocollo}}</span>
+			     			<br/><span style="width: 100%;" ng-if="docPdf.diogenes && docPdf.diogenes.length > 0"> <br /><!-- <span translate="global.diogeneid"></span>: [<span ng-repeat="diogene in docPdf.diogenes track by $index">{{diogene.idDocumentoDiogene}}{{docPdf.diogenes.length - 1 > $index ? ',' : ''}}</span>] </span> -->
+			     </a>
+			</div>
+			<div class="list-group" ng-if="atto.schedeAnagraficoContabili && atto.schedeAnagraficoContabili.length > 0">
+				
+				<h3>Schede Anagrafico Contabili</h3>
+				<a ng-repeat="docPdf in atto.schedeAnagraficoContabili" class="list-group-item padding"  target="_blank" href="api/attos/{{atto.id}}/documento/{{docPdf.id}}?access_token={{access_token}}"  >
+			                
+	                 <i  class="fa fa-file-pdf-o"></i>
+	             
+	                 {{docPdf.file.nomeFile}}   
+					
+	    			<span class="label label-default pull-right">({{atto.schedeAnagraficoContabili.length - $index}})</span>
+					<span class="label label-info pull-right">({{docPdf.createdBy}} - {{docPdf.createdDate | date:'medium'}})</span>
+	     
+	                <span class="label label-warning pull-right"  ng-if="docPdf.firmato" ><i   class="fa fa-shield"></i> Firmato digitalmente da {{docPdf.firmatario}}</span>
+	                <span class="label label-success pull-right"  ng-if="docPdf.numeroProtocollo != null && docPdf.numeroProtocollo != ''" ><i   class="fa fa-shield"></i> Protocollato con n. {{docPdf.numeroProtocollo}}</span>
+	    			<br/><span style="width: 100%;" ng-if="docPdf.diogenes && docPdf.diogenes.length > 0"> <br /><!-- <span translate="global.diogeneid"></span>: [<span ng-repeat="diogene in docPdf.diogenes track by $index">{{diogene.idDocumentoDiogene}}{{docPdf.diogenes.length - 1 > $index ? ',' : ''}}</span>] </span> -->
+			    </a>
+
+			 
+			</div>
+			<div class="list-group" ng-if="atto.relatePubblicazione && atto.relatePubblicazione.length > 0">
+				
+				<h3>Documenti Pubblicazione</h3>
+				<a ng-repeat="docPdf in atto.relatePubblicazione" class="list-group-item padding"  target="_blank" href="api/attos/{{atto.id}}/documento/{{docPdf.id}}?access_token={{access_token}}"  >
+			                
+	                 <i  class="fa fa-file-pdf-o"></i>
+	             
+	                 {{docPdf.file.nomeFile}}   
+					
+	    			<span class="label label-default pull-right">({{atto.relatePubblicazione.length - $index}})</span>
+					<span class="label label-info pull-right">({{docPdf.createdBy}} - {{docPdf.createdDate | date:'medium'}})</span>
+	     
+	                <span class="label label-warning pull-right"  ng-if="docPdf.firmato" ><i   class="fa fa-shield"></i> Firmato digitalmente da {{docPdf.firmatario}}</span>
+	    			<span class="label label-success pull-right"  ng-if="docPdf.numeroProtocollo != null && docPdf.numeroProtocollo != ''" ><i   class="fa fa-shield"></i> Protocollato con n. {{docPdf.numeroProtocollo}}</span>
+	    			<br/><span style="width: 100%;" ng-if="docPdf.diogenes && docPdf.diogenes.length > 0"> <br /><!-- <span translate="global.diogeneid"></span>: [<span ng-repeat="diogene in docPdf.diogenes track by $index">{{diogene.idDocumentoDiogene}}{{docPdf.diogenes.length - 1 > $index ? ',' : ''}}</span>] </span> -->
+			    </a>
+
+			 
+			</div>
+	
+</div>

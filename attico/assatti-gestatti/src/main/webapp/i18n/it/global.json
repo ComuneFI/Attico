@@ -1,0 +1,327 @@
+{ 
+    "global": {
+        "diogeneid":"Id Documentale",
+        "firma":{
+           "error":"Tipo Errore: {{msg}}\u003Cbr\u002F\u003EAttenzione! In questo momento, il servizio di firma digitale remota non risulta disponibile.\u003Cbr\u002F\u003E Per procedere con l'iter, attendere che il servizio di firma remota torni disponibile.",
+           "credenzialiErrate":"Attenzione! Credenziali non valide.\u003Cbr\u002F\u003EPer procedere con l'iter, effettuare un nuovo tentativo reinserendo le proprie credenziali per la firma remota.",
+           "otpErrato":"Attenzione! Verifica del codice OTP fallita.\u003Cbr\u002F\u003EPer procedere con l'iter, effettuare un nuovo tentativo reinserendo i dati richiesti per la firma remota.",
+           "profiloNonTrovato":"Attenzione! Il profilo richiesto per effettuare la firma non risulta essere registrato sul sistema.\u003Cbr\u002F\u003E Rivolgersi agli amministratori del sistema.",
+           "profiloDuplicato":"Attenzione! Il profilo per effettuare la firma remota risulta duplicato.\u003Cbr\u002F\u003E Rivolgersi agli amministratori del sistema per correggere il problema.",
+           "error_v2":"Attenzione! {{descrizioneErrore}}.\u003Cbr\u002F\u003EPer procedere con l'iter, effettuare un nuovo tentativo reinserendo le proprie credenziali per la firma remota."
+        },
+        "title": "{{title}}",
+        "title2": "Sistema di gestione dell'Iter dei Provvedimenti Regionali",
+        "browsehappy": "Stai usando CIFRA2",
+        "searchNoResult":"Nessun Risultato Trovato",
+        "loading":"Caricamento in corso...",
+        "manageUserTask":"Gestione dirigente - Task Utente",
+        "confirmUnclaim":"La lavorazione dell\u0027atto {{codiceCifra}} pur essendo assegnata all\u0027utente \u0027{{utente}}\u0027 risulta riassegnabile alla coda \u0027{{coda}}\u0027. Confermando il rilascio del task, esso torner\u00E0 ad essere presente sulla scrivania tra i task in arrivo agli utenti con ruolo \u0027{{ruoli}}\u0027.",
+        "confirmUnclaimDelegante":"La lavorazione dell\u0027atto {{codiceCifra}} torner\u00E0 ad essere presente sulla scrivania del delegante, tra i task in carico.",
+        "confirmUnclaimRiassegnazione":"La lavorazione dell\u0027atto {{codiceCifra}} torner\u00E0 ad essere presente sulla scrivania dell\u0027utente che aveva il task originariamente assegnato, tra i task in carico.",
+        "menu": {
+        	"datipersonali":"Dati Personali",
+            "home": "Home",
+            "amministrazionerp": "Amministrazione RP",
+             "contatti": "Contatti",
+             "help": "Help",
+             "faq": "F.A.Q.",
+             "link": "Link",
+             "mappa": "Mappa",
+             "manuale":"Manuale",
+             "cambiaProfilo": "Cambia profilo",
+             "gestioneOrganigramma": "Organigramma",
+             "gestioneWorkflow": "Workflow",
+             "gestioneProgressivi": "Progressivi",
+             "gestioneAnagrafiche": "Anagrafiche",
+             "helpdesk": "Le mie Richieste Helpdesk",
+             "managehelpdesk": "Gestione Helpdesk",
+             "manageRichiesteDirigente":"Gestione Richieste Dirigente",
+             "richiesteDirigenti":"Richieste Dirigente",
+             "messaggi":"Messaggi",
+             "dettaglioprofilo" : "Dettaglio Profilo",
+             "ricerca": {
+                "main": "Ricerca",
+                "tematica": "Consulta per anno",
+                "annocorrente" : "Consulta anno corrente",
+                "tematicadir" : "Atti Dirigenziali",
+                "tematicadel" : "Delibere",
+                "tematicasdl" : "SDL/DDL",
+                "tematicacom" : "Comunicazioni",
+                "tematicasedute" : "Sedute di Giunta",
+                "libera": "Libera",
+                "storica": {
+                	"main": "Storica",
+                	"determine": "Ricerca Storica Atti Dirigenziali",
+                	"delibere": "Ricerca Storica Atti di Giunta"
+               	}
+            },
+            "entities": {
+                "sistemaAccreditato":"Sistemi Accreditati WS",
+                "msg":"Messaggio",
+                "categoriaMsg":"Categoria Messaggi",
+                "rubricaBeneficiario":"Rubrica Beneficiari",
+                "esitoPareri":"Gestisci Esiti Parere",
+                "main": "Amministratore I",
+                "tipoAtto": "Tipo Atto",
+                "tipoProgressivo": "Tipo Progressivo",
+                "configurazioneTask": "Configurazione Task",
+                "tipoAoo": "Tipo Ufficio",
+                "indirizzo": "Indirizzo",
+                "ruolo": "Ruolo",
+                "utente": "Utente",
+                "profilo": "Profilo",
+                "aoo": "Ufficio",
+                "ufficio": "Servizio",
+                "qualificaProfessionale": "Qualifica Professionale",
+                "tipoMateria": "Gestione Materia LR 15",
+                "materia": "Materia",
+                "sottoMateria": "Sotto Materia",
+                "tipoIter": "Tipo Iter",
+                "gruppoRuolo": "Gruppo Ruolo",
+                "funzione": "Funzione",
+                "menu": "Menu",
+                "menuVerticale": "Menu Verticale",
+                "tipoAdempimento": "Tipo Adempimento",
+                "argomentoOdg": "Argomento Odg",
+                "sedutaGiunta": "Seduta Giunta",
+                "progressivoProposta": "Progressivo Proposta",
+                "progressivoAdozione": "Progressivo Adozione",
+                "progressivoRelazioneIst": "Progressivo Relazione Istruttoria",
+                "tipoOdg": "Tipo Odg",
+                "tipoDocumento": "Tipo Documento",
+                "atto": "Atto",
+                "rubricaDestinatarioEsterno": "Rubrica Destinatario Esterno",
+                "modelloHtml": "ModelloHtml",
+                "modelloSezione": "ModelloSezione",
+                "modelloCampo": "Modello Campo",
+                "modelliCampo": "Modelli Campo",
+                "attivita": "Attivita",
+                "configurazioneRiversamento": "Configurazione Riversamento",
+                "tipoDocumentoSerie": "Destinazione Documentale",
+                "stato": "Stato",
+                "avanzamento": "Storico Lavorazioni",
+                "lavorazione": "Lavorazione",
+                "news": "News",
+                "categoriaNews": "Categoria News",
+                "richiestaHD": "Richieste Help Desk",
+                "richiesteDirigente":"Richieste Dirigenti",
+                "richiestaHDFeedback": "Richiesta HD e Feedback",
+                "tipoRichiestaHD": "Tipo RichiestaHD",
+                "statoRichiestaHD": "Stato RichiestaHD",
+                "categoriaRichiestaHD": "Categoria RichiestaHD",
+                "faq": "FAQs",
+                "categoriaFaq": "Categoria Faq",
+                "tipoDeterminazione": "Tipo Collegamento Tra Atti",
+                "delega": "Delega Temporale",
+                "delegaTask": "Delega Singola Lavorazione",
+                "ambitoDl33": "AmbitoDl33",
+                "materiaDl33": "Materia DL33/2013", 
+                "macro_cat_obbligo_dl33": "MacroCatObbligoDL33",
+                "cat_obbligo_DL33": "CatObbligoDL33",
+                "obbligo_DL33": "ObbligoDL33",
+                "scheda": "Scheda",
+                "tipodato": "Tipodato",
+                "dato": "Dato",   
+                "schedaDato": "SchedaDato",
+                "denominazioneRelatore": "DenominazioneRelatore",
+                "tipoParere": "TipoParere",
+                "classificazione": "Classificazione",
+                "impersonificate":"Impersonifica",
+                "stopImpersonificate" : "Termina Impersonificazione",
+                "additionalEntity": "JHipster will add additional entities here (do not translate!)"
+            },
+            "atto": {
+                "title": "Predisposizione atto",
+                "attoDirigenziale": "Atto Dirigenziale",
+                "attoDirigenzialeNuovo": "Crea Atto Dirigenziale",
+                "attoSedutaDiGiunta": "Atto Seduta Di Giunta",
+                "lista" :  "Consulta anno corrente",
+                "nuovo": "Nuovo Atto",
+                "clona": "Clona Atto",
+                "riferimento": "Atto di riferimento"
+            },
+            "gestionePareriConsQuart": {
+            	"title": "Pareri Comm.\\Cons. Quart.\\Rev. Cont."
+            },
+            "composizioneGiunta": {
+            	"title": "Composizione Giunta"
+            },
+            "composizioneConsiglio": {
+            	"title": "Composizione Consiglio"
+            },
+             "versioneComposizioneGiunta": {
+            	"title": "Versione Composizione Giunta"
+            },
+            "versioneComposizioneConsiglio": {
+            	"title": "Versione Composizione Consiglio"
+            },
+            "pareri": {
+            	"commissionicons": "Gestisci Comm. Cons.",
+            	"consquartrev": "Gestisci Cons. Quart\\ Rev. Cont."
+            },
+			"monitoraggioPubblicazioni": {
+                "title": "Monitoraggio Pubblicazioni",
+                "titleAlbo": "Pubblicazioni Albo",
+                "titleTrasparenza": "Pubblicazioni Trasparenza",
+                "lista": "Elenco"
+            },
+            "odg": {
+                "title": "Ordine del Giorno",
+                "sedutagiunta" :  "Seduta di Giunta",
+                "lista" :  "Lista O.d.g.",
+                "nuovo": "Nuovo O.d.g.",
+                "listaSuppletivi": "Lista Suppletivi",
+                "nuovoSuppletivo": "Nuovo O.d.g. Suppletivo",
+                "listaFuoriSacco": "Lista O.d.g. Fuori Sacco",
+                "nuovoFuoriSacco": "Nuovo O.d.g. Fuori Sacco",
+                "listaGiacenza": "Lista Giacenze",
+                "nuovaGiacenza": "Nuova Giacenza"
+            },
+            "account": {
+                "main": "Utenza",
+                "settings": "Impostazioni",
+                "password": "Password",
+                "sessions": "Sessions",
+                "login": "Accedi",
+                "tuttiProfili": "Tutti i profili dell'utente",
+                "logout": "Esci",
+                "register": "Registra",
+                "selezionaprofilo":"Seleziona profilo"
+            },
+            "admin": {
+                "main": "Monitoraggio sistema",
+                "gestioneUffici": "Gestione Servizi",
+                "estioneRepertori": "Gestione repertori",
+                "tracker": "Tracciamento Utente",
+                "metrics": "Monitoraggio",
+                "health": "Diagnostica",
+                "configuration": "Configurazione",
+                "logs": "Logs",
+                "audits": "Audits",
+                "apidocs": "API",
+                "database": "Database",
+                "newsReport":"Report Notifiche",
+                "diogeneReport": "Report Documentale",
+                "smsReport": "Report Invio SMS",
+                "monitoraggioAccessos":"Monitoraggio Accessi"
+            },
+            "language": "Lingua"
+        },
+        "form": {
+            "username": "Login *",
+            "username.placeholder": "Username",
+            "newpassword": "Password *",
+            "newpassword.placeholder": "Password",
+            "confirmpassword": "Conferma password *",
+            "confirmpassword.placeholder": "Conferma la password",
+            "email": "E-mail *",
+            "email.placeholder": "E-mail"
+        },
+        "messages": {
+        	"validodal":"Valido dal",
+        	"validoal":"Valido al",
+        	"cerca":"Cerca",
+        	"resetricerca":"Reset ricerca",
+        	"statoregistrazione" :{
+        		"verificastatoregistrazione":"Verifica stato registrazione",
+        		"registrato": "Utente registrato ma ancora in attesa di validazione",
+        		"nonregistrato" : "Utente non registrato",
+        		"attivo": "Utente registrato ed abilitato",
+        		"codicefiscaleplaceholder" : "Codice Fiscale",
+        		"disabilitato" : "Utente disabilitato.",
+        		"nessunprofilo":"Utente attivato, ma in attesa di avere assegnato un profilo."
+        	},        	
+            "info": {
+                "authenticated": "Se vuoi  autenticarti <a href=\"{{login_url}}\">accedi</a>.",
+                "register": "Se non sei ancora registrato? <a href=\"#/register\">Registra un nuovo utente</a>"
+            },
+            "error": {
+            	"requireddata":"Completare tutti i dati obbligatori",
+                "dontmatch" : "La passsword e la conferma password non coincidono!"
+            },
+            "validate": {
+                "newpassword": {
+                    "required": "Password obbligatoria.",
+                    "minlength": "Password deve contenere almeno 5 caratteri.",
+                    "maxlength": "Password non puÃ² contenere piÃ¹ di 50 caratteri.",
+                    "strength": "Sicurezza della password:"
+                },
+                "confirmpassword": {
+                    "required": "Conferma password obbligatoria.",
+                    "minlength": "Conferma password deve contenere almeno 5 caratteri.",
+                    "maxlength": "Conferma password non puÃ² contenere piÃ¹ di 50 caratteri."
+                },
+                "email": {
+                    "required": "E-mail obbligatoria.",
+                    "invalid": "E-mail non valida",
+                    "minlength": "E-mail deve contenere almeno 5 caratteri.",
+                    "maxlength": "E-mail non puÃ² contenere piÃ¹ di 50 caratteri."
+                }
+            }
+        },    
+        "dateTime": "Data e ora",
+        "author": "Autore",
+        "taskId": "Task ID",
+        "taskName": "Attivit\u00E0",
+        "stato": "Stato",
+        "text": "Testo"
+    },
+    "entity": {
+        "action": {
+        	"assignee":"Assegna",
+            "reassignee":"Riassegna",
+            "cambiaCoda":"Cambia Ufficio",
+            "rilascia":"Rilascia",
+            "close":"Chiudi",
+            "back": "Indietro",
+            "cancel": "Annulla",
+            "delete": "Cancella",
+            "attiva": "Attiva",
+            "edit": "Modifica",
+            "save": "Salva",
+            "view": "Visualizza",
+            "lavora": "Lavora",
+            "clona":"Clona Atto",
+            "add":"Aggiungi",
+            "futureReassignee":"Riassegna Lavorazioni",
+            "futureEnable":"Riabilita per nuove attivit\u00E0",
+            "futureDisable":"Disabilita per nuove attivit\u00E0",
+            "disable":"Disabilita",
+            "impersonificate":"Impersonifica",
+            "stopImpersonificate": "Termina impersonificazione",
+            "enable":"Abilita",
+            "confirm":"Conferma",
+            "import":"Importa",
+            "vistoMassivo":"Visto Massivo",
+            "firmaMassiva":"Firma Massiva",
+            "impostaPerTuttiAllegati":"Imposta Per Tutti gli Allegati"
+        },
+        "detail": {
+            "field": "Campo",
+            "value": "Valore"
+        },
+        "delete": {
+            "title": "Conferma operazione",
+            "notPossible":"Cancellazione non possibile"
+        },
+        "modify": {
+            "notPermitted":"Operazione non permessa"
+        },
+        "attiva": {
+            "title": "Conferma attiva"
+        },
+        "disattiva": {
+            "title": "Conferma disabilitazione"
+        },
+        "validation": {
+            "required": "Questo campo Ã¨ obbligatorio.",
+            "minlength": "This field is required to be at least {{min}} characters.",
+            "maxlength": "This field cannot be longer than {{max}} characters.",
+            "min": "This field should be more than {{min}}.",
+            "max": "This field cannot be more than {{max}}.",
+            "pattern": "This field should follow pattern {{pattern}}.",
+            "number": "This field should be a number.",
+            "datetimelocal": "This field should be a date and time."
+        }
+    }
+}

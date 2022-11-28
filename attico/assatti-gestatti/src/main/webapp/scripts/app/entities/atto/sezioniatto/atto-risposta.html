@@ -1,0 +1,81 @@
+<div>
+	<br>
+	<div class="row">
+		<div class="col-xs-12">
+			<label translate="cifra2gestattiApp.atto.risposta">Risposta</label>
+			<span data-toggle="tooltip"
+				title="<b>GUIDA</b><br/>Questa sezione visualizza le Risposte inserite dagli utenti coinvolti.<br />"
+				data-html="true" ng-init="initTooltip()">
+				<i class="fa fa-question" ></i>
+			</span>
+		</div>
+	</div>
+	
+	<hr>
+	
+	<div ng-hide="risposte && risposte.length > 0">
+		<h3>Nessuna Risposta inserita.</h3>
+	</div>
+	
+	<div ng-repeat="item in risposte | orderBy : 'data'" class="table-responsive">
+		<table class="table table-striped" ng-if="item.origine == 'R'">
+			<thead>
+				<tr>
+					<th colspan="2"><span>Risposta</span></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<th><span>Data Risposta</span></th>
+					<td>{{item.data | date:'dd/MM/yyyy'}}</td>
+				</tr>
+				<tr>
+					<th><span>Contenuto Risposta</span></th>
+					<td>{{item.parere}}</td>
+				</tr>
+				<tr>
+					<th><span>Stato</span></th>
+					<td ng-if="item.annullato">Annullato</td>
+					<td ng-if="!item.annullato">Valido</td>
+				</tr>
+				<tr>
+					<th><span>Relatore/Incaricato</span></th>
+					<td ng-if="item.profiloRelatore && item.profiloRelatore.utente">
+						{{item.profiloRelatore.utente.cognome}} {{item.profiloRelatore.utente.nome}}
+					</td>
+					<td ng-if="!item.profiloRelatore || !item.profiloRelatore.utente">
+						{{item.profilo.utente.cognome}} {{item.profilo.utente.nome}}
+					</td>
+				</tr>
+				<tr ng-if="item.terminiPresentazione && item.terminiPresentazione.length > 0">
+					<th><span>Termini Presentazione</span></th>
+					<td>{{item.terminiPresentazione}}</td>
+				</tr>
+				<tr ng-if="item.dataScadenza && item.dataScadenza.length > 0">
+					<th><span>Data Scadenza</span></th>
+					<td>{{item.dataScadenza | date:'dd/MM/yyyy'}}</td>
+				</tr>
+				<tr ng-if="item.statoRisposta && item.statoRisposta.length > 0">
+					<th><span>Stato Risposta</span></th>
+					<td>{{getDescrizioneStatoRisposta(item.statoRisposta)}}</td>
+				</tr>
+				<tr ng-if="item.allegati && item.allegati.length > 0">
+					<th><span>Allegati</span></th>
+					<td>
+						<ol class="list-group">
+							<li ng-repeat="allegato in item.allegati">
+								<label> <a target="_blank" class="word-wrap"
+									href="api/pareres/allegato/{{allegato.id}}?access_token={{access_token}}">{{allegato.file.nomeFile}}
+										({{allegato.file.createdBy}})</a>
+								</label>
+							</li>
+						</ol>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	
+	
+	
+</div>

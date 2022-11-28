@@ -1,0 +1,47 @@
+<br><br><br><br><br><br><div style="text-align: right;">	<table width="90%">
+		<tbody>
+			<tr>
+				<td style="padding: 20pt 0pt; border-top: 5px solid #000; border-bottom: 5px solid #000; text-align: center; font-family: Cambria; font-size: 18pt; color: #000;" valign="middle">					PROPOSTA DI DELIBERAZIONE DI CONSIGLIO</td>
+			</tr>
+			<tr>
+				<td>					<br><br>					<div style="text-align: left; font-family: Calibri; font-size: 13pt;">						<span style="font-weight: bold;">Codice Atto</span>						<span>: [[${atto.codiceCifra}]]</span>						<br><br>						<span style="font-weight: bold; text-transform: uppercase;">OGGETTO: </span>						<span th:utext="${#strings.replace( #strings.escapeXml(atto.oggetto),T(java.lang.System).getProperty(''line.separator''),''<br></span>'')}"></span>					</div>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+<p style="page-break-before: always; border-bottom: 1px dashed #000;"></p>
+<div style="font-family: Calibri; font-size: 11pt; text-align: justify;" th:utext="${atto.preambolo.testo}">+${atto.preambolo}</div>
+<p>&nbsp;</p>
+<div style="font-family: Calibri; font-size: 11pt; text-align: justify;" th:utext="${atto.motivazione.testo}">+${atto.motivazione}</div>
+<p>&nbsp;</p>
+<div th:if="${(atto.adempimentiContabili!=null and atto.adempimentiContabili!='''') or (atto.dichiarazioni!=null and !#strings.isEmpty(#strings.trim(atto.dichiarazioni.testo)))}">		<div th:if="${atto.adempimentiContabili !=null}" style="font-family: Calibri; font-size: 11pt; text-align: justify;">		<p th:utext="${atto.adempimentiContabili.testo}">+${atto.adempimentiContabili}</p>
+	</div>
+	<p>&nbsp;</p>
+	<div style="font-family: Calibri; font-size: 11pt; text-align: justify;" th:utext="${atto.dichiarazioni.testo}">		<p>+${atto.dichiarazioni}</p>
+	</div>
+	<p>&nbsp;</p>
+	<p style="font-family: Calibri; font-size: 11pt; font-weight: bold; text-align: center; text-transform: uppercase;">		<span>IL CONSIGLIO COMUNALE</span></p>
+	<ul style="font-family: Calibri; font-size: 11pt; text-align: justify;">
+		<li>Udita la relazione e la conseguente proposta del Consigliere;</li>
+		<li>Viste le sottoscrizioni poste in calce al presente provvedimento che attestano la conformità alla legislazione vigente;</li>
+		<li>A voti unanimi espressi nei modi di legge;</li>
+	</ul>
+	<p>&nbsp;</p>
+	<p style="font-family: Calibri; font-size: 11pt; font-weight: bold; text-align: center; text-transform: uppercase;">		<span>Delibera</span>	</p>
+	<div style="font-family: Calibri; font-size: 11pt; text-align: justify;" th:utext="${atto.dispositivo.testo}">		<p>+${atto.dispositivo}</p>
+	</div>
+	<p>&nbsp;</p>
+	<p style="font-family: Calibri; font-size: 11pt; text-align: justify;">		<span th:if="${#lists.size(atto.sottoscrittori) > 1}">I sottoscritti attestano che il procedimento istruttorio loro </span>		<span th:if="${#lists.size(atto.sottoscrittori) == 1}">Il sottoscritto attesta che il presente procedimento istruttorio </span>affidato è stato espletato nel rispetto della vigente normativa regionale, nazionale e comunitaria e che il presente schema di provvedimento dagli stessi predisposto ai fini dell''adozione dell''atto finale da parte della Giunta regionale è conforme alle risultanze istruttorie.	</p>
+	<p>&nbsp;</p>
+	<table style="page-break-inside: avoid;" width="100%" cellspacing="0" cellpadding="0">
+		<tbody>
+			<tr th:each="item: ${#lists.sort(atto.sottoscrittori)}">
+				<td>					<div style="font-family: Cambria; font-size: 11pt;">[[${item.qualificaProfessionale.denominazione}]]</div>
+					<div style="font-family: Cambria; font-size: 11pt;">[[${item.profilo.utente.nome}]] [[${item.profilo.utente.cognome}]]</div>
+					<br>				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+<br><br><p style="font-family: Cambria; font-size: 11pt; text-align: justify;">	<span>Documento informatico firmato digitalmente ai sensi del Testo Unico D.P.R. 28 dicembre 2000, n. 445 e del D.Lgs 7 marzo 2005, n. 82 e norme collegate che sostituisce il testo cartaceo e la firma autografa.</span></p>

@@ -1,0 +1,194 @@
+<div>
+
+	<h2 translate="cifra2gestattiApp.gruppoRuolo.home.title">Assessoratos</h2>
+     
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <button class="btn btn-primary" data-toggle="modal" data-target="#saveGruppoRuoloModal" ng-click="clear()">
+                    <span class="glyphicon glyphicon-flash"></span> <span translate="cifra2gestattiApp.gruppoRuolo.home.createLabel">Create a new GruppoRuolo</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="saveGruppoRuoloModal" tabindex="-1" role="dialog" aria-labelledby="myGruppoRuoloLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form name="editForm" role="form" novalidate ng-submit="save()" show-validation>
+
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                                ng-click="clear()">&times;</button>
+                        <h4 class="modal-title" id="myGruppoRuoloLabel" translate="cifra2gestattiApp.gruppoRuolo.home.createOrEditLabel">Create or edit a GruppoRuolo</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label>ID</label>
+                            <input type="text" class="form-control" name="id"
+                                   ng-model="gruppoRuolo.id" readonly>
+                        </div>
+
+                        <div class="form-group">
+                            <label translate="cifra2gestattiApp.gruppoRuolo.denominazione">Denominazione</label> *
+                            <input required type="text" class="form-control" name="denominazione"
+                            ng-model="gruppoRuolo.denominazione">
+                            <div ng-show="editForm.denominazione.$invalid"></div>
+                        </div>
+
+
+                        <div class="form-group">
+                        	<label>Ruoli associati</label> *
+
+                            <ui-select multiple ng-model="gruppoRuolo.hasRuoli"    theme="bootstrap" >
+                            	<ui-select-match placeholder="Selezioni ruoli ">{{$item.descrizione}}</ui-select-match>
+                                <ui-select-choices repeat="ruolo in ruolos | filter: $select.search">
+                                	<div ng-bind-html="ruolo.descrizione | highlight: $select.search"></div>
+                            	</ui-select-choices>
+                         	</ui-select>
+                         </div>
+
+                           <!-- eliminato il collegamento con l'AOO in quanto secondo Innova non ha senso.
+                           		ISSUE: UTE_006: Crud Gruppo Ruolo - eliminare legame AOO 
+                           		DATA: 31/05/2016
+                           <aoo-select ng-model="gruppoRuolo.aoo" lista-aoo="aoos" new-entity="!gruppoRuolo.id>0" ></aoo-select>  -->
+                              
+
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
+                            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+                        </button>
+                        <button type="submit" ng-disabled="editForm.$invalid || !gruppoRuolo.hasRuoli || gruppoRuolo.hasRuoli.length == 0" class="btn btn-primary">
+                            <span class="glyphicon glyphicon-save"></span>&nbsp;<span translate="entity.action.save">Save</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="deleteGruppoRuoloConfirmation">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form name="deleteForm" ng-submit="confirmDelete(gruppoRuolo.id)">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                                ng-click="clear()">&times;</button>
+                        <h4 class="modal-title" translate="entity.delete.title">Confirm delete operation</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p translate="cifra2gestattiApp.gruppoRuolo.delete.question" translate-values="{id: '{{gruppoRuolo.id}}'}">Are you sure you want to delete this GruppoRuolo?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
+                            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+                        </button>
+                        <button type="submit" ng-disabled="deleteForm.$invalid" class="btn btn-danger">
+                            <span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span translate="entity.action.delete">Delete</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+	<div class="modal fade" id="deleteGruppoRuoloDeletingError">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                 <div class="modal-header">
+                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                             ng-click="clear()">&times;</button>
+                     <h4 class="modal-title">Errore nella cancellazione</h4>
+                 </div>
+                 <div class="modal-body">
+                     <p>Il gruppo ruolo selezionato non pu&#242; essere eliminato in quanto risulta referenziato da altre entit&#224; del sistema.</p>
+                     <label class="btn btn-xs btn-primary" ng-click="showDetailErroreCancellazione = !showDetailErroreCancellazione">Visualizza/Nascondi Dettagli Errore</label>
+                     <p ng-show="showDetailErroreCancellazione">{{erroreCancellazione}}</p>
+                 </div>
+                 <div class="modal-footer">
+                     <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
+                         <span>OK</span>
+                     </button>
+                 </div>
+            </div>
+        </div>
+    </div>
+	<div>
+	    <div class="table-responsive crud-search">
+	        <table class="table table-striped">
+	            <thead>
+	                <tr>
+	                	<th width="30px"></th>
+	                    <th>ID</th>
+	                    <th translate="cifra2gestattiApp.gruppoRuolo.denominazione">Denominazione</th>
+	                    <th translate="cifra2gestattiApp.gruppoRuolo.ruoli">Ruoli</th>
+	                    <th></th>
+	                </tr>
+	                <tr>
+	                	<th style="text-align:center;"><button class="btn btn-primary btn-xs" ng-click="ricerca()"><span class="glyphicon glyphicon-search"/> <span translate="global.messages.cerca">Ricerca</span></button> <button class="btn btn-primary btn-xs" ng-click="resetRicerca()"><span translate="global.messages.resetricerca">Reset ricerca</span></button></th>
+	                    <th><input type="text" ng-model="tempSearch.idGruppoRuolo"></th>
+	                    <th><input type="text" ng-model="tempSearch.denominazione"></th>
+	                   <!-- eliminato il collegamento con l'AOO in quanto secondo Innova non ha senso.
+	                     	ISSUE: UTE_006: Crud Gruppo Ruolo - eliminare legame AOO 
+	                        DATA: 31/05/2016
+	                         <th><input type="text" ng-model="tempSearch.aoo"></th>  -->
+	                    <th class="limited-width"><ui-select ng-model="tempSearch.ruolo"  theme="bootstrap">
+	                            <ui-select-match allow-clear="true">{{$select.selected}}</ui-select-match>
+	                            <ui-select-choices repeat="ruolo in listAllRuoli | filter: $select.search track by $index">
+	                            <div ng-bind-html="ruolo | highlight: $select.search"></div>
+	                        </ui-select-choices>
+	                      </ui-select>
+	                    <th><button class="btn btn-primary btn-xs" ng-click="ricerca()"><span class="glyphicon glyphicon-search"/> <span translate="global.messages.cerca">Ricerca</span></button> <button class="btn btn-primary btn-xs" ng-click="resetRicerca()"><span translate="global.messages.resetricerca">Reset ricerca</span></button></th>
+	                </tr>
+	            </thead>
+	            <tbody>
+	                <tr ng-repeat="gruppoRuolo in gruppoRuolos">
+	                    <td></td>
+	                    <td><a ui-sref="gruppoRuoloDetail({id:gruppoRuolo.id})">{{gruppoRuolo.id}}</a></td>
+	                        <td>{{gruppoRuolo.denominazione}}</td>
+	                      <!-- eliminato il collegamento con l'AOO in quanto secondo Innova non ha senso.
+	                     	ISSUE: UTE_006: Crud Gruppo Ruolo - eliminare legame AOO 
+	                        DATA: 31/05/2016
+	                        	 <td>{{gruppoRuolo.aoo.descrizione}}</td>  -->
+	                        <td>
+	                        	<div ng-repeat="ruolo in gruppoRuolo.hasRuoli"><span >- {{ruolo.descrizione}}</span></div>
+	                        </td>
+	                    <td>
+	                        <button type="submit"
+	                                ui-sref="gruppoRuoloDetail({id:gruppoRuolo.id})"
+	                                class="btn btn-info btn-sm">
+	                            <span class="glyphicon glyphicon-eye-open"></span>&nbsp;<span translate="entity.action.view"> View</span>
+	                        </button>
+	                        <button type="submit"
+	                                ng-click="showUpdate(gruppoRuolo.id)"
+	                                class="btn btn-primary btn-sm">
+	                            <span class="glyphicon glyphicon-pencil"></span>&nbsp;<span translate="entity.action.edit"> Edit</span>
+	                        </button>
+	                        <button type="submit"
+	                                ng-click="delete(gruppoRuolo.id)"
+	                                class="btn btn-danger btn-sm">
+	                            <span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span translate="entity.action.delete"> Delete</span>
+	                        </button>
+	                    </td>
+	                </tr>
+	            </tbody>
+	        </table>
+	        <div ng-if="gruppoRuolos && gruppoRuolos.length == 0" class="search-no-result"><h3 translate="global.searchNoResult"></h3></div>
+	    </div>
+        <nav>
+            <ul class="pagination">
+                <li ng-show="links['first']" ng-click="loadPage(links['first'])"><a>&lt;&lt;</a></li>
+                <li ng-show="links['prev']" ng-click="loadPage(links['prev'])"><a>&lt;</a></li>
+                <li ng-show="page > 2" ng-click="loadPage(page - 2)"><a>{{page - 2}}</a></li>
+                <li ng-show="page > 1" ng-click="loadPage(page - 1)"><a>{{page - 1}}</a></li>
+                <li class="active"><a>{{page}}</a></li>
+                <li ng-show="page < links['last']" ng-click="loadPage(page + 1)"><a>{{page + 1}}</a></li>
+                <li ng-show="page < links['last'] - 1" ng-click="loadPage(page + 2)"><a>{{page + 2}}</a></li>
+                <li ng-show="links['next']" ng-click="loadPage(links['next'])"><a>&gt;</a></li>
+                <li ng-show="links['last']" ng-click="loadPage(links['last'])"><a>&gt;&gt;</a></li>
+            </ul>
+        </nav>
+    </div>
+</div>

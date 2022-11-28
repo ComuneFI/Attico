@@ -1,0 +1,24 @@
+{
+    "cifra2gestattiApp": {
+        "sottoMateria" : {
+            "home": {
+                "title": "Sotto Materie",
+                "createLabel": "Crea una nuova Sotto Materia",
+                "createOrEditLabel": "Crea o modifica una Sotto Materia"
+            },
+            "delete": {
+                "question": "Sei sicuro di voler cancellare la Sotto Materia con ID {{ id }}?"
+            },
+            "detail": {
+                "title": "SottoMateria"
+            },
+            "descrizione": "Descrizione",
+            "materia": "materia",
+            "messages": {
+	            "error": {
+	                "operationNotPermitted": "Non \u00E8 possibile effettuare l\u0027operazione in quanto l\u0027elemento \u00E8 incluso in uno o pi\u00F9 atti."
+	            }
+	        }
+        }
+    }
+}

@@ -1,0 +1,93 @@
+Procedura Migrazione Versione Processo BPMN:
+
+POST http://10.0.6.105:7080/engine-rest/migration/generate
+BODY:
+{
+  "sourceProcessDefinitionId": "aProcessDefinitionId1",
+  "targetProcessDefinitionId": "aProcessDefinitionId2",
+  "updateEventTriggers": true
+}
+
+
+Si ottiene ad esempio la seguente risposta:
+
+{
+	"sourceProcessDefinitionId": "AttoDL:132:9fbaae47-1d8c-11ea-a35a-005056b0961a",
+	"targetProcessDefinitionId": "AttoDL:133:4b3d157c-1d8d-11ea-97f1-005056b0961a",
+	"instructions": [{
+		"sourceActivityIds": ["UserTask_1us5yzv"],
+		"targetActivityIds": ["UserTask_1us5yzv"],
+		"updateEventTrigger": false
+	}, {
+		"sourceActivityIds": ["verificaContabile"],
+		"targetActivityIds": ["verificaContabile"],
+		"updateEventTrigger": false
+	}, {
+		"sourceActivityIds": ["BoundaryEvent_1jy5ea3"],
+		"targetActivityIds": ["BoundaryEvent_1jy5ea3"],
+		"updateEventTrigger": true
+	}, {
+		"sourceActivityIds": ["UserTask_1ku1nj0"],
+		"targetActivityIds": ["UserTask_1ku1nj0"],
+		"updateEventTrigger": false
+	}, {
+		"sourceActivityIds": ["istruttoriaDD"],
+		"targetActivityIds": ["istruttoriaDD"],
+		"updateEventTrigger": false
+	}, {
+		"sourceActivityIds": ["SubProcess_0xt1xwv#multiInstanceBody"],
+		"targetActivityIds": ["SubProcess_0xt1xwv#multiInstanceBody"],
+		"updateEventTrigger": false
+	}, {
+		"sourceActivityIds": ["SubProcess_0xt1xwv"],
+		"targetActivityIds": ["SubProcess_0xt1xwv"],
+		"updateEventTrigger": false
+	}, {
+		"sourceActivityIds": ["UserTask_0bp4p2q"],
+		"targetActivityIds": ["UserTask_0bp4p2q"],
+		"updateEventTrigger": false
+	}, {
+		"sourceActivityIds": ["UserTask_0ms9zli"],
+		"targetActivityIds": ["UserTask_0ms9zli"],
+		"updateEventTrigger": false
+	}, {
+		"sourceActivityIds": ["UserTask_1xcp1a6"],
+		"targetActivityIds": ["UserTask_1xcp1a6"],
+		"updateEventTrigger": false
+	}, {
+		"sourceActivityIds": ["Task_0dgxpxj"],
+		"targetActivityIds": ["Task_0dgxpxj"],
+		"updateEventTrigger": false
+	}, {
+		"sourceActivityIds": ["UserTask_093a3if"],
+		"targetActivityIds": ["UserTask_093a3if"],
+		"updateEventTrigger": false
+	}]
+}
+
+Si può invocare il REST per validare la migrazione senza eseguirla:
+
+POST http://10.0.6.105:7080/engine-rest/migration/validate
+BODY: quello ottenuto con "generate".
+La risposta contiene array con errori, se è vuoto allora OK
+
+Per ESEGUIRE la migrazione:
+POST http://10.0.6.105:7080/engine-rest/migration/execute
+BODY: 
+{
+  "migrationPlan": {
+    quello ottenuto con "generate".
+  },
+  "processInstanceIds": [
+    "aProcessInstance",
+    "anotherProcessInstance"
+  ],
+  "processInstanceQuery": {
+    "processDefinitionId": "aProcessDefinitionId1"
+  },
+  "skipCustomListeners": true
+}
+
+
+
+

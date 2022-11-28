@@ -1,0 +1,31 @@
+{
+    "cifra2gestattiApp": {
+        "indirizzo" : {
+            "home": {
+                "title": "Indirizzi",
+                "createLabel": "Create a new Indirizzo",
+                "createOrEditLabel": "Create or edit a Indirizzo"
+            },
+            "delete": {
+                "question": "Are you sure you want to delete Indirizzo {{ id }}?"
+            },
+            "detail": {
+                "title": "Indirizzo"
+            },
+            "filtro":{
+            	"label-stato" : "State",
+            	"stato" : {
+            		"disattivati" : "Deactivated addresses",
+            		"attivi" : "Activated addresses",
+            		"entrambi" : "Both"
+            	}
+            },
+            "dug": "Dug",
+            "toponimo": "Toponimo",
+            "civico": "Civico",
+            "cap": "Cap",
+            "comune": "Comune",
+            "provincia": "Provincia"
+        }
+    }
+}

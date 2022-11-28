@@ -1,0 +1,24 @@
+{
+    "cifra2gestattiApp": {
+        "menuVerticale" : {
+            "home": {
+                "title": "MenuVerticales",
+                "createLabel": "Create a new MenuVerticale",
+                "createOrEditLabel": "Create or edit a MenuVerticale"
+            },
+            "delete": {
+                "question": "Are you sure you want to delete MenuVerticale {{ id }}?"
+            },
+            "detail": {
+                "title": "MenuVerticale"
+            },
+            "voce": "Voce",
+            "ordine": "Ordine",
+            "link": "Link",
+            "target": "Target",
+            "funzione": "funzione",
+            "menuPadre": "menuPadre",
+            "menuO": "menuO"
+        }
+    }
+}

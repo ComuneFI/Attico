@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    
+    <changeSet author="magria" id="201901181152-1">
+    	<sql>
+    		INSERT INTO gestatti.esito (id, label, tipiatto, registra_votazione, visibilita_presenza, visibilita_votazione, ammette_ie, organo) VALUES('G_approvata_dpc', 'Inviata al Consiglio', 'DPC', 1, 1, 1, 0, 'G');
+    		INSERT INTO gestatti.esito (id, label, tipiatto, registra_votazione, visibilita_presenza, visibilita_votazione, ammette_ie, organo) VALUES('G_approvata_modifiche_dpc', 'Inviata al Consiglio con Modifiche', 'DPC', 1, 1, 1, 0, 'G');
+    		UPDATE gestatti.esito SET tipiatto='DG' WHERE id='G_approvata_del' ;
+			UPDATE gestatti.esito SET tipiatto='DG' WHERE id='G_approvata_modifiche_del' ;
+    	</sql>
+    </changeSet>
+ 
+</databaseChangeLog>

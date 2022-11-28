@@ -1,0 +1,405 @@
+<!-- SEDUTA DI CONSIGLIO -ESITO BEGIN --><div th:if="${odg.sedutaGiunta.organo == 'C'}"><p><style>.atti-table > table, th, td{height: 5px;text-align:left;margin-left: 5px;}@page { margin: 2cm }		p { margin-bottom: 0.25cm; direction: ltr; color: #000000; orphans: 2; widows: 2 }		p.western { font-family: "Times New Roman", serif; font-size: 12pt; so-language: it-IT }		p.cjk { font-family: "Times New Roman", serif; font-size: 12pt }		p.ctl { font-family: "Times New Roman", serif; font-size: 12pt; so-language: ar-SA }@page { margin: 2cm }		p { margin-bottom: 0.25cm; direction: ltr; color: #000000; orphans: 2; widows: 2 }		p.western { font-family: "Times New Roman", serif; font-size: 12pt; so-language: it-IT }		p.cjk { font-family: "Times New Roman", serif; font-size: 12pt }		p.ctl { font-family: "Times New Roman", serif; font-size: 12pt; so-language: ar-SA }		</style></p>
+<p style="text-align: center; "><img src="data:image/jpeg;base64,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" data-filename="firenze_logo.jpg" style="width: 143.562px; height: 127.297px;"><span style="font-size: 18px; font-weight: bold;text-align:center"><br></span></p>
+<p style="text-align: center; "><span style="font-size: 18px; text-decoration-line: underline; font-family: &quot;Titillium Web&quot;;">Presidenza del Consiglio</span></p>
+<p style="text-align: center; "><span style="font-size: 18px; text-decoration-line: underline; font-family: &quot;Titillium Web&quot;;">Direzione del Consiglio</span></p>
+<p style="text-align: center; "><br></p>
+<p></p>
+<div style="text-align: center;"><span style="font-size: 18px; font-weight: bold;">CONSIGLIO COMUNALE DEL [[${#dates.format(inizioLavoriEffettiva, 'dd')}]] [[${#dates.monthName(inizioLavoriEffettiva)}]] [[${#dates.format(inizioLavoriEffettiva, 'yyyy')}]]&nbsp;</span></div>
+<div style="text-align: center;"><span style="font-size: 18px; font-weight: bold;"><br></span></div>
+<div style="text-align: center;"><span style="font-size: 18px; font-weight: bold;"><br></span></div>
+<div style="text-align: center;" th:if="${stampaSvolti == true}"><br><span style="font-size: 18px; font-weight: bold;text-align:center">ATTI SVOLTI</span><br><br><p></p>
+</div>
+<div th:if="${stampaSvolti == true}">	<!--  ATTI SVOLTI  BEGIN 	Interrogazioni con esito = [risposta_in_aula]	Comunicazioni con esito = [svolta]	Domande di attualità con esito = [risposta_in_aula]	Question time con esito = [risposta_in_aula]	-->		
+<!--  INTERROGAZIONI  BEGIN -->	<div th:if="${attiOdgMap.SVOLTI.containsKey('INT') and not #lists.isEmpty(attiOdgMap.SVOLTI.INT)}">		<br>		<span style="font-size: 12x;text-align:left">INTERROGAZIONI</span>		<table class="table table-bordered atti-table" style="th.container >
+ div width: 100%;height: 100%;overflow:hidden;}th.container {height: 5px;}">			<colgroup><col width="180">			<col width="830">		</colgroup><tbody>
+		<tr th:each="item: ${attiOdgMap.SVOLTI.INT}">
+			<td style="border: 1px solid #000000;"><div>[[${item.atto.codiceCifra}]]<br><span style="text-align:center" th:if="${item.atto.numeroAdozione} != null and ${item.atto.dataAdozione} != null">[[${item.atto.dataAdozione.toString("yyyy")}]]/[[${item.atto.numeroAdozione}]]</span></div>
+</td>
+			<td style="border: 1px solid #000000;"><div>[[${item.atto.oggetto}]]</div>
+</td>
+		</tr>
+		</tbody>
+		</table>
+		<br>	</div>
+	<!--  INTERROGAZIONI  END -->		<!--  COMUNICAZIONI  BEGIN -->	<div th:if="${attiOdgMap.SVOLTI.containsKey('COM') and not #lists.isEmpty(attiOdgMap.SVOLTI.COM)}">		<span style="font-size: 12x;text-align:left">COMUNICAZIONI</span>		<table class="table table-bordered atti-table" style="th.container >
+ div width: 100%;height: 100%;overflow:hidden;}th.container {height: 5px;}">			<colgroup><col width="180">			<col width="830">		</colgroup><tbody>
+		<tr th:each="item: ${attiOdgMap.SVOLTI.COM}">
+			<td style="border: 1px solid #000000;"><div>[[${item.atto.codiceCifra}]]<br><span style="text-align:center" th:if="${item.atto.numeroAdozione} != null and ${item.atto.dataAdozione} != null">[[${item.atto.dataAdozione.toString("yyyy")}]]/[[${item.atto.numeroAdozione}]]</span></div>
+</td>
+			<td style="border: 1px solid #000000;"><div>[[${item.atto.oggetto}]]</div>
+</td>
+		</tr>
+		</tbody>
+		</table>
+		<br>	</div>
+	<!--  COMUNICAZIONI  END -->		<!--  DOMANDE DI ATTUALITA'  BEGIN -->	<div th:if="${attiOdgMap.SVOLTI.containsKey('DAT') and not #lists.isEmpty(attiOdgMap.SVOLTI.DAT)}">			<br>		<span style="font-size: 12x;text-align:left">DOMANDE DI ATTUALITA'</span>		<table class="table table-bordered atti-table" style="th.container >
+ div width: 100%;height: 100%;overflow:hidden;}th.container {height: 5px;}">			<colgroup><col width="180">			<col width="830">		</colgroup><tbody>
+		<tr th:each="item: ${attiOdgMap.SVOLTI.DAT}">
+			<td style="border: 1px solid #000000;"><div>[[${item.atto.codiceCifra}]]<br><span style="text-align:center" th:if="${item.atto.numeroAdozione} != null and ${item.atto.dataAdozione} != null">[[${item.atto.dataAdozione.toString("yyyy")}]]/[[${item.atto.numeroAdozione}]]</span></div>
+</td>
+			<td style="border: 1px solid #000000;"><div>[[${item.atto.oggetto}]]</div>
+</td>
+		</tr>
+		</tbody>
+		</table>
+		<br>	</div>
+		<!--  DOMANDE DI ATTUALITA'  END -->			<!--  QUESTION TIME  BEGIN -->	<div th:if="${attiOdgMap.SVOLTI.containsKey('QT') and not #lists.isEmpty(attiOdgMap.SVOLTI.QT)}">		<span style="font-size: 12x;text-align:left">QUESTION TIME</span>		<table class="table table-bordered atti-table" style="th.container >
+ div width: 100%;height: 100%;overflow:hidden;}th.container {height: 5px;}">			<colgroup><col width="180">			<col width="830">		</colgroup><tbody>
+		<tr th:each="item: ${attiOdgMap.SVOLTI.QT}">
+			<td style="border: 1px solid #000000;"><div>[[${item.atto.codiceCifra}]]<br><span style="text-align:center" th:if="${item.atto.numeroAdozione} != null and ${item.atto.dataAdozione} != null">[[${item.atto.dataAdozione.toString("yyyy")}]]/[[${item.atto.numeroAdozione}]]</span></div>
+</td>
+			<td style="border: 1px solid #000000;"><div>[[${item.atto.oggetto}]]</div>
+</td>
+		</tr>
+		</tbody>
+		</table>
+		<br>	</div>
+	<!--  QUESTION TIME  END -->	</div>
+<!--  ATTI SVOLTI  END --><!--  ATTI APPROVATI  BEGIN      atti che hanno come esito [approvata]     o Approvata emendata ([approvata_modifiche]====> DIC,ODG,RIS,MZ)                         ([approvata_modifiche_del] ====>   DC,DPC)         Delibere di consiglio [DC]   [approvata] OR [approvata_modifiche_del]   [approvata_del]	Delibere per il consiglio [DPC]  [approvata]  OR [approvata_modifiche_del]  [approvata_del]	Delibere di indirizzo consiglio [DIC] [approvata] OR [approvata_modifiche]	Ordine del Giorno [ODG] [approvata] OR [approvata_modifiche]	Risoluzioni [RIS] [approvata] OR [approvata_modifiche]	Mozioni [MZ] [approvata] OR [approvata_modifiche]	Verbali [VERB] [approvato] --> <div style="text-align: center;" th:if="${stampaApprovati == true}"><span style="font-size: 18px; font-weight: bold;text-align:center">ATTI APPROVATI</span><br><br></div>
+ <div th:if="${stampaApprovati == true}">	<!--  DELIBERAZIONI BEGIN -->	<div th:if="${attiOdgMap.APPROVATI.containsKey('DELIBERA') and not #lists.isEmpty(attiOdgMap.APPROVATI.DELIBERA)}">		<span style="font-size: 14px;text-align:left;">DELIBERAZIONI</span>		<table class="table table-bordered atti-table" style="th.container >
+ div width: 100%;height: 100%;overflow:hidden;}th.container {height: 5px;}">			<colgroup><col width="200">			<col width="690">			<col width="120">		</colgroup><tbody>
+		<tr th:each="item: ${attiOdgMap.APPROVATI.DELIBERA}">
+			<td style="border: 1px solid #000000;"><div>[[${item.atto.codiceCifra}]]<br><span style="text-align:center" th:if="${item.atto.numeroAdozione} != null and ${item.atto.dataAdozione} != null">[[${item.atto.dataAdozione.toString("yyyy")}]]/[[${item.atto.numeroAdozione}]]</span></div>
+</td>
+			<td style="border: 1px solid #000000;"><div>[[${item.atto.oggetto}]]</div>
+</td>
+			<td style="border: 1px solid #000000;" th:each="esito: ${esiti}" th:if="${esito.id} == ${item.esito}"><div>[[${esito.label}]]</div>
+</td>
+		</tr>
+		</tbody>
+		</table>
+		<br>	</div>
+	<!--  DELIBERAZIONI  END -->			<!--  ORDINE DEL GIORNO BEGIN -->	<div th:if="${attiOdgMap.APPROVATI.containsKey('ODG') and not #lists.isEmpty(attiOdgMap.APPROVATI.ODG)}">		<span style="font-size: 14px;text-align:left;">ORDINE DEL GIORNO</span>		<table class="table table-bordered atti-table" style="th.container >
+ div width: 100%;height: 100%;overflow:hidden;}th.container {height: 5px;}">			<colgroup><col width="200">			<col width="690">			<col width="120">		</colgroup><tbody>
+		<tr th:each="item: ${attiOdgMap.APPROVATI.ODG}">
+			<td style="border: 1px solid #000000;"><div>[[${item.atto.codiceCifra}]]<br><span style="text-align:center" th:if="${item.atto.numeroAdozione} != null and ${item.atto.dataAdozione} != null">[[${item.atto.dataAdozione.toString("yyyy")}]]/[[${item.atto.numeroAdozione}]]</span></div>
+</td>
+			<td style="border: 1px solid #000000;"><div>[[${item.atto.oggetto}]]</div>
+</td>
+			<td style="border: 1px solid #000000;" th:each="esito: ${esiti}" th:if="${esito.id} == ${item.esito}"><div>[[${esito.label}]]</div>
+</td>
+		</tr>
+		</tbody>
+		</table>
+		<br>	</div>
+	<!--  ORDINE DEL GIORNO  END -->		<!--  RISOLUZIONI BEGIN -->	<div th:if="${attiOdgMap.APPROVATI.containsKey('RIS') and not #lists.isEmpty(attiOdgMap.APPROVATI.RIS)}">		<span style="font-size: 14px;text-align:left;">RISOLUZIONI</span>		<table class="table table-bordered atti-table" style="th.container >
+ div width: 100%;height: 100%;overflow:hidden;}th.container {height: 5px;}">			<colgroup><col width="200">			<col width="690">			<col width="120">		</colgroup><tbody>
+		<tr th:each="item: ${attiOdgMap.APPROVATI.RIS}">
+			<td style="border: 1px solid #000000;"><div>[[${item.atto.codiceCifra}]]<br><span style="text-align:center" th:if="${item.atto.numeroAdozione} != null and ${item.atto.dataAdozione} != null">[[${item.atto.dataAdozione.toString("yyyy")}]]/[[${item.atto.numeroAdozione}]]</span></div>
+</td>
+			<td style="border: 1px solid #000000;"><div>[[${item.atto.oggetto}]]</div>
+</td>
+			<td style="border: 1px solid #000000;" th:each="esito: ${esiti}" th:if="${esito.id} == ${item.esito}"><div>[[${esito.label}]]</div>
+</td>
+		</tr>
+		</tbody>
+		</table>
+		<br>	</div>
+	<!--  RISOLUZIONI  END -->		<!--  MOZIONI BEGIN -->	<div th:if="${attiOdgMap.APPROVATI.containsKey('MZ') and not #lists.isEmpty(attiOdgMap.APPROVATI.MZ)}">		<span style="font-size: 14px;text-align:left;">MOZIONI</span>		<table class="table table-bordered atti-table" style="th.container >
+ div width: 100%;height: 100%;overflow:hidden;}th.container {height: 5px;}">			<colgroup><col width="200">			<col width="690">			<col width="120">		</colgroup><tbody>
+		<tr th:each="item: ${attiOdgMap.APPROVATI.MZ}">
+			<td style="border: 1px solid #000000;"><div>[[${item.atto.codiceCifra}]]<br><span style="text-align:center" th:if="${item.atto.numeroAdozione} != null and ${item.atto.dataAdozione} != null">[[${item.atto.dataAdozione.toString("yyyy")}]]/[[${item.atto.numeroAdozione}]]</span></div>
+</td>
+			<td style="border: 1px solid #000000;"><div>[[${item.atto.oggetto}]]</div>
+</td>
+			<td style="border: 1px solid #000000;" th:each="esito: ${esiti}" th:if="${esito.id} == ${item.esito}"><div>[[${esito.label}]]</div>
+</td>
+		</tr>
+		</tbody>
+		</table>
+		<br>	</div>
+	<!--  MOZIONI  END -->		<!--  VERBALI BEGIN -->	<div th:if="${attiOdgMap.APPROVATI.containsKey('VERB') and not #lists.isEmpty(attiOdgMap.APPROVATI.VERB)}">		<span style="font-size: 14px;text-align:left;">VERBALI</span>		<table class="table table-bordered atti-table" style="th.container >
+ div width: 100%;height: 100%;overflow:hidden;}th.container {height: 5px;}">			<colgroup><col width="200">			<col width="690">			<col width="120">		</colgroup><tbody>
+		<tr th:each="item: ${attiOdgMap.APPROVATI.VERB}">
+			<td style="border: 1px solid #000000;"><div>[[${item.atto.codiceCifra}]]<br><span style="text-align:center" th:if="${item.atto.numeroAdozione} != null and ${item.atto.dataAdozione} != null">[[${item.atto.dataAdozione.toString("yyyy")}]]/[[${item.atto.numeroAdozione}]]</span></div>
+</td>
+			<td style="border: 1px solid #000000;"><div>[[${item.atto.oggetto}]]</div>
+</td>
+			<td style="border: 1px solid #000000;" th:each="esito: ${esiti}" th:if="${esito.id} == ${item.esito}"><div>[[${esito.label}]]</div>
+</td>
+		</tr>
+		</tbody>
+		</table>
+		<br>	</div>
+	<!--  VERBALI  END --></div>
+<!--  ATTI APPROVATI  END --><!--  ATTI RESPINTI  BEGIN Ordine del giorno con esito = Respinta o Respinta emendata		Delibere di consiglio[DC]  Esito [respinto] o [respinto_emendato]	Delibere per il consiglio[DPC]	Delibere di indirizzo consiglio[DIC]	Ordine del Giorno	Risoluzioni	Mozioni--><div th:if="${stampaRespinti == true}" style="font-size: 18px; font-weight: bold;text-align:center">ATTI RESPINTI<br><br></div>
+<div th:if="${stampaRespinti == true}">	<!--  DELIBERAZIONI BEGIN -->	<div th:if="${attiOdgMap.RESPINTI.containsKey('DELIBERA') and not #lists.isEmpty(attiOdgMap.RESPINTI.DELIBERA)}">		<span style="font-size: 14px;text-align:left;">DELIBERAZIONI</span>		<table class="table table-bordered atti-table" style="th.container >
+ div width: 100%;height: 100%;overflow:hidden;}th.container {height: 5px;}">			<colgroup><col width="200">			<col width="690">			<col width="120">		</colgroup><tbody>
+		<tr th:each="item: ${attiOdgMap.RESPINTI.DELIBERA}">
+			<td style="border: 1px solid #000000;"><div>[[${item.atto.codiceCifra}]]<br><span style="text-align:center" th:if="${item.atto.numeroAdozione} != null and ${item.atto.dataAdozione} != null">[[${item.atto.dataAdozione.toString("yyyy")}]]/[[${item.atto.numeroAdozione}]]</span></div>
+</td>
+			<td style="border: 1px solid #000000;"><div>[[${item.atto.oggetto}]]</div>
+</td>
+			<td style="border: 1px solid #000000;" th:each="esito: ${esiti}" th:if="${esito.id} == ${item.esito}"><div>[[${esito.label}]]</div>
+</td>
+		</tr>
+		</tbody>
+		</table>
+		<br>	</div>
+	<!--  DELIBERAZIONI  END -->	<!--  ORDINE DEL GIORNO BEGIN -->	<div th:if="${attiOdgMap.RESPINTI.containsKey('ORG') and not #lists.isEmpty(attiOdgMap.RESPINTI.ORG)}">		<span style="font-size: 14px;text-align:left;">ORDINE DEL GIORNO</span>		<table class="table table-bordered atti-table" style="th.container >
+ div width: 100%;height: 100%;overflow:hidden;}th.container {height: 5px;}">			<colgroup><col width="200">			<col width="690">			<col width="120">		</colgroup><tbody>
+		<tr th:each="item: ${attiOdgMap.RESPINTI.ORG}">
+			<td style="border: 1px solid #000000;"><div>[[${item.atto.codiceCifra}]]<br><span style="text-align:center" th:if="${item.atto.numeroAdozione} != null and ${item.atto.dataAdozione} != null">[[${item.atto.dataAdozione.toString("yyyy")}]]/[[${item.atto.numeroAdozione}]]</span></div>
+</td>
+			<td style="border: 1px solid #000000;"><div>[[${item.atto.oggetto}]]</div>
+</td>
+			<td style="border: 1px solid #000000;" th:each="esito: ${esiti}" th:if="${esito.id} == ${item.esito}"><div>[[${esito.label}]]</div>
+</td>
+		</tr>
+		</tbody>
+		</table>
+		<br>	</div>
+	<!--  ORDINE DEL GIORNO  END -->		<!--  RISOLUZIONI BEGIN -->	<div th:if="${attiOdgMap.RESPINTI.containsKey('RIS') and not #lists.isEmpty(attiOdgMap.RESPINTI.RIS)}">		<span style="font-size: 14px;text-align:left;">RISOLUZIONI</span>		<table class="table table-bordered atti-table" style="th.container >
+ div width: 100%;height: 100%;overflow:hidden;}th.container {height: 5px;}">			<colgroup><col width="200">			<col width="690">			<col width="120">		</colgroup><tbody>
+		<tr th:each="item: ${attiOdgMap.RESPINTI.RIS}">
+			<td style="border: 1px solid #000000;"><div>[[${item.atto.codiceCifra}]]<br><span style="text-align:center" th:if="${item.atto.numeroAdozione} != null and ${item.atto.dataAdozione} != null">[[${item.atto.dataAdozione.toString("yyyy")}]]/[[${item.atto.numeroAdozione}]]</span></div>
+</td>
+			<td style="border: 1px solid #000000;"><div>[[${item.atto.oggetto}]]</div>
+</td>
+			<td style="border: 1px solid #000000;" th:each="esito: ${esiti}" th:if="${esito.id} == ${item.esito}"><div>[[${esito.label}]]</div>
+</td>
+		</tr>
+		</tbody>
+		</table>
+		<br>	</div>
+	<!--  RISOLUZIONI  END -->		<!--  MOZIONI BEGIN -->	<div th:if="${attiOdgMap.RESPINTI.containsKey('MZ') and not #lists.isEmpty(attiOdgMap.RESPINTI.MZ)}">		<span style="font-size: 14px;text-align:left;">MOZIONI</span>		<table class="table table-bordered atti-table" style="th.container >
+ div width: 100%;height: 100%;overflow:hidden;}th.container {height: 5px;}">			<colgroup><col width="200">			<col width="690">			<col width="120">		</colgroup><tbody>
+		<tr th:each="item: ${attiOdgMap.RESPINTI.MZ}">
+			<td style="border: 1px solid #000000;"><div>[[${item.atto.codiceCifra}]]</div>
+</td>
+			<td style="border: 1px solid #000000;"><div>[[${item.atto.oggetto}]]</div>
+</td>
+			<td style="border: 1px solid #000000;" th:each="esito: ${esiti}" th:if="${esito.id} == ${item.esito}"><div>[[${esito.label}]]</div>
+</td>
+		</tr>
+		</tbody>
+		</table>
+		<br>	</div>
+	<!--  MOZIONI  END -->	</div>
+<!--  ATTI RESPINTI  END --><!--  ATTI RINVIATI  BEGIN  		DC,DIC,INT,VERB,ODG,RIS,MZ,COM		Mozioni[MZ]	Delibere di consiglio Esito[DC] [rinviato]  	Delibere di indirizzo consiglio[DIC]	Ordine del Giorno[ODG]	Interrogazioni[NT]	Verabali[VERB]	Risoluzioni[RIS]	Comunicazioni[COM]--><div style="text-align: center;" th:if="${stampaRinviati == true}"><span style="font-size: 18px; font-weight: bold;text-align:center">ATTI RINVIATI</span><br><br></div>
+<div th:if="${stampaRinviati == true}">		<!--  MOZIONI BEGIN -->	<div th:if="${attiOdgMap.RINVIATI.containsKey('MZ') and not #lists.isEmpty(attiOdgMap.RINVIATI.MZ)}">		<span style="font-size: 14px;text-align:left;">MOZIONI</span>		<table class="table table-bordered atti-table" style="th.container >
+ div width: 100%;height: 100%;overflow:hidden;}th.container {height: 5px;}">			<colgroup><col width="200">			<col width="690">			<col width="120">		</colgroup><tbody>
+		<tr th:each="item: ${attiOdgMap.RINVIATI.MZ}">
+			<td style="border: 1px solid #000000;"><div>[[${item.atto.codiceCifra}]]<br><span style="text-align:center" th:if="${item.atto.numeroAdozione} != null and ${item.atto.dataAdozione} != null">[[${item.atto.dataAdozione.toString("yyyy")}]]/[[${item.atto.numeroAdozione}]]</span></div>
+</td>
+			<td style="border: 1px solid #000000;"><div>[[${item.atto.oggetto}]]</div>
+</td>
+			<td style="border: 1px solid #000000;" th:each="esito: ${esiti}" th:if="${esito.id} == ${item.esito}"><div>[[${esito.label}]]</div>
+</td>
+		</tr>
+		</tbody>
+		</table>
+		<br>	</div>
+	<!--  MOZIONI  END -->			<!--  DELIBERAZIONI BEGIN -->	<div th:if="${attiOdgMap.RINVIATI.containsKey('DELIBERA') and not #lists.isEmpty(attiOdgMap.RINVIATI.DELIBERA)}">		<span style="font-size: 14px;text-align:left;">DELIBERAZIONI</span>		<table class="table table-bordered atti-table" style="th.container >
+ div width: 100%;height: 100%;overflow:hidden;}th.container {height: 5px;}">			<colgroup><col width="200">			<col width="690">			<col width="120">		</colgroup><tbody>
+		<tr th:each="item: ${attiOdgMap.RINVIATI.DELIBERA}">
+			<td style="border: 1px solid #000000;"><div>[[${item.atto.codiceCifra}]]<br><span style="text-align:center" th:if="${item.atto.numeroAdozione} != null and ${item.atto.dataAdozione} != null">[[${item.atto.dataAdozione.toString("yyyy")}]]/[[${item.atto.numeroAdozione}]]</span></div>
+</td>
+			<td style="border: 1px solid #000000;"><div>[[${item.atto.oggetto}]]</div>
+</td>
+			<td style="border: 1px solid #000000;" th:each="esito: ${esiti}" th:if="${esito.id} == ${item.esito}"><div>[[${esito.label}]]</div>
+</td>
+		</tr>
+		</tbody>
+		</table>
+		<br>	</div>
+	<!--  DELIBERAZIONI  END -->		<!--  ORDINE DEL GIORNO BEGIN -->	<div th:if="${attiOdgMap.RINVIATI.containsKey('ODG') and not #lists.isEmpty(attiOdgMap.RINVIATI.ODG)}">		<span style="font-size: 14px;text-align:left;">ORDINE DEL GIORNO</span>		<table class="table table-bordered atti-table" style="th.container >
+ div width: 100%;height: 100%;overflow:hidden;}th.container {height: 5px;}">			<colgroup><col width="200">			<col width="690">			<col width="120">		</colgroup><tbody>
+		<tr th:each="item: ${attiOdgMap.RINVIATI.ODG}">
+			<td style="border: 1px solid #000000;"><div>[[${item.atto.codiceCifra}]]<br><span style="text-align:center" th:if="${item.atto.numeroAdozione} != null and ${item.atto.dataAdozione} != null">[[${item.atto.dataAdozione.toString("yyyy")}]]/[[${item.atto.numeroAdozione}]]</span></div>
+</td>
+			<td style="border: 1px solid #000000;"><div>[[${item.atto.oggetto}]]</div>
+</td>
+			<td style="border: 1px solid #000000;" th:each="esito: ${esiti}" th:if="${esito.id} == ${item.esito}"><div>[[${esito.label}]]</div>
+</td>
+		</tr>
+		</tbody>
+		</table>
+		<br>	</div>
+	<!--  ORDINE DEL GIORNO  END -->			<!--  INTERROGAZIONI BEGIN -->	<div th:if="${attiOdgMap.RINVIATI.containsKey('INT') and not #lists.isEmpty(attiOdgMap.RINVIATI.INT)}">		<span style="font-size: 14px;text-align:left;">INTERROGAZIONI</span>		<table class="table table-bordered atti-table" style="th.container >
+ div width: 100%;height: 100%;overflow:hidden;}th.container {height: 5px;}">			<colgroup><col width="200">			<col width="690">			<col width="120">		</colgroup><tbody>
+		<tr th:each="item: ${attiOdgMap.RINVIATI.INT}">
+			<td style="border: 1px solid #000000;"><div>[[${item.atto.codiceCifra}]]<br><span style="text-align:center" th:if="${item.atto.numeroAdozione} != null and ${item.atto.dataAdozione} != null">[[${item.atto.dataAdozione.toString("yyyy")}]]/[[${item.atto.numeroAdozione}]]</span></div>
+</td>
+			<td style="border: 1px solid #000000;"><div>[[${item.atto.oggetto}]]</div>
+</td>
+			<td style="border: 1px solid #000000;" th:each="esito: ${esiti}" th:if="${esito.id} == ${item.esito}"><div>[[${esito.label}]]</div>
+</td>
+		</tr>
+		</tbody>
+		</table>
+	</div>
+	<!--  INTERROGAZIONI  END -->			<!--  VERBALI BEGIN -->	<div th:if="${attiOdgMap.RINVIATI.containsKey('VERB') and not #lists.isEmpty(attiOdgMap.RINVIATI.VERB)}">		<span style="font-size: 14px;text-align:left;">VERBALI</span>		<table class="table table-bordered atti-table" style="th.container >
+ div width: 100%;height: 100%;overflow:hidden;}th.container {height: 5px;}">			<colgroup><col width="200">			<col width="690">			<col width="120">		</colgroup><tbody>
+		<tr th:each="item: ${attiOdgMap.RINVIATI.VERB}">
+			<td style="border: 1px solid #000000;"><div>[[${item.atto.codiceCifra}]]<br><span style="text-align:center" th:if="${item.atto.numeroAdozione} != null and ${item.atto.dataAdozione} != null">[[${item.atto.dataAdozione.toString("yyyy")}]]/[[${item.atto.numeroAdozione}]]</span></div>
+</td>
+			<td style="border: 1px solid #000000;"><div>[[${item.atto.oggetto}]]</div>
+</td>
+			<td style="border: 1px solid #000000;" th:each="esito: ${esiti}" th:if="${esito.id} == ${item.esito}"><div>[[${esito.label}]]</div>
+</td>
+		</tr>
+		</tbody>
+		</table>
+		<br>	</div>
+	<!--  VERBALI  END -->			<!--  RISOLUZIONI BEGIN -->	<div th:if="${attiOdgMap.RINVIATI.containsKey('RIS') and not #lists.isEmpty(attiOdgMap.RINVIATI.RIS)}">		<span style="font-size: 14px;text-align:left;">RISOLUZIONI</span>		<table class="table table-bordered atti-table" style="th.container >
+ div width: 100%;height: 100%;overflow:hidden;}th.container {height: 5px;}">			<colgroup><col width="200">			<col width="690">			<col width="120">		</colgroup><tbody>
+		<tr th:each="item: ${attiOdgMap.RINVIATI.RIS}">
+			<td style="border: 1px solid #000000;"><div>[[${item.atto.codiceCifra}]]<br><span style="text-align:center" th:if="${item.atto.numeroAdozione} != null and ${item.atto.dataAdozione} != null">[[${item.atto.dataAdozione.toString("yyyy")}]]/[[${item.atto.numeroAdozione}]]</span></div>
+</td>
+			<td style="border: 1px solid #000000;"><div>[[${item.atto.oggetto}]]</div>
+</td>
+			<td style="border: 1px solid #000000;" th:each="esito: ${esiti}" th:if="${esito.id} == ${item.esito}"><div>[[${esito.label}]]</div>
+</td>
+		</tr>
+		</tbody>
+		</table>
+		<br>	</div>
+	<!--  RISOLUZIONI  END -->			<!--  COMUNICAZIONI BEGIN -->	<div th:if="${attiOdgMap.RINVIATI.containsKey('COM') and not #lists.isEmpty(attiOdgMap.RINVIATI.COM)}">		<span style="font-size: 14px;text-align:left;">COMUNICAZIONI</span>		<table class="table table-bordered atti-table" style="th.container >
+ div width: 100%;height: 100%;overflow:hidden;}th.container {height: 5px;}">			<colgroup><col width="200">			<col width="690">			<col width="120">		</colgroup><tbody>
+		<tr th:each="item: ${attiOdgMap.RINVIATI.COM}">
+			<td style="border: 1px solid #000000;"><div>[[${item.atto.codiceCifra}]]<br><span style="text-align:center" th:if="${item.atto.numeroAdozione} != null and ${item.atto.dataAdozione} != null">[[${item.atto.dataAdozione.toString("yyyy")}]]/[[${item.atto.numeroAdozione}]]</span></div>
+</td>
+			<td style="border: 1px solid #000000;"><div>[[${item.atto.oggetto}]]</div>
+</td>
+			<td style="border: 1px solid #000000;" th:each="esito: ${esiti}" th:if="${esito.id} == ${item.esito}"><div>[[${esito.label}]]</div>
+</td>
+		</tr>
+		</tbody>
+		</table>
+		<br>	</div>
+	<!--  COMUNICAZIONI  END --></div>
+<!--  ATTI RINVIATI  END --><!--  ATTI RITIRATI BEGINInterrogazioni [INT]  [ritirato]Comunicazioni [COM] [ritirato]Question Time [QT] [ritirato]Ordine del Giorno [ODG] [ritirato]Risoluzioni [RIS] [ritirato]Mozioni[MZ] [ritirato] --><div th:if="${stampaRitirati == true}" style="font-size: 18px; font-weight: bold;text-align:center">ATTI RITIRATI<br><br></div>
+<div th:if="${stampaRitirati == true}">	<!--  DELIBERAZIONI BEGIN -->	<div th:if="${attiOdgMap.RITIRATI.containsKey('DELIBERA') and not #lists.isEmpty(attiOdgMap.RITIRATI.DELIBERA)}">		<span style="font-size: 14px;text-align:left;">DELIBERAZIONI</span>		<table class="table table-bordered atti-table" style="th.container >
+ div width: 100%;height: 100%;overflow:hidden;}th.container {height: 5px;}">			<colgroup><col width="200">			<col width="690">			<col width="120">		</colgroup><tbody>
+		<tr th:each="item: ${attiOdgMap.RITIRATI.DELIBERA}">
+			<td style="border: 1px solid #000000;"><div>[[${item.atto.codiceCifra}]]<br><span style="text-align:center" th:if="${item.atto.numeroAdozione} != null and ${item.atto.dataAdozione} != null">[[${item.atto.dataAdozione.toString("yyyy")}]]/[[${item.atto.numeroAdozione}]]</span></div>
+</td>
+			<td style="border: 1px solid #000000;"><div>[[${item.atto.oggetto}]]</div>
+</td>
+			<td style="border: 1px solid #000000;" th:each="esito: ${esiti}" th:if="${esito.id} == ${item.esito}"><div>[[${esito.label}]]</div>
+</td>
+		</tr>
+		</tbody>
+		</table>
+		<br>	</div>
+	<!--  DELIBERAZIONI  END --><!--  INTERROGAZIONI  BEGIN -->	<div th:if="${attiOdgMap.RITIRATI.containsKey('INT') and not #lists.isEmpty(attiOdgMap.RITIRATI.INT)}">		<span style="font-size: 12x;text-align:left">INTERROGAZIONI</span>		<table class="table table-bordered atti-table" style="th.container >
+ div width: 100%;height: 100%;overflow:hidden;}th.container {height: 5px;}">			<colgroup><col width="200">			<col width="690">			<col width="120">		</colgroup><tbody>
+		<tr th:each="item: ${attiOdgMap.RITIRATI.INT}">
+			<td style="border: 1px solid #000000;"><div>[[${item.atto.codiceCifra}]]<br><span style="text-align:center" th:if="${item.atto.numeroAdozione} != null and ${item.atto.dataAdozione} != null">[[${item.atto.dataAdozione.toString("yyyy")}]]/[[${item.atto.numeroAdozione}]]</span></div>
+</td>
+			<td style="border: 1px solid #000000;"><div>[[${item.atto.oggetto}]]</div>
+</td>
+			<td style="border: 1px solid #000000;" th:each="esito: ${esiti}" th:if="${esito.id} == ${item.esito}"><div>[[${esito.label}]]</div>
+</td>
+		</tr>
+		</tbody>
+		</table>
+		<br>	</div>
+	<!--  INTERROGAZIONI  END -->		<!--  COMUNICAZIONI  BEGIN -->	<div th:if="${attiOdgMap.RITIRATI.containsKey('COM') and not #lists.isEmpty(attiOdgMap.RITIRATI.COM)}">		<span style="font-size: 12x;text-align:left">COMUNICAZIONI</span>		<table class="table table-bordered atti-table" style="th.container >
+ div width: 100%;height: 100%;overflow:hidden;}th.container {height: 5px;}">			<colgroup><col width="200">			<col width="690">			<col width="120">		</colgroup><tbody>
+		<tr th:each="item: ${attiOdgMap.RITIRATI.COM}">
+			<td style="border: 1px solid #000000;"><div>[[${item.atto.codiceCifra}]]<br><span style="text-align:center" th:if="${item.atto.numeroAdozione} != null and ${item.atto.dataAdozione} != null">[[${item.atto.dataAdozione.toString("yyyy")}]]/[[${item.atto.numeroAdozione}]]</span></div>
+</td>
+			<td style="border: 1px solid #000000;"><div>[[${item.atto.oggetto}]]</div>
+</td>
+			<td style="border: 1px solid #000000;" th:each="esito: ${esiti}" th:if="${esito.id} == ${item.esito}"><div>[[${esito.label}]]</div>
+</td>
+		</tr>
+		</tbody>
+		</table>
+		<br>	</div>
+	<!--  COMUNICAZIONI  END -->		<br><br>		<!--  QUESTION TIME  BEGIN -->	<div th:if="${attiOdgMap.RITIRATI.containsKey('QT') and not #lists.isEmpty(attiOdgMap.RITIRATI.QT)}">		<span style="font-size: 12x;text-align:left">QUESTION TIME</span>		<table class="table table-bordered atti-table" style="th.container >
+ div width: 100%;height: 100%;overflow:hidden;}th.container {height: 5px;}">			<colgroup><col width="200">			<col width="690">			<col width="120">		</colgroup><tbody>
+		<tr th:each="item: ${attiOdgMap.RITIRATI.QT}">
+			<td style="border: 1px solid #000000;"><div>[[${item.atto.codiceCifra}]]<br><span style="text-align:center" th:if="${item.atto.numeroAdozione} != null and ${item.atto.dataAdozione} != null">[[${item.atto.dataAdozione.toString("yyyy")}]]/[[${item.atto.numeroAdozione}]]</span></div>
+</td>
+			<td style="border: 1px solid #000000;"><div>[[${item.atto.oggetto}]]</div>
+</td>
+			<td style="border: 1px solid #000000;" th:each="esito: ${esiti}" th:if="${esito.id} == ${item.esito}"><div>[[${esito.label}]]</div>
+</td>
+		</tr>
+		</tbody>
+		</table>
+		<br>	</div>
+	<!--  QUESTION TIME  END -->	<!--  ORDINE DEL GIORNO BEGIN -->	<div th:if="${attiOdgMap.RITIRATI.containsKey('ODG') and not #lists.isEmpty(attiOdgMap.RITIRATI.ODG)}">		<span style="font-size: 14px;text-align:left;">ORDINE DEL GIORNO</span>		<table class="table table-bordered atti-table" style="th.container >
+ div width: 100%;height: 100%;overflow:hidden;}th.container {height: 5px;}">			<colgroup><col width="200">			<col width="690">			<col width="120">		</colgroup><tbody>
+		<tr th:each="item: ${attiOdgMap.RITIRATI.ODG}">
+			<td style="border: 1px solid #000000;"><div>[[${item.atto.codiceCifra}]]<br><span style="text-align:center" th:if="${item.atto.numeroAdozione} != null and ${item.atto.dataAdozione} != null">[[${item.atto.dataAdozione.toString("yyyy")}]]/[[${item.atto.numeroAdozione}]]</span></div>
+</td>
+			<td style="border: 1px solid #000000;"><div>[[${item.atto.oggetto}]]</div>
+</td>
+			<td style="border: 1px solid #000000;" th:each="esito: ${esiti}" th:if="${esito.id} == ${item.esito}"><div>[[${esito.label}]]</div>
+</td>
+		</tr>
+		</tbody>
+		</table>
+		<br>	</div>
+	<!--  ORDINE DEL GIORNO  END -->			<!--  RISOLUZIONI BEGIN -->	<div th:if="${attiOdgMap.RITIRATI.containsKey('RIS') and not #lists.isEmpty(attiOdgMap.RITIRATI.RIS)}">	<span style="font-size: 14px;text-align:left;">RISOLUZIONI</span>		<table class="table table-bordered atti-table" style="th.container >
+ div width: 100%;height: 100%;overflow:hidden;}th.container {height: 5px;}">			<colgroup><col width="200">			<col width="690">			<col width="120">		</colgroup><tbody>
+		<tr th:each="item: ${attiOdgMap.RITIRATI.RIS}">
+			<td style="border: 1px solid #000000;"><div>[[${item.atto.codiceCifra}]]<br><span style="text-align:center" th:if="${item.atto.numeroAdozione} != null and ${item.atto.dataAdozione} != null">[[${item.atto.dataAdozione.toString("yyyy")}]]/[[${item.atto.numeroAdozione}]]</span></div>
+</td>
+			<td style="border: 1px solid #000000;"><div>[[${item.atto.oggetto}]]</div>
+</td>
+			<td style="border: 1px solid #000000;" th:each="esito: ${esiti}" th:if="${esito.id} == ${item.esito}"><div>[[${esito.label}]]</div>
+</td>
+		</tr>
+		</tbody>
+		</table>
+		<br>	</div>
+	<!--  RISOLUZIONI  END -->				<!--  MOZIONI BEGIN -->	<div th:if="${attiOdgMap.RITIRATI.containsKey('MZ') and not #lists.isEmpty(attiOdgMap.RITIRATI.MZ)}">		<span style="font-size: 14px;text-align:left;">MOZIONI</span>		<table class="table table-bordered atti-table" style="th.container >
+ div width: 100%;height: 100%;overflow:hidden;}th.container {height: 5px;}">			<colgroup><col width="200">			<col width="690">			<col width="120">		</colgroup><tbody>
+		<tr th:each="item: ${attiOdgMap.RITIRATI.MZ}">
+			<td style="border: 1px solid #000000;"><div>[[${item.atto.codiceCifra}]]<br><span style="text-align:center" th:if="${item.atto.numeroAdozione} != null and ${item.atto.dataAdozione} != null">[[${item.atto.dataAdozione.toString("yyyy")}]]/[[${item.atto.numeroAdozione}]]</span></div>
+</td>
+			<td style="border: 1px solid #000000;"><div>[[${item.atto.oggetto}]]</div>
+</td>
+			<td style="border: 1px solid #000000;" th:each="esito: ${esiti}" th:if="${esito.id} == ${item.esito}"><div>[[${esito.label}]]</div>
+</td>
+		</tr>
+		</tbody>
+		</table>
+		<br>	</div>
+	<!--  MOZIONI  END --></div>
+<!--  ATTI RITIRATI END -->  </div>
+<!--  SEDUTA DI CONSIGLIO -ESITO END --> <!-- SEDUTA DI GIUNTA -ESITO BEGIN --><div th:if="${odg.sedutaGiunta.organo == 'G'}"><style>.atti-table > table, th, td{height: 5px;text-align:left;margin-left: 5px;font-size: 14px;}@page { margin: 2cm }		p { margin-bottom: 0.25cm; direction: ltr; color: #000000; orphans: 2; widows: 2 }		p.western { font-family: "Times New Roman", serif; font-size: 12pt; so-language: it-IT }		p.cjk { font-family: "Times New Roman", serif; font-size: 12pt }		p.ctl { font-family: "Times New Roman", serif; font-size: 12pt; so-language: ar-SA }@page { margin: 2cm }		p { margin-bottom: 0.25cm; direction: ltr; color: #000000; orphans: 2; widows: 2 }		p.western { font-family: "Times New Roman", serif; font-size: 12pt; so-language: it-IT }		p.cjk { font-family: "Times New Roman", serif; font-size: 12pt }		p.ctl { font-family: "Times New Roman", serif; font-size: 12pt; so-language: ar-SA }		</style><p style="text-align: center; "><img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAMCAgMCAgMDAwMEAwMEBQgFBQQEBQoHBwYIDAoMDAsKCwsNDhIQDQ4RDgsLEBYQERMUFRUVDA8XGBYUGBIUFRT/2wBDAQMEBAUEBQkFBQkUDQsNFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBT/wAARCAC0AMsDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD9U6KKKACiiigAooooAKKKKACiiigAooooAKgmvre3ube3lmSOa4LLCjHBkIGSB64AJ/CvMPj1+0r4M/Z50aO48RXb3GqXKlrPR7MB7m4xxnBOETPBdsDrjJ4r82vih+294/8AiF8UNA8YWLQ+HY/D0ryaVpkGZY03jbJ5zHHml0+Q8KNpO0KSSeepXjT03Z9zkPCGY57F1aceSnZ2k9E3bRLq9dG1oteuh+vdFfLH7Nv7evhf4z3tn4d8RW6+FPF05EcMbPus71z0WKQ8q57I/qAGY19T1rCcZq8WfNZjlmLymu8PjabhL813T2a9AoooqzywooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACsrTvFWiaxezWdhrFhe3cJZZbe2ukkkjKnDBlBJGDwc9DWrX40/GiDVvgH+03ruraVr+m3utWus3OoQXOnzeYYWkdnCSjAw4D4ZORnIORXPWq+ys7aH2fDXD8eIqlagqvJOMbx0un69ltr57H7LVT1nVbbQdIvtTvH8u0soHuZn/uoilmP5A18v/sK+CPE9n4Vt/GuqfFC58ZWfiSx+0XGi3EjXAsrkyAhhK0jEOFDq42rlvXaDX0L8SNIbxX4B8V+H7aRft2oaRc2yJkbgZYnRTj0zn8jWkJOUea1jx8bgKWCx7wnteeMXZySatrZ6NdPue5+KPxV+JerfF/4gaz4t1qVnu9QnZ0iLZW3iz+7hT0VFwB9CTyTXKUeW0RMbqUkQ7WVhggjqDRXhJ31Z/a9GlToUo0qStGKSSXRLYASpDKSrA5BBwQa/Yv9i34wXvxn+A2kapqszXOt6dK+lX9w5y00kQUrIfVmjeMk92LV+OlfqN/wTT0eXw/+zvealfMtvb6rrs81u8hCqyBYoBgn1kjZR7iuvDNqp8j8t8ScPRqZRGrNe/Ga5e+t7r5rX5H11VPVNYsNDtvtOo31tp9vnb5t1KsaZ9MsQM1xvxv8E6x8Q/h/d6Fo3i+XwPJcyILjV7ePdKsIOWRDvTaWO0Fgw4yO9fkD8TvE3iHxBrlt4I17xhH4ks/DN9d2Fjq9zctJAyGQAuJDuJQ7AQecAgA4ArsrVnS6H47w1wtHiHmaxChyv3lyttRto+id3pa97a+R+2enajaavZQ3ljdQ3tnMu6K4t5BJG49VYZBH0qzXm37N3hOTwP8AAnwRokmo2erNbabGftunyeZbyhsuDG/8S4YYbuOe9ek10RbaTZ8XiqUKNepSpy5oxbSfdJ2T+YUUUVRyhRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABXh/hH9krwd4W8f/ABF8SzW9vrieMWMklnqlmk32NnaRpwjk8pI0gJXAI2AZNe4VS1i1u77S7qCwvjpt5IhEN2Ill8puzbG4Yeo7+o61LipWbWx34XGYjCqdOjUcFOyl6Jprz0a6a9Op8S/DL4Wat+wF8Q59W1W9/wCEj+F/iNYrC+1u3tzFLpM4f9zLcR5bEWXZC4bHzAnBCq3pn7PvxGv/AI5/tE/EbxlYoU8E6LZx+GdNmVspeSJM0rzAjg5zkeiSR9yaq+Nv2TfiJ8W9Tlj8d/G7ULjw2ymM6RoGmDT4pU9HAlZW/wCBh/qK8B0z47Wf7GOgeOPh74N8SaR44ivXF/4d1m1kSX7JdO0cM8V2qttyiqHUj5SV5+8VXz7ui1dWj/X4H6p7OPEFGrKjUjWx04xi2oyjHl5l7zvGK5klZ2SXKnZXTPO/2/vgsPhX8bJtYsIPK0LxUH1CHaMJHcg/6RGP+BMsn/bXHavmav1h/bR+Dtz4z/ZZnW4vJdb8ReFYI9UXUZEVZLkxri5YhQAA0ZkbaBjKrxxX5OisK0OSb89T9X4JzX+1MpjGcuadJ8jfe3wvXXVW36pnQ/D3wPqPxL8c6H4V0pc3+rXaWsbEEiME/M7Y/hVcsfZTX6u/tC+C7/4a/stiy+H0Hly+DTYalaQYz5kdnPHK5cDG7hGdv72D3NfMP/BMD4Wrq/jPxH4+u4d0OkQjTrFmHH2iUZlZT6rGAv0mr0X44/tSa78LvHHxL+F99qFpqFxqwt18OalqJjhi0yO7T9+LpwAPLhDFkJBbGAdwPGlNRhTcpddD4vifE4nNs+pYHBpSWG5Zyi9m2438rRi1fsuYufFH4wTftkfDnRfhx8NrRZNS8R2tvqHiG7uGzbaDbpIGMcrgcyNJHhVAyVGcANkdroP7DXhzSv2eNQ+Glxe2d1qV7N9ofxL/AGUguEfzFYFQXJBCqUB39D0PIPnfwv8A2JZdB8NaX4h+Efx31C0upgsk99YKlxpt668Y8pHCkA5GHL45BAr6z+Heg+LNC0p4/F/iqDxTqLEYntdMSxjQAf3AzEk9znHoBW9ODm+aqtWvlY+DzXMKWXU1hskxPLShPm5XGSnzp7tyjay0SV1otU2XfAPguw+HPgrRPDGlmVtP0m0js4WnbdIyooG5j0yepwAMngCt+iiu1Kysj85qVJVZupN3bd2/NhRRRTMwooooAKKKKACiiigAooooAKKKKACiiigD5y/a2/bA079nOwt9K0y1h1rxpfRebBZSsRDaxZIEs2CCQSCFUEFsHkY5/PDxL+2L8ZfFOoveT+PdTsdxysGmMtpEg9AsYGfxyfesD9ozxfd+O/jt461i8kaR5NWuIIt38EMTmKJfwRFFedV41SrKct9D+teGuE8vy3BU5VaUZ1ZJOTkk9XrZX2S2036n0b8Pv29/ir4Ql+z63qMHjjRJFMdxputwqxkjPDASqA2SOPm3D/ZNfWvh/wAEfAn9tv4UXg8N+HtN8LeILWIRt9hs4ra90ucj5NwjAEsRIOM5VhuxtYHb+Xtd38EPjDrHwL+I+meK9Hdm8hvLvLTdhbu2YjzIm+oGQezBT2pRq20nqi854WpVabxOUfuMRHVOHuqTXSSWmve3rdaH6efsn/EDUPGngnXvhn47hU+MfBrf2JqsMh3C8tipWKYE8sGQEFu+A38Yr8pfH/hObwD468ReGrglpdI1CexLf3vLkKhvxAB/Gv0u8c6/p3hb9pD4P/F/QJt/hr4g2o8O6jMg2rKZVV7N39GztBz0EOK+P/28/B76X+1X4ggtYdv9tLaXcKD+J5IljY/jIjH8a0rX5FfVxdvla6Pk+Da0aOaVXBcsMRT5+X+WcJcs4+Vm20v5bH2d+zVdaT+zT+xNY+LNbTy43s5NfuUU4a4knYeQi5/iZPIQZ7kdq5v4KfBDw7J4e1r49/HW30+71rXc6uYdYTzLTS7RgPKXymyGcrsCghiBsVRuznZ/aF8Pw+MPH3wS+A9qN+iBl1fWIRwDY2ce2NGx/C5WRfqFr5r/AOChX7Q03j/4gyfD/Rrkr4Z8Ny+XdLEcLdXw4fPtFygH94OeeMayahvqo6L1/wCAv1Pm8swmKzjEtUJuE8U5VKk1vGipNRiu3NJP5KPS474nft/6jZz3mjfBvQNN8AeHGmZzeRWEIubpyADJ5e3y48gAchm4HzDoPGV/au+MSXouh8R9f80Nu2m6zHn/AHMbce2K8porjc5y3Z+3YXh7KsHT9nDDxfdySlJ+rd2z9Bv2V/8AgoVqGv8AiKw8JfFBrZnvZFgs/EcKLCBKeFW4QYUBjwHUKAcZGCWH31X8/wAwyDX7ZfsxeM7v4gfADwLrt/I019caZHHcTSHLSyR5iZyfVihY/Wu/DVXK8JH4d4g8N4XK3Tx+CjyRm+WUVte100ul0ndbaaHp9FFFdx+NBRRRQAUUUUAFFFFABRRRQAUUUUAFFFFAH45/to/CW++FPx98R+bA40nXbmTV9OuMfI6SsWkQH1R2ZSOuNp/iFeF1+5Pxc+DXhT43+Fn0HxZpovbXO+CeNtk9tJjG+Jxyp/MHoQRxXwp8Qv8Agl14n0+4mm8FeKtP1ez5ZLXV1a2nA7LvQMjH3IQewryqmHlFtxV0f0vwzx3l9XCU8NmM/Z1YJK7+GVtL36Pve3kfKnwf+FGtfGz4gab4S0Hykvrzc7T3BIigiUZeRyOcAdhySQO9e+/Gf/gnX42+GHha58QaNq1r4xsrOMy3lvbW7QXMaAZZ0Qlg6gA5w270U845PwHpnj39ib43+G/EfjLw1d6dp4la1uJBtlgubeQbZBHKhKs6ghwuc5UZAFfrxbzx3UEc0LiSKRQ6OpyGUjIIp0aUaialujm4s4szHKMZh6+AlGeGmr6Wak0/eXMtVZWtZ9ep+X3w98VT+O/2CPF+kiZm1n4daxaavpzjrFE8wZSD7brr8MCut/ayt7bxv+1l8B9Uij3WviG00h+OQyNelv8A0GQVeu/hrb/C743ftGeCLKEQaD4i8BX2t2FuowqHGVVQOgSR5gPZRXLa7qTar8Sv2OLhjub+y9IjJ/3LlE/9lrN6Llfkvulb8mRSnTnjHi8N8M1UmvSrRUmv/AoN+rZ7ZqPjqPQf2hv2h/iVMVlTwL4ZtNHsPM5UyyJ52z8Zl2/8C96+NPgB+yx44/abv7/U7KeLT9IjnIvdd1HcyvO3zMqKOZH+bJ6AZGSMgH2f4qXt5c/CD49tZqZbvxP8Vv7AjCdZBCwkjXP/AAFa+/fhN8ONO+Enw50DwlpiKLbTLVYmkUYM0vWSU+7uWY/WtYw9rOz2V397f+R4lbOZ8M4BzwqXtqnJCLeto06cLv1c5Py1v0Pym/ab/ZD8Qfs1x6Vf3Wq2/iDQtRkNul/BCYWinC7vLdCTjKhiCGOdrZxgZ8Gr7v8A+Ch/j3WPil8TdB+D/hPTLvWLvSyt9d21nEZJJbqSPMagDoEicsW6fvTnG2uC8C/8E1Pil4lEM2vXWkeE7ZsF0uJzc3Cj2SIFCfYuKxlTvNxpq6R+jZPxHGhlFHFZ7WjCpNXWybjfR8q7rsj5b0HQdR8U63YaNpNpJfapfzJb21tEMtJIxwoH4nrX7h/CHwEnwu+F/hfwmkizNpOnxW0kq9JJAv7xh7Fyx/GvNf2dv2OfBX7PUn9p2Zm17xQ8ZjfWb9VDRgjDCGMcRAjryWOSN2Divea7aFF0/elufjPG3FVLP6kMPhE/ZQbd3pzPa9uiS266u4UUUV2H5eFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFfPPx0/bZ8F/Ab4g2HhLV7DU9QupIknvbiyRSlnG5O0kMQXbA3EDtjknivoavyJ/a8+IeofHL9o3U/D9loVh9t07VG8P6fLZxt9qu9kpjCyNuw+ZNxHyjAOM+vLiKjpxXK9WfecHZJQzrHTp4uLdKMW207W7P+v+Afdf7V8+mfGDwpH8H9DMWr+LfEUltOoiXzF0i1SVJJL64P/LJQgKqCQzlwqg5NeweMvFOm/CH4aaprt4ssmmaBpzSmNMGSRY0wqDtubAHpk18J/wDBM34q3Vn4u1r4dnw7bFLmKXU59ZijYXayRlECXBJOUG4hRgbWJ67jX35418Iad4/8I6x4b1eNpNM1W1ktLhY22tsdSCVPZhnIPYgUUpe0TqR3en3E57g/7FxdLKK93Spvmb0vLmtzNL7OkUkvK99T8lPH/wC2T4u8dfEy+8ZjSdH065uNBuPDaWyxySKlnKzMcsXBaQFzhuB/s1xH/C9PEf8Aanw51DydP8/wHFFFpQ8ltriOXzV875vmO7rjbx7819KeK/8AgmPq/huLUtRb4jaLa6BZq87XmpW0kRjhUZLSYJUYHXBr4rnSOK4lSKUXESuVSYKVDqDw2DyM9cGvNkpxfv7n9F5NLIcxp8uWpSjBJbPRNNW1XZtd9T01/wBorxTJYm0eDTHhPjL/AITkqbdudQxjafn/ANT/ALHX/ar9O/2R/wBpYftJ+Bb6/vNPi0rX9KuFtr+3t2LQtuXckkeckK2GG0kkFTyeK+B/gR+xLqX7QHgaLxJoPjfRYGEjQ3enTxSme0kBOFfH95cMD0Ib1Br9Cv2YP2cNN/Zt8DT6Pb37avqt/OLnUNQaPyxI4XaqIuThFGcZJJJY98Dqw6qc1+h+Z8d4nIJ4WWGof7zCVkkmrfzXurWsvya0OSm03TfgZ+1J4k8beIEW38P+PbOzs7fXpRiLTryFQjW0r/8ALNZgsbK5IBZNvYVL8VP24fA/wm+Ldt4D1Ky1K6nzAL3UbVEMFoZgrJkFtz/Kys20cA8bjkVP+3N8U5fhZ8CLyWPw9aeIo9ZuV0maHUUZ7aFJEdjJIFIJ+4AvI+Zgc8YP5T6Fdal8PdR8N+KZ9Itb+OXN3py6vE0ttceVIUyVDLvCuhGCccciirVdFuEX5/ecHDnDtHiTDrH4+/ux9nFKSXM4xSi/JxSs1az+Lvf93KK5L4S+OD8S/hj4W8VNClvJq+mwXkkMbZWOR0BdQe4DZH4V1teimmro/GqtKdCpKlUVpRbT9VoFFFFMyCiiigAooooAKKKKACiiigAooooAKKKKACsKHwH4Zt9bGsxeHdJj1gFmGoJYxC4BbO4+Zt3ZOTnnnJrdooLjUnC/K2rmDdReGfAdtquvXEeleH4JP3+oak6x2yvz9+WTjPJ6se/vXzB8Wv8AgpP4A8HefZ+ELS58bakuVE8ebayU+8jDc2P9lCD/AHqxPjl8I/Gn7X/x81zwt/bT+G/hz4L+z28kvlmQXN5LCkzFY8gO4WRVyxwi4IGXOeD+JX7F/wAEP2fLG01f4g/EHXpbaUnyNLtY4lub1lwSqKFJ28jJ4A3D5hkVw1KlTXkVkurP1HJspyOMqX9q1Z1a80mqcFJ6NXim1q3azsmrdTkdJk+On/BQbUbqCXUYNE8EWkwE4jVodOicYIQKMvcSAYOGJC5BJTIz81fFX4fXfwm+IWveEb+8tdQutJn8h7mzbdHJ8oYEZ6HDAEHoQR2r6z0j9q/xZ8RJdM+Ev7O3guDwXpjKYYLmQ+bcww5+ed25WEcks58xiTkNuIrxb43/ALNzfCb4y+F/BmreN7XVL7XxbT6hqskLKti885jdpMuS4GC+4lSRyQOtcUkmuaOr6v8AQ/XclxVTB4yWFrxhQpuLdOjFXmkt5zcbpNrpfV6brX0Kw/Zl+NP7PXgvTPir4D8RQ3Yl0+O/vrfRnLvHAyiT542BS4jAIJwDjqBgbq9Q+Ef/AAVCglWCy+I/hxoG4U6voXzIfd4HOR6kqx9lrG1fxP8AGP8A4J6XNhpdxc2/j/4Y3DlbJ7iNolhbOWiDAsbdzyQpLoRkqM7sY3hjwB+zr+1r4v8A+JJqGsfDDxdfsZJNAxEbW4fkv9nyCue+0Fe+E4NaJuD5abs+z/Q+Yrxw2Z0Z4rOqSr0Xdwr0l7yXacV7y5fNNLr3PvXwV8SfAXx18OTvoGraZ4q0t1AubRgHKg8gSwuNy9OjKOlbep+A/DOtWdlaah4d0m/tbH/j0gubGKRLft+7VlIXoOmOlfB3jr9jDxT+yrEPin8MvFtxq8/h4G7vtOu4RFJLarzKNyHEibQSyED5QSCSAK/QLR9STWNJsr+NSkd1Ak6q3UBlDAfrXoU5yleM1Zn5Bm+DwuB9niMqxLqUZN23UoyVrprTo1Z2V9exLZ2Vvp1rFa2kEVrbRKFjhhQIiD0AHAFT0UVufKttu7CiiigQUUUUAFFFFABXkvx9+Nd/8Lk8M6D4X0JfFPxA8W3j2Oh6RLP5EH7tN89zPJglYIUwzYBY5VRycj1qvm79pe4n+GPxf+FfxhubG6v/AAj4ej1LRvEMlnA08um214kRS98tQWMcckCrIVBIV84OKANbSfGfxr+HWpyan8UrfwJf+AYLC6vtU1zw3JdWkujLDEZMvFOzm4Q7SoKFWHUjAwed8MfEX9o74s+G7fxt4U8O+BfCvhu/jF3pOgeKmu5dTu7ZhmN55YWEdu0i4YIFk27gGJwaZ8Y/jl8Nv2jPAWu/CPwJ4xs/FXijxnot7aWh0Am9hsibdyst5JHkQR7giHeQcuBjrix8N/22fhZpPw3sbfx14lsfh94u0Szis9a8La2Tb31pcxoFdIoCN8ykjKNEGDKV7nAAOR+Jn7dmueHPgr4f8Y6F4H3eIo/FUvhnxN4Wv5DJcabNbwTT3ccbxkCRhHFvRujI6nHOK9w+M/x4sfhz8B7v4h6JFH4hku7S3OgWkbcanc3RRbONcckO0iE4525PavlfTrHVtS13wB431rRbjQofiD8aP7ZsNJv4fLnj08aNcWsDTxn7rypD5jKegcZq78HPB/iOX4z2Xwf1a0nPgv4H3N7rlnezt5keoLdK39iIfe3hluhn+9CnoaAPYfgh+03r/wAT9b+EtlqOk6bZr4w8G3viS8a2MhME8NxbxCOPLH5CJ2Jzk8Dn10/jD+0PrPw4+IXi/QLPTLC5tNF+G9941imuGcO9zBMY1hbBx5ZAycfN7183/ArxXp3wh8M/srfELxTONM8FzeCb/wAN3WtzAi20+6mltpoPPfoiyeRIoY4AI5Ird+LHjXRvjR4v+PXjTwXfxeIPCGgfB7UfDtxrlkd9nNfytLceTDKPll2RoCxQkAuo6mmB9Cfs2ftDy/HD4Z3moarpS+HvHGiKIdd0Bif9GmaISxSJk5MM0TJIjc5DEZJU15r4Z/aU+K/xS0z4QweDNI8G2ut+MfCVz4nvzrrXYtoPKlto/Li8oluTcg/Nnp19aHjnw5f/AAs8E/D/AOPXhWxuL+XTPCtnpvjHRrIfPquimBT5yr0M9qx8xT1KeYucYFeDeFZPhvD4b/ZbPxR8SzeF/Dg+Gt/5N9b6vc6YzXPn2O1PNgdWIK+YdpODtz2FID9APhHYePbSx1eb4g23hS31e7uxMjeE/tBilURIm6UzgEv8gXjjaq1ha1+zr4b8bfGDUPG/jHTrPxMEsbew0mw1CPzoLNFLtKxjYbWZnfqQcAcYyap/sw618Kbzwvq+n/CjxdJ4s022vBNeyz6zc6nJDLIgAXzJ3ZlBWPIUHHU4yTXs9TKKlujsoYuvhXKVGbi2rXW9tNn02t6abHP6H4N8PeArG7Phzw5pmjBlMjw6XZxWwlIHAOxRk/Wvw78c+NdX+JPi7VfE2u3D3mq6pO080jZwM8BFHZVGFA7AAV+8UiCWNkbO1gQcHB/MV8FftFfsZXWq/tA/DMeCtPt9I8JXaR2c62kW2PTfszNM7kAcl0JwTks4O4/MDXJiYSklyn6hwDneFy/FYh41+9ON1JvZRTbV99dPu72R7h+xb4pvPi9+zFon/CXQx60Y2m02Rr+MTC7hifCGQMCGIGFJOclMnkmtv4ofso+BfF/h/Ph7w3o/hPxRYyx3mlaxpNlHayW9xG4dCxjUblJXBBzwcjBAI9T8LeD9F8EadJp+gabb6TYSTyXJtbVdkQkdtzlV6Lk5OBgc9K2a6I01yKM9T4PEZtUjj6mLwDdOMpOSinoru9mlo+zW1tNiC+soNSsri0uokntriNopYpBlXRhhlI9CCRUkUSQRJHGgSNAFVVGAAOgFPorU8C7tboFFFFAgooooAKKKKACiiigAryP9oj4t+I/hZaeB7bwpomma5rnirxHFoEEWr3slpbxF7e4m8xnSORuPs+MBT96vXK+bv2zPEek+EdS+A+sa7qdno2k2fxFtZLm/v51hghX+zr8bndiAoyRyT3oAfovxk8W/CbxfomkfE/4b6F4U0bxNfx6bZ+J/CGom8slvpCRDBdo8EMkZkPyrJhl3MASuc11vw48fXPxg0/x/qEPhvR4vEPhbxJqfh3S5L1yyStakCKR5AheMMzZIUHHbNeSftD/GHwf+0np2g/Cb4Y69ZeONf1bXNMvL280CUXdro9jbXcVzNdTzpmNOIdiru3MzgAV3P7Hbq9t8ZtrBsfE7XwcHofMj4oA8o8Iftn/Fjxv+0Dr3wbg+FfhIeL/DySXF1dXHiidbPagj+eNhZs/zCdMDbnk5xg17Ld+KP2ioIZZYfht8PJptvCp4wu9zY6DnTwD+JHWvmH4Kf8pefi9/2Bn/APRGm1+hGq6tY6Fp81/qV7b6fYwgGW5upVijQE4BZmIA5IHPrQB4H8LPi38QvjB8KfFsX/Cv/D/h3x94d1yXQr3wxrWoyNYnZHFLu82OFjh45lKkIykYOcGvNP2S/wBsHxz+0v4q1nw7pXwx8NeE9C8MzRw608+sySMivJIrRwQpbBWf93IfmIX35r7PSCOJ5HSNUeQ7nZQAWOAMn14AH4Cvzw/4JQgjx9+0cCCCNfgBB/6739MD2P8AbG/av8efskafD4gk8CaB4m8FXt0thaTRazLb3kcnktIRLEbdlwfLkAKsegyBmulvPFvx6PhGx1+x+GPw/wDEUD2qXUei2viK4iutjKGEcby2gi3dByVHFeQ/8FjIBJ+yhp794vEtsw465trof1/SvsfwHIsHw+8OvIwjRNLtizMcBQIlySe1AHkv7L37VvhD9ohNc0yw0i78HeNdDkMeteFtUiWO5tmDFCwIwJEDAqTgFTwyrkZ88/al/bE+Iv7Mfjfw/pdz8PPD+v6P4ovWtNEv4dflgk3Bo123EZtjsbMqnKlhjPORXk37MOnH4t/8FI/ip8VfBcT/APCubO3l06XWIh/ouo3Rit42WJhxJl4nkyMjAU5+cZvf8FX2z4j/AGeYwCSfE0jflJaj+tAH1I+vftAKhK+Cfh07AcL/AMJZfDPtn+zqxfBXxp+J8/xouvh3438B6H4cubnw9PrWi6ppusy3tpfSQyxRyQlmgjZSpnjLfLkAggHNe/1naVq+leIRLdadeWmoi1nms5JraRZPKmjfZLESM4ZWUqy9QVweRSA+OfGP7f3iP4C/HjRfh58ZvBOjaDp2oxR3B8S6DrMl3bxwyM6JMY5IEbYJEZXzgqAWAYDn7TgnjuoI5oZFlhkUOkiMGVlIyCCOoIr4/wDjb8DPDv7R/wC1N438F+I0H2Sb4aaaYLyNQZ7C6/tO+Mc0ZPQjHIzhlJU8GvPv2Lvjx4l/Z++JMv7MXxkmEN/YyCLwprcrHybuFs+VArt1RgD5RPIIaI8qopgfbfxKv/GOl+F5brwNpGk67rsThxYaxfPZxTRgEsqypHJhycAbht55Ir5++C37Y3iLxz8AvEnxo8aeEdJ8G+B9OtLmSzji1aS6vbuaGQxlSphRVDSDy0wxZn7YIJ+q6+Y/+Cf+iWOqfsc+CbbULC3vLb7ZqE6w3MKum9NUuHjcAgjKsqsD1BAI5FICh8PfjH+1N4m8JadqupfA7wrZz3cKzCC68UvZSqGGRvhMMpjOCPlZsjvg8DJ+M/7WHxo+APgS68XeNPhT4O0/SYZI4FVPGrPNcSucLHEn2T5mxlsdlVj0Br651DULXSbC5vr64is7K2iaae4ncJHFGoJZmY8AAAkk9AK/NvwxZXf/AAU0/ahfxLqMEy/APwBOYbG0lBVNVuOD8wPUyYV3H8MQjTgyE0wPqn4B/Gv4rfHT4L3njV/h5o3hG+vhHJ4dsNW1eZkvYSfmmmZbfdEjDlMKxbqQFIJ83+B37Y/xa+Pnjfxx4U0b4YeFdI1TwdP9l1P+1vFNwE83zZI9sZjsnLcwuc8DGPWvsmKJIY0jjRY40AVVUYAA6ACvgT/gnxn/AIaw/auP/Uf/APby9oA+jNW8VftE2FnPLa/Dr4f6lKkbOsEPi+7R5GA4Vd9gq5PuwHqR1rrv2ffijdfGj4PeG/GN/pB0DUdRikF3pZcubWeKZ4ZYySAcq8bDkDFdrq+uadoEEM+p31tp8M08VrHJcyrGrzSOEjjBJ5ZnZVA6kkAVbjiSJSqIqKSWwowMk5J/Ekn8aQD6KKKACqOr6Fpuv262+qafa6lAr+YsV3CsqhsEbgGBGcEjPuavUUAUdJ0PTdBgMGmafa6dCTuMdpCsSk+uFAqa00+108TC1tobYTStNL5MYTfI33nbHVj3J5NWKoa7rum+GNGvNW1i/ttL0uyiae5vbyVYoYY1GSzuxAUD1NAH5o+HvATfEf8A4KqfF3SF8TeIfCZGnGf7f4ZvRaXTbbfTx5Zcq3yHdkjHVV9K+gPjJ+w3rfijwxbDRviz498SX1nqljqA0Txfron0u9SG5jkaOVEhB+6pKnn5guR3HzN8Iv2gPAel/wDBTb4g+O7/AMR2en+DNas5rGz168Yw2cjiK0UHzWAUKxgcBiQDxzyM/qjbXMN7bRXFvKk9vMgkjliYMjqRkMCOCCOcimBLX55/8ErZluPiV+0pKudr+IoWG7rj7Rf191+OviD4a+GPh6bXfFmu2Hh7R4mCNeajOsUe45woJ6scHCjJPYV+an/BLX4s+GdC+M3xY0/VtTj0i48X38Nxokd+Gh+3H7RdHy03AAviVPlzk54BwaAPaf8AgsLJ5X7J9kcjd/wklrgHufIuT+PSuM/bC/ZG1m+/Zp0zxb4B8T+MLu50jTILvUvDl/4gvL+1vrTylMhSGWRhuQfNsGFZAy4zto/4K/fE/wAM618JtJ+Hem6xa6l4vi12K9utJs286e1iW1nG6VVz5efOTAbBOeOM19i/s6fFzwj8XPhfoV34W12x1hrTTrWK+traYNLZSmIZimT70bZDDDAdDQBy/wCxR8cvDPx4+Amhat4d07T9BnsEFhqWh6ZCsMFjdKAWEcagBY3yHTH8LjuDXzN/wVuSObWvgFFLNLbxya7co00D7JIwXtAWRuzDOQexxXO+PtMvf+Ca/wC1nbeN9Htpj8EfH8/2fU7K3UlLCUksyhR0MZZpYx3jMsY+7mua/wCConxw8FfEfxh8JYPB+uW3ix/D9xcX+oPojfao4kd7ZkXemVLkROducjAzjIoA+2rv9kKO5Qqvxm+L9uTnLReLnzz9YzXR/srfBzUPgH8F9N8Eanew6nc6fe6g41CNmZrqOW8mlill3DPmsjqX6jdnBPWsfTv25PgRqdjBdR/E3RIUmQOI7mRoZVz2ZHUMpHcEVy3iD9uzwRrvxB8FeB/hhq+neNte1zUVGoXMLO1lpWmxqZbq4lkGF3iJGCLnGeWwBhgDX8Nzeb+3v45XGPL+H+kJ9f8ATr0/1qH9tf8AZH079qT4dhbMx6b480UNcaFq+ShV+CYJGHPluQOeqMFYdCD414E/ax+F0v7ffju8fxfpsWhan4b07R9P115sWF1dQyu7xJOfkJ/fYBztJRgCTjP3jSA+Of2Df2vNQ+J8F98KviZ5mlfF3wvutriK+GyXUo4vlaTHeZON4HUESDIY7fQf2AUEf7JfglF+6supKPoNRuhXmH7e37J2reLbmx+NXwsEun/FXwtsunWxGJdThi5GB/FNGuQoOd6ZjOflA8h0T9spf2eP+Cevw5g0Z1vPiR4otdRbToki3C0Bvrjzbx1AwAjNhVPVyBghWwwOt/bj+MOv/tBfE/Tf2XPhXcK99qEqnxXqsZJitYVwzQuw/hRcPKByTsj6sy19nfBf4Q+H/gT8NdE8FeGbfydM0yHYZGH7y4lPMk0h7u7EsT74GAAK+B/2Cvih8Av2c/At3rviz4k2N58TvFB+1azdS2t1LJbKSXW28zyjubJLyMD80hPUKpr6jl/4KHfs+R7gPiHFMQM4g0q+kJ+m2A0AfRlfl3+xx8M0+Kf7UX7SdtN4s8W+F5bXXZpBN4X1drFpwb67BEpAO/GBt9Mt619F+Av27/DnxJ+KniXUYNXg8L/BvwrpaR3OueIIDZNqmp3EmYli80KwVI4ZsKBvcv8AdwBn5P8A2CP2jPA/w5/aN+MmteK9Ybw/oni66mu9M1LUbeVIpP8ATZ5FV324QlJgRux0IznggH154v8A2Jb+48X/AA+8RaZ8TfGviN/Dfiey1ifSfGWvPe2UkEb/ADmNNnyzKDlCfQg4zkfVteHz/tvfAa2iaSX4p+HVVRk/6Vkn6DGT9BUv7NP7Qr/tJL408RaTpy23gKx1UaVoF/Kjpcal5cYNxcMrfdjLuqoMA4Vt3PCoD2uiiigAooooAKa6LIhV1DKRgqRkEU6igCKa2huIjFLEksRGCjqCv5GpFUKAAAAOAB2paKAGSwRzqFljWRQc4cAjNOKg4yAcdPalooAjWCNJGkWNVkf7zhRk/U0RwRxM7JGqFzliqgbj71JRQBwvxu+DugfHr4Za34J8SQ79P1KLCToAZLWYcxzxk9HRsEevIPBIr4f/AGTPj9rH7HnjWT9nf46Sx6Np8EzHwt4ouP3dlNCzEhPNPHlMSWRif3bFo3xhcfo1WF4v8B+GfiDpw0/xR4d0rxJYKdwtdXsorqIH1CyKRmgDVs7q11G3S5tZYbqCQZSaFg6sPUEcGljsreIkpBEhIwdqAZHpWd4U8HaD4D0SDRvDWiad4e0iAsYrDS7VLaCMscsVjQBRkkk4FbFAFZtOtGt1tzawmBPuxGMbR9B0qzRRQAVS0zRNO0W1S20+wtbC3RnZYbaFY0UuxdyAoABZiWPqSSeTV2igBNo9BQAB0FLRQBHLBHOoWWNZFByA6gjPrTyoIxgYpaKAIpLaGZQJIkcA5AZQafHGkKBEVUQdFUYAp1FABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAf/9nIABYkARckAUlmAQAAAAGWAAAhdgAEaAE11gUAAQPmBTXWBQECA1QGNdYFAgMDvAc11gUDBAPcIyN2AAHmBSN2AQJUBiN2AgO8ByN2AwTcIzpWCwAClkYAE9YwAAAA/wQBAAAAAAD/BAEAAAAAAP8EAQAAAAAA/wQBAAAAAAD/BAEAAAAAAP8EAQAAFPYBAAAVNgEY9gMAADXWBQABA+YFNdYFAQIDVAY11gUCAwO8BzXWBQMEA9wjNNYGAAEFAAAANNYGAAEKA0YAyAAWJAEXJAFJZgEAAAABlgAAIXYABGgBNdYFAAED5gU11gUBAgNUBjXWBQIDA7wHNdYFAwQD3CMjdgAB5gUjdgECVAYjdgIDvAcjdgME3CM6VgsAApZGABPWMAAAAP8EAQAAAAAA/wQBAAAAAAD/BAEAAAAAAP8EAQAAAAAA/wQBAAAAAAD/BAEAABT2AQAAFTYBGPYDAAA11gUAAQPmBTXWBQECA1QGNdYFAgMDvAc11gUDBAPcIzTWBgABBQAAADTWBgABCgNGAMgAFiQBFyQBSWYBAAAAAZYAACF2AARoATXWBQABA+YFNdYFAQIDVAY11gUCAwO8BzXWBQMEA9wjI3YAAeYFI3YBAlQGI3YCA7wHI3YDBNwjOlYLAAKWRgAT1jAAAAD/BAEAAAAAAP8EAQAAAAAA/wQBAAAAAAD/BAEAAAAAAP8EAQAAAAAA/wQBAAAU9gEAABU2ARj2AwAANdYFAAED5gU11gUBAgNUBjXWBQIDA7wHNdYFAwQD3CM01gYAAQUAAAA01gYAAQoDRgDIABYkARckAUlmAQAAAAGWAAAhdgAEaAE11gUAAQPmBTXWBQECA1QGNdYFAgMDvAc11gUDBAPcIyN2AAHmBSN2AQJUBiN2AgO8ByN2AwTcIzpWCwAClkYAE9YwAAAA/wQBAAAAAAD/BAEAAAAAAP8EAQAAAAAA/wQBAAAAAAD/BAEAAAAAAP8EAQAAFPYBAAAVNgEY9gMAADXWBQABA+YFNdYFAQIDVAY11gUCAwO8BzXWBQMEA9wjNNYG" data-filename="firenze_logo.jpg" style="width: 143.562px; height: 127.297px;"><span style="font-size: 18px; font-weight: bold;text-align:center"><br></span></p>
+<p style="text-align: center; "><span style="font-size: 18px; text-decoration-line: underline; font-family: &quot;Titillium Web&quot;;">DIREZIONE SEGRETERIA GENERALE AFFARI ISTITUZIONALI</span></p>
+<p style="text-align: center; "><br></p>
+<p></p>
+<div style="text-align: center;">	<span style="font-size: 18px; font-weight: bold;">Elenco delle deliberazioni adottate nella seduta del 	<span th:if="${odg.sedutaGiunta.inizioLavoriEffettiva != null}">[[${#dates.format(inizioLavoriEffettiva, 'dd')}]] [[${#dates.monthName(inizioLavoriEffettiva)}]] [[${#dates.format(inizioLavoriEffettiva, 'yyyy')}]]</span>	</span></div>
+<div style="text-align: center;"><span style="font-size: 18px; font-weight: bold;"><br></span></div>
+<div style="text-align: center;"><span style="font-size: 18px; font-weight: bold;"><br></span></div>
+<br> 	<span style="font-size: 14px; font-weight: bold;">COMUNE DI FIRENZE   * ORDINE DEL GIORNO PER L'ADUNANZA DELLA GIUNTA COMUNALE </span><table class="table table-bordered" style="th.container >
+ div width: 100%;height: 100%;overflow:hidden;}th.container {height: 5px;}">	<colgroup><col width="60">	<col width="180">	<col width="30">	<col width="630">	<col width="220"></colgroup><thead><tr>
+	<th style="border: 1px solid #000000;" class="container"><div>N.Delib</div>
+</th>
+	<th style="border: 1px solid #000000;"><div>N.Prop.</div>
+</th>
+	<th style="border: 1px solid #000000;"><div>IE</div>
+</th>
+	<th style="border: 1px solid #000000;"><div>Oggetto</div>
+</th>
+	<th style="border: 1px solid #000000;"><div>Importo</div>
+</th>
+</tr>
+</thead>
+<tbody>
+<tr th:each="item: ${attiOdg}" th:if="${item.esito != 'non_trattato' and (item.esito == 'G_approvata' or item.esito == 'G_approvata_del' or item.esito == 'G_approvata_dpc' or item.esito == 'G_approvata_modifiche' or item.esito == 'G_approvata_modifiche_del' or item.esito == 'G_approvata_modifiche_dpc') and (item.atto.tipoAtto.codice == 'DG' or item.atto.tipoAtto.codice == 'DIG')}">
+	<td style="border: 1px solid #000000;"><div><span style="text-align:center" th:if="${item.atto.numeroAdozione} != null and ${item.atto.dataAdozione} != null">[[${item.atto.dataAdozione.toString("yyyy")}]]/[[${item.atto.numeroAdozione}]]</span></div>
+</td>
+	<td style="border: 1px solid #000000;"><div>[[${item.atto.codiceCifra}]]</div>
+</td>
+	<td style="border: 1px solid #000000;"><div>[[${item.atto.ie != null  && item.atto.ie ? 'IE':''}]]</div>
+</td>
+	<td style="border: 1px solid #000000;"><div th:if="${item.atto.oggetto} != null">[[${item.atto.oggetto}]]</div>
+</td>
+<td style="border: 1px solid #000000;">
+	<div th:if="${item.atto.datiContabili} != null and ${item.atto.datiContabili.importoEntrata} != null">Entrata: [[${item.atto.datiContabili.importoEntrata}]] €</div>
+	<div th:if="${item.atto.datiContabili} != null and ${item.atto.datiContabili.importoUscita} != null">Uscita: [[${item.atto.datiContabili.importoUscita}]] €</div>
+</td>
+</tr>
+</tbody>
+</table>
+ </div>
+<!--  SEDUTA DI GIUNTA -ESITO END -->

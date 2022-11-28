@@ -1,0 +1,56 @@
+<div class="row" >
+	
+
+	<div class="col-sm-11">
+
+		<h3><span style="color:{{ngModel.identitavisiva}}" >{{ngModel.codice}}  {{ngModel.descrizione}} </span> </h3>
+	   <div class="dropdown">
+	      <button class="btn btn-default btn-sm dropdown-toggle" type="button" id="dropdownMenu{{ngModel.id}}" data-toggle="dropdown" aria-expanded="true">
+	        Funzioni  {{ngModel.codice}}  {{ngModel.descrizione}} 
+	        <span class="caret"></span>
+	    </button>
+
+	    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu{{ngModel.id}}">
+	       <li role="presentation">
+	          <a  role="menuitem" tabindex="-1"   href="#/aoo/{{ngModel.id}}/associaTipoMateria" ><span class="fa fa-tag fa-fw"></span>
+	                        &#xA0;<span translate="global.menu.entities.tipoMateria">TipoMateria</span></a>
+	      </li>
+	      <li role="presentation">
+	        <a  role="menuitem" tabindex="-1"    href="#/aoo/{{ngModel.id}}/associaUfficio"><span class="fa fa-map-marker fa-fw"></span>
+	                        &#xA0;<span translate="global.menu.entities.ufficio">ufficio</span></a>
+	    </li>
+	    <li role="presentation">
+	        <a role="menuitem" tabindex="-1"     href="#/aoo/{{ngModel.id}}/associaGruppoRuolo"><span class="fa fa-group fa-fw"></span>
+	                        &#xA0;<span translate="global.menu.entities.gruppoRuolo">GruppoRuolo</span> </a>
+	    </li>
+	    <li role="presentation">
+	        <a role="menuitem" tabindex="-1"    href="#/aoo/{{ngModel.id}}/associaProfilo"><span class="fa fa-user fa-fw"></span>
+	                        &#xA0;<span translate="global.menu.entities.profilo">profilo</span></a>
+	    </li>
+	    <li role="presentation">
+	        <a role="menuitem" tabindex="-1"    href="#/aoo/{{ngModel.id}}/associaRubricaDestinatarioEsterno"><span class="fa fa-whatsapp fa-fw"></span>
+	                        &#xA0;<span translate="global.menu.entities.rubricaDestinatarioEsterno">rubricaDestinatarioEsterno</span>   </a>
+	    </li>
+	    <li role="presentation">
+	        <a role="menuitem" tabindex="-1"    href="#/aoo/{{ngModel.id}}/associaQualificaProfessionale"><span class="fa fa-briefcase fa-fw"></span>
+	        &#xA0;<span translate="global.menu.entities.qualificaProfessionale">qualificaProfessionale</span>   </a>
+	    </li>
+
+
+
+
+	</ul>
+	</div>
+</div>
+
+ 
+	<div class="col-sm-1"  >
+		<a href="#/aoo/{{ngModel.id}}"  class="thumbnail" style="background-color: {{ngModel.identitavisiva}}">
+			<img src="{{ngModel.logo}}"    > 
+		</a>
+	</div>
+		
+ 
+
+</div>
+ 

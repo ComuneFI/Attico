@@ -1,0 +1,267 @@
+<div>	
+	<br>
+	<div class="row">
+		<div class="col-xs-12">
+			<label>Sottoscrizioni</label>
+			<span data-toggle="tooltip"
+				title="<b>GUIDA</b><br/>Questa sezione contiene le informazioni di sottoscrizione dell’Atto. Il sistema di default propone come Sottoscrittore Emanante il Dirigente della Struttura Proponente e come primo Sottoscrittore Proposta lo stesso Istruttore Proposta. E’ possibile modificare i dati dell’Emanante e/o aggiungere o eliminare gli altri Sottoscrittori Proposta.<br />"
+				data-html="true" ng-init="initTooltip()">
+				<i class="fa fa-question" ></i>
+			</span>
+		</div>
+	</div>
+	
+		<hr>
+				<div class="row">
+  					<div class="col-xs-4">
+  						<div class="form-group">
+							<label translate="cifra2gestattiApp.atto.sottoscrittoriEmanante">emanante</label>
+						</div>
+					</div>
+					<div class="col-xs-8">
+							<div class="form-group">
+								<select ng-change="settaQualificaEmanante()" id="emananteSottoscrittore" style="font-family: arial; font-weight: normal;float:left;"  class="sectionSottoscrittore form-control" name="emananti" ng-model="atto.emananteProfilo" ng-options="emanante.utente.nome + ' ' + emanante.utente.cognome for emanante in emananti track by emanante.id" required>
+			    				</select>
+			    				<label style="padding-left:10px;padding-top:5px;" ng-show="verificaEmanante()">Delega: {{atto.emananteProfilo.delega}}</label>
+							</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-4"><label translate="cifra2gestattiApp.sottoscrittoreAtto.qualificaEmanante">Qualifica Emanante *</label></div>
+  					<div class="col-xs-8" ng-if="atto.emananteProfilo.hasQualifica.length == 1 && !solaLettura" data-nodrag  class="form-group">
+							<label>  {{atto.emananteProfilo.hasQualifica[0].denominazione}}</label>
+							<input type="hidden" ng-init="atto.qualificaEmanante = atto.emananteProfilo.hasQualifica[0]">	
+					</div>
+					<div class="col-xs-8" ng-if="atto.emananteProfilo.hasQualifica.length != 1 && !solaLettura" data-nodrag  class="form-group">
+						<select style="font-family: arial; font-weight: normal;" class="sectionSottoscrittore form-control" name="qualificaEmanante" ng-model="atto.qualificaEmanante" 
+							ng-options="qualifica as  qualifica.denominazione for qualifica in atto.emananteProfilo.hasQualifica track by qualifica.id" required>
+						</select>
+					</div>
+					
+					<div class="col-xs-8" ng-if="solaLettura" data-nodrag  class="form-group">
+							<label>  {{atto.qualificaEmanante.denominazione}}</label>
+					</div>
+				</div>
+				<br />
+				<hr>
+				<div class="row">
+  					<div class="col-xs-4">
+  						<div class="form-group">
+							<label translate="cifra2gestattiApp.atto.sottoscrittoriProposta">sottoscrittori</label>
+						</div>
+					</div>
+					<div class="col-xs-3">
+						<div class="form-group">
+							<button type="button" class="sectionSottoscrittore btn btn-default" ng-click="addSottoscrittore( )"  ><i class="fa fa-user-plus"></i> Aggiungi sottoscrittore</button>
+							<span data-toggle="tooltip"
+								title="<b>GUIDA</b><br/>L’Istruttore è, per default, anche sottoscrittore della Proposta, ma è possibile modificare tale scelta deselezionando il check &#34;L'Istruttore è sottoscrittore della Proposta&#34;.<br />E’ possibile aggiungere altri Sottoscrittori e l'ordine di selezione coinciderà con l’ordine di firma della Proposta."
+								data-html="true" ng-init="initTooltip()">
+								<i class="fa fa-question" ></i>
+							</span>
+						</div>
+					</div>
+				</div>
+
+				<div class="form-group">
+				
+					<input type="text" ng-hide="true" name="requiredsottoscrittori"
+						ng-model="fake_model"
+						ng-required="isNotValidSottoscrittori" />
+
+					<div ui-tree="sottoscrittoreOptions" data-drag-enabled="!solaLettura && permettiCambiaOrdineSottoscrittori" >
+						<ol class="list-group"   ui-tree-nodes ng-model="atto.sottoscrittori" data-type="sottoscrittore" >
+							<!-- PRIMO SOTTOSCRITTORE -->
+							<li ng-if="atto.sottoscrittori && atto.sottoscrittori.length > 0">
+								<div class="tree-node tree-node-content row angular-ui-tree-handle">
+									<div class="form-inline">
+										<i ng-show="atto.sottoscrittori[0].enabled"  class="fa fa-bars"  ></i> 
+										<div ng-show="atto.sottoscrittori[0].enabled" data-nodrag  class="form-group">
+												<label ng-class="{'striked':!atto.sottoscrittori[0].enabled}" translate="cifra2gestattiApp.sottoscrittoreAtto.Profilo">Sottoscrittore</label> &nbsp;
+												<select disabled="disabled" ng-change="atto.sottoscrittori[0].edit=true; defaultQualifica(atto.sottoscrittori[0]);" style="font-family: arial; font-weight: normal;" class="sectionSottoscrittore form-control" name="sottoscrittoreAtto" 
+												ng-model="atto.sottoscrittori[0].profilo" 
+												ng-options="profilo as profilo.utente.cognome + ' ' + profilo.utente.nome for profilo in profilos track by profilo.id" required>
+												</select>
+												&nbsp;&nbsp;&nbsp;
+										</div>
+										<div ng-show="atto.sottoscrittori[0].enabled" ng-if="atto.sottoscrittori[0].profilo.hasQualifica.length == 1 && !solaLettura && (!solaLettura && permettiCambiaOrdineSottoscrittori)" data-nodrag  class="form-group">
+											<label ng-init="atto.sottoscrittori[0].qualificaProfessionale = atto.sottoscrittori[0].profilo.hasQualifica[0]" ng-class="{'striked':!atto.sottoscrittori[0].enabled}" translate="cifra2gestattiApp.sottoscrittoreAtto.Qualifica">Qualifica</label> &nbsp;
+											<label ng-class="{'striked':!atto.sottoscrittori[0].enabled}">  {{atto.sottoscrittori[0].profilo.hasQualifica[0].denominazione}}</label>
+										</div>
+										
+										<div ng-show="atto.sottoscrittori[0].enabled" ng-if="(atto.sottoscrittori[0].profilo.hasQualifica.length != 1) && !solaLettura && defaultQualificaPrimoSottoscrittore(atto.sottoscrittori)" data-nodrag  class="form-group">
+											<label ng-class="{'striked':!atto.sottoscrittori[0].enabled}" translate="cifra2gestattiApp.sottoscrittoreAtto.Qualifica">Qualifica</label> &nbsp;
+											<select ng-change="atto.sottoscrittori[0].edit=true" style="font-family: arial; font-weight: normal;" class="sectionSottoscrittore form-control" name="sottoscrittoreAttoQualifica" ng-model="atto.sottoscrittori[0].qualificaProfessionale" 
+												ng-options="qualifica as  qualifica.denominazione for qualifica in atto.sottoscrittori[0].profilo.hasQualifica track by qualifica.id" required>
+											</select>
+										</div>
+										
+										<div ng-if="solaLettura" data-nodrag  class="form-group">
+											<label ng-class="{'striked':!atto.sottoscrittori[0].enabled}" translate="cifra2gestattiApp.sottoscrittoreAtto.Qualifica">Qualifica</label> &nbsp;
+											<label ng-class="{'striked':!atto.sottoscrittori[0].enabled}">  {{atto.sottoscrittori[0].qualificaProfessionale.denominazione}}</label>
+										</div>
+										
+										<div data-nodrag class="pull-right form-group">
+											<label ng-if="atto.sottoscrittori[0].enabled" translate="cifra2gestattiApp.atto.primoSottoscrittoreEnabled">primoSottoscrittoreEnabled</label><label ng-if="!atto.sottoscrittori[0].enabled" translate="cifra2gestattiApp.atto.primoSottoscrittoreDisabled">primoSottoscrittoreDisabled</label> &nbsp; <input data-toggle="tooltip" bs-tooltip data-html="true" data-placement="top" data-title="Se la casella non è selezionata l'istruttore non sottoscrive l'atto" type="checkbox" ng-model="atto.sottoscrittori[0].enabled"/>
+										</div>
+									</div>
+								</div>
+							</li>
+							<!-- GLI ALTRI SOTTOSCRITTORI -->
+							<li ng-if="atto.sottoscrittori && $index>0 && !sottoscrittore.aooNonProponente" ng-repeat="sottoscrittore in atto.sottoscrittori | isNullOrUndefined:'aooNonProponente'"  ui-tree-node  >
+								
+								<div ui-tree-handle class="tree-node tree-node-content row"  >
+
+									<div class="form-inline" ng-class="{'alert alert-danger' : sottoscrittore.fake}">
+
+
+										<i  class="fa fa-bars"  ></i> 
+										<div data-nodrag  class="form-group">
+												<label translate="cifra2gestattiApp.sottoscrittoreAtto.Profilo">Sottoscrittore</label> &nbsp;
+												<select ng-change="defaultQualifica(sottoscrittore); validateSottoscrittori(atto.sottoscrittori)" style="font-family: arial; font-weight: normal;" class="sectionSottoscrittore form-control" name="sottoscrittoreAtto" 
+												ng-model="sottoscrittore.profilo" 
+												ng-options="profilo as profilo.utente.cognome + ' ' + profilo.utente.nome for profilo in profilos track by profilo.id" required>
+												</select>
+												&nbsp;&nbsp;&nbsp;
+										</div>
+
+										<div ng-if="sottoscrittore.profilo.hasQualifica.length == 1 && !solaLettura" data-nodrag  class="form-group">
+											<label translate="cifra2gestattiApp.sottoscrittoreAtto.Qualifica">Qualifica</label> &nbsp;
+											<label>  {{sottoscrittore.profilo.hasQualifica[0].denominazione}}</label>
+										</div>
+										
+										<div ng-if="sottoscrittore.profilo.hasQualifica.length != 1 && !solaLettura" data-nodrag  class="form-group">
+											<label translate="cifra2gestattiApp.sottoscrittoreAtto.Qualifica">Qualifica</label> &nbsp;
+											<select ng-show="!solaLettura && permettiCambiaOrdineSottoscrittori" ng-change="sottoscrittore.edit=true; validateSottoscrittori(atto.sottoscrittori)" style="font-family: arial; font-weight: normal;" class="sectionSottoscrittore form-control" name="sottoscrittoreAttoQualifica" ng-model="sottoscrittore.qualificaProfessionale" 
+												ng-options="qualifica as  qualifica.denominazione for qualifica in sottoscrittore.profilo.hasQualifica track by qualifica.id" required>
+											</select>
+											<label ng-show="!(!solaLettura && permettiCambiaOrdineSottoscrittori)">   {{sottoscrittore.qualificaProfessionale.denominazione}}</label>
+										</div>
+
+										<div ng-if="solaLettura" data-nodrag  class="form-group">
+											<label translate="cifra2gestattiApp.sottoscrittoreAtto.Qualifica">Qualifica</label> &nbsp;
+											<label>  {{sottoscrittore.qualificaProfessionale.denominazione}}</label>
+										</div>
+
+										<div data-nodrag class="pull-right form-group">
+											<button type="button" class="sectionSottoscrittore btn btn-danger btn-sm" ng-click="deleteSottoscrittore(sottoscrittore.id, sottoscrittore.edit, $index); validateSottoscrittori(atto.sottoscrittori)" 
+												data-type="success"  data-title="Elimina sottoscrittore" bs-tooltip> <i class="fa fa-minus"></i></button>
+											</div>
+	
+											<!--div  data-nodrag class="form-group pull-right" ng-if="sottoscrittore.id > 0" >
+												<label translate="cifra2gestattiApp.sottoscrittoreAtto.editor">Editor</label>
+												{{sottoscrittore.editor ? 'SI' : 'NO' }} &nbsp;
+											</div-->
+											<!-- <div style="margin-top: 5px;" ng-if="sottoscrittore.fake" translate="cifra2gestattiApp.atto.alertPrimoSottoscrittore">Alert Primo Sottoscrittore</div> -->
+										</div>	
+								</div>
+							</li>
+						</ol>
+					</div>  
+					<div class="alert alert-danger" ng-show="isNotValidSottoscrittori && !primoSottoscrittoreDuplicato">Sottoscrittore/qualifica duplicati.</div>
+					<div class="alert alert-danger" ng-show="primoSottoscrittoreDuplicato">Attenzione! L'istruttore può essere configurato solo come primo sottoscrittore.</div>
+
+				</div>
+				
+				<br />
+				<div class="row">
+					<div class="col-xs-3">
+						<div class="row">
+							<div class="col-xs-6">
+								<label translate="cifra2gestattiApp.atto.sottoscrizione.congiunto">Atto congiunto</label>
+							</div>
+							<div class="col-xs-6 form-inline">
+								<select ng-change="checkIfCanDisableCongiunto()" style="font-family: arial; font-weight: normal;" class="sectionSottoscrittore form-control" name="attoCongiunto" ng-model="atto.congiunto" 
+									ng-options="item.valore as item.label for item in [{valore:true,label:'SI'},{valore:false,label:'NO'}]">
+								</select>&nbsp;
+								<span data-toggle="tooltip2" data-placement="top"
+									data-title="<b>GUIDA</b><br/>Se si configura l'atto come congiunto è obbligatorio aggiungere Sottoscrittori di altri Uffici."
+									data-html="true" bs-tooltip>
+									<i class="fa fa-question" ></i>
+								</span>
+							</div>
+						</div>
+					</div>
+					<div class="col-xs-9">
+					</div>
+				</div>
+				<br />
+				
+				<div ng-if="atto.congiunto">
+				<div class="row">
+					<div class="col-xs-3"><label translate="cifra2gestattiApp.atto.sottoscrizione.altreaoo">Altri Uffici</label></div>
+					<div class="col-xs-6">
+						<div class="row">
+							<div class="col-xs-12"><label translate="cifra2gestattiApp.atto.sottoscrizione.impostaaoo">impostaaoo</label></div>
+						</div>
+						<div class="row">
+							<div class="col-xs-9">
+								<aoo-select not-required="true" ng-model="aooSottoscrittore" lista-aoo="listaAoo" new-entity="true" is-unlabeled="true" widthout-div="true" aoo-select-inherit="true" ></aoo-select>
+								<span bs-tooltip data-toggle="tooltip"
+									data-title="<b>GUIDA</b><br/>Per inserire un nuovo sottoscrittore occorre selezionare l'Ufficio tramite la lista a sinistra e poi fare click su Aggiungi Sottoscrittore sulla destra.<br/>In tal modo il sistema inserisce una nuova riga dove sarà possibile scegliere il sottoscrittore tra quelli dell'Aoo selezionata."
+									data-html="true">
+									<i class="fa fa-question" ></i>
+								</span>
+							</div>
+							<div class="col-xs-3">
+								<div class="form-group">
+									<button type="button" class="sectionSottoscrittore btn btn-default" ng-disabled="!aooSottoscrittore.aooInfo.id" ng-click="addSottoscrittore(aooSottoscrittore.aooInfo)"  ><i class="fa fa-user-plus"></i> Aggiungi sottoscrittore</button>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-xs-3"></div>
+				</div>
+				
+				<!-- SOTTOSCRITTORI ALTRE AOO -->	
+				<div ui-tree="sottoscrittoreOptions" data-drag-enabled="!solaLettura && permettiCambiaOrdineSottoscrittori" >
+						<ol class="list-group"   ui-tree-nodes ng-model="atto.sottoscrittori" data-type="sottoscrittore" >
+							<li ng-if="atto.sottoscrittori && $index>0 && sottoscrittore.aooNonProponente" ng-repeat="sottoscrittore in atto.sottoscrittori" ui-tree-node  >
+								
+								<div ui-tree-handle class="tree-node tree-node-content row"  >
+									<div class="form-inline"><label>{{sottoscrittore.aooNonProponente.codice + ' - ' + sottoscrittore.aooNonProponente.descrizione}}</label></div>
+									<div class="form-inline" ng-class="{'alert alert-danger' : sottoscrittore.fake}">
+
+
+										<i  class="fa fa-bars"  ></i> 
+										<div data-nodrag  class="form-group">
+												<label translate="cifra2gestattiApp.sottoscrittoreAtto.Profilo">Sottoscrittore</label> &nbsp;
+												<select ng-if="aooSottoscrittoriMap" ng-change="defaultQualifica(sottoscrittore); validateSottoscrittoriNonProponente(atto.sottoscrittori)" style="font-family: arial; font-weight: normal;" class="sectionSottoscrittore form-control" name="sottoscrittoreAtto" 
+												ng-model="sottoscrittore.profilo" 
+												ng-options="profilo as profilo.utente.cognome + ' ' + profilo.utente.nome for profilo in aooSottoscrittoriMap[sottoscrittore.aooNonProponente.id] track by profilo.id" required>
+												</select>
+												&nbsp;&nbsp;&nbsp;
+										</div>
+
+										<div ng-if="sottoscrittore.profilo.hasQualifica.length == 1 && !solaLettura" data-nodrag  class="form-group">
+											<label translate="cifra2gestattiApp.sottoscrittoreAtto.Qualifica">Qualifica</label> &nbsp;
+											<label>  {{sottoscrittore.profilo.hasQualifica[0].denominazione}}</label>
+										</div>
+										
+										<div ng-if="sottoscrittore.profilo.hasQualifica.length != 1 && !solaLettura" data-nodrag  class="form-group">
+											<label translate="cifra2gestattiApp.sottoscrittoreAtto.Qualifica">Qualifica</label> &nbsp;
+											<select ng-change="sottoscrittore.edit=true; validateSottoscrittoriNonProponente(atto.sottoscrittori)" style="font-family: arial; font-weight: normal;" class="sectionSottoscrittore form-control" name="sottoscrittoreAttoQualifica" ng-model="sottoscrittore.qualificaProfessionale" 
+												ng-options="qualifica as  qualifica.denominazione for qualifica in sottoscrittore.profilo.hasQualifica track by qualifica.id" required>
+											</select>
+										</div>
+										
+										<div ng-if="solaLettura" data-nodrag  class="form-group">
+											<label translate="cifra2gestattiApp.sottoscrittoreAtto.Qualifica">Qualifica</label> &nbsp;
+											<label>  {{sottoscrittore.qualificaProfessionale.denominazione}}</label>
+										</div>
+
+
+										<div data-nodrag class="pull-right form-group">
+											<button type="button" class="sectionSottoscrittore btn btn-danger btn-sm" ng-click="deleteSottoscrittore(sottoscrittore.id, sottoscrittore.edit, $index); validateSottoscrittoriNonProponente(atto.sottoscrittori)" 
+												data-type="success"  data-title="Elimina sottoscrittore" bs-tooltip> <i class="fa fa-minus"></i></button>
+										</div>
+									</div>	
+								</div>
+							</li>
+						</ol>
+					</div>
+					<div class="alert alert-danger" ng-show="isNotValidSottoscrittoriNonProponente">Sottoscrittore/qualifica duplicati.</div>
+					</div>
+					 
+</div>
+
+<div ng-include="'scripts/app/entities/atto/sezioniatto/deleteSottoscrittoreAttoConfirmation.html'"  ></div>

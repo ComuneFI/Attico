@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    <changeSet author="mazzottada" id="202107221250-00001">
+    	<sql endDelimiter="\$\$">
+    		DROP FUNCTION IF EXISTS CheckStatusIterByAttoId$$
+			CREATE FUNCTION CheckStatusOfAtto (AttoID INT) RETURNS VARCHAR(1)
+			DETERMINISTIC
+			BEGIN
+	    		DECLARE ricerca_stati_conclusi VARCHAR(255);
+	    	    DECLARE current_fineiter_value VARCHAR(255);
+	    		DECLARE pstatus varchar(1);
+	    		set current_fineiter_value = (select fineiter_tipo from atto where id = AttoID);
+			    SET ricerca_stati_conclusi = (select ta.ricerca_stato_concluso from tipoatto ta inner join atto on ta.id = atto.tipoatto_id where atto.id = AttoID);
+			    SET pstatus = 'I';
+			    IF current_fineiter_value is not null and ricerca_stati_conclusi like CONCAT('%', current_fineiter_value, '%') THEN
+			      SET pstatus = 'C';
+			    END IF;
+			    IF pstatus = 0 and ricerca_stati_conclusi like '%DATA_ESECUTIVITA%' and exists(select id from atto where data_esecutivita is not null and id = AttoID) then
+			   	  SET pstatus = 'C';
+			    end if;
+			    IF pstatus = 0 and ricerca_stati_conclusi like '%ATTESA_RELATA%' and exists(select id from atto where inizio_pubblicazione_albo is not null and id = AttoID) then
+			   	  SET pstatus = 'C';
+			    end if;
+			    RETURN pstatus;
+		    END$$
+		</sql>
+    </changeSet>
+    <changeSet author="mazzottada" id="202107221250-00001fix">
+    	<sql endDelimiter="\$\$">
+    		DROP FUNCTION IF EXISTS CheckStatusIterByAttoId$$
+    		DROP FUNCTION IF EXISTS CheckStatusOfAtto$$
+			CREATE FUNCTION CheckStatusIterByAttoId (AttoID INT) RETURNS VARCHAR(1)
+			DETERMINISTIC
+			BEGIN
+	    		DECLARE ricerca_stati_conclusi VARCHAR(255);
+	    	    DECLARE current_fineiter_value VARCHAR(255);
+	    		DECLARE pstatus varchar(1);
+	    		set current_fineiter_value = (select fineiter_tipo from atto where id = AttoID);
+			    SET ricerca_stati_conclusi = (select ta.ricerca_stato_concluso from tipoatto ta inner join atto on ta.id = atto.tipoatto_id where atto.id = AttoID);
+			    SET pstatus = 'I';
+			    IF current_fineiter_value is not null and ricerca_stati_conclusi like CONCAT('%', current_fineiter_value, '%') THEN
+			      SET pstatus = 'C';
+			    END IF;
+			    IF pstatus = 0 and ricerca_stati_conclusi like '%DATA_ESECUTIVITA%' and exists(select id from atto where data_esecutivita is not null and id = AttoID) then
+			   	  SET pstatus = 'C';
+			    end if;
+			    IF pstatus = 0 and ricerca_stati_conclusi like '%ATTESA_RELATA%' and exists(select id from atto where inizio_pubblicazione_albo is not null and id = AttoID) then
+			   	  SET pstatus = 'C';
+			    end if;
+			    RETURN pstatus;
+		    END$$
+		</sql>
+    </changeSet>
+</databaseChangeLog>

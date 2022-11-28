@@ -1,0 +1,62 @@
+
+<div>
+    <h2><span translate="cifra2gestattiApp.resoconto.detail.title">Resoconto</span> {{resoconto.id}}</h2>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th translate="entity.detail.field">Field</th>
+                    <th translate="entity.detail.value">Value</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.resoconto.organoDeliberante">OrganoDeliberante</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{resoconto.organoDeliberante}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.resoconto.tipo">Tipo</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{resoconto.tipo}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.resoconto.idDiogene">IdDiogene</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{resoconto.idDiogene}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.resoconto.dataPubblicazioneSito">DataPubblicazioneSito</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{resoconto.dataPubblicazioneSito | date:'dd-MM-yyyy'}}" ng-disabled="true">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.resoconto.SedutaGiunta">SedutaGiunta</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{resoconto.SedutaGiunta.id}}" readonly>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <button type="submit"
+            ui-sref="resoconto"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span translate="entity.action.back"> Back</span>
+    </button>
+</div>

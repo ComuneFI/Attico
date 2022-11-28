@@ -1,0 +1,22 @@
+{
+    "cifra2gestattiApp": {
+        "lettera" : {
+            "home": {
+                "title": "Letteras",
+                "createLabel": "Create a new Lettera",
+                "createOrEditLabel": "Create or edit a Lettera"
+            },
+            "delete": {
+                "question": "Are you sure you want to delete Lettera {{ id }}?"
+            },
+            "detail": {
+                "title": "Lettera"
+            },
+            "tipoLettera": "TipoLettera",
+            "dataPubblicazioneSito": "DataPubblicazioneSito",
+            "idDiogene": "IdDiogene",
+            "testo": "Testo",
+            "data": "Data"
+        }
+    }
+}

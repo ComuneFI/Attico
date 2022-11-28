@@ -1,0 +1,27 @@
+{
+    "cifra2gestattiApp": {
+        "configurazioneRiversamento" : {
+            "home": {
+                "title": "Configurazione Riversamento",
+                "createLabel": "Crea una nuova Configurazione",
+                "createOrEditLabel": "Crea o modifica una Configurazione",
+                "generate": "Genera serie in Documentale"
+            },
+            "delete": {
+                "question": "Sei sicuro di voler cancellare la Configurazione serie {{ id }}?"
+            },
+            "detail": {
+                "title": "Configurazione Riversamento"
+            },
+            "onlyPubblicabili": "Destinazione di tipo albo",
+            "idSerieDiogene": "Id serie documentale",
+            "descrizione": "Descrizione",
+            "validoDal": "Valida dal",
+            "validoAl": "Valida al",
+            "TipoDocumento": "Tipo documento",
+            "TipoDocumentoSerie": "Destinazione Documentale",
+            "TipoAtto": "Tipo atto",
+            "Aoo": "Ufficio"
+        }
+    }
+}

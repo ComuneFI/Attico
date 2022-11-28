@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    <changeSet author="magria" id="202111241708-00001">
+    	<sql>
+    		INSERT INTO tipoevento (descrizione,codice,categoriaEvento_id)VALUES ('Atto Inviato a Coordinamento','INVIO_A_COORDINAMENTO_TESTO',1);
+    		INSERT INTO tipoevento (descrizione,codice,categoriaEvento_id)VALUES ('Atto Vistato dal Resp. Tecnico','ATTO_VISTATO_RESP_TECNICO',1);
+    		INSERT INTO tipoevento (descrizione,codice,categoriaEvento_id)VALUES ('Atto Vistato dal Resp. Contabile','ATTO_VISTATO_RESP_CONTABILE',1);
+    		
+		</sql>
+    </changeSet>
+    <changeSet author="magria" id="202111241708-00002">
+    	<sql>
+    		update tipoevento set descrizione = 'Atto Inviato a Coordinamento Testo' where codice like 'INVIO_A_COORDINAMENTO_TESTO';
+		</sql>
+    </changeSet>
+</databaseChangeLog>

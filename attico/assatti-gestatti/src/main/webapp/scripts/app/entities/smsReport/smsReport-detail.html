@@ -1,0 +1,53 @@
+
+<div>
+    <h2><span translate="cifra2gestattiApp.smsReport.detail.title">SmsReport</span>{{detailSmsReport.by.descrizione}}</h2>
+    
+    <div ng-show="waitSmsConnection == true">
+		<img src='assets/images/spinner.gif'>
+		Attesa connessione Sms Gateway...
+		<br>
+	</div>
+	
+	<div ng-show="waitSmsConnection == false" class="row">
+		<div class="col-md-2">
+	        <ui-select ng-model="detailSmsReport.by" theme="bootstrap">
+	            <ui-select-match allow-clear>{{$select.selected.descrizione}}</ui-select-match>
+	            <ui-select-choices repeat="stato in stati | filter: $select.search">
+	                {{stato.descrizione}}
+	            </ui-select-choices>
+	        </ui-select>
+	    </div>
+		<div class="col-md-2" ng-if="(detailSmsReport.by.status==4 || detailSmsReport.by.status==6) && filtered.length>0">
+	         <button type="submit" class="btn btn-success" ng-click="retry()">
+		        Rinvia SMS&nbsp;<span class="glyphicon glyphicon-envelope"></span>
+		    </button>
+	    </div>
+	</div>
+	
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th class="col-xs-2">Data Invio</th>
+                    <th class="col-xs-2">Data Consegna</th>
+                    <th class="col-xs-2">Destinatario</th>
+                    <th class="col-xs-2">Stato</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="message in filtered = (messages | filter: { status: detailSmsReport.by.status })">
+                    <td>{{message.date | date:'dd-MM-yyyy HH:mm:ss'}}</td>
+                    <td>{{message.srdate | date:'dd-MM-yyyy HH:mm:ss'}}</td>
+                    <td>{{message.receiver}}</td>
+                    <td>{{message.statusDesc}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <button type="submit"
+            ui-sref="smsReport"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span translate="entity.action.back"> Back</span>
+    </button>
+</div>

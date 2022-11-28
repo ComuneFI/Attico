@@ -1,0 +1,12 @@
+<div ng-cloak>
+    <div class="row">
+        <div class="col-md-12">
+            <h1 translate="errors.title403">Error Page!</h1>
+
+            <div class="alert alert-danger" >
+            	<span translate="errors.403"></span>
+            	<span ng-if="!isLogged()">&nbsp; Puoi effettuare il <a href="{{configurationParams.login_url}}">login</a> o chiudere questa pagina.</span>
+            </div>
+        </div>
+    </div>
+</div>

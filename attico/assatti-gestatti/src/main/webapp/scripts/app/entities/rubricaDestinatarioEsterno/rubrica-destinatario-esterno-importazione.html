@@ -1,0 +1,78 @@
+<div ng-init="tempSearch.stato = stati[0]; ricercaImport = true; tempSearch.notificagiunta = false;">
+	<div class="form-group">
+		<div class="row">
+			<div class="col-md-12">
+				<label translate="cifra2gestattiApp.rubricaDestinatarioEsterno.tipo">Tipo</label>
+				<select class="form-control" name="tipo" ng-model="tempSearch.tipo">
+					<option value=""></option>
+					<option value="PRIVATO">PRIVATO</option>
+					<option value="AZIENDA">AZIENDA</option>
+				</select>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12" ng-if="tempSearch.tipo == 'AZIENDA'" >
+			    <label translate="cifra2gestattiApp.rubricaDestinatarioEsterno.denominazione">Denominazione</label>
+			    <input type="text" class="form-control" name="denominazione"
+			           ng-model="tempSearch.denominazione" >
+			
+			</div>
+			<div class="col-md-6" ng-if="tempSearch.tipo == 'PRIVATO'" >
+			    <label translate="cifra2gestattiApp.rubricaDestinatarioEsterno.nome">Nome</label>
+			    <input type="text" class="form-control" name="nome"
+			           ng-model="tempSearch.nome">
+			
+			</div>
+			<div class="col-md-6" ng-if="tempSearch.tipo == 'PRIVATO'">
+			    <label translate="cifra2gestattiApp.rubricaDestinatarioEsterno.cognome">Cognome</label>
+			    <input type="text" class="form-control" name="cognome"
+			           ng-model="tempSearch.cognome">
+			
+			</div>
+		</div>
+		<div class="row">
+	 		<div class="col-md-12" align="center" style="padding-top:5px;">
+		       	<button class="btn btn-primary btn-sm" onclick="return false;" ng-click="ricerca()"><span class="glyphicon glyphicon-search"/> <span translate="global.messages.cerca">Ricerca</span></button>
+				<button class="btn btn-primary btn-sm" onclick="return false;" ng-click="resetRicerca()"><span translate="global.messages.resetricerca">Reset ricerca</span></button>
+	    	</div>
+		</div>
+	</div>
+
+	<div>
+		<div class="table-responsive" ng-if="rubricaDestinatarioEsternos.length > 0">
+	        <table class="table table-striped">
+	            <thead>
+	                <tr>
+	                	<th></th>
+	                    <th translate="cifra2gestattiApp.rubricaDestinatarioEsterno.denominazione">Denominazione</th>
+	                    <th translate="cifra2gestattiApp.rubricaDestinatarioEsterno.nome">Nome</th>
+	                    <th translate="cifra2gestattiApp.rubricaDestinatarioEsterno.cognome">Cognome</th>
+	                </tr>
+	            </thead>
+	            <tbody>
+	                <tr ng-repeat="rubricaDestinatarioEsterno in rubricaDestinatarioEsternos">
+	                	<td>
+	                		<input type="radio" ng-model="$parent.$parent.ngModel" ng-value="rubricaDestinatarioEsterno" name="rubricaDestinatarioEsternoRadio">
+	                	</td>
+	                    <td>{{rubricaDestinatarioEsterno.denominazione ? rubricaDestinatarioEsterno.denominazione : '-'}}</td>
+	                    <td>{{rubricaDestinatarioEsterno.nome ? rubricaDestinatarioEsterno.nome : '-'}}</td>
+	                    <td>{{rubricaDestinatarioEsterno.cognome ? rubricaDestinatarioEsterno.cognome : '-'}}</td>
+	                </tr>
+	            </tbody>
+	        </table>
+	    </div>
+	    <nav>
+	        <ul class="pagination">
+	            <li ng-show="links['first']" ng-click="loadPageImport(links['first'])"><a>&lt;&lt;</a></li>
+	            <li ng-show="links['prev']" ng-click="loadPageImport(links['prev'])"><a>&lt;</a></li>
+	            <li ng-show="page > 2" ng-click="loadPageImport(page - 2)"><a>{{page - 2}}</a></li>
+	            <li ng-show="page > 1" ng-click="loadPageImport(page - 1)"><a>{{page - 1}}</a></li>
+	            <li class="active"><a>{{page}}</a></li>
+	            <li ng-show="page < links['last']" ng-click="loadPageImport(page + 1)"><a>{{page + 1}}</a></li>
+	            <li ng-show="page < links['last'] - 1" ng-click="loadPageImport(page + 2)"><a>{{page + 2}}</a></li>
+	            <li ng-show="links['next']" ng-click="loadPageImport(links['next'])"><a>&gt;</a></li>
+	            <li ng-show="links['last']" ng-click="loadPageImport(links['last'])"><a>&gt;&gt;</a></li>
+	        </ul>
+	    </nav>
+	</div>
+</div>

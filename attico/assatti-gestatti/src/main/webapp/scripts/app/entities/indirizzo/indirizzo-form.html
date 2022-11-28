@@ -1,0 +1,78 @@
+  <div class="form-group ">
+ 
+     <button type="button" class="form-control btn btn-primary" data-toggle="collapse" 
+    data-target="#indirizzo" aria-expanded="true" aria-controls="indirizzo">
+        <label>Indirizzo</label>
+    </button>
+
+    <div id="indirizzo" class="collapse">
+ 
+
+  	<div class="form-group">
+  		<div class="form-group col-md-5">
+  			<label  >Toponimo</label>
+  			<input type="text" class="form-control" name="toponimo"
+  			ng-model="ngModel.toponimo">
+
+  			<div ng-show="editForm.toponimo.$invalid">
+  			</div>
+  		</div>
+
+  		<div class="form-group col-md-2">
+  			<label  >Civico</label>
+  			<input type="text" class="form-control" name="civico"
+  			ng-model="ngModel.civico">
+
+  			<div ng-show="editForm.civico.$invalid">
+  			</div>
+  		</div>
+
+  		<div class="form-group col-md-3">
+  			<label  >Cap</label>
+  			<input type="text" class="form-control" name="cap"
+  			ng-model="ngModel.cap">
+
+  			<div ng-show="editForm.cap.$invalid">
+  			</div>
+  		</div>
+
+
+  		<div class="form-group col-md-2">
+  			<label  >Dug</label>
+  			<input type="text" class="form-control" name="dug"
+  			ng-model="ngModel.dug">
+
+  			<div ng-show="editForm.dug.$invalid">
+  			</div>
+  		</div>
+
+  	</div>
+
+
+
+
+  	<div class="form-group">
+
+  		<div class="form-group col-md-6">
+  			<label  >Comune</label>
+  			<input type="text" class="form-control" name="comune"
+  			ng-model="ngModel.comune">
+
+  			<div ng-show="editForm.comune.$invalid">
+  			</div>
+  		</div>
+  		<div class="form-group col-md-6">
+  			<label  >Provincia</label>
+  			<input type="text" class="form-control" name="provincia"
+  			ng-model="ngModel.provincia">
+
+  			<div ng-show="editForm.provincia.$invalid">
+  			</div>
+  		</div>
+
+
+  	</div>
+ 
+
+</div>
+</div>

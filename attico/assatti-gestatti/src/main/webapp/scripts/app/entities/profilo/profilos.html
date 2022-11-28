@@ -1,0 +1,464 @@
+<div>
+
+    <h2 translate="cifra2gestattiApp.profilo.home.title">Profilo</h2>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <button class="btn btn-primary" ng-click="showCreate()">
+                    <span class="glyphicon glyphicon-flash"></span> <span translate="cifra2gestattiApp.profilo.home.createLabel">Create a new Profilo</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="saveProfiloModal" tabindex="-1" role="dialog" aria-labelledby="myProfiloLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form name="editForm" role="form" novalidate ng-submit="save()" show-validation>
+
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                                ng-click="clear()">&times;</button>
+                        <h4 class="modal-title" id="myProfiloLabel" translate="cifra2gestattiApp.profilo.home.createOrEditLabel">Create or edit a Profilo</h4>
+                    </div>
+                    <div class="modal-body">
+                        
+                       <profilo-form ng-model="profilo" ng-disabled="userDisabled" lista-aoo="aoos"  lista-atto="tipoAttos" 
+                          lista-qualificaprofessionale="qualificaprofessionales"  lista-grupporuolo="gruppoRuolos" 
+                          lista-utente="utentes"
+                          >
+                       </profilo-form>
+                       
+                      <div class="alert alert-danger" ng-if="checkEsistenza == true"><span translate="cifra2gestattiApp.profilo.alreadyExists"></span></div>
+                    </div>
+                    <div class="modal-footer">
+                    	
+                        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
+                            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+                        </button>
+                        <button type="submit" ng-disabled="editForm.$invalid || verificaAbilitazioneSalvataggio()" class="btn btn-primary">
+                            <span class="glyphicon glyphicon-save"></span>&nbsp;<span translate="entity.action.save">Save</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal fade" id="futureReassignee" style="z-index: 10" tabindex="-1" role="dialog" aria-labelledby="riassegneeLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <form name="futureReassigneeForm" role="form" novalidate>
+                	<div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                		<h4>Riassegnazione attivit&#224; di {{riassegnazione.rTask.lavorazione}} sull'atto <span alt="{{riassegnazione.rTask.oggettoAtto}}">{{riassegnazione.rTask.codiceAtto}}</span></h4>
+                	</div>
+                	<div class="modal-body">
+	                	<table ng-if="riassegnazione.rTask.profili && riassegnazione.rTask.profili.length" class="table table-striped">
+			            <thead>
+			                <th>Nominativo</th>
+			                <th>Ufficio</th>
+			                <th>Qualifica Professionale</th>
+			                <th></th>
+			            </thead>
+			            <tbody>
+			                <tr ng-repeat="p in riassegnazione.rTask.profili">
+			                    <td>{{p.utente.nome}} {{p.utente.cognome}} ({{p.utente.username}})</td>
+			                    <td>{{p.aoo.codice}} - {{p.aoo.descrizione}}</td>
+			                    <td>
+			                    	<ui-select ng-model="p.qualificaNuova" theme="bootstrap" >
+								        <ui-select-match placeholder="Seleziona Qualificha Professionale"><span>{{$select.selected.denominazione}}</span></ui-select-match>
+								        <ui-select-choices repeat="qualificaProfessionale in p.hasQualifica | orderBy: qualificaProfessionale.denominazione | filter: $select.search track by qualificaProfessionale.id" >
+								         	<div ng-bind-html="qualificaProfessionale.denominazione | highlight: $select.search"></div>
+								    	</ui-select-choices>
+								 	</ui-select>
+			                    </td>
+			                    <td>
+			                    	<button class="btn btn-primary btn-sm" ng-disabled="!p.qualificaNuova" ng-click="futureReassignee(p)">
+										<span class="ng-scope">Riassegna</span>
+									</button>
+								</td>
+			                </tr>
+	                   	</tbody>
+			            </table>
+			            <div ng-if="!riassegnazione.rTask.profili || !riassegnazione.rTask.profili.length" class="search-no-result"><h3>Nessun profilo disponibile alla riassegnazione</h3></div>
+		            </div>
+		            <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">
+                            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;Chiudi
+                        </button>
+                    </div>
+                </form>
+            </div>
+         </div>
+     </div>
+    
+    <div class="modal fade" id="riassegneeModal" style="z-index: 9" tabindex="-1" role="dialog" aria-labelledby="riassegneeLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <form name="reassigneeTaskForm" role="form" novalidate>
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" id="riassegneeLabel">Gestione task del profilo di {{riassegnazione.profilo.utente.nome}} {{riassegnazione.profilo.utente.cognome}} (Ufficio {{riassegnazione.profilo.aoo.codice}})</h4>
+                    </div>
+                    <div class="modal-body">
+                    	<h5 class="bs-callout bs-callout-sm bs-callout-primary" style="margin-bottom: 10px;">Nota: Per disabilitare il profilo o per modificarne il gruppo ruolo occorre che TUTTE le sezioni qui sotto non contengano lavorazioni da gestire o deleghe attive.</h5>
+                        <ul class="nav nav-tabs">
+							<li ng-class="{'active' : riassegnazione.sezView == 'sezIstr'}">
+								<a showtabcontabile="" name="sezIstr" href="#sezIstr" update-fn="loadRiassegnazioneView('sezIstr')">Elenco atti in itenere istruiti dal profilo
+								</a>
+							</li>
+							<li ng-class="{'active' : riassegnazione.sezView == 'sezRiass'}">
+								<a showtabcontabile="" name="sezRiass" href="#sezRiass" update-fn="loadRiassegnazioneView('sezRiass')">Elenco attivit&#224; da Riassegnare
+								</a>
+							</li>
+							<li ng-class="{'active' : riassegnazione.sezView == 'sezRil'}">
+								<a showtabcontabile="" name="sezRil" href="#sezRil" update-fn="loadRiassegnazioneView('sezRil')">Elenco attivit&#224; da Rilasciare
+								</a>
+							</li>
+							<li ng-class="{'active' : riassegnazione.sezView == 'sezDel'}">
+								<a showtabcontabile="" name="sezDel" href="#sezDel" update-fn="loadRiassegnazioneView('sezDel')">Deleghe
+								</a>
+							</li>
+						</ul>
+                        
+                        <div class="form-group">
+                        	<table class="table table-striped" ng-if="['sezIstr', 'sezRiass', 'sezRil'].indexOf(riassegnazione.sezView) > -1">
+				            <thead>
+				                <th>Codice Atto</th>
+				                <th>Oggetto</th>
+				                <th>Lavorazione</th>
+				                <th></th>
+				            </thead>
+				            <tbody>
+				                <tr ng-repeat="task in riassegnazione.riassignazioneTasks">
+				                    <td>{{task.codiceAtto}}</td>
+				                    <td class="scrivania">
+				                    	<span title="{{task.oggettoAtto && task.oggettoAtto.length && task.oggettoAtto.length > 50 ? task.oggettoAtto : ''}}">{{visualizzaOggetto(task.oggettoAtto, 50)}}</span>
+				                    </td>
+				                    <td>{{task.lavorazione}}</td>
+				                    <td>
+				                    	<button ng-if="['sezIstr', 'sezRiass'].indexOf(riassegnazione.sezView) > -1" class="btn btn-primary btn-sm" ng-click="viewRiassegnazioneTask(task)">
+										<span class="ng-scope">Scegli profilo cui riassegnare</span>
+										</button>
+										<button ng-if="['sezRil'].indexOf(riassegnazione.sezView) > -1" class="btn btn-primary btn-sm" ng-click="rilascia(task)">
+										<span class="ng-scope">Rilascia</span>
+										</button>
+									</td>
+				                </tr>
+	                    	</tbody>
+				            </table>
+				            <div ng-if="['sezDel'].indexOf(riassegnazione.sezView) > -1">
+				            	<div class="bs-callout bs-callout-sm bs-callout-warning" ng-if="riassegnazione.warningDelegheTemporali">
+					            	<span>
+					            		<b>Attenzione: </b>
+					            		Questo profilo risulta avere deleghe temporali attive o future. Per visualizzarle e gestirle recarsi nell'<a ui-sref="delega" href="#/delega">apposita sezione</a>. 
+					            	</span>
+				            	</div>
+				            	<div class="bs-callout bs-callout-sm bs-callout-danger" style="margin-top: 10px;" ng-if="riassegnazione.riassignazioneTasks && riassegnazione.riassignazioneTasks.length">
+					            	<span>
+					            		<b>Attenzione: </b>
+					            		Questo profilo risulta avere deleghe per intero iter o per singolo task attive sugli atti ancora in itere, come indicato nella lista qui sotto. Per gestire tali deleghe recarsi nell'<a ui-sref="delegaTask" href="#/delegaTask">apposita sezione</a>. 
+					            	</span>
+				            	</div>
+					            <table class="table table-striped">
+					            <thead>
+					                <th>Codice Atto</th>
+					                <th>Oggetto</th>
+					                <th>Lavorazione</th>
+					                <th>Delegante</th>
+					            </thead>
+					            <tbody>
+					                <tr ng-repeat="delega in riassegnazione.riassignazioneTasks">
+					                    <td>{{delega.atto.codiceCifra}}{{delega.atto.numeroAdozione ? ' - ' + delega.atto.numeroAdozione : ''}}</td>
+					                    <td class="scrivania">
+					                    	<span title="{{delega.atto.oggetto && delega.atto.oggetto.length && delega.atto.oggetto.length > 50 ? delega.atto.oggetto : ''}}">{{visualizzaOggetto(delega.atto.oggetto, 50)}}</span>
+					                    </td>
+					                    <td>{{delega.lavorazione}}</td>
+					                    <td>
+					                    	{{delega.profiloDelegante.utente.nome}} {{delega.profiloDelegante.utente.cognome}}
+										</td>
+					                </tr>
+		                    	</tbody>
+					            </table>
+				            </div>
+				            <nav ng-if="riassegnazione.riassignazioneTasks && riassegnazione.riassignazioneTasks.length">
+					            <ul class="pagination">
+					                <li ng-show="riassegnazione[riassegnazione.sezView].links['first']" ng-click="loadPageReassignee(riassegnazione[riassegnazione.sezView].links['first'])"><a>&lt;&lt;</a></li>
+					                <li ng-show="riassegnazione[riassegnazione.sezView].links['prev']" ng-click="loadPageReassignee(riassegnazione[riassegnazione.sezView].links['prev'])"><a>&lt;</a></li>
+					                <li ng-show="riassegnazione[riassegnazione.sezView].page > 2" ng-click="loadPageReassignee(riassegnazione[riassegnazione.sezView].page - 2)"><a>{{riassegnazione[riassegnazione.sezView].page - 2}}</a></li>
+					                <li ng-show="riassegnazione[riassegnazione.sezView].page > 1" ng-click="loadPageReassignee(riassegnazione[riassegnazione.sezView].page - 1)"><a>{{riassegnazione[riassegnazione.sezView].page - 1}}</a></li>
+					                <li class="active"><a>{{riassegnazione[riassegnazione.sezView].page}}</a></li>
+					                <li ng-show="riassegnazione[riassegnazione.sezView].page < riassegnazione[riassegnazione.sezView].links['last']" ng-click="loadPageReassignee(riassegnazione[riassegnazione.sezView].page + 1)"><a>{{riassegnazione[riassegnazione.sezView].page + 1}}</a></li>
+					                <li ng-show="riassegnazione[riassegnazione.sezView].page < riassegnazione[riassegnazione.sezView].links['last'] - 1" ng-click="loadPageReassignee(riassegnazione[riassegnazione.sezView].page + 2)"><a>{{riassegnazione[riassegnazione.sezView].page + 2}}</a></li>
+					                <li ng-show="riassegnazione[riassegnazione.sezView].links['next']" ng-click="loadPageReassignee(riassegnazione[riassegnazione.sezView].links['next'])"><a>&gt;</a></li>
+					                <li ng-show="riassegnazione[riassegnazione.sezView].links['last']" ng-click="loadPageReassignee(riassegnazione[riassegnazione.sezView].links['last'])"><a>&gt;&gt;</a></li>
+					            </ul>
+				        	</nav>
+				        	<div ng-if="riassegnazione.riassignazioneTasks && riassegnazione.riassignazioneTasks.length == 0 && !riassegnazione[riassegnazione.sezView].loading" class="search-no-result"><h3 translate="global.searchNoResult"></h3></div>
+							<div ng-if="riassegnazione.riassignazioneTasks && riassegnazione.riassignazioneTasks.length == 0 && riassegnazione[riassegnazione.sezView].loading" class="search-no-result"><h3 translate="global.loading"></h3></div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">
+                            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;Chiudi
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+	<div>
+	    <div class="table-responsive crud-search">
+	        <table class="table table-striped">
+	            <thead>
+	                <tr>
+	                    <th>ID</th>
+	                    <th translate="cifra2gestattiApp.profilo.utente">utente</th>
+	                    <th> 
+			                <span translate="cifra2gestattiApp.profilo.aoo">Aoo</span>
+		                	<span data-toggle="tooltip"
+								title="<b>GUIDA</b><br/>Inserire il codice Ufficio oppure la denominazione dell’Ufficio."
+								data-html="true" ng-init="initTooltip()">
+								<i class="fa fa-question" ></i>
+							</span>
+		                </th>
+	                    <th translate="cifra2gestattiApp.profilo.tipoAtto">tipoAtto</th>
+	                    <th translate="cifra2gestattiApp.profilo.grupporuolo">Gruppo Ruolo</th>
+	                    <th translate="cifra2gestattiApp.profilo.ruoli">Ruoli</th>
+	                    <th translate="cifra2gestattiApp.profilo.qualificaProfessionale">Qualifica Professionale</th>
+	                    <!-- <th translate="cifra2gestattiApp.profilo.delega">Delega</th> -->
+	                    <th translate="cifra2gestattiApp.profilo.filtro.label-stato">Stato</th>
+	                    <th translate="cifra2gestattiApp.profilo.filtro.futureEnabled">futureEnabled</th>
+	                    <th width="30px"></th>
+	                </tr>
+	                <tr>
+	                    <th><input style="max-width:25px;" type="text" ng-model="tempSearch.id"></th>
+	                    <th><input type="text" ng-model="tempSearch.utente"></th>
+	                    <th><input type="text" ng-model="tempSearch.aoo"></th>
+	                    <th class="limited-width"><ui-select ng-model="tempSearch.tipoAtto" theme="bootstrap">
+		                    	<ui-select-match allow-clear="true">{{$select.selected}}</ui-select-match>
+		                    	<ui-select-choices repeat="tipoCur in listTipoAtto | filter: $select.search track by $index">
+		                            <div ng-bind-html="tipoCur | highlight: $select.search"></div>
+		                    	</ui-select-choices>
+	                      	</ui-select>
+	                    </th>
+	                    <th><input type="text" ng-model="tempSearch.descrizione"></th>
+	                    <th class="limited-width">
+	                      <ui-select ng-model="tempSearch.ruolo"  theme="bootstrap">
+	                            <ui-select-match allow-clear="true">{{$select.selected.descrizione}}</ui-select-match>
+	                            <ui-select-choices repeat="ruolo in ruolos | filter: $select.search track by $index">
+	                            <div ng-bind-html="ruolo.descrizione | highlight: $select.search"></div>
+	                        </ui-select-choices>
+	                      </ui-select>
+	                    </th>
+	                    <th class="limited-width"><ui-select ng-model="tempSearch.qualificaProfessionale" theme="bootstrap">
+		                    	<ui-select-match allow-clear="true">{{$select.selected}}</ui-select-match>
+		                    	<ui-select-choices repeat="qualif in listAllQualifiche | orderBy: qualif.denominazione | filter: $select.search track by $index">
+		                            <div ng-bind-html="qualif | highlight: $select.search"></div>
+		                    	</ui-select-choices>
+	                      	</ui-select>
+	                    </th>
+	                    <!-- <th><input type="text" ng-model="tempSearch.delega"></th> -->
+	                    <th style="min-width:180px">
+	                    	<ui-select ng-model="tempSearch.stato" theme="bootstrap" style='display: inline-block; min-width: 120px;'>
+								<ui-select-match allow-clear="true">{{$select.selected.denominazione | translate}}</ui-select-match>
+								<ui-select-choices repeat="stato in stati | filter: $select.search">
+									<div ng-bind-html="stato.denominazione | translate | highlight: $select.search"></div>
+								</ui-select-choices>
+							</ui-select>
+	                    </th>
+	                    <th style="min-width:180px">
+	                    	<ui-select ng-model="tempSearch.statoFuture" theme="bootstrap" style='display: inline-block; min-width: 120px;'>
+								<ui-select-match allow-clear="true">{{$select.selected.denominazione | translate}}</ui-select-match>
+								<ui-select-choices repeat="stato in statiFuture | filter: $select.search">
+									<div ng-bind-html="stato.denominazione | translate | highlight: $select.search"></div>
+								</ui-select-choices>
+							</ui-select>
+	                    </th>
+	                    <th></th>
+	                </tr>
+					<tr>
+						<td colspan="14" class="text-center"><button
+								class="btn btn-primary btn-sm" ng-click="ricerca()">
+								<span class="glyphicon glyphicon-search"></span> <span
+									translate="global.messages.cerca" class="ng-scope">Cerca</span>
+							</button>
+							<button class="btn btn-primary btn-sm" ng-click="resetRicerca()">
+								<span translate="global.messages.resetricerca" class="ng-scope">Reset
+									ricerca</span>
+							</button></td>
+					</tr>
+				</thead>
+	            <tbody>
+	                <tr ng-repeat="profilo in profilos">
+	                    <td><a ui-sref="profiloDetail({id:profilo.id})">{{profilo.id}}</a></td>
+	                    <td><a href=""><span ng-click="ricercaUtente(profilo.utente.id, profilo.utente.username)">{{profilo.utente.id}}-{{profilo.utente.username}}</span></a></td>
+	                    <td>{{profilo.aoo.codice}}-{{profilo.aoo.descrizione}}</td>
+	                    <td><div ng-repeat="tipoAtto in profilo.tipiAtto">{{tipoAtto.id}}-{{tipoAtto.descrizione}}</div></td>
+	                    <td>{{profilo.grupporuolo.denominazione}}</td>
+	                    <td>
+	                    	<div ng-repeat="ruolo in profilo.grupporuolo.hasRuoli"><span >- {{ruolo.descrizione}}</span></div>
+	                    </td>
+	                    <td>
+	                    	<div ng-repeat="qualifica in profilo.hasQualifica">-{{qualifica.denominazione + (qualifica.enabled ? '' : disableLabel)}}</div>
+	                    </td>
+	                    <!-- <td>{{profilo.delega}}</td> -->
+	                    <td></td>
+	                    <td></td>
+	                    <td align="center">
+	                        <button type="submit"
+	                                ui-sref="profiloDetail({id:profilo.id})"
+	                                class="btn btn-info btn-sm btn-block">
+	                            <span class="glyphicon glyphicon-eye-open"></span>&nbsp;<span translate="entity.action.view"> View</span>
+	                        </button>
+	                        <button type="submit"
+	                                ng-click="showUpdate(profilo.id)"
+	                                class="btn btn-primary btn-sm btn-block">
+	                            <span class="glyphicon glyphicon-pencil"></span>&nbsp;<span translate="entity.action.edit"> Edit</span>
+	                        </button>
+	                        <button type="submit"
+	                        		ng-hide="profilo.validita.validoal"
+	                                ng-click="confirmDisable(profilo)"
+	                                class="btn btn-warning btn-sm btn-block">
+	                            <span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span translate="entity.action.disable"> Disable</span>
+	                        </button>
+	                        <button type="submit"
+	                        		ng-hide="profilo.validita.validoal || !profilo.futureEnabled"
+	                                ng-click="confirmFutureDisable(profilo)"
+	                                class="btn btn-warning btn-sm btn-block">
+	                            <span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span translate="entity.action.futureDisable"> futureDisable</span>
+	                        </button>
+	                         <button type="submit"
+	                        		ng-hide="profilo.validita.validoal || profilo.futureEnabled"
+	                                ng-click="futureEnable(profilo)"
+	                                class="btn btn-success btn-sm btn-block">
+	                            <span class="glyphicon glyphicon-ok-circle"></span>&nbsp;<span translate="entity.action.futureEnable"> futureEnable</span>
+	                        </button>
+	                        <button type="submit"
+	                        		ng-show="profilo.validita.validoal"
+	                                ng-click="enable(profilo)"
+	                                class="btn btn-success btn-sm btn-block">
+	                            <span class="glyphicon glyphicon-ok-circle"></span>&nbsp;<span translate="entity.action.enable"> Enable</span>
+	                        </button>
+	                        <button type="submit" has-ruolo="ROLE_SUPPORT_MANAGER"
+	                                ng-click="impersonifica(profilo)"
+	                                class="btn btn-success btn-sm btn-block">
+	                            <span class="glyphicon glyphicon-user"></span>&nbsp;<span translate="entity.action.impersonificate"> Impersonifica</span>
+	                        </button>
+	                        <button has-role="ROLE_ADMIN" type="submit"
+	                        		ng-hide="profilo.validita.validoal"
+	                                ng-click="configFutureReassignee(profilo)"
+	                                class="btn btn-primary btn-sm btn-block">
+	                            <span class="fa fa-users"></span>&nbsp;<span translate="entity.action.futureReassignee"> futureReassignee</span>
+	                        </button>
+	                    </td>
+	                </tr>
+	            </tbody>
+	        </table>
+	        <div ng-if="profilos && profilos.length == 0" class="search-no-result"><h3 translate="global.searchNoResult"></h3></div>
+	    </div>
+        <nav>
+            <ul class="pagination">
+                <li ng-show="links['first']" ng-click="loadPage(links['first'])"><a>&lt;&lt;</a></li>
+                <li ng-show="links['prev']" ng-click="loadPage(links['prev'])"><a>&lt;</a></li>
+                <li ng-show="page > 2" ng-click="loadPage(page - 2)"><a>{{page - 2}}</a></li>
+                <li ng-show="page > 1" ng-click="loadPage(page - 1)"><a>{{page - 1}}</a></li>
+                <li class="active"><a>{{page}}</a></li>
+                <li ng-show="page < links['last']" ng-click="loadPage(page + 1)"><a>{{page + 1}}</a></li>
+                <li ng-show="page < links['last'] - 1" ng-click="loadPage(page + 2)"><a>{{page + 2}}</a></li>
+                <li ng-show="links['next']" ng-click="loadPage(links['next'])"><a>&gt;</a></li>
+                <li ng-show="links['last']" ng-click="loadPage(links['last'])"><a>&gt;&gt;</a></li>
+            </ul>
+        </nav>
+    </div>
+</div>
+
+<div class="modal fade" id="aooDisabledError">
+	<div class="modal-dialog">
+	        <div class="modal-content">
+	        	<div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                            ng-click="clear()">&times;</button>
+                    <h4 class="modal-title">Attenzione</h4>
+                </div>
+                <div class="modal-body">
+                	<p>Abiltazione del profilo non consentita in quanto l'ufficio di appartenenza risulta disabilitato</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
+                        <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+                    </button>
+                </div>
+	        </div>
+	</div>
+</div>
+<div class="modal fade" id="disableProfiloConfirmation">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form name="disableForm" ng-submit="disable(profilo)">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                            ng-click="clear()">&times;</button>
+                    <h4 class="modal-title">Conferma disattivazione Profilo</h4>
+                </div>
+                <div class="modal-body" ng-if="!profiliAssegnaTask || profiliAssegnaTask.length == 0">
+                   <p>Il profilo che si intende disabilitare ha delle attivit&#224; in carico o ha lavorato su atti per i quali i rispettivi inter non sono ancora terminati.<br/>
+                      In tale situazione per disabilitare un profilo vi sono due possibili alternative:<br/>
+                      1 - Si attende che il profilo che si intende disabilitare non abbia pi&#249; attivit&#224; in carico e che tutti gli atti lavorati da tale profilo arrivino alla fine dei rispettivi iter;<br/>
+                      2 - Si trasferiscono le attivit&#224; attualmente in carico ad un altro profilo avente caratteristiche compatibili con quello che si intende disabilitare.<br/>
+                      <br/>
+                      Riguardo all'alternativa n. 2 al momento non esistono profili che possano sostituire quello corrente. <br/>
+                      I profili che si intendono compatibili per la sostituzione di un altro profilo devono rispettare tutte le seguenti condizioni:<br/>
+                      - Avere lo stesso Ufficio di appartenenza del profilo originario;<br/>
+                      - Includere tra i tipi di atto trattabili tutti quelli che pu&#242; trattare il profilo originario;<br/>
+                      - Avere lo stesso gruppo ruolo del profilo originario, oppure avere un gruppo ruolo che includa tutti i ruoli del gruppo ruolo del profilo originario.                    
+                   </p>
+				</div>                	
+                <div class="modal-body" ng-if="profiliAssegnaTask && profiliAssegnaTask.length > 0">
+                   <p>Per disabilitare il profilo, occorre selezionare uno a cui trasferire i task presi in carico:</p>
+                   <div class="table-responsive">
+			        <table class="table table-striped">
+			            <thead>
+			                <tr>
+			                	<th>Seleziona</th>
+			                    <th>Profilo</th>
+			                    <th>Cognome</th>
+			                    <th>Nome</th>
+			                    <th>Qualifica</th>
+			                </tr>
+			            </thead>
+			            <tbody>
+                		  <tr ng-repeat="profiloTrasf in profiliAssegnaTask">
+                		  	<td align="center"><input ng-click="setRiassegnazione(profiloTrasf.id); locQualificaRiassegna={};" value="{{profiloTrasf.id}}" type="radio" name="selProfiloTrasf"></td>
+		                    <td>{{profiloTrasf.descrizione}}</td>
+		                    <td>{{profiloTrasf.utente.cognome}}</td>
+		                    <td>{{profiloTrasf.utente.nome}}</td>
+		                    <td><select aria-hidden="false" aria-invalid="false"
+		                    			ng-model="locQualificaRiassegna"
+		                    			ng-options="qualifica as qualifica.denominazione for qualifica in profiloTrasf.hasQualifica | filter:{enabled:true} track by qualifica.id"
+		                    			ng-change="setQualificaRiassegnazione(locQualificaRiassegna)">
+		                    		<option value=""></option>
+								</select></td>
+		                  </tr>
+                		</tbody>
+                   </table>
+                	</div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
+                        <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+                    </button>
+                    <button type="submit" class="btn btn-warning" ng-disabled="!profiloRiassegnazioneId || !qualificaRiassegna || !qualificaRiassegna.id">
+                        <span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span translate="entity.action.disable">Disable</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

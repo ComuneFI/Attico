@@ -1,0 +1,19 @@
+{
+    "cifra2gestattiApp": {
+        "stato" : {
+            "home": {
+                "title": "Statos",
+                "createLabel": "Create a new Stato",
+                "createOrEditLabel": "Create or edit a Stato"
+            },
+            "delete": {
+                "question": "Are you sure you want to delete Stato {{ id }}?"
+            },
+            "detail": {
+                "title": "Stato"
+            },
+            "codice": "Codice",
+            "descrizione": "Descrizione"
+        }
+    }
+}

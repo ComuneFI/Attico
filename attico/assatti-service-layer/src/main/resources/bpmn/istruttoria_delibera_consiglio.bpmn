@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_12bnxe0" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="3.4.1">
+  <bpmn:process id="IstruttoriaDeliberaConsiglio" name="IstruttoriaDeliberaConsiglio" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_17ydcrt">
+      <bpmn:outgoing>SequenceFlow_1fjaahu</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:userTask id="UserTask_0ihg0so" name="Predisposizione Proposta" camunda:assignee="${ ISTRUTTORE_ATTO }">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="LISTA_DECISIONI">
+            <camunda:script scriptFormat="groovy">import it.linksmt.assatti.bpm.util.ListaDecisioni
+
+decisioni = new ListaDecisioni()
+decisioni.addDecisione('Salva', false)
+
+if (TIPO_ITER != 'SENZA_VERIFICA_CONTABILE') {
+    decisioni.addDecisione('Salva e Inoltra Proposta', 'INVIO_A_CONTABILE_ISTRUTTORE', 'NO', 'VERIFICA_DATI_CONTABILI_NO_OBBL', true)
+    decisioni.addDecisione('Recupera Movimenti Contabili', null, null, 'RECUPERA_DATI_CONTABILI', false)
+    decisioni.addDecisione('Invia dati Contabili', null, null, 'INVIA_DATI_CONTABILI', false)
+    decisioni.addDecisione('Salva e Invia ad Ufficio Contabile Proponente',  'INVIO_A_CONTABILE_ISTRUTTORE', 'SI', 'INVIA_A_ISTRUTTORE_CONTABILE_PROPONENTE', true)
+}
+else {
+    //decisioni.addDecisione('Salva e Inoltra Proposta', true)
+decisioni.addDecisione('Salva e Inoltra Proposta', 'INVIO_A_CONTABILE_ISTRUTTORE', 'NO', 'SALVA_E_INOLTRA', true)
+
+}
+decisioni.addDecisione("Ritira Proposta", "ritiro", "RITIRO", "SI", "RITIRO_FASE_ISTRUTTORIA", true)
+
+decisioni.export()</camunda:script>
+          </camunda:inputParameter>
+          <camunda:inputParameter name="SCENARI_DISABILITAZIONE">
+            <camunda:list>
+              <camunda:value>TipoIterNonModificabile</camunda:value>
+              <camunda:value>ImportiEntrataUscitaEditabili</camunda:value>
+            </camunda:list>
+          </camunda:inputParameter>
+          <camunda:inputParameter name="ASSEGNAZIONE_INCARICHI">
+            <camunda:script scriptFormat="groovy">import it.linksmt.assatti.bpm.util.ListaAssegnazioniIncarichi
+
+assegnazioni = new ListaAssegnazioniIncarichi()
+
+
+if (!TIPO_ATTO.equalsIgnoreCase('DIC')) {
+	assegnazioni.addAssegnazioneIncarico('DIR_VISTO_RESPONSABILE_ISTRUTTORIA', 'VISTO_RESPONSABILE_ISTRUTTORIA')
+	assegnazioni.addAssegnazioneIncarico('DIR_PARERE_ISTRUTTORIO_RESPONSABILE', 'GROUP_PARERE_ISTRUTTORIO_RESPONSABILE')
+	if (TIPO_ATTO.equalsIgnoreCase('DC')) {
+		assegnazioni.addAssegnazioneIncarico('DC_VERIFICA_RESPONSABILE_TECNICO_FIRMATARIO_DELIBERA', 'VERIFICA_RESPONSABILE_TECNICO')
+		assegnazioni.addAssegnazioneIncarico('DC_VERIFICA_ALTRI_RESPONSABILI', 'LIST_VERIFICA_ALTRI_RESPONSABILI')
+	} else {
+		assegnazioni.addAssegnazioneIncarico('DIR_VERIFICA_RESPONSABILE_TECNICO_FIRMATARIO_DELIBERA', 'VERIFICA_RESPONSABILE_TECNICO')
+		assegnazioni.addAssegnazioneIncarico('DIR_VERIFICA_ALTRI_RESPONSABILI', 'LIST_VERIFICA_ALTRI_RESPONSABILI')
+	}
+	
+
+	if (!TIPO_ITER.equalsIgnoreCase('SENZA_VERIFICA_CONTABILE')) {
+		assegnazioni.addAssegnazioneIncarico('DIR_ISTRUTTORE_CONTABILE', 'GROUP_ISTRUTTORE_CONTABILE')
+		assegnazioni.addAssegnazioneIncarico('ISTRUTTORE_CONTABILE_PROPONENTE', 'ISTRUTTORE_CONTABILE_PROPONENTE')
+	}
+
+//assegnazioni.addAssegnazioneIncarico('DIR_SEGRETARIO_COMMISSIONE', 'LIST_COMMISSIONI')
+}
+assegnazioni.addAssegnazioneIncarico('VISTO_CONSIGLIERI', 'LIST_VISTO_CONSIGLIERI')
+
+assegnazioni.export()</camunda:script>
+          </camunda:inputParameter>
+          <camunda:inputParameter name="LISTA_DOCUMENTI_ANTEPRIMA">
+            <camunda:script scriptFormat="groovy">java.util.ArrayList
+
+LISTA_DOCUMENTI_ANTEPRIMA = new ArrayList();
+
+if(TIPO_ATTO.equalsIgnoreCase('DC')){
+	LISTA_DOCUMENTI_ANTEPRIMA.add('PROPOSTA_DELIBERA_CONSIGLIO')
+}  else if(TIPO_ATTO.equalsIgnoreCase('DIC')){
+	LISTA_DOCUMENTI_ANTEPRIMA.add('PROPOSTA_DELIBERA_INDIRIZZO_CONSIGLIO')
+}
+
+return LISTA_DOCUMENTI_ANTEPRIMA</camunda:script>
+          </camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_1fjaahu</bpmn:incoming>
+      <bpmn:incoming>SequenceFlow_1wqdaeh</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_14mex0a</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:endEvent id="EndEvent_0veavdo">
+      <bpmn:incoming>SequenceFlow_078xz8u</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_1fjaahu" sourceRef="StartEvent_17ydcrt" targetRef="UserTask_0ihg0so" />
+    <bpmn:sequenceFlow id="SequenceFlow_14mex0a" sourceRef="UserTask_0ihg0so" targetRef="ExclusiveGateway_0wx7ilq" />
+    <bpmn:serviceTask id="ServiceTask_1xgqkho" name="Proposta Creata" camunda:delegateExpression="${ registrazioneEventoService }">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="IMPOSTA_STATO">Proposta in predisposizione</camunda:inputParameter>
+          <camunda:inputParameter name="REGISTRA_EVENTO">PROPOSTA_CREATA</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_1bsv4q4</bpmn:incoming>
+      <bpmn:incoming>SequenceFlow_0vsagyy</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_078xz8u</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="SequenceFlow_078xz8u" sourceRef="ServiceTask_1xgqkho" targetRef="EndEvent_0veavdo" />
+    <bpmn:exclusiveGateway id="ExclusiveGateway_0wx7ilq" default="SequenceFlow_18j2ddo">
+      <bpmn:incoming>SequenceFlow_14mex0a</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_18j2ddo</bpmn:outgoing>
+      <bpmn:outgoing>SequenceFlow_133jacu</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="SequenceFlow_18j2ddo" sourceRef="ExclusiveGateway_0wx7ilq" targetRef="ServiceTask_0gl0lwf" />
+    <bpmn:serviceTask id="ServiceTask_0gl0lwf" name="Inserimento Dati Contabili Proponente" camunda:delegateExpression="${ registrazioneEventoService }">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="IMPOSTA_STATO">Inserimento Dati Contabili Proponente</camunda:inputParameter>
+          <camunda:inputParameter name="REGISTRA_EVENTO">PROPOSTA_INVIATA_A_CONTABILE_PROPONENTE</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_18j2ddo</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1rk26rq</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="SequenceFlow_1rk26rq" sourceRef="ServiceTask_0gl0lwf" targetRef="UserTask_1apnkxo" />
+    <bpmn:userTask id="UserTask_1apnkxo" name="Predisposizione Dati Contabili" camunda:candidateGroups="${ ISTRUTTORE_CONTABILE_PROPONENTE }">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="LISTA_DECISIONI">
+            <camunda:script scriptFormat="groovy">import it.linksmt.assatti.bpm.util.ListaDecisioni
+
+decisioni = new ListaDecisioni()
+decisioni.addDecisione('Salva', false)
+
+decisioni.addDecisione('Salva e Inoltra Proposta',  'ESITO_CONTABILE_ISTRUTTORE', 'SI', 'SALVA_E_INOLTRA', true)
+decisioni.addDecisione('Recupera Movimenti Contabili', null, null, 'RECUPERA_DATI_CONTABILI', false)
+decisioni.addDecisione('Invia dati Contabili', null, null, 'INVIA_DATI_CONTABILI', false)
+
+decisioni.addDecisione('Restituisci a Proponente', 'restituzione_proponente', 'ESITO_CONTABILE_ISTRUTTORE', 'NO', 'RITIRO_CONTABILE', true)
+
+decisioni.export()</camunda:script>
+          </camunda:inputParameter>
+          <camunda:inputParameter name="SCENARI_DISABILITAZIONE">
+            <camunda:list>
+              <camunda:value>TuttoNonModificabile</camunda:value>
+              <camunda:value>ImportiEntrataUscitaEditabili</camunda:value>
+              <camunda:value>DataScadenzaContabileEditabile</camunda:value>
+            </camunda:list>
+          </camunda:inputParameter>
+          <camunda:inputParameter name="LISTA_DOCUMENTI_ANTEPRIMA">
+            <camunda:script scriptFormat="groovy">java.util.ArrayList
+
+LISTA_DOCUMENTI_ANTEPRIMA = new ArrayList();
+
+if(TIPO_ATTO.equalsIgnoreCase('DC')){
+	LISTA_DOCUMENTI_ANTEPRIMA.add('PROPOSTA_DELIBERA_CONSIGLIO')
+}  else if(TIPO_ATTO.equalsIgnoreCase('DIC')){
+	LISTA_DOCUMENTI_ANTEPRIMA.add('PROPOSTA_DELIBERA_INDIRIZZO_CONSIGLIO')
+}
+
+return LISTA_DOCUMENTI_ANTEPRIMA</camunda:script>
+          </camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_1rk26rq</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0vs9qu8</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="SequenceFlow_0vs9qu8" sourceRef="UserTask_1apnkxo" targetRef="ExclusiveGateway_15l7kda" />
+    <bpmn:serviceTask id="ServiceTask_0hhx2av" name="Restituzione a Istruttore Proposta" camunda:delegateExpression="${ registrazioneEventoService }">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="IMPOSTA_STATO">Predisposizione Proposta</camunda:inputParameter>
+          <camunda:inputParameter name="REGISTRA_EVENTO">PROPOSTA_IN_PREDISPOSIZIONE</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_1uqea9q</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1wqdaeh</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="SequenceFlow_1wqdaeh" sourceRef="ServiceTask_0hhx2av" targetRef="UserTask_0ihg0so" />
+    <bpmn:sequenceFlow id="SequenceFlow_133jacu" sourceRef="ExclusiveGateway_0wx7ilq" targetRef="ExclusiveGateway_1meayps">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${ (execution.hasVariable('RITIRO') &amp;&amp; execution.getVariable('RITIRO') !=null &amp;&amp; execution.getVariable('RITIRO').equalsIgnoreCase('SI')) || INVIO_A_CONTABILE_ISTRUTTORE == 'NO' }</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:exclusiveGateway id="ExclusiveGateway_15l7kda" default="SequenceFlow_0dtygpk">
+      <bpmn:incoming>SequenceFlow_0vs9qu8</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0dtygpk</bpmn:outgoing>
+      <bpmn:outgoing>SequenceFlow_1uqea9q</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="SequenceFlow_0dtygpk" sourceRef="ExclusiveGateway_15l7kda" targetRef="ExclusiveGateway_1meayps" />
+    <bpmn:sequenceFlow id="SequenceFlow_1uqea9q" sourceRef="ExclusiveGateway_15l7kda" targetRef="ServiceTask_0hhx2av">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${ ESITO_CONTABILE_ISTRUTTORE == 'NO' }</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:serviceTask id="ServiceTask_0y3cpu7" name="Invio Dati Contabili Proposta" camunda:delegateExpression="${ sendBozzaMovimentiContabiliService }">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="IMPOSTA_STATO">Inserimento Dati Contabili Proponente</camunda:inputParameter>
+          <camunda:inputParameter name="REGISTRA_EVENTO">PROPOSTA_INVIATA_A_CONTABILE_PROPONENTE</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_0bxgch1</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1bsv4q4</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="SequenceFlow_1bsv4q4" sourceRef="ServiceTask_0y3cpu7" targetRef="ServiceTask_1xgqkho" />
+    <bpmn:exclusiveGateway id="ExclusiveGateway_1meayps" default="SequenceFlow_0vsagyy">
+      <bpmn:incoming>SequenceFlow_0dtygpk</bpmn:incoming>
+      <bpmn:incoming>SequenceFlow_133jacu</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0bxgch1</bpmn:outgoing>
+      <bpmn:outgoing>SequenceFlow_0vsagyy</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="SequenceFlow_0bxgch1" sourceRef="ExclusiveGateway_1meayps" targetRef="ServiceTask_0y3cpu7">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${TIPO_ITER == 'CON_VERIFICA_CONTABILE'}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="SequenceFlow_0vsagyy" sourceRef="ExclusiveGateway_1meayps" targetRef="ServiceTask_1xgqkho" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="IstruttoriaDeliberaConsiglio">
+      <bpmndi:BPMNShape id="StartEvent_17ydcrt_di" bpmnElement="StartEvent_17ydcrt">
+        <dc:Bounds x="159" y="266" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="72" y="242" width="0" height="13" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="UserTask_0ihg0so_di" bpmnElement="UserTask_0ihg0so">
+        <dc:Bounds x="254" y="244" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_0veavdo_di" bpmnElement="EndEvent_0veavdo">
+        <dc:Bounds x="1382" y="266" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="431" y="242" width="90" height="13" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1fjaahu_di" bpmnElement="SequenceFlow_1fjaahu">
+        <di:waypoint x="195" y="284" />
+        <di:waypoint x="254" y="284" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="119.5" y="202.5" width="90" height="13" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_14mex0a_di" bpmnElement="SequenceFlow_14mex0a">
+        <di:waypoint x="354" y="284" />
+        <di:waypoint x="416" y="284" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="279.5" y="202.5" width="90" height="13" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ServiceTask_1xgqkho_di" bpmnElement="ServiceTask_1xgqkho">
+        <dc:Bounds x="1220" y="244" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_078xz8u_di" bpmnElement="SequenceFlow_078xz8u">
+        <di:waypoint x="1320" y="284" />
+        <di:waypoint x="1382" y="284" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="434" y="203" width="90" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ExclusiveGateway_0wx7ilq_di" bpmnElement="ExclusiveGateway_0wx7ilq" isMarkerVisible="true">
+        <dc:Bounds x="416" y="259" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_18j2ddo_di" bpmnElement="SequenceFlow_18j2ddo">
+        <di:waypoint x="466" y="284" />
+        <di:waypoint x="509" y="284" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ServiceTask_0gl0lwf_di" bpmnElement="ServiceTask_0gl0lwf">
+        <dc:Bounds x="509" y="244" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1rk26rq_di" bpmnElement="SequenceFlow_1rk26rq">
+        <di:waypoint x="609" y="284" />
+        <di:waypoint x="693" y="284" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="UserTask_1apnkxo_di" bpmnElement="UserTask_1apnkxo">
+        <dc:Bounds x="693" y="244" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0vs9qu8_di" bpmnElement="SequenceFlow_0vs9qu8">
+        <di:waypoint x="793" y="284" />
+        <di:waypoint x="851" y="284" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ServiceTask_0hhx2av_di" bpmnElement="ServiceTask_0hhx2av">
+        <dc:Bounds x="524" y="84" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1wqdaeh_di" bpmnElement="SequenceFlow_1wqdaeh">
+        <di:waypoint x="524" y="124" />
+        <di:waypoint x="304" y="124" />
+        <di:waypoint x="304" y="244" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_133jacu_di" bpmnElement="SequenceFlow_133jacu">
+        <di:waypoint x="441" y="309" />
+        <di:waypoint x="441" y="435" />
+        <di:waypoint x="980" y="435" />
+        <di:waypoint x="980" y="310" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ExclusiveGateway_15l7kda_di" bpmnElement="ExclusiveGateway_15l7kda" isMarkerVisible="true">
+        <dc:Bounds x="851" y="259" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0dtygpk_di" bpmnElement="SequenceFlow_0dtygpk">
+        <di:waypoint x="901" y="284" />
+        <di:waypoint x="955" y="284" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1uqea9q_di" bpmnElement="SequenceFlow_1uqea9q">
+        <di:waypoint x="876" y="259" />
+        <di:waypoint x="876" y="124" />
+        <di:waypoint x="624" y="124" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ServiceTask_0y3cpu7_di" bpmnElement="ServiceTask_0y3cpu7">
+        <dc:Bounds x="930" y="100" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1bsv4q4_di" bpmnElement="SequenceFlow_1bsv4q4">
+        <di:waypoint x="1030" y="140" />
+        <di:waypoint x="1270" y="140" />
+        <di:waypoint x="1270" y="244" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ExclusiveGateway_1meayps_di" bpmnElement="ExclusiveGateway_1meayps" isMarkerVisible="true">
+        <dc:Bounds x="955" y="259" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0bxgch1_di" bpmnElement="SequenceFlow_0bxgch1">
+        <di:waypoint x="980" y="259" />
+        <di:waypoint x="980" y="180" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0vsagyy_di" bpmnElement="SequenceFlow_0vsagyy">
+        <di:waypoint x="1005" y="284" />
+        <di:waypoint x="1220" y="284" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

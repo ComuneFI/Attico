@@ -1,0 +1,233 @@
+<div ng-init="init()">
+
+    <h2 ng-if="!isDirigente" translate="cifra2gestattiApp.richiestaHD.home.title">RichiestaHDs</h2>
+    <h2 ng-if="isDirigente" translate="cifra2gestattiApp.richiestaHD.home.titleDirigente">Richiesta Dirigente</h2>
+    
+    <div ng-if="!isAdmin" class="container-fluid">
+        <div class="row">
+            <div class="col-md-6">
+            	<button class="btn btn-primary" data-toggle="modal" data-target="#saveRichiestaHDModal" ng-click="clear()">
+                    <span class="glyphicon glyphicon-flash"></span> <span ng-if="!isDirigente" translate="cifra2gestattiApp.richiestaHD.home.createLabel">Nuova Richiesta</span> <span ng-if="isDirigente" translate="cifra2gestattiApp.richiestaHD.home.createLabelDirigente">Nuova Richiesta Dirigente</span>
+                </button>
+            </div>
+            <div class="col-md-3 ">
+            </div>
+             <div class="col-md-3 ">
+            </div>
+        </div>
+    </div>
+    
+
+    <div ng-if="!isAdmin" class="modal fade" id="saveRichiestaHDModal" tabindex="-1" role="dialog" aria-labelledby="myRichiestaHDLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form name="editForm" role="form" novalidate ng-submit="save()" show-validation>
+
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                                ng-click="clear()">&times;</button>
+                        <h4 class="modal-title" id="myRichiestaHDLabel" ng-if="!isDirigente" translate="cifra2gestattiApp.richiestaHD.home.createLabel">Nuova Richiesta</h4>
+                        <h4 class="modal-title" id="myRichiestaHDLabel" ng-if="isDirigente" translate="cifra2gestattiApp.richiestaHD.home.createLabelDirigente">Nuova Richiesta dir</h4>
+                    </div>
+                    <div class="modal-body">
+                    	<div ng-show="!isDirigente" class="form-group">
+                            <label translate="cifra2gestattiApp.richiestaHD.tipo">Tipo</label> *
+                            <select class="form-control" name="tipo" ng-model="richiesta.tipo.id" ng-options="tipoRichiestaHD.id as tipoRichiestaHD.descrizione for tipoRichiestaHD in tiporichiestahds" required>
+                            </select>
+                        </div>
+                        <div ng-if="isDirigente" class="form-group">
+                            <label translate="cifra2gestattiApp.richiestaHD.aoo">aoo</label> *
+                            <select class="form-control" name="tipo" ng-model="richiesta.aooId" ng-options="aoo.id as aoo.codice + '-' + aoo.descrizione for aoo in aoosDirigente" required>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label translate="cifra2gestattiApp.richiestaHD.oggetto">Oggetto</label> *
+                            <input type="text" class="form-control" name="oggetto"
+                                   ng-model="richiesta.oggetto" ng-maxlength="200" required>
+
+                            <div ng-show="editForm.oggetto.$invalid">
+                                <p class="help-block"
+                                   ng-show="editForm.oggetto.$error.maxlength" translate-value-max="200">
+                                    This field cannot be longer than 200 characters.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label translate="cifra2gestattiApp.richiestaHD.testoRichiesta">TestoRichiesta</label> *
+                            <summernote ng-model="richiesta.testoRichiesta" config="{height: 250}">
+                        </div>
+                        <div ng-if="isDirigente" class="form-group">
+                            <div class="form-group col-sm-6">
+					            <label translate="cifra2gestattiApp.richiestaHD.modulo">modulo</label> *
+					            <input onchange="angular.element(this).scope().setTempfile()" id="file" type="file" class="form-control" richiestafileread required ng-model="tempfilename">
+					        </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">
+                            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+                        </button>
+                        <button type="submit" ng-disabled="editForm.$invalid || !richiesta.testoRichiesta" class="btn btn-primary">
+                            <span class="glyphicon glyphicon-save"></span>&nbsp;<span translate="entity.action.save">Save</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="saveRichiestaHDModal" tabindex="-1" role="dialog" aria-labelledby="myRichiestaHDLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form name="editForm" role="form" novalidate ng-submit="save()" show-validation>
+
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                                ng-click="clear()">&times;</button>
+                        <h4 class="modal-title" id="myRichiestaHDLabel" translate="cifra2gestattiApp.richiestaHD.home.createLabel">Nuova Richiesta</h4>
+                    </div>
+                    <div class="modal-body">
+                    	<div class="form-group">
+                            <label translate="cifra2gestattiApp.richiestaHD.tipo">Tipo</label>
+                            <select class="form-control" name="tipo" ng-model="richiesta.tipo.id" ng-options="tipoRichiestaHD.id as tipoRichiestaHD.descrizione for tipoRichiestaHD in tiporichiestahds" required>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label translate="cifra2gestattiApp.richiestaHD.oggetto">Oggetto</label>
+                            <input type="text" class="form-control" name="oggetto"
+                                   ng-model="richiesta.oggetto" ng-maxlength="200">
+
+                            <div ng-show="editForm.oggetto.$invalid">
+                                <p class="help-block"
+                                   ng-show="editForm.oggetto.$error.maxlength" translate-value-max="200">
+                                    This field cannot be longer than 200 characters.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label translate="cifra2gestattiApp.richiestaHD.testoRichiesta">TestoRichiesta</label>
+                            <textarea class="form-control" rows="3" name="testoRichiesta" 
+                                   ng-model="richiesta.testoRichiesta" ng-maxlength="2500"></textarea>
+
+                            <div ng-show="editForm.testoRichiesta.$invalid">
+                                <p class="help-block"
+                                   ng-show="editForm.testoRichiesta.$error.maxlength" translate-value-max="2500">
+                                    This field cannot be longer than 2500 characters.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">
+                            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+                        </button>
+                        <button type="submit" ng-disabled="editForm.$invalid" class="btn btn-primary">
+                            <span class="glyphicon glyphicon-save"></span>&nbsp;<span translate="entity.action.save">Save</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+	<div>
+	    <div class="table-responsive crud-search">
+	        <table class="table table-striped">
+	            <thead>
+	                <tr>
+	                	<th width="30px"></th>
+	                    <th translate="cifra2gestattiApp.richiestaHD.dataInvio">DataInvio</th>
+	                    <th ng-if="isAdmin" translate="cifra2gestattiApp.richiestaHD.autore">Autore</th>
+	                    <th ng-if="!isAdmin" translate="cifra2gestattiApp.richiestaHD.presaVisione">presaVisione</th>
+	                    <th translate="cifra2gestattiApp.richiestaHD.oggetto">Oggetto</th>
+	                    <th translate="cifra2gestattiApp.richiestaHD.stato">Stato</th>
+	                    <th translate="cifra2gestattiApp.richiestaHD.tipo" ng-if="!isDirigente">Tipo</th>
+	                    <th translate="cifra2gestattiApp.richiestaHD.aoo" ng-if="isDirigente">aoo</th>
+	                    <th translate="cifra2gestattiApp.richiestaHD.risposte">risposte</th>
+	                    <th width="30px"></th>
+	                </tr>
+	                <tr>
+	                	<th style="text-align:center;">
+	                    	<button class="btn btn-primary btn-xs" ng-click="ricerca()"><span class="glyphicon glyphicon-search"/> <span translate="global.messages.cerca">Ricerca</span></button>
+							<button class="btn btn-primary btn-xs" ng-click="resetRicerca()"><span translate="global.messages.resetricerca">Reset ricerca</span></button>
+                   		</th>
+	                	<th style="width:10em;">
+		                    <input type="text" ng-model="tempSearch.dataStart" size="7" onkeydown="return false;" bs-datepicker placeholder="Dal"> <button title="Cancella Data" ng-click="tempSearch.dataStart = null;" class="btn btn-xs"><span class="glyphicon glyphicon-remove"></span></button><br/>
+		                    <input type="text" ng-model="tempSearch.dataEnd" size="7" onkeydown="return false;" bs-datepicker placeholder="Al"> <button title="Cancella Data" ng-click="tempSearch.dataEnd = null;" class="btn btn-xs"><span class="glyphicon glyphicon-remove"></span></button>
+		                </th>
+		                <th ng-if="isAdmin">
+		                	<select class="form-control" ng-model="tempSearch.autore" ng-options="autore as autore.username for autore in utenti track by autore.id">
+                        	</select>
+		                </th>
+		                <th ng-if="!isAdmin">
+		                	<select class="form-control" ng-model="tempSearch.presaVisione" ng-options="presavisione.value as presavisione.descrizione for presavisione in [{descrizione:'Si', value:true}, {descrizione:'No', value:false}]">
+                        	</select>
+		                </th>
+		                <th>
+		                	<input type="text" ng-model="tempSearch.oggetto" style="width:100%">
+		                </th>
+		                <th>
+		                	<select class="form-control" ng-model="tempSearch.stato" ng-options="stato as stato.descrizione for stato in statorichiestahds track by stato.id">
+                        	</select>
+		                </th>
+		                <th ng-if="!isDirigente">
+		                	<select class="form-control" ng-model="tempSearch.tipo" ng-options="tipo as tipo.descrizione for tipo in tiporichiestahds track by tipo.id">
+                        	</select>
+		                </th>
+		                <th ng-if="isDirigente && !isAdmin">
+		                	<select class="form-control" ng-model="tempSearch.aooId" ng-options="aoo.id as aoo.codice + '-' + aoo.descrizione for aoo in aoosDirigente">
+                        	</select>
+		                </th>
+		                <th ng-if="isDirigente && isAdmin">
+		                	<input type="text" ng-model="tempSearch.aoo" style="width:100%">
+		                </th>
+		                <th>
+		                	<select class="form-control" ng-model="tempSearch.risposte" ng-options="nrisposte.value as nrisposte.descrizione for nrisposte in [{descrizione:'Si', value:true}, {descrizione:'No', value:false}]">
+                        	</select>
+		                </th>
+		                <th style="text-align:center;">
+	                    	<button class="btn btn-primary btn-xs" ng-click="ricerca()"><span class="glyphicon glyphicon-search"/> <span translate="global.messages.cerca">Ricerca</span></button>
+							<button class="btn btn-primary btn-xs" ng-click="resetRicerca()"><span translate="global.messages.resetricerca">Reset ricerca</span></button>
+                   		</th>
+	                </tr>
+	            </thead>
+	            <tbody>
+	                <tr ng-repeat="richiestaHD in richiestaHDs">
+	                    <td></td>
+	                    <td>{{richiestaHD.dataInvio | date:'dd-MM-yyyy HH:mm:ss'}}</td>
+	                    <td ng-if="isAdmin">{{richiestaHD.autore.username}}</td>
+	                    <td ng-if="!isAdmin">{{richiestaHD.dataPresaVisione ? (richiestaHD.dataPresaVisione | date:'dd-MM-yyyy HH:mm:ss') : 'No'}}</td>
+	                    <td>{{richiestaHD.oggetto}}</td>
+	                    <td>{{richiestaHD.stato.descrizione}}</td>
+	                    <td ng-if="!isDirigente">{{richiestaHD.tipo.descrizione}}</td>
+	                    <td ng-if="isDirigente">{{richiestaHD.aoo.codice + '-' + richiestaHD.aoo.descrizione}}</td>
+	                    <td>{{richiestaHD.nRisposte}}</td>
+	                    <td>
+	                        <button type="button"
+	                                ng-click="goToDetail(richiestaHD.id)"
+	                                class="btn btn-info btn-sm">
+	                            <span class="glyphicon glyphicon-eye-open"></span>&nbsp;<span translate="cifra2gestattiApp.richiestaHD.viewreplay"> View</span>
+	                        </button>
+	                    </td>
+	                </tr>
+	            </tbody>
+	        </table>
+	        <div ng-if="richiestaHDs && richiestaHDs.length == 0" class="search-no-result"><h3 translate="global.searchNoResult"></h3></div>
+	    </div>
+        <nav>
+            <ul class="pagination">
+                <li ng-show="links['first']" ng-click="loadPage(links['first'])"><a>&lt;&lt;</a></li>
+                <li ng-show="links['prev']" ng-click="loadPage(links['prev'])"><a>&lt;</a></li>
+                <li ng-show="page > 2" ng-click="loadPage(page - 2)"><a>{{page - 2}}</a></li>
+                <li ng-show="page > 1" ng-click="loadPage(page - 1)"><a>{{page - 1}}</a></li>
+                <li class="active"><a>{{page}}</a></li>
+                <li ng-show="page < links['last']" ng-click="loadPage(page + 1)"><a>{{page + 1}}</a></li>
+                <li ng-show="page < links['last'] - 1" ng-click="loadPage(page + 2)"><a>{{page + 2}}</a></li>
+                <li ng-show="links['next']" ng-click="loadPage(links['next'])"><a>&gt;</a></li>
+                <li ng-show="links['last']" ng-click="loadPage(links['last'])"><a>&gt;&gt;</a></li>
+            </ul>
+        </nav>
+    </div>
+</div>

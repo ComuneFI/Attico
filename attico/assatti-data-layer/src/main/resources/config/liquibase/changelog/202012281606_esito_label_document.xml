@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    <changeSet author="mazzottada" id="202012281606-001">
+    	<sql>
+    		ALTER TABLE esito ADD label_document varchar(255) NULL;
+		</sql>
+    </changeSet>
+    <changeSet author="mazzottada" id="202012281606-002">
+    	<sql>
+    		UPDATE esito SET label_document = label;
+		</sql>
+    </changeSet>
+    <changeSet author="mazzottada" id="202012281606-003">
+    	<sql>
+    		ALTER TABLE esito MODIFY COLUMN label_document varchar(255) NOT NULL;
+		</sql>
+    </changeSet>
+    <changeSet author="mazzottada" id="202012281606-004">
+    	<sql>
+    		UPDATE esito SET label_document = 'Approvata' where id in ('approvata_modifiche', 'approvata_modifiche_del');
+		</sql>
+    </changeSet>
+</databaseChangeLog>

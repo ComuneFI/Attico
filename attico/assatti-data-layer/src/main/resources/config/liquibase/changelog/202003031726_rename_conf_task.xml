@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    <changeSet author="mazzottada" id="202003031726-1">
+    	<sql>
+    		update configurazione_task set nome = 'Ufficio Parere Istruttorio' where codice = 'DIR_PARERE_ISTRUTTORIO_RESPONSABILE';
+    		update configurazione_task set nome = 'Ufficio Contabile' where codice = 'DIR_ISTRUTTORE_CONTABILE';
+    		update configurazione_task set nome = 'Ufficio Contabile Proponente' where codice = 'ISTRUTTORE_CONTABILE_PROPONENTE';
+		</sql>
+    </changeSet>
+</databaseChangeLog>

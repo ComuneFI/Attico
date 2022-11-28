@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    <changeSet author="mazzottada" id="202207121731-00001">
+    	<sql>
+    		update profilo p inner join profilo_composizione pc on p.id = pc.id_profilo and pc.valido = 1 inner join composizione c on c.id = pc.id_composizione and c.organo = 'C' and c.predefinita = 1 set p.ordine_consiglio = pc.ordine where p.ordine_consiglio &#60;&#62; pc.ordine; 
+			update profilo p inner join profilo_composizione pc on p.id = pc.id_profilo and pc.valido = 1 inner join composizione c on c.id = pc.id_composizione and c.organo = 'G' and c.predefinita = 1 set p.ordine_giunta = pc.ordine where p.ordine_giunta &#60;&#62; pc.ordine;
+			update profilo set ordine_consiglio = 9999 where ordine_consiglio = 0 or ordine_consiglio is null;
+			update profilo set ordine_giunta = 9999 where ordine_giunta = 0 or ordine_giunta is null;
+		</sql>
+    </changeSet>
+    <changeSet author="mazzottada" id="202207121731-00002">
+    	<sql>
+    		update profilo set valido_seduta_consiglio = 0;
+			update profilo set valido_seduta_giunta = 0;
+    		update profilo p inner join profilo_composizione pc on p.id = pc.id_profilo and pc.valido = 1 inner join composizione c on c.id = pc.id_composizione and c.organo = 'C' and c.predefinita = 1 set p.valido_seduta_consiglio = pc.valido where pc.valido is not null; 
+			update profilo p inner join profilo_composizione pc on p.id = pc.id_profilo and pc.valido = 1 inner join composizione c on c.id = pc.id_composizione and c.organo = 'G' and c.predefinita = 1 set p.valido_seduta_giunta = pc.valido where pc.valido is not null;
+		</sql>
+    </changeSet>
+</databaseChangeLog>

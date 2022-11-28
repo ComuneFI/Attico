@@ -1,0 +1,51 @@
+<div>
+	<h4>Lista Task Operatore</h4>
+	<a style="margin-bottom: 20px;" class="btn btn-danger btn-xs" target="_blank"
+		href="/api/preview/reportIterAtto{{atto.id}}.pdf?access_token={{access_token}}">
+			<i class="fa fa-file-pdf-o"></i>&nbsp;<span>Report Iter</span>
+	</a>
+
+	<p><strong>Creato da: </strong>{{avanzamenti[0].createdBy != 'system' ? avanzamenti[0].createdBy : 'Sistema esterno'}}{{avanzamenti[0].sistemaAccreditato ? ' (' + avanzamenti[0].sistemaAccreditato.descrizione + ')' : ''}}</p>
+	
+	<div class="table-responsive" >
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th><span>Data Ultima Azione</span></th>
+	                <th><span>Esecutore</span></th>	                
+	           		<!--  th><span>Stato</span></th-->
+	           		<th colspan="2" style="width: 75%;">
+	           			<table style="width: 100%;">
+	           				<tr>
+	           					<td style="width: 15%;"><span></span></td>
+	           					<td style="width: 25%;"><span>Azione Effettuata</span></td>
+	           					<td style="width: 60%;"><span>Note</span></td>
+	           				</tr>
+	           			</table>
+	           		</th>
+	           	</tr>
+			</thead>
+			<tbody>
+	             <tr ng-repeat="avanzamento in avanzamenti">
+	             	<td style="padding-right:10px; width: 10%;">{{avanzamento.dataAttivita| date:'short'}}</td>
+	                <td style="padding-right:10px; width: 15%;">{{avanzamento.createdBy != 'system' ? avanzamento.createdBy : 'Sistema esterno'}}{{avanzamento.sistemaAccreditato ? ' (' + avanzamento.sistemaAccreditato.descrizione + ')' : ''}}</td>	                
+	                <td colspan="2" style="width: 75%;">
+		                <table style="width: 100%;">
+		                	<tr ng-repeat="attivita in avanzamento.listaAttivita">
+			                	<td style="padding-right:10px; width: 15%;">
+			                		{{attivita.data| date:'dd/MM/yyyy HH:mm'}}
+			                	</td>
+			                	<td style="padding-right:10px; width: 25%;">
+			                		{{attivita.nome}}
+			                	</td>
+		                		<td style="width: 60%;">
+		                			<span ng-bind-html="attivita.note"></span>
+		                		</td>
+	                		</tr>
+	                	</table>
+	                </td>
+	            </tr>
+			</tbody>
+		</table>
+	</div>
+</div>

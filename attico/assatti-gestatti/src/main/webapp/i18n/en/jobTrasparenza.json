@@ -1,0 +1,63 @@
+{
+    "cifra2gestattiApp": {
+        "jobTrasparenza" : {
+            "home": {
+                "title": "Monitoraggio Pubblicazioni Trasparenza"
+            },
+            "detail": {
+                "title": "DETTAGLIO PUBBLICAZIONE",
+                "codiceCifra":"Cod. CIFRA:",
+                "dataCreazione":"Data Creazione:",
+                "tipoDiAtto":"Tipo di Atto:",
+                "tipoDeterminazione":"Tipo Determinazione:",
+                "oggetto":"Oggetto:",
+                "strutturaProponente":"Struttura Proponente:",
+                "numeroAdozione":"Num. Adozione:",
+                "dataAdozione":"Data Adozione:",
+                "durataGiorniPubblicazione":"Durata Giorni Pubblicazione:",
+                "dirittoAllOblio":"Diritto all'Oblio:",
+                "dataPresuntaInizioPubblicazione":"Data Presunta Inizio Pubblicazione:",
+                "dataPresuntaFinePubblicazione":"Data Presunta Fine Pubblicazione:",
+                "dataInizioPubblicazione":"Data Inizio Pubblicazione:",
+                "dataFinePubblicazione":"Data Fine Pubblicazione:",
+                "errore":"Errore Comunicazione Albo:",
+                "download":"Download",
+                "responsabile":"Responsabile del Procedimento Amministrativo:",
+                "dataEsecutivita":"Data di Esecutivita':",
+                "statoPubblicazione": "Stato Pubblicazione:",
+            	"statoProceduraPubblicazione": "Stato Procedura Pubblicazione:",
+            	"estremiAttoRevocato": "Estremi dell'atto di revoca/rettifica/riproposizione:",
+            	"estremiAnnullamento":"Estremi della richiesta di annullamento (data, motivazione, operatore):"
+            },
+            "annulla": {
+            	"listButton": "Annulla Pubblicazione",
+            	"title": "Annulla Pubblicazione",
+            	"motivazione": "Motivazione Richiesta Annullamento *",
+            	"oscuramento": "Con Oscuramento Atto Pubblicato",
+            	"chiudi": "Chiudi",
+            	"conferma":"Annulla Pubblicazione",
+                "question": "Sei sicuro di voler annullare la pubblicazione selezionata?"
+            },
+            "esito":"Esito Invio / Aggiornamento",
+            "dataInvio":"Data Invio / Aggiornamento",
+            "codiceCifra": "Codice Atto",
+            "codice":"Num. proposta\u005CCodice Attico",
+            "numeroAdozione":"Num. Atto / Num. Adozione:",
+            "dataEsecuzione": "Data Esecuzione Atto",
+            "dataAdozione":"Data Adozione:",
+            "oggetto": "Oggetto",
+            "statoPubblicazione": "Stato Pubblicazione",
+            "statoProceduraPubblicazione": "Stato Procedura Pubblicazione",
+            "erroriComunicazioneAlbo":"Errori Comunicazione Albo",
+            "dataInizioPubblicazione":"Data Inizio Pubblicazione",
+            "dataFinePubblicazione":"Data Fine Pubblicazione",
+            "statoRelata":"Stato Relata",
+            "statiRelata": {
+            	"daGenerare":"Da Generare", 
+            	"generata": "Generata",
+            	"firmata": "Firmata",
+            	"tutti": "Tutti"
+            }
+        }
+    }
+}

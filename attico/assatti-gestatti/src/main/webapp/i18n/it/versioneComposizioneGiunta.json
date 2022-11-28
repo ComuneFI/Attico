@@ -1,0 +1,24 @@
+{
+    "cifra2gestattiApp": {
+        "versioneComposizioneGiunta" : {
+            "home": {
+                "title": "Versione Composizione Giunta",
+                "createLabel": "Crea nuova Versione",
+                "createOrEditLabel": "Crea o Modifica nuova Versione"
+            },
+            "action" : {
+            	"saveasnew": "Salva come nuova versione",
+            	"create": "Crea nuova versione"
+            },
+            "dataCreazione": "Data Creazione",
+            "descrizione": "Descrizione",
+            "versione": "Versione",
+            "predefinita": "Predefinita",
+            "qualificaProfessionale":"Qualifica Professionale",
+            "ordine":"Ordine Presenza/Votazione",
+            "componente":"Componente Giunta",
+            "valido":"Valido",
+            "grupporuolo": "Gruppo Ruolo"
+        }
+    }
+}

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    <changeSet author="mazzottada" id="202002201237-1">
+    	<sql>
+    		ALTER TABLE atto DROP COLUMN id_diogene;
+    		ALTER TABLE atto DROP COLUMN id_diogene_adozione;
+    		ALTER TABLE atto DROP COLUMN id_diogene_omissis;
+    		ALTER TABLE atto DROP COLUMN id_diogene_adozione_omissis;
+    		ALTER TABLE news DROP COLUMN id_diogene;
+    		ALTER TABLE ORDINEGIORNO DROP COLUMN id_diogene;
+    		ALTER TABLE LETTERA DROP COLUMN id_diogene;
+    		ALTER TABLE PARERE DROP COLUMN id_diogene;
+    		ALTER TABLE RESOCONTO DROP COLUMN id_diogene;
+    		ALTER TABLE DOCUMENTOINFORMATICO DROP COLUMN id_diogene;
+    		ALTER TABLE VERBALE DROP COLUMN id_diogene;
+    		drop table riversamentoeffettuato;
+    		ALTER TABLE inserto DROP FOREIGN KEY inserto_serie_fk;
+    		drop table fascicolo;
+    		drop table inserto;
+			drop table diogene;
+			drop table DIOGENEREPORT;
+		</sql>
+    </changeSet>
+</databaseChangeLog>

@@ -1,0 +1,64 @@
+
+<div>
+    <h2><span translate="cifra2gestattiApp.modelloCampo.detail.title">ModelloCampo</span> {{modelloCampo.id}}</h2>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th translate="entity.detail.field">Field</th>
+                    <th translate="entity.detail.value">Value</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.modelloCampo.codice">Codice</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{modelloCampo.codice}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.modelloCampo.titolo">Titolo</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{modelloCampo.titolo}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.modelloCampo.tipoCampo">TipoCampo</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{modelloCampo.tipoCampo}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.modelloCampo.Profilo">Profilo</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{modelloCampo.profilo != null && modelloCampo.profilo.descrizione != null ? modelloCampo.profilo.utente.nome + ' ' + modelloCampo.profilo.utente.cognome + ' - ' + modelloCampo.profilo.descrizione + ' (' + modelloCampo.profilo.aoo.codice + ')' : 'Tutti'}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.modelloCampo.tipoatto">tipoatto</span> <span data-toggle="tooltip" bs-tooltip data-html="true" data-placement="right" data-title="{{'cifra2gestattiApp.modelloCampo.guida.tipoAtto' | translate}}"><i class="fa fa-question" ></i></span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{modelloCampo.tipoAtto ? modelloCampo.tipoAtto.descrizione : 'Non definito'}}" readonly>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <summernote config="{height: 300, focus: false, airMode: false, toolbar: []}" class="form-control" name="testo" ng-model="modelloCampo.testo"></summernote>
+        
+    </div>
+    <button type="submit"
+            ui-sref="modelloCampoAdmin({flag:'admin'})"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span translate="entity.action.back"> Back</span>
+    </button>
+</div>

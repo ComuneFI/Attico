@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    <changeSet author="magria" id="202210191513-1">
+    	<sql>
+		CREATE TABLE tipofinanziamento (
+		id bigint(20) auto_increment NOT NULL,
+		codice varchar(255) NOT NULL,
+		descrizione varchar(255) NOT NULL,
+		enabled tinyint(4) NULL,
+		CONSTRAINT PRIMARY KEY (id),
+		CONSTRAINT tipofinanziamento_un UNIQUE KEY (codice)
+		);
+    	</sql>
+    </changeSet>
+    <changeSet author="magria" id="202210191531-2">
+    	<sql>
+    		INSERT INTO tipofinanziamento (codice,descrizione,enabled) VALUES ('PNRR_POC','Fondi PNRR-POC',1);
+		</sql>
+    </changeSet>
+    <changeSet author="magria" id="202210191531-3">
+    	<sql>
+			CREATE TABLE tipofinanziamento_atto (
+			id bigint(20) NOT NULL AUTO_INCREMENT,
+			atto_id bigint(20) NOT NULL,
+			tipofinanziamento_id bigint(20) NOT NULL,
+			CONSTRAINT PRIMARY KEY (id),
+			CONSTRAINT fk_tipofinanziamento_atto_atto FOREIGN KEY (atto_id) REFERENCES atto (id),
+			constraint fk_tipofinanziamento_atto_fina FOREIGN KEY (tipofinanziamento_id) REFERENCES tipofinanziamento (id)
+			) ;
+		</sql>
+    </changeSet>
+	<changeSet author="magria" id="202210191620-4">
+    	<sql>    
+			INSERT INTO campo (descrizione,codice)	VALUES ('Tipo di Finanziamento','tipo_finanziamento');
+   		</sql>
+    </changeSet>
+    <changeSet author="magria" id="202210191620-5">
+    	<sql>    
+			INSERT INTO campo_tipoatto(tipoatto_id, campo_id, visibile) select tipoatto.id, campo.id, false from tipoatto left outer join campo on campo.id = campo.id where campo.codice like 'tipo_finanziamento' and tipoatto.id not in(select id from tipoatto where codice in ('DG','DD'));
+			INSERT INTO campo_tipoatto(tipoatto_id, campo_id, visibile) select tipoatto.id, campo.id, true from tipoatto left outer join campo on campo.id = campo.id where campo.codice like 'tipo_finanziamento' and tipoatto.id in(select id from tipoatto where codice in ('DG','DD'));
+   		</sql>
+    </changeSet>
+    <changeSet author="magria" id="202210211236-6">
+    	<sql>
+			INSERT INTO tipofinanziamento (codice,descrizione,enabled) VALUES('PON_METRO', 'PON Metro', 1);
+			INSERT INTO tipofinanziamento (codice,descrizione,enabled) VALUES('REACT_EU', 'REACT-EU', 1);
+			INSERT INTO tipofinanziamento (codice,descrizione,enabled) VALUES('PON_METRO_PLUS', 'PON Metro Plus', 1);
+		</sql>
+    </changeSet>
+    <changeSet author="magria" id="202210241236-7">
+    	<sql>
+    		DELETE FROM tipofinanziamento_atto WHERE id>0;
+    		DELETE FROM tipofinanziamento WHERE id>0;
+    		ALTER TABLE tipofinanziamento_atto AUTO_INCREMENT = 1;
+    		ALTER TABLE tipofinanziamento AUTO_INCREMENT = 1;
+    		INSERT INTO tipofinanziamento (codice,descrizione,enabled) VALUES ('ALTRO','Altro/Non Pertinente',1);
+    		INSERT INTO tipofinanziamento (codice,descrizione,enabled) VALUES ('PNRR_POC','PNRR-POC',1);
+			INSERT INTO tipofinanziamento (codice,descrizione,enabled) VALUES('PON_METRO', 'PON Metro', 1);
+			INSERT INTO tipofinanziamento (codice,descrizione,enabled) VALUES('REACT_EU', 'REACT-EU', 1);
+			INSERT INTO tipofinanziamento (codice,descrizione,enabled) VALUES('PON_METRO_PLUS', 'PON Metro Plus', 1);
+		</sql>
+    </changeSet>
+</databaseChangeLog>

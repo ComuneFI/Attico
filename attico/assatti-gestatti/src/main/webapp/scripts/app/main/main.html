@@ -1,0 +1,104 @@
+<div ng-cloak>
+ 
+    <div class="row">
+       
+        <div class="col-md-12">
+        	 
+            <h1 translate="main.title">Welcome!</h1>
+            <p class="lead" translate="main.subtitle">This is your homepage</p>
+
+            <div ng-switch="isAuthenticated()">
+                <div class="alert alert-info" ng-switch-when="true"
+                     translate="main.logged.message" translate-values="{username: '{{account.login}}'}">
+                    {{account.login}}.
+                 
+                </div>
+
+                <div class="alert alert-warning" ng-switch-when="false" translate="global.messages.info.authenticated" translate-values="{login_url: '{{configurationParams.login_url}}'}">
+                   <a href="{{login_url}}">authenticate</a>, please use default l
+                </div>
+
+               <div ng-if="configurationParams.component_gestioneregistrazioneutente_enabled && !configurationParams.user_manage_enabled" class="alert alert-warning" ng-switch-when="false" translate="global.messages.info.register">
+                    Don't have an account? <a href=\"#/register\">Register</a>
+                </div>
+                              
+                <div ng-if="configurationParams.component_gestioneregistrazioneutente_enabled && !isAuthenticated() && !configurationParams.user_manage_enabled"  
+                ng-class="{'alert alert-warning' : statoregistrazione == '', 
+                		   'alert alert-danger': statoregistrazione == 'NONREGISTRATO' || statoregistrazione == 'DISABILITATO', 
+                		   'alert alert-info' : statoregistrazione == 'REGISTRATO' || statoregistrazione == 'NESSUN_PROFILO', 
+                		   'alert alert-success': statoregistrazione == 'ATTIVO'}">
+                	<input ng-model="codicefiscale" type="text" placeholder="{{'global.messages.statoregistrazione.codicefiscaleplaceholder' | translate}}" aria-invalid="false" tabindex="0" class="ng-valid ng-dirty ng-valid-parse ng-touched">
+                	<input type="button" tabindex="0" ng-click="checkCodicefiscale()" value="{{'global.messages.statoregistrazione.verificastatoregistrazione' | translate}}" class="offset1 btn btn-default">
+                	<span ng-show="statoregistrazione == 'NONREGISTRATO'" class="col-md-offset-1"><label>{{'global.messages.statoregistrazione.nonregistrato' | translate}}</label></span>
+                	<span ng-show="statoregistrazione == 'REGISTRATO'" class="col-md-offset-1"><label>{{'global.messages.statoregistrazione.registrato' | translate}}</label></span>
+                	<span ng-show="statoregistrazione == 'ATTIVO'" class="col-md-offset-1"><label>{{'global.messages.statoregistrazione.attivo' | translate}}</label></span>
+                	<span ng-show="statoregistrazione == 'DISABILITATO'" class="col-md-offset-1"><label>{{'global.messages.statoregistrazione.disabilitato' | translate}}</label></span>
+                	<span ng-show="statoregistrazione == 'NESSUN_PROFILO'" class="col-md-offset-1"><label>{{'global.messages.statoregistrazione.nessunprofilo' | translate}}</label></span>
+                </div>      
+            </div>               
+		</div>
+	 </div>	
+	 <!-- 	
+	<div class="row">
+		<div class="col-md-6">
+			<div class="panel panel-default" ng-if="isAuthenticated() && newss.length>0">
+				<div class="panel-heading">
+					<h4>Public News</h4>
+				</div>
+				
+				<ul class="list-group">
+					<li class="list-group-item" ng-repeat="news in newss | orderBy:'news.dataPubblicazione':false">
+						<a ui-sref="newsDetail({id:news.id})">{{news.titolo}}</a> <span class="glyphicon glyphicon-bookmark" ng-hide="!news.categoria.descrizione">{{news.categoria.descrizione}}</span> <span class="glyphicon glyphicon-time">{{news.dataPubblicazione | date:'dd-MM-yyyy HH:mm:ss' }}</span>
+					</li>
+				</ul>
+				<nav ng-if="newss.length>0">
+					<ul class="pagination">
+						<li ng-show="links['first']" ng-click="loadPage(links['first'])"><a>&lt;&lt;</a></li>
+						<li ng-show="links['prev']" ng-click="loadPage(links['prev'])"><a>&lt;</a></li>
+						<li ng-show="page > 2" ng-click="loadPage(page - 2)"><a>{{page
+								- 2}}</a></li>
+						<li ng-show="page > 1" ng-click="loadPage(page - 1)"><a>{{page
+								- 1}}</a></li>
+						<li class="active"><a>{{page}}</a></li>
+						<li ng-show="page < links['last']" ng-click="loadPage(page + 1)"><a>{{page
+								+ 1}}</a></li>
+						<li ng-show="page < links['last'] - 1" ng-click="loadPage(page + 2)"><a>{{page
+								+ 2}}</a></li>
+						<li ng-show="links['next']" ng-click="loadPage(links['next'])"><a>&gt;</a></li>
+						<li ng-show="links['last']" ng-click="loadPage(links['last'])"><a>&gt;&gt;</a></li>
+					</ul>
+				</nav>
+				<div ng-if="newss.length==0">No news is a good news...</div>
+			</div>
+		</div>
+		
+		<div class="col-md-6">
+			<div class="panel panel-default" ng-show="isAuthenticated() && profiloattivo !== null && destinataris.length>0">
+			
+				<div class="panel-heading">
+					<h4>Profilo News ({{profiloattivo.descrizione}})</h4>
+				</div>
+				<ul class="list-group">
+					<li class="list-group-item" ng-repeat="destinatario in destinataris | orderBy:'destinatario.news.dataPubblicazione':false">
+				   		<a ng-click="decrement(destinatario.letta)" ui-sref="destinatariNewsDetail({id:destinatario.id})">{{destinatario.news.titolo}}</a> <span class="glyphicon glyphicon-bookmark" ng-hide="!news.categoria.descrizione">{{destinatario.news.categoria.descrizione}}</span> <span class="glyphicon glyphicon-time">{{destinatario.news.dataPubblicazione | date:'dd-MM-yyyy HH:mm:ss' }}</span> <span class="badge" ng-show="!destinatario.letta">New</span> 
+				   	</li>
+				</ul>
+		        <nav ng-if="destinataris.length>0">
+					<ul  class="pagination">
+						<li ng-show="links['first']" ng-click="loadPage(links['first'])"><a>&lt;&lt;</a></li>
+						<li ng-show="links['prev']" ng-click="loadPage(links['prev'])"><a>&lt;</a></li>
+						<li ng-show="page > 2" ng-click="loadPage(page - 2)"><a>{{page - 2}}</a></li>
+						<li ng-show="page > 1" ng-click="loadPage(page - 1)"><a>{{page - 1}}</a></li>
+						<li class="active"><a>{{page}}</a></li>
+						<li ng-show="page < links['last']" ng-click="loadPage(page + 1)"><a>{{page + 1}}</a></li>
+						<li ng-show="page < links['last'] - 1" ng-click="loadPage(page + 2)"><a>{{page + 2}}</a></li>
+						<li ng-show="links['next']" ng-click="loadPage(links['next'])"><a>&gt;</a></li>
+						<li ng-show="links['last']" ng-click="loadPage(links['last'])"><a>&gt;&gt;</a></li>
+					</ul>
+				</nav>
+				<div ng-if="destinataris.length==0">No news is a good news...</div>
+			</div>
+		</div>
+	</div>
+	-->
+</div>

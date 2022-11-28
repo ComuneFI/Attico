@@ -1,0 +1,285 @@
+<div class="form-group">
+    <ng-include src="'scripts/app/entities/sedutaGiunta/sedutaGiunta-funzioni-resoconto.html'"></ng-include>
+</div>
+<div class="form-group">
+
+	<div ng-if="isOperatoreOdg && sedutaGiunta.organo == 'G'">
+		<div class="form-group">
+				<a target="_blank" href="/api/sedutaGiuntas/generareport/{{profiloattivo.id}}/{{sedutaGiunta.id}}/{{nomeFile(sedutaGiunta)}}?access_token={{access_token}}" class="btn btn-xs btn-success" style="color:white;">
+				    <span class="glyphicon glyphicon-save"></span>&nbsp;<span  >Esporta ODG in Excel</span>
+				</a>
+		</div>
+	</div>
+	<div ng-if="isOperatoreOdg && sedutaGiunta.organo == 'C'">
+		<div class="form-group">
+				<a target="_blank" href="/api/sedutaGiuntas/generareport/{{profiloattivo.id}}/{{sedutaGiunta.id}}/{{nomeFile(sedutaGiunta)}}?access_token={{access_token}}" class="btn btn-xs btn-success" style="color:white;">
+				    <span class="glyphicon glyphicon-save"></span>&nbsp;<span  >Esporta ODL in Excel</span>
+				</a>
+		</div>
+	</div>
+     <div style="clear: both;"></div>
+
+     <ul id="odgTabsResoconto" class="nav nav-tabs" role="tablist">
+       <li id="navTab_elenco_discussione" role="presentation" ng-click="openTabOdgBaseOrdinario('tab-0');" ng-class="{'active' : tabIndex == 'tab-0'}"><a showtab-odg-base-ordinario tab-selected="tab-0" name="tab-0" id="tab-0-header" href="#tab-0" role="tab" data-toggle="tab">Elenco Discussione</a></li>
+       <li id="navTab_elenco_argomenti"  ng-if="sedutaGiunta.organo == 'C' && [sedutaConstants.statiSeduta.sedutaVerbalizzata.label, sedutaConstants.statiSeduta.sedutaConclusaIndicazioneNumeroArgomento.label, sedutaConstants.statiSeduta.sedutaConclusaRegistrazioneEsiti.label].indexOf(sedutaGiunta.stato) > - 1" role="presentation" ng-click="openTabOdgBaseOrdinario('tab-1');" ng-class="{'active' : tabIndex == 'tab-1'}"><a name="tab-1" showtab-odg-base-ordinario tab-selected="tab-1" id="tab-1-header" href="#tab-1" role="tab" data-toggle="tab">Elenco Argomenti</a></li>
+     </ul>
+
+     <!-- INIZIO ELENCO DISCUSSIONE  -->
+     <div role="tabpanel" class="tab-pane odgBaseOrdinarioTab {{tabIndex == 'tab-0' ? ' active': ''}}" id="tab-0" >
+       <div class="ui-tree-concatenate-node-theme">
+         <div class="row">
+           <div class="col-md-12" ng-if="sedutaGiunta.stato == sedutaConstants.statiSeduta.sedutaConclusaRegistrazioneEsiti.label && isOperatoreResoconto == true">
+             <button
+   				ng-if="abilitaRegistraResoconto()"
+   				ng-disabled="sedutaGiunta.selected == undefined || sedutaGiunta.selected.length < 1 || abilitaDaStato([sedutaConstants.statiAtto.propostaInAttesaDiEsito,sedutaConstants.statiAtto.propostaInseribileInOdg,sedutaConstants.statiAtto.propostaInseribileInOdl],sedutaGiunta) == false"
+   				class="btn btn-sm btn-primary" ng-click="apriRegistraEsitoMassivo(sedutaGiunta)">
+   				<span>Registra Esito Massivo</span>
+			 </button>
+           </div>
+         </div>
+         <h3 class="header-title">Elenco Discussione in {{odgStr}}</h3>
+         <table id="tree-root" empty-place-holder-enabled="false" class="table table-responsive">
+           <thead>
+             <tr>
+               <th ng-if="sedutaGiunta.stato == sedutaConstants.statiSeduta.sedutaConclusaRegistrazioneEsiti.label && isOperatoreResoconto == true">
+					<input type="checkbox" ng-click="checkAllAtti(sedutaGiunta)" name="selectAllOdgs"
+						ng-checked="sedutaGiunta.selected != undefined && sedutaGiunta.selected.length == allAttos.length">
+			   </th>
+               <th>N.Discussione</th>
+               <th>Num. proposta&#92;Codice Attico</th>
+               <th>Oggetto</th>
+               <th></th>
+               <th>Stato</th>
+               <th ng-if="sedutaGiunta.fase == sedutaConstants.fasiSeduta.CONCLUSA && isOdl()">N.Adozione/<br>N.Atto di Consiglio</th>
+                 <th ng-if="sedutaGiunta.fase == sedutaConstants.fasiSeduta.CONCLUSA && !isOdl()">N.Adozione</th>
+               <th ng-if="sedutaGiunta.fase == sedutaConstants.fasiSeduta.CONCLUSA">Data adozione</th>
+               <th ng-if="sedutaGiunta.fase == sedutaConstants.fasiSeduta.CONCLUSA">Esito</th>
+               <th ng-if="sedutaGiunta.fase == sedutaConstants.fasiSeduta.CONCLUSA">Assenti</th>
+               <th ng-if="sedutaGiunta.fase == sedutaConstants.fasiSeduta.CONCLUSA">Presidente</th>
+               <th ng-if="sedutaGiunta.fase == sedutaConstants.fasiSeduta.CONCLUSA">Segretario</th>
+               <th ng-if="sedutaGiunta.stato == sedutaConstants.statiSeduta.sedutaConclusaRegistrazioneEsiti.label && isOperatoreResoconto == true"></th>
+               <th></th>
+               <th></th>
+             </tr>
+             <tr>
+               <th ng-if="(sedutaGiunta.stato == sedutaConstants.statiSeduta.sedutaConclusaRegistrazioneEsiti.label && isOperatoreResoconto == true)"></th>
+               <th></th>
+               <th class="scrivania"><input type="text" ng-model="filtroCodiceCifra" style="width:100%" class="ng-pristine ng-untouched ng-valid" aria-invalid="false"></th>
+               <th class="scrivania"><input type="text" ng-model="filtroOggetto" style="width:100%" class="ng-pristine ng-untouched ng-valid" aria-invalid="false"></th>
+               <th></th>
+               <th class="scrivania"><input type="text" style="width:100%" class="ng-pristine ng-untouched ng-valid" aria-invalid="false"></th>
+               <th ng-if="sedutaGiunta.fase == sedutaConstants.fasiSeduta.CONCLUSA"></th>
+               <th ng-if="sedutaGiunta.fase == sedutaConstants.fasiSeduta.CONCLUSA"></th>
+               <th ng-if="sedutaGiunta.fase == sedutaConstants.fasiSeduta.CONCLUSA"></th>
+               <th ng-if="sedutaGiunta.fase == sedutaConstants.fasiSeduta.CONCLUSA"></th>
+               <th ng-if="sedutaGiunta.fase == sedutaConstants.fasiSeduta.CONCLUSA"></th>
+               <th ng-if="sedutaGiunta.fase == sedutaConstants.fasiSeduta.CONCLUSA"></th>
+               <th ng-if="sedutaGiunta.stato == sedutaConstants.statiSeduta.sedutaConclusaRegistrazioneEsiti.label && isOperatoreResoconto == true"></th>
+               <th class="scrivania" style="text-align:center;">
+                  <button class="btn btn-primary btn-xs" ng-click="filtraAttiResoconto(sedutaGiunta.odgs,filtroCodiceCifra,filtroOggetto)"><span class="glyphicon glyphicon-search"></span> <span translate="global.messages.cerca" class="ng-scope">Cerca</span></button>
+                  <button class="btn btn-primary btn-xs" ng-click="resetFiltraAttiResoconto(sedutaGiunta.odgs,filtroCodiceCifra,filtroOggetto)"><span translate="global.messages.resetricerca" class="ng-scope">Reset ricerca</span></button>
+               </th>
+               <th></th>
+              </tr>
+           </thead>
+           <div>
+           <div>
+           <tbody style="display:table-row-group;">
+             <tr ng-repeat="node in allAttos | orderBy: 'numeroDiscussione'"  style="display:table-row;" ng-if="node.atto.escludiDaVisualizzazione == undefined || node.atto.escludiDaVisualizzazione === 0">
+             <td ng-if="(sedutaGiunta.stato == sedutaConstants.statiSeduta.sedutaConclusaRegistrazioneEsiti.label && isOperatoreResoconto == true)">
+              	<input ng-if="!node.esito" type="checkbox" ng-checked="sedutaGiunta.selected != undefined && sedutaGiunta.selected.indexOf(node) > -1" ng-click="checkAtto(allAttos,node)">
+          	</td>
+             <td>
+               <div type="button" class="btn btn-modal"  ng-disabled="sedutaGiunta.stato != sedutaConstants.statiSeduta.sedutaConclusaIndicazioneOrdineDiscussione.label" ng-click="showOrdinamentoElencoDiscussioneDialog(node)" style="font-size: 19px;padding-left: 10px;vertical-align: bottom;">
+                 <span ng-class="sedutaGiunta.stato == sedutaConstants.statiSeduta.sedutaConclusaIndicazioneOrdineDiscussione.label ? 'glyphicon glyphicon-sort' : ''"  style="font-size:20px"></span>
+                 <span>{{node.numeroDiscussione}}</span>
+               </div>
+            </td>
+            <td >{{node.atto.codiceCifra}}</td>
+            <td title="{{node.atto.oggetto}}">{{visualizzaOggetto(node.atto.oggetto)}}</td>
+             <td>
+                <span data-toggle="tooltip" ng-if="getTooltip(node.atto) != null && node.bloccoModifica != 1" bs-tooltip data-html="true" data-placement="top" data-title="{{getTooltip(node.atto)}}" >
+                     <span class="glyphicon glyphicon-info-sign" style="font-size:20px;color:red"></span>
+                </span>
+             </td>
+            <td>{{node.atto.stato}}</td>
+            <td ng-if="sedutaGiunta.fase == sedutaConstants.fasiSeduta.CONCLUSA">
+               {{node.atto.numeroAdozione ? node.atto.numeroAdozione:''}}</td>
+            <td ng-if="sedutaGiunta.fase == sedutaConstants.fasiSeduta.CONCLUSA">
+               {{node.atto.dataAdozione ? (node.atto.dataAdozione | date:'dd-MM-yyyy') :''}}</td>
+            <td ng-if="sedutaGiunta.fase == sedutaConstants.fasiSeduta.CONCLUSA">
+               {{getEsitoLabel(node.esito)}}</td>
+            <td ng-if="sedutaGiunta.fase == sedutaConstants.fasiSeduta.CONCLUSA">
+             <ul style="padding-left: 1em;list-style-position: outside;">
+               <li ng-repeat="assente in node.assenti track by $index">{{assente}}</li>
+             </ul>
+            </td>
+            <td ng-if="sedutaGiunta.fase == sedutaConstants.fasiSeduta.CONCLUSA">{{node.presidente}}</td>
+            <td ng-if="sedutaGiunta.fase == sedutaConstants.fasiSeduta.CONCLUSA">{{node.segretario}}</td>
+            <td ng-if="sedutaGiunta.stato == sedutaConstants.statiSeduta.sedutaConclusaRegistrazioneEsiti.label && isOperatoreResoconto == true">
+
+             <a ng-if="node.nextTaskId && node.nextTaskId.length > 0" type="submit" href="#/atto/{{node.atto.id}}/0/{{node.nextTaskId}}" class="btn btn-info btn-sm">
+               <span class="ng-scope">Visualizza Provvedimento</span>
+             </a>
+                   <!-- <button ng-if="verificaShowButtonGeneraDocSingolo(node)" class="btn btn-sm btn-primary" ng-click="generaDocAtto(node.atto)">Genera Documento di Provvedimento</button>-->
+            </td>
+            <td>
+              <!--
+              <a ng-if="abilitaRegistraResoconto(odg) && !node.esito" ng-disabled="" class="pull-right btn btn-primary btn-xs" data-nodrag ng-click="nonTrattato(node)" style="margin-right: 8px;"><span>Non trattato</span></a>
+              <a ng-if="sedutaGiunta.stato == sedutaConstants.statiSeduta.sedutaConclusaRegistrazioneEsiti.label && isOperatoreResoconto == true  && node.esito" class="pull-right btn btn-primary btn-xs" ng-click="apriResoconto(node,sedutaGiunta)">Modifica/Cancella Esito</a>
+              -->
+            </td>
+            <td>
+               <a ng-if="sedutaGiunta.stato == sedutaConstants.statiSeduta.sedutaConclusaRegistrazioneEsiti.label && isOperatoreResoconto == true && !node.esito"  class="pull-right btn btn-primary btn-xs" data-nodrag ng-click="registraEsito(sedutaGiunta,node)" style="margin-right: 8px;"><span>Registra Esito</span></a>
+               <a ng-if="sedutaGiunta.stato == sedutaConstants.statiSeduta.sedutaConclusaRegistrazioneEsiti.label && isOperatoreResoconto == true  && node.esito && !node.bloccoModifica" class="pull-right btn btn-primary btn-xs" ng-click="apriResoconto(node,sedutaGiunta,true)">Conferma Esito</a>
+               <a ng-if="sedutaGiunta.stato == sedutaConstants.statiSeduta.sedutaConclusaRegistrazioneEsiti.label && isOperatoreResoconto == true  && node.esito" class="pull-right btn btn-primary btn-xs" ng-click="apriResoconto(node,sedutaGiunta)">
+					<div ng-if="node.esito && !node.bloccoModifica"><span>Modifica/Cancella Esito<span></div>
+					<div ng-if="node.esito && node.bloccoModifica"><span>Visualizza Esito<span></div>
+				</a>
+            </td>
+            </tr>
+           </tbody>
+           </div>
+           </div>
+         </table>
+       </div>
+     </div>
+     <!-- FINE  ELENCO DISCUSSIONE -->
+
+     <!-- INIZIO ELENCO ARGOMENTI  -->
+     <div ng-if="sedutaGiunta.organo == 'C' && [sedutaConstants.statiSeduta.sedutaVerbalizzata.label, sedutaConstants.statiSeduta.sedutaConclusaIndicazioneNumeroArgomento.label, sedutaConstants.statiSeduta.sedutaConclusaRegistrazioneEsiti.label].indexOf(sedutaGiunta.stato) > - 1" role="tabpanel" class="tab-pane odgBaseOrdinarioTab {{tabIndex == 'tab-1' ? ' active': ''}}" id="tab-1" >
+       <div class="{{(!isSolaLettura(odg))? 'col-sm-12' : 'col-sm-12' }} ui-tree-concatenate-node-theme">
+         <div class="row">
+           <div class="col-md-12" ng-if="sedutaGiunta.stato == sedutaConstants.statiSeduta.sedutaConclusaRegistrazioneEsiti.label && isOperatoreResoconto == true">
+             <!-- <button
+               ng-if="abilitaRegistraResoconto(odg)"
+               ng-disabled="odg.selected == undefined || odg.selected.length < 1 || abilitaDaStato([sedutaConstants.statiAtto.propostaInAttesaDiEsito,sedutaConstants.statiAtto.propostaInseribileInOdg,sedutaConstants.statiAtto.propostaInseribileInOdl],odg) == false"
+               class="btn btn-sm btn-primary"
+               ng-click="apriRegistraEsitoMassivo(odg)"
+               >Registra Esito</button> -->
+           </div>
+         </div>
+         <h3 class="header-title">Elenco Argomenti in {{odgStr}}</h3>
+         <h4 ng-if="sedutaGiunta.stato == sedutaConstants.statiSeduta.sedutaConclusaIndicazioneNumeroArgomento.label">{{maxNArg ? 'Attualmente il numero massimo di argomento inserito risulta essere il ' + maxNArg : 'Attualmente non risultano presenti numeri di argomento nel sistema.'}}</h4>
+         <!-- CDFATTICOASM-14 <div id="azioniElencoArgomenti" class="row" ng-if="sedutaGiunta.fase == sedutaConstants.fasiSeduta.CONCLUSA && !isAbilitatoGeneraDocVerbale()">
+         	<div style="margin-top: 5px;" class="form-group col-sm-12" >
+				<span style="margin-left: 5px;" class="btn btn-primary btn-sm" ng-repeat="az in azioniEA" ng-click="azioneElencoArgomenti(az.codice)">{{az.descrizione}}</span>
+			</div>
+         </div> -->
+         <table id="tree-root" empty-place-holder-enabled="false" class="table table-responsive">
+           <thead>
+             <tr>
+               <th ng-if="isSolaLettura(odg) && (sedutaGiunta.stato == sedutaConstants.statiSeduta.sedutaConclusaRegistrazioneEsiti.label && isOperatoreResoconto == true)">
+                 <span>N.Argomento</span>
+                 <!--<input type="checkbox" ng-click="checkAllAtti(odg,null)" name="selectAll{{odg.id}}"
+                   ng-checked="odg.selected != undefined && odg.selected.length == odg.length"> -->
+               </th>
+               <!-- CDFATTICOASM-14 <th ng-if="sedutaGiunta.fase == sedutaConstants.fasiSeduta.CONCLUSA && !isAbilitatoGeneraDocVerbale()">Numera</th> -->
+               <!-- CDFATTICOASM-14 <th ng-if="sedutaGiunta.fase == sedutaConstants.fasiSeduta.CONCLUSA && !isAbilitatoGeneraDocVerbale()">Reset num.</th> -->
+               <th ng-if="sedutaGiunta.stato == sedutaConstants.statiSeduta.sedutaConclusaIndicazioneNumeroArgomento.label"></th>
+               <th>Num. Arg.</th>
+               <th><span bs-tooltip data-html="true" data-placement="top" data-title="<ul><li>Numerazione Ode <span style='color:darksalmon;' class='glyphicon glyphicon-ok-circle'></span></li><li>Numerazione Attico <span style='color:#248fcd;' class='glyphicon glyphicon-record'></span></li></ul>">ODE</span></th>
+               <th>Num. proposta&#92;Codice Attico</th>
+               <th>Oggetto</th>
+               <th></th>
+               <th>Stato</th>
+               <th ng-if="sedutaGiunta.fase == sedutaConstants.fasiSeduta.CONCLUSA && isOdl()">N.Adozione/<br>N.Atto di Consiglio</th>
+                 <th ng-if="sedutaGiunta.fase == sedutaConstants.fasiSeduta.CONCLUSA && !isOdl()">N.Adozione</th>
+               <th ng-if="sedutaGiunta.fase == sedutaConstants.fasiSeduta.CONCLUSA">Data adozione</th>
+               <th ng-if="sedutaGiunta.fase == sedutaConstants.fasiSeduta.CONCLUSA">Esito</th>
+               <th ng-if="sedutaGiunta.fase == sedutaConstants.fasiSeduta.CONCLUSA">Assenti</th>
+               <th ng-if="sedutaGiunta.fase == sedutaConstants.fasiSeduta.CONCLUSA">Presidente</th>
+               <th ng-if="sedutaGiunta.fase == sedutaConstants.fasiSeduta.CONCLUSA">Segretario</th>
+               <th ng-if="sedutaGiunta.stato == sedutaConstants.statiSeduta.sedutaConclusaRegistrazioneEsiti.label && isOperatoreResoconto == true"></th>
+               <th></th>
+               <th></th>
+             </tr>
+             <tr>
+               <th ng-if="isSolaLettura(odg) && (sedutaGiunta.stato == sedutaConstants.statiSeduta.sedutaConclusaRegistrazioneEsiti.label && isOperatoreResoconto == true)"></th>
+                <!-- CDFATTICOASM-14 <th ng-if="sedutaGiunta.fase == sedutaConstants.fasiSeduta.CONCLUSA && !isAbilitatoGeneraDocVerbale()"></th>-->
+                <!-- CDFATTICOASM-14 <th ng-if="sedutaGiunta.fase == sedutaConstants.fasiSeduta.CONCLUSA && !isAbilitatoGeneraDocVerbale()"></th>-->
+               <th ng-if="sedutaGiunta.fase == sedutaConstants.fasiSeduta.CONCLUSA && !isAbilitatoGeneraDocVerbale()"></th>
+               <th></th>
+               <th></th>
+               <th class="scrivania"><input type="text" ng-model="filtroCodiceCifra" style="width:100%" class="ng-pristine ng-untouched ng-valid" aria-invalid="false"></th>
+               <th class="scrivania"><input type="text" ng-model="filtroOggetto" style="width:100%" class="ng-pristine ng-untouched ng-valid" aria-invalid="false"></th>
+               <th></th>
+               <th ng-if="sedutaGiunta.fase == sedutaConstants.fasiSeduta.CONCLUSA"></th>
+               <th ng-if="sedutaGiunta.fase == sedutaConstants.fasiSeduta.CONCLUSA"></th>
+               <th ng-if="sedutaGiunta.fase == sedutaConstants.fasiSeduta.CONCLUSA"></th>
+               <th ng-if="sedutaGiunta.fase == sedutaConstants.fasiSeduta.CONCLUSA"></th>
+               <th ng-if="sedutaGiunta.fase == sedutaConstants.fasiSeduta.CONCLUSA"></th>
+               <th ng-if="sedutaGiunta.fase == sedutaConstants.fasiSeduta.CONCLUSA"></th>
+               <th ng-if="sedutaGiunta.stato == sedutaConstants.statiSeduta.sedutaConclusaRegistrazioneEsiti.label && isOperatoreResoconto == true"></th>
+               <th class="scrivania" style="text-align:center;">
+                  <button class="btn btn-primary btn-xs" ng-click="filtraAttiResoconto(sedutaGiunta.odgs,filtroCodiceCifra,filtroOggetto)"><span class="glyphicon glyphicon-search"></span> <span translate="global.messages.cerca" class="ng-scope">Cerca</span></button>
+                  <button class="btn btn-primary btn-xs" ng-click="resetFiltraAttiResoconto(sedutaGiunta.odgs,filtroCodiceCifra,filtroOggetto)"><span translate="global.messages.resetricerca" class="ng-scope">Reset ricerca</span></button>
+               </th>
+              </tr>
+           </thead>
+           <div>
+           <div>
+           <tbody style="display:table-row-group;">
+             <tr ng-repeat="node in attiResoconto(sedutaGiunta.odgs) | orderBy: 'numeroDiscussione'"  style="display:table-row;" ng-if="node.atto.escludiDaVisualizzazione == undefined || node.atto.escludiDaVisualizzazione === 0">
+              <!-- CDFATTICOASM-14 <td ng-if="sedutaGiunta.fase == sedutaConstants.fasiSeduta.CONCLUSA && !isAbilitatoGeneraDocVerbale()">
+				<input type="checkbox" ng-model="node.azioneNumera" ng-disabled="node.argomentoExSeduta || node.numeroArgomento">
+			 </td>-->
+              <!-- CDFATTICOASM-14 <td ng-if="sedutaGiunta.fase == sedutaConstants.fasiSeduta.CONCLUSA && !isAbilitatoGeneraDocVerbale()">
+             	<input type="checkbox" ng-model="node.azioneResetNumerazione" ng-disabled="node.argomentoExSeduta || !node.numeroArgomento">
+             </td>-->
+             <td ng-if="sedutaGiunta.stato == sedutaConstants.statiSeduta.sedutaConclusaIndicazioneNumeroArgomento.label">
+             	<span title="{{(node.numeroArgomento ? 'Modifica' : 'Inserisci') + ' Numero di Argomento'}}" ng-class="{'btn btn-modal glyphicon glyphicon-edit' : node.numeroArgomento, 'btn btn-modal glyphicon glyphicon-share' : !node.numeroArgomento}" ng-disabled="node.argomentoExSeduta" ng-click="showOrdinamentoElencoArgomentoDialog(node)"></span>
+             	<span title="Elimina Numero di Argomento" class="btn btn-modal glyphicon glyphicon-remove" ng-if="node.numeroArgomento && !node.argomentoExSeduta" ng-click="rimuoviNumArg(node)"></span>
+             </td>
+             <td>
+               <div class="btn btn-modal" style="cursor: auto;" style="font-size: 19px;padding-left: 10px;vertical-align: bottom;">
+                 <span style="font-size:20px"></span>
+                 <span title="{{!node.numeroArgomento ? 'Assegna Numero Argomento' : ''}}">
+                 	{{node.numeroArgomento ? node.numeroArgomento : '-'}}
+                 </span>
+               </div>
+            </td>
+            <td>
+            	<span ng-if="node.numeroArgomento" title="{{node.nargOde ? 'Numerazione ODE' : 'Numerazione Attico'}}" ng-class="{'btn glyphicon glyphicon-ok-circle' : node.nargOde === true, 'btn glyphicon glyphicon-record' : node.nargOde === false}" style="cursor: auto;" ng-style="{'color': node.nargOde ? 'darksalmon' : '#248fcd'}"></span>
+            </td>
+            <td >{{node.atto.codiceCifra}}</td>
+            <td title="{{node.atto.oggetto}}">{{visualizzaOggetto(node.atto.oggetto)}}</td>
+            <td>
+
+            </td>
+            <td>{{node.atto.stato}}</td>
+            <td ng-if="sedutaGiunta.fase == sedutaConstants.fasiSeduta.CONCLUSA">
+               {{node.atto.numeroAdozione ? node.atto.numeroAdozione:''}}</td>
+            <td ng-if="sedutaGiunta.fase == sedutaConstants.fasiSeduta.CONCLUSA">
+               {{node.atto.dataAdozione ? (node.atto.dataAdozione | date:'dd-MM-yyyy') :''}}</td>
+            <td ng-if="sedutaGiunta.fase == sedutaConstants.fasiSeduta.CONCLUSA">
+               {{getEsitoLabel(node.esito)}}</td>
+            <td ng-if="sedutaGiunta.fase == sedutaConstants.fasiSeduta.CONCLUSA">
+             <ul style="padding-left: 1em;list-style-position: outside;">
+               <li ng-repeat="assente in node.assenti track by $index">{{assente}}</li>
+             </ul>
+            </td>
+            <td ng-if="sedutaGiunta.fase == sedutaConstants.fasiSeduta.CONCLUSA">{{node.presidente}}</td>
+            <td ng-if="sedutaGiunta.fase == sedutaConstants.fasiSeduta.CONCLUSA">{{node.segretario}}</td>
+            <td ng-if="sedutaGiunta.stato == sedutaConstants.statiSeduta.sedutaConclusaRegistrazioneEsiti.label && isOperatoreResoconto == true">
+
+             <a ng-if="node.nextTaskId && node.nextTaskId.length > 0" type="submit" href="#/atto/{{node.atto.id}}/0/{{node.nextTaskId}}" class="btn btn-info btn-sm">
+               <span class="ng-scope">Visualizza Provvedimento</span>
+             </a>
+                   <!-- <button ng-if="verificaShowButtonGeneraDocSingolo(node)" class="btn btn-sm btn-primary" ng-click="generaDocAtto(node.atto)">Genera Documento di Provvedimento</button>-->
+            </td>
+            <td>
+              <!--
+              <a ng-if="abilitaRegistraResoconto(odg) && !node.esito" ng-disabled="" class="pull-right btn btn-primary btn-xs" data-nodrag ng-click="nonTrattato(node)" style="margin-right: 8px;"><span>Non trattato</span></a>
+              <a ng-if="sedutaGiunta.stato == sedutaConstants.statiSeduta.sedutaConclusaRegistrazioneEsiti.label && isOperatoreResoconto == true  && node.esito" class="pull-right btn btn-primary btn-xs" ng-click="apriResoconto(node,sedutaGiunta)">Modifica/Cancella Esito</a>
+              -->
+            </td>
+            </tr>
+           </tbody>
+           </div>
+           </div>
+         </table>
+       </div>
+     </div>
+     <!-- FINE  ELENCO ARGOMENTI -->
+</div>

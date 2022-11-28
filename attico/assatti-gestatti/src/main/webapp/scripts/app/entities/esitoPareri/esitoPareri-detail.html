@@ -1,0 +1,54 @@
+
+<div>
+    <h2><span translate="cifra2gestattiApp.esitoPareri.detail.title">Esito Parere</span> {{esitoPareri.id}}</h2>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th translate="entity.detail.field">Field</th>
+                    <th translate="entity.detail.value">Value</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.esitoPareri.codice">Codice</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{esitoPareri.codice}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.esitoPareri.valore">valore</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{esitoPareri.valore}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.esitoPareri.tipo">tipo</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{esitoPareri.tipo}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.esitoPareri.tipoAtto">tipoAtto</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{esitoPareri.tipoAtto.descrizione}}" readonly>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <button type="submit"
+            ui-sref="esitoPareri"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span translate="entity.action.back"> Back</span>
+    </button>
+</div>

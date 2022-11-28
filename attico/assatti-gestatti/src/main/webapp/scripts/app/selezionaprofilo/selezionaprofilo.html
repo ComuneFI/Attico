@@ -1,0 +1,144 @@
+<div class="cointaner-fluid" ng-init="inizializza()">
+	<div ng-class="col-md-12">
+	<h2>
+		<i class="fa fa-users"></i> Profilo di lavoro corrente dell'utente <b>{{account.login}}</b>:
+	</h2>
+
+	<div class="list-group ">
+
+		<a ng-if="!profiloattivo.id" ng-repeat="profiloItem in activeprofilos" class="list-group-item"
+			ng-class="col-md-12" href ng-click="selezionaProfilo(profiloItem)">
+			<h3>
+				<i class="fa fa-check-square-o "	ng-if="profiloattivo.id === profiloItem.id"></i>
+				<i class="fa fa-square-o "	ng-if="profiloattivo.id !== profiloItem.id"></i>
+				
+
+				{{profiloItem.descrizione}} - {{profiloItem.aoo.descrizione}} (<span ng-repeat="tipoAtto in profiloItem.tipiAtto">{{tipoAtto.codice}}<span ng-if="!$last"> </span></span>)
+			</h3>
+		</a>
+
+	</div>
+
+	<div class="col-md-12" ng-if="profiloattivo !== null">
+		<div class="cointaner-fluid" >
+		
+		<div class="list-group col-sm-4">
+			<h3>Ufficio</h3>
+			<a class="list-group-item" title="{{profiloattivo.aoo.codice}}">
+				<i class="fa fa-university"></i> {{profiloattivo.aoo.descrizione}}
+			</a>
+		</div>
+
+		<div class="list-group col-sm-4">
+			<h3>Tipo atto</h3>
+			<a ng-repeat="tipoAtto in profiloattivo.tipiAtto" class="list-group-item" title="{{tipoAtto.codice}}">
+				<i class="fa fa-newspaper-o"></i>
+				{{tipoAtto.descrizione}}
+			</a>
+		</div>
+
+		<div class="list-group col-sm-4">
+			<h3>Gruppo {{profiloattivo.grupporuolo.denominazione}}</h3>
+			<a ng-repeat="ruolo in profiloattivo.grupporuolo.hasRuoli"
+				class="list-group-item" title="{{ruolo.codice}}"> <i
+				class="fa fa-cube"></i> {{ruolo.descrizione}}
+			</a>
+		</div>
+
+		<!-- <div class="col-sm-3">
+			<h3>Tipo Materie</h3>
+
+			<ul class="list-group">
+				<li ng-repeat="tipomateria in tipoMaterieActive"
+					class="list-group-item" title="{{tipomateria.descrizione}}"
+					class="list-group-item"><i class="fa fa-leaf"></i>
+					{{tipomateria.descrizione}}
+
+					<ul class="list-group">
+						<li ng-repeat="materia in tipomateria.materie"
+							class="list-group-item" title="{{materia.descrizione}}"
+							class="list-group-item"><i class="fa fa-leaf"></i>
+							{{materia.descrizione}}
+
+							<ul class="list-group">
+								<li ng-repeat="sottomateria in materia.sottoMaterie"
+									class="list-group-item" title="{{sottomateria.descrizione}}"
+									class="list-group-item"><i class="fa fa-leaf"></i>
+									{{sottomateria.descrizione}}</li>
+							</ul></li>
+					</ul></li>
+			</ul>
+
+		</div> -->
+
+		</div>
+	</div>
+	<!-- 
+ <div has-ruolo="ROLE_AMMINISTRATORE_IP" >Sei un amministratore I</div>
+ <div has-ruolo="ROLE_AMMINISTRATORE_RP" >Sei un amministratore II</div>
+-->
+</div>
+
+<div class="col-md-12">
+
+<div class="panel panel-default " ng-if="profiloattivo !== null">
+	<div class="panel-heading">
+		<h4>Latest News</h4>
+	</div>
+	<nav ng-if="destinataris.length>0">
+	<ul class="list-group">
+		<li class="list-group-item" ng-repeat="destinatario in destinataris | orderBy:'destinatario.news.dataPubblicazione':false">
+			<a ng-click="decrement(destinatario.letta)" ui-sref="destinatariNewsDetail({id:destinatario.id})">{{destinatario.news.titolo}}</a> <span class="glyphicon glyphicon-bookmark" ng-hide="!news.categoria.descrizione">{{destinatario.news.categoria.descrizione}}</span> <span class="glyphicon glyphicon-time">{{destinatario.news.dataPubblicazione | date:'dd-MM-yyyy HH:mm:ss' }}</span> <span class="badge" ng-show="!destinatario.letta">New</span>
+		</li>
+	</ul>
+	<nav ng-if="destinataris.length>0">
+		<ul class="pagination">
+			<li ng-show="links['first']" ng-click="loadPage(links['first'])"><a>&lt;&lt;</a></li>
+			<li ng-show="links['prev']" ng-click="loadPage(links['prev'])"><a>&lt;</a></li>
+			<li ng-show="page > 2" ng-click="loadPage(page - 2)"><a>{{page
+					- 2}}</a></li>
+			<li ng-show="page > 1" ng-click="loadPage(page - 1)"><a>{{page
+					- 1}}</a></li>
+			<li class="active"><a>{{page}}</a></li>
+			<li ng-show="page < links['last']" ng-click="loadPage(page + 1)"><a>{{page
+					+ 1}}</a></li>
+			<li ng-show="page < links['last'] - 1" ng-click="loadPage(page + 2)"><a>{{page
+					+ 2}}</a></li>
+			<li ng-show="links['next']" ng-click="loadPage(links['next'])"><a>&gt;</a></li>
+			<li ng-show="links['last']" ng-click="loadPage(links['last'])"><a>&gt;&gt;</a></li>
+		</ul>
+	</nav>
+	<div ng-if="destinataris.length==0">No news is a good news...</div>
+</div>
+<div class="panel panel-default" ng-if="profiloattivo === null">
+	<div class="panel-heading">
+		<h4>Latest News</h4>
+	</div>
+	<nav ng-if="newss.length>0">
+	<ul class="list-group">
+		<li class="list-group-item" ng-repeat="news in newss | orderBy:'news.dataPubblicazione':false">
+			<a ui-sref="newsDetail({id:news.id})">{{news.titolo}}</a> <span class="glyphicon glyphicon-bookmark" ng-hide="!news.categoria.descrizione">{{news.categoria.descrizione}}</span> <span class="glyphicon glyphicon-time">{{news.dataPubblicazione | date:'dd-MM-yyyy HH:mm:ss' }}</span>
+		</li>
+	</ul>
+	<nav ng-if="newss.length>0">
+		<ul class="pagination">
+			<li ng-show="links['first']" ng-click="loadPage(links['first'])"><a>&lt;&lt;</a></li>
+			<li ng-show="links['prev']" ng-click="loadPage(links['prev'])"><a>&lt;</a></li>
+			<li ng-show="page > 2" ng-click="loadPage(page - 2)"><a>{{page
+					- 2}}</a></li>
+			<li ng-show="page > 1" ng-click="loadPage(page - 1)"><a>{{page
+					- 1}}</a></li>
+			<li class="active"><a>{{page}}</a></li>
+			<li ng-show="page < links['last']" ng-click="loadPage(page + 1)"><a>{{page
+					+ 1}}</a></li>
+			<li ng-show="page < links['last'] - 1" ng-click="loadPage(page + 2)"><a>{{page
+					+ 2}}</a></li>
+			<li ng-show="links['next']" ng-click="loadPage(links['next'])"><a>&gt;</a></li>
+			<li ng-show="links['last']" ng-click="loadPage(links['last'])"><a>&gt;&gt;</a></li>
+		</ul>
+	</nav>
+	<div ng-if="newss.length==0">No news is a good news...</div>
+</div>
+
+</div>
+</div>

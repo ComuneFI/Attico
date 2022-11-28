@@ -1,0 +1,97 @@
+<p style="text-align: center; font-size: 20pt; text-transform: uppercase; padding-bottom: 0px; margin-top:0.75in; margin-bottom: 0px">    <span>[[${titoloProposta}]]</span></p>
+<p style="text-align: center; font-size: 20pt; text-transform: uppercase; padding-bottom: 0px;">    <span>[[${atto.aoo.descrizione}]]</span></p>
+<p></p>
+<table width="100%" cellspacing="0" cellpadding="3">
+    <tbody>
+        <tr>
+            <td width="10%"></td>
+            <td style="border: 2px solid #000000;">                <p style="text-align: center; margin: 0pt; font-size: 8.5pt; font-weight: bold;">                </p>
+				<div><span style="font-weight: bold;">&nbsp;Livello Superiore:</span>  <span>[[${livelloSuperiore}]]</span>                </div>
+				<div><span style="font-weight: bold;">&nbsp;Responsabile:</span>  <span>[[${responsabile}]]</span>                </div>
+				<div th:if="${(atto.tipoIter.codice != 'SENZA_VERIFICA_CONTABILE') and (atto.tipoIter.codice != 'ITER_BREVE')}"><span style="font-weight: bold;">&nbsp;Responsabile Contabile:</span>  <span>[[${responsabileContabile}]]</span>                </div>
+				<div><span style="font-weight: bold;">&nbsp;Data Creazione Proposta:</span>  <span th:if="${atto.dataCreazione!= null}">[[${atto.dataCreazione.toString("dd/MM/yyyy")}]]					</span>                </div>
+                <div><span style="font-weight: bold;">&nbsp;Numero Proposta:</span>  <span th:if="${atto.codiceCifra!=null}">[[${atto.codiceCifra}]]</span>                </div>
+                <div><span style="font-weight: bold;">&nbsp;Assessore/Consigliere:</span>  <span>[[${assessoreConsigliere}]]</span>                </div>
+				<div><span style="font-weight: bold;">&nbsp;Estensore Proponente:</span>  <span>[[${estensoreProponente}]]</span>                </div>
+				<div><span style="font-weight: bold;">&nbsp;Pareri Istruttori:</span>  <span>[[${pareriIstruttori}]]</span>                </div>
+				<div><span style="font-weight: bold;">&nbsp;Responsabile Istruttoria:</span>  <span>[[${responsabileIstruttoria}]]</span>                </div>
+				<div th:if="${importoTotaleEntrata!='0'}"><span style="font-weight: bold;">&nbsp;Importo Totale Entrata:</span> <span>[[${importoTotaleEntrata}]]</span>                </div>
+				<div th:if="${importoTotaleUscita!='0'}"><span style="font-weight: bold;">&nbsp;Importo Totale Uscita:</span> <span>[[${importoTotaleUscita}]]</span>                </div>
+            </td>
+            <td width="10%"></td>
+        </tr>
+    </tbody>
+</table>
+<div>&nbsp;</div>
+<br><span style="font-weight: bold; text-transform: uppercase;">OGGETTO: </span> <span th:utext="${#strings.replace( #strings.escapeXml(atto.oggetto),T(java.lang.System).getProperty('line.separator'),'<br></span>')}"></span>
+<div>&nbsp;</div>
+<br>
+<!--inizio modifica mov cont --><div th:if="${(atto.datiContabili != null) and atto.datiContabili.includiMovimentiAtto and !#lists.isEmpty(movimentiContabiliImpAcc)}">	<div style="text-align: Left; font-size: 11pt; font-weight: bold;">		<span>Elenco Movimenti</span>	</div>
+<table>
+		<thead>			<tr>
+				<th style="border-bottom: 1px solid #ddd; text-align: right; font-size: 9.5pt; font-weight: bold; margin: 5px 0px 2px 0px; padding: 2px; white-space: nowrap;">Tipo Mov.</th>
+				<th style="border-bottom: 1px solid #ddd; text-align: right; font-size: 9.5pt; font-weight: bold; margin: 5px 0px 2px 0px; padding: 2px; white-space: nowrap;">Esercizio</th>
+				<th style="border-bottom: 1px solid #ddd; text-align: right; font-size: 9.5pt; font-weight: bold; margin: 5px 0px 2px 0px; padding: 2px; white-space: nowrap;">Capitolo</th>
+				<th style="border-bottom: 1px solid #ddd; text-align: right; font-size: 9.5pt; font-weight: bold; margin: 5px 0px 2px 0px; padding: 2px; white-space: nowrap;">Articolo</th>
+				<th style="border-bottom: 1px solid #ddd; text-align: right; font-size: 9.5pt; font-weight: bold; margin: 5px 0px 2px 0px; padding: 2px; white-space: nowrap;">Impegno/ Accertamento</th>
+				<th style="border-bottom: 1px solid #ddd; text-align: right; font-size: 9.5pt; font-weight: bold; margin: 5px 0px 2px 0px; padding: 2px; white-space: nowrap;">Sub					Impegno/Sub Accertamento</th>
+				<th style="border-bottom: 1px solid #ddd; text-align: right; font-size: 9.5pt; font-weight: bold; margin: 5px 0px 2px 0px; padding: 2px; white-space: nowrap;">Importo</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="mc,item : ${movimentiContabiliImpAcc}">
+				<td th:text="${{mc.eu}}" style="border-bottom: 1px solid #ddd; text-align: right; font-size: 9.5pt; margin: 5px 0px 2px 0px; padding: 2px;"></td>
+				<td th:text="${{mc.esercizio}}" style="border-bottom: 1px solid #ddd; text-align: right; font-size: 9.5pt; margin: 5px 0px 2px 0px; padding: 2px;"></td>
+				<td th:text="${{mc.capitolo}}" style="border-bottom: 1px solid #ddd; text-align: right; font-size: 9.5pt; margin: 5px 0px 2px 0px; padding: 2px;"></td>
+				<td th:text="${{mc.articolo}}" style="border-bottom: 1px solid #ddd; text-align: right; font-size: 9.5pt; margin: 5px 0px 2px 0px; padding: 2px;"></td>
+				<td th:text="${mc.annoImpacc}+'/'+${mc.numeroImpacc}" style="border-bottom: 1px solid #ddd; text-align: right; font-size: 9.5pt; margin: 5px 0px 2px 0px; padding: 2px;"></td>
+				<td th:text="${{mc.subImpacc}}" style="border-bottom: 1px solid #ddd; text-align: right; font-size: 9.5pt; margin: 5px 0px 2px 0px; padding: 2px;"></td>
+				<td th:if="${mc.importoImpacc!=null and !#strings.isEmpty(#strings.trim(mc.importoImpacc))}" th:text="'€ '+${mc.importoImpacc}" style="border-bottom: 1px solid #ddd; text-align: right; font-size: 9.5pt; margin: 5px 0px 2px 0px; padding: 2px;"></td>
+				<td th:if="${mc.importoImpacc==null or #strings.isEmpty(#strings.trim(mc.importoImpacc)) and mc.importo!=null and !#strings.isEmpty(#strings.trim(mc.importo))} " th:text="'€ '+${mc.importo}"style="border-bottom: 1px solid #ddd; text-align: right; font-size: 9.5pt; margin: 5px 0px 2px 0px; padding: 2px;"></td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+<div th:if="${(atto.datiContabili != null) and atto.datiContabili.includiMovimentiAtto and !#lists.isEmpty(movimentiContabiliLiquidazione)}">	<div style="text-align: Left; font-size: 11pt; font-weight: bold;">		<span>Elenco Liquidazioni</span>	</div>
+<table>
+		<thead>			<tr>
+				<th style="border-bottom: 1px solid #ddd; text-align: right; font-size: 9.5pt; font-weight: bold; margin: 5px 0px 2px 0px; padding: 2px; white-space: nowrap;">Numero					Fattura</th>
+				<th style="border-bottom: 1px solid #ddd; text-align: right; font-size: 9.5pt; font-weight: bold; margin: 5px 0px 2px 0px; padding: 2px; white-space: nowrap;">Data					Fattura</th>
+				<th style="border-bottom: 1px solid #ddd; text-align: right; font-size: 9.5pt; font-weight: bold; margin: 5px 0px 2px 0px; padding: 2px; white-space: nowrap;">Importo</th>
+				<th style="border-bottom: 1px solid #ddd; text-align: right; font-size: 9.5pt; font-weight: bold; margin: 5px 0px 2px 0px; padding: 2px; white-space: nowrap;">Soggetto					Beneficiario</th>
+				<th style="border-bottom: 1px solid #ddd; text-align: right; font-size: 9.5pt; font-weight: bold; margin: 5px 0px 2px 0px; padding: 2px; white-space: nowrap;">Impegno</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="mc,item : ${movimentiContabiliLiquidazione}">
+				<td th:text="${{mc.numero}}" style="border-bottom: 1px solid #ddd; text-align: right; font-size: 9.5pt; margin: 5px 0px 2px 0px; padding: 2px;"></td>
+				<td th:text="${{mc.data}}" style="border-bottom: 1px solid #ddd; text-align: right; font-size: 9.5pt; margin: 5px 0px 2px 0px; padding: 2px;"></td>
+				<td th:if="${mc.importo!=null and !#strings.isEmpty(#strings.trim(mc.importo))}" th:text="${{mc.importo}}" style="border-bottom: 1px solid #ddd; text-align: right; font-size: 9.5pt; margin: 5px 0px 2px 0px; padding: 2px;"></td>
+				<td th:if="${mc.importo==null or #strings.isEmpty(#strings.trim(mc.importo))}" style="border-bottom: 1px solid #ddd; text-align: right; font-size: 9.5pt; margin: 5px 0px 2px 0px; padding: 2px;">&nbsp;</td>
+				<td th:text="${{mc.documento[0].soggettoNome}}" style="border-bottom: 1px solid #ddd; text-align: right; font-size: 9.5pt; margin: 5px 0px 2px 0px; padding: 2px;"></td>
+				<td th:text="${mc.documento[0].impegno.anno}+'/'+${mc.documento[0].impegno.numero}" style="border-bottom: 1px solid #ddd; text-align: right; font-size: 9.5pt; margin: 5px 0px 2px 0px; padding: 2px;"></td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+<!-- fine modifica mov cont -->        <p>&nbsp;</p>
+    <div th:if="${allegati!=null and !#lists.isEmpty(allegati)}"><div style="text-align: Left; font-size: 11pt; font-weight: bold;">		<span>Elenco Allegati</span>	</div>
+        <table width="100%" style="page-break-inside: avoid;" cellspacing="0" cellpadding="3">
+		<thead>			<tr>
+				<th style="border-bottom: 1px solid #ddd; text-align: left; font-size: 9.5pt; font-weight: bold; margin: 5px 0px 2px 0px; padding: 2px; white-space: nowrap;">N.</th>
+				<th style="border-bottom: 1px solid #ddd; text-align: left; font-size: 9.5pt; font-weight: bold; margin: 5px 0px 2px 0px; padding: 2px; white-space: nowrap;">Descrizione</th>
+				<th style="border-bottom: 1px solid #ddd; text-align: left; font-size: 9.5pt; font-weight: bold; margin: 5px 0px 2px 0px; padding: 2px; white-space: nowrap;">Tipo</th>
+				<th style="border-bottom: 1px solid #ddd; text-align: left; font-size: 9.5pt; font-weight: bold; margin: 5px 0px 2px 0px; padding: 2px; white-space: nowrap;">Annotazioni</th>
+	        </tr>
+</thead>
+<tbody>
+	            <tr th:each="allegato: ${allegati}">
+					<td style="border-bottom: 1px solid #fff; text-align: left; font-size: 9.5pt;margin: 5px 0px 2px 0px; padding: 2px; white-space: nowrap;">[[${allegato.progressivo}]]</td>
+					<td style="border-bottom: 1px solid #fff; text-align: left; font-size: 9.5pt;margin: 5px 0px 2px 0px; padding: 2px; white-space: nowrap;">[[${allegato.descrizione}]]</td>
+					<td style="border-bottom: 1px solid #fff; text-align: left; font-size: 9.5pt;margin: 5px 0px 2px 0px; padding: 2px; white-space: nowrap;">[[${allegato.tipo}]]</td>
+					<td style="border-bottom: 1px solid #fff; text-align: left; font-size: 9.5pt;margin: 5px 0px 2px 0px; padding: 2px; white-space: nowrap;">[[${allegato.annotazione}]]</td>
+	            </tr>
+	        </tbody>
+	    </table>
+        <br>    </div>
+ Stampata il&nbsp;[[${dataDiStampa}]]

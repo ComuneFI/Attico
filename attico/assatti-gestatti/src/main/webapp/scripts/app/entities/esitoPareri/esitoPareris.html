@@ -1,0 +1,179 @@
+<div>
+
+    <h2 translate="cifra2gestattiApp.esitoPareri.home.title">EsitoParere</h2>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <button class="btn btn-primary" data-toggle="modal" data-target="#saveEsitoPareriModal" ng-click="clear()">
+                    <span class="glyphicon glyphicon-flash"></span> <span translate="cifra2gestattiApp.esitoPareri.home.createLabel">Create a new EsitoParere</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="saveEsitoPareriModal" tabindex="-1" role="dialog" aria-labelledby="myEsitoParereLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <form name="editForm" role="form" novalidate ng-submit="save()" show-validation>
+
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                                ng-click="clear()">&times;</button>
+                        <h4 class="modal-title" id="myEsitoPareriLabel" translate="cifra2gestattiApp.esitoPareri.home.createOrEditLabel">Create or edit a EsitoParere</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group" ng-if="esitoPareri.id > 0">
+                            <label>ID</label>
+                            <input type="text" class="form-control" name="id"  
+                                   ng-model="esitoPareri.id" readonly>
+                        </div>
+
+                        <div class="form-group">
+                            <label translate="cifra2gestattiApp.esitoPareri.codice">Codice</label> *
+                            
+                            <input type="text" class="form-control" name="codice"  ng-if="esitoPareri.id <= 0"
+                                   ng-model="esitoPareri.codice" required>
+                            <input type="text" class="form-control" name="codice"  ng-if="esitoPareri.id > 0"
+                                   ng-model="esitoPareri.codice" readonly>
+
+                            <div ng-show="editForm.codice.$invalid">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label translate="cifra2gestattiApp.esitoPareri.valore">Descrizione</label> *
+                            <input required type="text" class="form-control" name="valore"
+                                   ng-model="esitoPareri.valore">
+
+                            <div ng-show="editForm.valore.$invalid">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label translate="cifra2gestattiApp.esitoPareri.tipo">tipo</label> *
+							<select ng-model="esitoPareri.tipo" name="tipo">
+								<option value="Commissione">Commissione</option>
+								<option value="Quartieri e Rev. Contabili">Quartieri e Rev. Contabili</option>
+							</select>
+
+                            <div ng-show="editForm.tipo.$invalid">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label translate="cifra2gestattiApp.esitoPareri.tipoAtto">tipoAtto</label> *
+                            <select class="form-control" name="TipoAtto" ng-model="esitoPareri.tipoAtto.id" ng-options="tipoAtto.id as tipoAtto.descrizione for tipoAtto in tipoAttos" required>
+							</select>
+                            <div ng-show="editForm.tipoAtto.$invalid">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
+                            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+                        </button>
+                        <button type="submit" ng-disabled="editForm.$invalid" class="btn btn-primary">
+                            <span class="glyphicon glyphicon-save"></span>&nbsp;<span translate="entity.action.save">Save</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+	<div>
+	    <div class="table-responsive crud-search">
+	        <table class="table table-striped">
+	            <thead>
+	                <tr>
+	                    <th  translate="cifra2gestattiApp.esitoPareri.tipoAtto">Tipo Atto</th>
+	                    <th  translate="cifra2gestattiApp.esitoPareri.tipo">Tipo</th>
+	                    <th  translate="cifra2gestattiApp.esitoPareri.valore">Valore</th>
+	                     <!-- <th translate="cifra2gestattiApp.esitoPareri.codice">Codice</th>-->
+	                    <th></th>
+	                </tr>
+	                <tr>
+	                	<th>     
+	                    	<ui-select ng-model="tempSearch.tipoAtto" theme="bootstrap">
+		                    	<ui-select-match allow-clear="true">
+		                    		<span>{{$select.selected.descrizione}}</span>
+		                    	</ui-select-match>
+		                    	<ui-select-choices repeat="tipoatto in tipoAttos | filter: $select.search track by $index">
+		                            <div ng-bind-html="tipoatto.descrizione | highlight: $select.search"></div>
+		                    	</ui-select-choices>
+	                      	</ui-select>
+	                    
+	                    </th>
+	                    <th><input type="text" ng-model="tempSearch.tipo"></th>
+	                    <th><input type="text" ng-model="tempSearch.valore"></th>
+	                    <!-- <th><input type="text" ng-model="tempSearch.codice"></th>-->
+	                    
+	                    
+	                    
+	                    
+	                    
+	                    <th><button
+								class="btn btn-primary btn-sm" ng-click="ricerca()">
+								<span class="glyphicon glyphicon-search"></span> <span
+									translate="global.messages.cerca" class="ng-scope">Cerca</span>
+							</button>
+							<button class="btn btn-primary btn-sm" ng-click="resetRicerca()">
+								<span translate="global.messages.resetricerca" class="ng-scope">Reset
+									ricerca</span>
+							</button></th>
+	                </tr>
+	                
+	            </thead>
+	            <tbody>
+	                <tr ng-repeat="esitoPareri in esitoPareris">
+	                    <!-- <td><a ui-sref="esitoPareriDetail({id:esitoPareri.id})">{{esitoPareri.id}}</a></td>
+	                    <td>{{esitoPareri.codice}}</td> -->
+	                     <td>{{esitoPareri.tipoAtto.descrizione}}</td>
+	                     <td>{{esitoPareri.tipo}}</td>
+	                    <td>{{esitoPareri.valore}}</td>
+	                    
+	                   
+	                    
+	                    <td>
+	                        <button type="submit"
+	                                ui-sref="esitoPareriDetail({id:esitoPareri.id})"
+	                                class="btn btn-info btn-sm">
+	                            <span class="glyphicon glyphicon-eye-open"></span>&nbsp;<span translate="entity.action.view"> View</span>
+	                        </button>
+	                        <button type="submit"
+	                                ng-click="showUpdate(esitoPareri.id)"
+	                                class="btn btn-primary btn-sm">
+	                            <span class="glyphicon glyphicon-pencil"></span>&nbsp;<span translate="entity.action.edit"> Edit</span>
+	                        </button>
+	                        <button type="submit"
+	                        		ng-show="esitoPareri.enabled"
+	                                ng-click="disable(esitoPareri)"
+	                                class="btn btn-warning btn-sm">
+	                            <span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span translate="entity.action.disable"> Disable</span>
+	                        </button>
+	                        <button type="submit"
+	                        		ng-hide="esitoPareri.enabled"
+	                                ng-click="enable(esitoPareri)"
+	                                class="btn btn-success btn-sm">
+	                            <span class="glyphicon glyphicon-ok-circle"></span>&nbsp;<span translate="entity.action.enable"> Enable</span>
+	                        </button>
+	                    </td>
+	                </tr>
+	            </tbody>
+	        </table>
+	        <div ng-if="esitoPareris && esitoPareris.length == 0" class="search-no-result"><h3 translate="global.searchNoResult"></h3></div>
+	    </div>
+        <nav>
+            <ul class="pagination">
+                <li ng-show="links['first']" ng-click="loadPage(links['first'])"><a>&lt;&lt;</a></li>
+                <li ng-show="links['prev']" ng-click="loadPage(links['prev'])"><a>&lt;</a></li>
+                <li ng-show="page > 2" ng-click="loadPage(page - 2)"><a>{{page - 2}}</a></li>
+                <li ng-show="page > 1" ng-click="loadPage(page - 1)"><a>{{page - 1}}</a></li>
+                <li class="active"><a>{{page}}</a></li>
+                <li ng-show="page < links['last']" ng-click="loadPage(page + 1)"><a>{{page + 1}}</a></li>
+                <li ng-show="page < links['last'] - 1" ng-click="loadPage(page + 2)"><a>{{page + 2}}</a></li>
+                <li ng-show="links['next']" ng-click="loadPage(links['next'])"><a>&gt;</a></li>
+                <li ng-show="links['last']" ng-click="loadPage(links['last'])"><a>&gt;&gt;</a></li>
+            </ul>
+        </nav>
+    </div>
+</div>

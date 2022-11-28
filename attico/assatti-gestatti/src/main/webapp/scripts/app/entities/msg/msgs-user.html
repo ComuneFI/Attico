@@ -1,0 +1,84 @@
+<div>
+
+    <h2 translate="cifra2gestattiApp.msg.home.title">msg</h2>
+    
+	    <div class="table-responsive crud-search">
+	        <table class="table table-striped">
+	            <thead>
+	                <tr>
+	                	<th width="30px"></th>
+	                	<th translate="cifra2gestattiApp.msg.letto">letto</th>
+	                    <th translate="cifra2gestattiApp.msg.datainserimento">datainserimento</th>
+	                    <th translate="cifra2gestattiApp.msg.priorita">priorita</th>
+	                    <th translate="cifra2gestattiApp.msg.categoria">categoria</th>
+	                    <th translate="cifra2gestattiApp.msg.destinatari">destinatari</th>
+	                    <th width="30px"></th>
+	                </tr>
+	                <tr>
+	                	<th style="text-align:center;">
+                    		<button class="btn btn-primary btn-xs" ng-click="ricerca()"><span class="glyphicon glyphicon-search"/> <span translate="global.messages.cerca">Ricerca</span></button>
+							<button class="btn btn-primary btn-xs" ng-click="resetRicerca()"><span translate="global.messages.resetricerca">Reset ricerca</span></button>
+                   		</th>
+	                	<th>
+		                	<select class="form-control" ng-model="tempSearch.letto" ng-options="letto.value as letto.descrizione for letto in [{descrizione:'Si', value:true}, {descrizione:'No', value:false}]">
+	                        </select>
+                        </th>
+		                <th style="width:10em;">
+		                    <input type="text" ng-model="tempSearch.dataStart" size="7" onkeydown="return false;" bs-datepicker placeholder="Dal"> <button title="Cancella Data" ng-click="tempSearch.dataStart = null;" class="btn btn-xs"><span class="glyphicon glyphicon-remove"></span></button><br/>
+		                    <input type="text" ng-model="tempSearch.dataEnd" size="7" onkeydown="return false;" bs-datepicker placeholder="Al"> <button title="Cancella Data" ng-click="tempSearch.dataEnd = null;" class="btn btn-xs"><span class="glyphicon glyphicon-remove"></span></button>
+		                </th>
+		                <th>
+		                	<select class="form-control" ng-model="tempSearch.priorita" ng-options="priorita for priorita in prioritas">
+                        	</select>
+		                </th>
+		                <th>
+		                	<select class="form-control" ng-model="tempSearch.categoria" ng-options="categoria as categoria.descrizione for categoria in categorieMsg track by categoria.id">
+                        	</select>
+		                </th>
+		                <th>
+		                	<input type="text" ng-model="tempSearch.destinatario">
+		                </th>
+		                <th style="text-align:center;">
+                    		<button class="btn btn-primary btn-xs" ng-click="ricerca()"><span class="glyphicon glyphicon-search"/> <span translate="global.messages.cerca">Ricerca</span></button>
+							<button class="btn btn-primary btn-xs" ng-click="resetRicerca()"><span translate="global.messages.resetricerca">Reset ricerca</span></button>
+                   		</th>
+	                </tr>
+	            </thead>
+	            <tbody>
+	                <tr ng-repeat="msg in msgs">
+	                	<td></td>
+	                	<td>{{msg.letto ? 'Si' : 'No'}}</td>
+	                    <td>{{msg.dataInserimento | date : 'dd/MM/yyyy HH:mm:ss'}}</td>
+	                    <td>{{msg.priorita}}</td>
+	                    <td>{{msg.categoriaMsg.descrizione}}</td>
+	                    <td>
+							<ul>
+			         			<li ng-repeat="aoo in msg.destinatari">{{aoo.codice + ' - ' + aoo.descrizione}}</li>
+			         		</ul>
+						</td>
+	                    <td align="right">
+	                        <button type="button"
+	                                ui-sref="msgDetail({id:msg.id})"
+	                                class="btn btn-info btn-sm">
+	                            <span class="glyphicon glyphicon-eye-open"></span>&nbsp;<span translate="entity.action.view"> View</span>
+	                        </button>
+	                    </td>
+	                </tr>
+	            </tbody>
+	        </table>
+	        <div ng-if="msgs && msgs.length == 0" class="search-no-result"><h3 translate="global.searchNoResult"></h3></div>
+	    </div>
+        <nav>
+            <ul class="pagination">
+                <li ng-show="links['first']" ng-click="loadPage(links['first'])"><a>&lt;&lt;</a></li>
+                <li ng-show="links['prev']" ng-click="loadPage(links['prev'])"><a>&lt;</a></li>
+                <li ng-show="page > 2" ng-click="loadPage(page - 2)"><a>{{page - 2}}</a></li>
+                <li ng-show="page > 1" ng-click="loadPage(page - 1)"><a>{{page - 1}}</a></li>
+                <li class="active"><a>{{page}}</a></li>
+                <li ng-show="page < links['last']" ng-click="loadPage(page + 1)"><a>{{page + 1}}</a></li>
+                <li ng-show="page < links['last'] - 1" ng-click="loadPage(page + 2)"><a>{{page + 2}}</a></li>
+                <li ng-show="links['next']" ng-click="loadPage(links['next'])"><a>&gt;</a></li>
+                <li ng-show="links['last']" ng-click="loadPage(links['last'])"><a>&gt;&gt;</a></li>
+            </ul>
+        </nav>
+</div>

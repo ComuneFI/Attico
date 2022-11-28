@@ -1,0 +1,203 @@
+
+<div>
+    <h2><span translate="cifra2gestattiApp.jobPubblicazione.detail.title">Dettaglio Pubblicazioni</span></h2>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <tbody>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.jobPubblicazione.detail.codiceCifra">Cod. CIFRA:</span>
+                    </td>
+                    <td colspan="3">
+                        <input type="text" class="input-sm form-control" value="{{jobPubblicazione.atto.codiceCifra}}" readonly>
+                    </td>
+                </tr>
+               <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.jobPubblicazione.detail.dataCreazione">Data Creazione:</span>
+                    </td>
+                    <td colspan="3">
+                        <input type="text" class="input-sm form-control" value="{{jobPubblicazione.atto.dataCreazione | date:'dd/MM/yyyy'}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.jobPubblicazione.detail.tipoDiAtto">tipoDiAtto:</span>
+                    </td>
+                    <td colspan="3">
+                        <input type="text" class="input-sm form-control" value="{{jobPubblicazione.atto.tipoAtto.descrizione}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.jobPubblicazione.detail.tipoDeterminazione">tipoDeterminazione:</span>
+                    </td>
+                    <td colspan="3">
+                        <input type="text" class="input-sm form-control" value="{{jobPubblicazione.atto.tipoDeterminazione.descrizione}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.jobPubblicazione.detail.oggetto">oggetto:</span>
+                    </td>
+                    <td colspan="3">
+                        <input type="text" class="input-sm form-control" value="{{jobPubblicazione.atto.oggetto}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.jobPubblicazione.detail.strutturaProponente">strutturaProponente:</span>
+                    </td>
+                    <td colspan="3">
+                        <input type="text" class="input-sm form-control" value="{{jobPubblicazione.atto.aoo.codice}} - {{jobPubblicazione.atto.aoo.descrizione}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.jobPubblicazione.detail.numeroAdozione">numeroAdozione:</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{jobPubblicazione.atto.numeroAdozione}}" readonly>
+                    </td>
+                    <td>
+                        <span translate="cifra2gestattiApp.jobPubblicazione.detail.dataAdozione">dataAdozione:</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{jobPubblicazione.atto.dataAdozione | date:'dd/MM/yyyy'}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.jobPubblicazione.detail.durataGiorniPubblicazione">durataGiorniPubblicazione:</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{jobPubblicazione.atto.durataGiorni}}" readonly>
+                    </td>
+                    <td>
+                        <span translate="cifra2gestattiApp.jobPubblicazione.detail.dirittoAllOblio">dirittoAllOblio:</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{jobPubblicazione.atto.oblio? 'Si' : 'No'}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.jobPubblicazione.detail.dataPresuntaInizioPubblicazione">dataPresuntaInizioPubblicazione:</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{jobPubblicazione.atto.dataInizioPubblicazionePresunta | date:'dd/MM/yyyy'}}" readonly>
+                    </td>
+                    <td>
+                        <span translate="cifra2gestattiApp.jobPubblicazione.detail.dataPresuntaFinePubblicazione">dataPresuntaInizioPubblicazione:</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{jobPubblicazione.atto.dataFinePubblicazionePresunta | date:'dd/MM/yyyy'}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.jobPubblicazione.detail.dataInizioPubblicazione">dataInizioPubblicazione:</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{jobPubblicazione.atto.inizioPubblicazioneAlbo | date:'dd/MM/yyyy'}}" readonly>
+                    </td>
+                    <td>
+                        <span translate="cifra2gestattiApp.jobPubblicazione.detail.dataFinePubblicazione">dataFinePubblicazione:</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{jobPubblicazione.atto.finePubblicazioneAlbo | date:'dd/MM/yyyy'}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.jobPubblicazione.detail.download">download:</span>
+                    </td>
+                    <td colspan="3">
+			    
+			    <a ng-repeat="docPdf in jobPubblicazione.atto.documentiPdfAdozione" class="list-group-item padding"  target="_blank" href="api/attos/{{jobPubblicazione.atto.id}}/documento/{{docPdf.id}}?access_token={{access_token}}"  >
+			                
+	                 <i  class="fa fa-file-pdf-o"></i>
+	             
+	                 {{docPdf.file.nomeFile}}   
+					
+	    			<span class="label label-default pull-right">({{jobPubblicazione.atto.documentiPdfAdozione.length - $index}})</span>
+					<span class="label label-info pull-right">({{docPdf.createdBy}} - {{docPdf.createdDate | date:'medium'}})</span>
+	     
+	                <span class="label label-warning pull-right"  ng-if="docPdf.firmato" ><i   class="fa fa-shield"></i> Firmato digitalmente da {{docPdf.firmatario}}</span>
+	                <span class="label alert-success pull-right"  ng-if="docPdf.numeroProtocollo != null && docPdf.numeroProtocollo != '' && isProvvedimentoRepertoriato()" ><i   class="fa fa-shield"></i> Identificativo di repertorio : {{docPdf.numeroProtocollo}}</span>
+	                <span class="label label-success pull-right"  ng-if="docPdf.numeroProtocollo != null && docPdf.numeroProtocollo != '' && !isProvvedimentoRepertoriato()" ><i   class="fa fa-shield"></i> Protocollato con n. {{docPdf.numeroProtocollo}}</span>
+	    			
+	    			<br/><span style="width: 100%;" ng-if="docPdf.diogenes && docPdf.diogenes.length > 0"> <br /><!-- <span translate="global.diogeneid"></span>: [<span ng-repeat="diogene in docPdf.diogenes track by $index">{{diogene.idDocumentoDiogene}}{{docPdf.diogenes.length - 1 > $index ? ',' : ''}}</span>] </span> -->            
+			    </a>
+                    </td>
+                   
+                </tr>
+				
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.jobPubblicazione.detail.errore">errore:</span>
+                    </td>
+                    <td colspan="3">
+                        <input type="text" class="input-sm form-control" value="{{jobPubblicazione.dettaglioErrore}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.jobPubblicazione.detail.statoPubblicazione">statoPubblicazione:</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{jobPubblicazione.atto.statoPubblicazione}}" readonly>
+                    </td>
+                    <td>
+                        <span translate="cifra2gestattiApp.jobPubblicazione.detail.statoProceduraPubblicazione">statoProceduraPubblicazione:</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{jobPubblicazione.atto.statoProceduraPubblicazione}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.jobPubblicazione.detail.responsabile">responsabile:</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{jobPubblicazione.atto.emananteProfilo.utente.cognome}} {{jobPubblicazione.atto.emananteProfilo.utente.nome}}" readonly>
+                    </td>
+                    <td>
+                        <span translate="cifra2gestattiApp.jobPubblicazione.detail.dataEsecutivita">dataEsecutivita:</span>
+                    </td>
+                    <td>
+                       <input type="text" class="input-sm form-control" value="{{jobPubblicazione.atto.dataEsecutivita | date:'dd/MM/yyyy'}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.jobPubblicazione.detail.dataRichiestaAnnullamento">dataRichiestaAnnullamento:</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{jobPubblicazione.atto.dataRichiestaAnnullamento | date:'dd/MM/yyyy'}}" readonly>
+                    </td>
+                    <td>
+                        <span translate="cifra2gestattiApp.jobPubblicazione.detail.richiedenteAnnullamento">richiedenteAnnullamento:</span>
+                    </td>
+                    <td>
+                       <input type="text" class="input-sm form-control" value="{{jobPubblicazione.atto.richiedenteAnnullamento}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.jobPubblicazione.detail.motivazioneAnnullamento">motivazioneAnnullamento:</span>
+                    </td>
+                    <td colspan="3">
+                        <input type="text" class="input-sm form-control" value="{{jobPubblicazione.atto.motivazioneRichiestaAnnullamento}}" readonly>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <button type="submit"
+            ui-sref="jobPubblicazione"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span translate="entity.action.back"> Back</span>
+    </button>
+</div>

@@ -1,0 +1,19 @@
+{
+    "cifra2gestattiApp": {
+        "tipoRichiestaHD" : {
+            "home": {
+                "title": "Tipo Richiesta HD",
+                "createLabel": "Crea nuovo Tipo Richiesta HD",
+                "createOrEditLabel": "Crea o modifica Tipo Richiesta HD"
+            },
+            "delete": {
+                "question": "Siete sicuri di voler cancellare il Tipo Richiesta HD con ID {{ id }}?"
+            },
+            "detail": {
+                "title": "Tipo Richiesta HD"
+            },
+            
+            "descrizione": "Descrizione"
+        }
+    }
+}

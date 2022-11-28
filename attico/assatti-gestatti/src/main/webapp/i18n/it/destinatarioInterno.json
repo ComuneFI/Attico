@@ -1,0 +1,16 @@
+{
+    "cifra2gestattiApp": {
+        "destinatarioInterno" : {
+            "tipoDestinatarioSearch":"Tipo Destinatario",
+            "denominazioneSearch":"Denominazione",
+            "tableTipoDestinatario":"Tipo Destinatario",
+            "tableDenominazione":"Denominazione",
+            "tableIndirizzo":"Indirizzo",
+            "tableFax":"Fax",
+            "tableMail":"E-mail",
+            "tablePec":"Pec",
+            "btnAggiungi":"Aggiungi",
+            "btnRimuovi":"Rimuovi"
+        }
+    }
+}

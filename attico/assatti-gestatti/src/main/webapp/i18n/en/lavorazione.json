@@ -1,0 +1,23 @@
+{
+    "cifra2gestattiApp": {
+        "lavorazione" : {
+            "home": {
+                "title": "Lavoraziones",
+                "createLabel": "Create a new Lavorazione",
+                "createOrEditLabel": "Create or edit a Lavorazione"
+            },
+            "delete": {
+                "question": "Are you sure you want to delete Lavorazione {{ id }}?"
+            },
+            "detail": {
+                "title": "Lavorazione"
+            },
+            "codice": "Codice",
+            "descrizione": "Descrizione",
+            "Attivita": "Attivita",
+            "statoByStatoOut": "statoByStatoOut",
+            "statoByStatoIn": "statoByStatoIn",
+            "TipoIter": "TipoIter"
+        }
+    }
+}

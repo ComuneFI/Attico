@@ -1,0 +1,147 @@
+<p style="text-align: center; font-family: Calibri; color: #000; font-size: 20pt; text-transform: uppercase; padding-bottom: 10px;">	<span>Domanda di Attualita'</span></p>
+
+
+
+<p></p>
+
+
+
+<p></p>
+
+
+
+<table width="100%" cellspacing="0" cellpadding="3">
+
+
+
+	<tbody>
+
+
+
+		<tr>
+
+
+
+			<td width="10%"></td>
+
+
+
+			<td style="border: 2px solid #000000;">				<p style="text-align: center; margin: 0pt; font-family: Calibri; font-size: 8.5pt; font-weight: bold;">				</p>
+
+
+
+				<div>					&nbsp;Numero: <span th:if="${atto.numeroAdozione !=null}" style="font-weight: bold;">[[${atto.tipoAtto.codice}]]/[[${atto.dataAdozione.toString("yyyy")}]]/[[${atto.numeroAdozione}]]</span>				</div>
+
+
+
+				<div>					&nbsp;Del: <span th:if="${atto.dataAdozione != null}" style="font-weight: bold;">[[${atto.dataAdozione.toString("dd/MM/yyyy")}]]					</span>				</div>
+
+
+
+				
+				<p></p>
+
+
+
+			</td>
+
+
+
+			<td width="10%"></td>
+
+
+
+		</tr>
+
+
+
+	</tbody>
+
+
+
+</table>
+
+
+
+<div>&nbsp;</div>
+
+
+
+<p style="font-family: Calibri; font-size: 11pt; padding-bottom: 20px;">	<span style="font-weight: bold;">OGGETTO: </span> <span th:utext="${#strings.replace( #strings.escapeXml(atto.oggetto),T(java.lang.System).getProperty('line.separator'),'<br ></span>')}"></span></p>
+
+
+
+<div>&nbsp;</div>
+
+
+
+<br><div th:if="${atto.domanda.testo !=null}" th:utext="${atto.domanda.testo}">	<span>+${atto.domanda.testo}</span></div>
+
+
+
+<div>	<span><br></span></div>
+
+
+
+<br><div th:if="${elencoTitoloAllegato!=null}">	<br>	<p><b>ALLEGATI INTEGRANTI</b></p>
+
+
+
+	<table style="page-break-inside: avoid;" width="100%" cellspacing="0" cellpadding="0">
+
+
+
+		<tbody>
+
+
+
+			<tr th:each="item: ${#lists.sort(elencoTitoloAllegato)}">
+
+
+
+				<td>					<div style="text-align: left; font-family: Calibri; font-size: 11pt;">[[${item}]]</div>
+
+
+
+				</td>
+
+
+
+			</tr>
+
+
+
+		</tbody>
+
+
+
+	</table>
+
+
+
+	<br>	<br></div>
+
+
+
+<br>Firenze, lì <span th:if="${atto.dataCreazione != null}">[[${atto.dataCreazione.toString("dd/MM/yyyy")}]]</span><br><div style="text-align: right; font-family: Calibri; font-size: 11pt;">
+</div>
+
+<p th:unless="${#lists.isEmpty(atto.proponenti)}">
+	</p>
+<table width="50%" cellspacing="0" cellpadding="3">
+
+        <tbody>
+
+            <tr th:each="prop,item : ${atto.proponenti}">
+
+                <td style="margin: 0px 0 0px 0; padding: 0px 0;"><span th:if="${item.index==0}">Proponenti:</span></td>
+
+                <td style="align: right;" th:text="${'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' +prop.utente.nome + ' ' + prop.utente.cognome}"></td>
+
+            </tr>
+
+        </tbody>
+
+    </table>
+
+<p></p>

@@ -1,0 +1,258 @@
+<div>
+
+    <h2 translate="cifra2gestattiApp.modelloCampo.home.title">ModelloCampo</h2>
+
+    <div >
+        <div >
+            <div >
+                <button class="btn btn-primary" data-toggle="modal" data-target="#saveModelloCampoModal" ng-click="clear()">
+                    <span class="glyphicon glyphicon-flash"></span> <span translate="cifra2gestattiApp.modelloCampo.home.createLabel">Create a new ModelloCampo</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="saveModelloCampoModal" tabindex="-1" role="dialog" aria-labelledby="myModelloCampoLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <form name="editForm" role="form" novalidate ng-submit="save()">
+
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                                ng-click="clear()">&times;</button>
+                        <h4 class="modal-title" id="myModelloCampoLabel" translate="cifra2gestattiApp.modelloCampo.home.createOrEditLabel">Create or edit a ModelloCampo</h4>
+                    </div>
+                    <div class="modal-body row">
+                        <div class="form-group col-sm-12">
+                            <label>ID</label>
+                            <input type="text" class="form-control" name="id"
+                                   ng-model="modelloCampo.id" readonly>
+                        </div>
+
+                        <div class="form-group col-sm-6">
+                            <label translate="cifra2gestattiApp.modelloCampo.codice">Codice</label>
+                            <input type="text" class="form-control" name="codice"
+                                   ng-model="modelloCampo.codice" >
+
+                        </div>
+                        <div class="form-group col-sm-6">
+                            <label translate="cifra2gestattiApp.modelloCampo.titolo">Titolo</label> *
+                            <input type="text" class="form-control" name="titolo"
+                                   ng-model="modelloCampo.titolo" required>
+
+                        </div>
+                        <div class="form-group col-sm-6">
+                            <label translate="cifra2gestattiApp.modelloCampo.tipoCampo">TipoCampo</label> *
+                            <!-- <input type="text" class="form-control" name="tipoCampo"
+                                   ng-model="modelloCampo.tipoCampo"> -->
+
+                            <select class="form-control" ng-change="tipoCampoChanged(modelloCampo.tipoCampo)" name="tipoCampo" ng-model="modelloCampo.tipoCampo" ng-options="tipoCampo.target as tipoCampo.description for tipoCampo in tipoCampos" required>
+                            </select>
+                        </div>
+
+                        <div class="form-group col-sm-6" ng-if="!isAdmin && !isReferenteTecnico">
+                        	<label translate="cifra2gestattiApp.modelloCampo.Profilo">Profilo *</label>
+                            <select class="form-control" name="profiloCompetente" ng-model="modelloCampo.profilo" 
+                            ng-change="initTipiAttoProfilo(modelloCampo.profilo);"
+                            ng-options="profilo as profilo.utente.nome + ' ' + profilo.utente.cognome + ' - ' + profilo.descrizione + ' (' + profilo.aoo.codice + ')' for profilo in profiliOfUser track by profilo.id" required>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group col-sm-6">
+                            <label translate="cifra2gestattiApp.modelloCampo.tipoatto">tipoatto</label> <span data-toggle="tooltip" bs-tooltip data-html="true" data-placement="right" data-title="{{'cifra2gestattiApp.modelloCampo.guida.tipoAtto' | translate}}"><i class="fa fa-question" ></i></span>
+                            <select ng-if="!isAdmin && !isReferenteTecnico" ng-disabled="tipoVerbale || !modelloCampo.profilo || !modelloCampo.profilo.id" class="form-control" name="tipoatto" ng-model="modelloCampo.tipoAtto" ng-options="tipoAtto as tipoAtto.descrizione for tipoAtto in tipiAttoProfilo track by tipoAtto.id">
+                            </select>
+                            <select ng-if="isAdmin || isReferenteTecnico" ng-disabled="tipoVerbale" class="form-control" name="tipoatto" ng-model="modelloCampo.tipoAtto" ng-options="tipoAtto as tipoAtto.descrizione for tipoAtto in tipiAtto track by tipoAtto.id">
+                            </select>
+                        </div>
+                        
+                        <div ng-if="(!modelloCampo.profilo || !modelloCampo.profilo.id) && (isAdmin || isReferenteTecnico)">
+	                        <div class="form-group col-sm-6">
+	                            <label translate="cifra2gestattiApp.modelloCampo.aoo">aoo</label><span ng-if="!isAdmin">*</span> <span data-toggle="tooltip" bs-tooltip data-html="true" data-placement="right" data-title="{{(isAdmin ? 'cifra2gestattiApp.modelloCampo.guida.aooAdmin' : 'cifra2gestattiApp.modelloCampo.guida.aooReferenteTecnico') | translate}}"><i class="fa fa-question" ></i></span>
+	                            <ui-select ng-required="!isAdmin" theme="bootstrap" ng-model="modelloCampo.aoo">
+						        	<ui-select-match allow-clear="true" placeholder="{{isAdmin ? 'Lasciare vuoto per abilitare a tutti gli uffici' : 'Selezionare ufficio'}}"><span ng-class="{'entityDisabilitata': $item.highlighted}">{{'(' + $select.selected.codice + ') ' + $select.selected.descrizione + ($select.selected.highlighted ? disableLabel : '')}}</span>
+						        	</ui-select-match>
+						            <ui-select-choices repeat="item in includiRef(uffici, modelloCampo.aoo, 'descrizione', modelloCampo.aoo) | filter: $select.search track by item.id">
+						            	<div ng-bind-html="'(' + item.codice + ') ' + item.descrizione | highlight: $select.search"></div>
+						            </ui-select-choices>
+						        </ui-select>
+	                        </div>
+	                        
+	                        <div ng-if="modelloCampo.aoo" class="form-group col-sm-6">
+	                            <label translate="cifra2gestattiApp.modelloCampo.propagazioneAoo">propagazione</label> <span data-toggle="tooltip" bs-tooltip data-html="true" data-placement="right" data-title="{{'cifra2gestattiApp.modelloCampo.guida.propagazione' | translate}}"><i class="fa fa-question" ></i></span>
+	                            <input class="form-control" style="width: auto !important" type="checkbox" ng-model="modelloCampo.propagazioneAoo">
+	                        </div>
+                        </div>
+
+                        <div class="form-group col-sm-12">
+                            <label translate="cifra2gestattiApp.modelloCampo.testo">Testo</label> *
+                            <!-- <input type="text" class="form-control" name="testo"
+                                   ng-model="modelloCampo.testo"> -->
+
+                            
+                            <summernote config="summernoteOptions" class="form-control" name="testo" ng-model="modelloCampo.testo" required></summernote> 
+                        </div>
+
+                        <div class="form-group col-sm-12">
+                            <label translate="cifra2gestattiApp.atto.importContentFile">Importa content file</label>
+                            <div ngf-drop ngf-select  ngf-multiple="false"  ng-show="!importing"
+                                ngf-change="fileImportDropped($files, $event, $rejectedFiles)"
+                                class="drop-box input-group" 
+                                ngf-drag-over-class="dragover" 
+                                ngf-max-size="ngfMaxSize">
+                                <!-- accept="image/*,application/*"> -->
+                                <h5>    <i class="fa fa-upload" ></i> Trascina qui file da importare
+                                    <i class="fa fa-upload" ></i>
+                                </h5>
+                            </div>
+                            <div class="label label-info" ng-show="importing" >Importazione in corso <i class="fa fa-circle-o-notch fa-spin" ></i> </div>
+
+                            <div ngf-no-file-drop class="label label-danger">
+                                File Drag/Drop non supportato per questo browser
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
+                            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+                        </button>
+                        <button type="submit" ng-disabled="editForm.$invalid || (!isAdmin && !isReferenteTecnico && !modelloCampo.profilo.id)" class="btn btn-primary">
+                            <span class="glyphicon glyphicon-save"></span>&nbsp;<span translate="entity.action.save">Save</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="deleteModelloCampoConfirmation">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form name="deleteForm" ng-submit="confirmDelete(modelloCampo.id)">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                                ng-click="clear()">&times;</button>
+                        <h4 class="modal-title" translate="entity.delete.title">Confirm delete operation</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p translate="cifra2gestattiApp.modelloCampo.delete.question" translate-values="{id: '{{modelloCampo.id}}'}">Are you sure you want to delete this ModelloCampo?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
+                            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+                        </button>
+                        <button type="submit" ng-disabled="deleteForm.$invalid" class="btn btn-danger">
+                            <span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span translate="entity.action.delete">Delete</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+	<div>
+	    <div class="table-responsive crud-search">
+	        <table class="table table-striped">
+	            <thead>
+	                <tr>
+	                    <th>ID</th>
+	                    <th translate="cifra2gestattiApp.modelloCampo.codice">Codice</th>
+	                    <th translate="cifra2gestattiApp.modelloCampo.titolo">Titolo</th>
+	                    
+	                    <th translate="cifra2gestattiApp.modelloCampo.tipoCampo">TipoCampo</th>
+	                    <th translate="cifra2gestattiApp.modelloCampo.Profilo">Profilo</th>
+	                    <th translate="cifra2gestattiApp.modelloCampo.aoo">aoo</th>
+	                    <th><span translate="cifra2gestattiApp.modelloCampo.tipoatto">tipoatto</span> <span data-toggle="tooltip" bs-tooltip data-html="true" data-placement="top" data-title="{{'cifra2gestattiApp.modelloCampo.guida.tipoAtto' | translate}}"><i class="fa fa-question" ></i></span></th>
+	                    <th width="30px"></th>
+	                </tr>
+	                <tr>
+						<th></th>
+	                    <th><input type="text" ng-model="tempSearch.codice"></th>
+	                    <th><input type="text" ng-model="tempSearch.titolo"></th>
+	                    <th class="limited-width">
+	                    	<ui-select ng-model="tempSearch.tipoCampo" theme="bootstrap">
+		                    	<ui-select-match allow-clear="true">{{$select.selected.description}}</ui-select-match>
+		                    	<ui-select-choices repeat="tipoCampo in tipoCampos | filter: $select.search track by $index">
+		                            <div ng-bind-html="tipoCampo.description | highlight: $select.search"></div>
+		                    	</ui-select-choices>
+	                      	</ui-select>
+	                    </th>
+	                    <th class="limited-width">
+	                    	<ui-select ng-model="tempSearch.profilo" theme="bootstrap">
+		                    	<ui-select-match allow-clear="true">
+		                    		<span ng-if="$select.selected.id != 0">{{$select.selected.utente.nome}} {{$select.selected.utente.cognome}} - {{$select.selected.descrizione}} ({{$select.selected.aoo.codice}})</span>
+		                    		<span ng-if="$select.selected.id == 0">{{$select.selected.descrizione}}</span>
+		                    	</ui-select-match>
+		                    	<ui-select-choices repeat="profilo in profilosSearch | filter: $select.search track by $index">
+		                            <div ng-bind-html="profilo.utente ? profilo.utente.nome + ' ' + profilo.utente.cognome + ' - ' + profilo.descrizione + ' (' + profilo.aoo.codice + ')' : profilo.descrizione | highlight: $select.search"></div>
+		                    	</ui-select-choices>
+	                      	</ui-select>
+	                    </th>
+	                    <th><input type="text" ng-model="tempSearch.aoo"></th>
+	                    <th class="limited-width">
+	                    	<ui-select ng-model="tempSearch.tipoAtto" theme="bootstrap">
+		                    	<ui-select-match allow-clear="true">
+		                    		<span>{{$select.selected.descrizione}}</span>
+		                    	</ui-select-match>
+		                    	<ui-select-choices repeat="tipoatto in tipiAtto | filter: $select.search track by $index">
+		                            <div ng-bind-html="tipoatto.descrizione | highlight: $select.search"></div>
+		                    	</ui-select-choices>
+	                      	</ui-select>
+	                    </th>	                    
+	                </tr>
+	                <tr><td colspan="14" class="text-center"><button class="btn btn-primary btn-sm" ng-click="ricerca()"><span class="glyphicon glyphicon-search"></span> <span translate="global.messages.cerca" class="ng-scope">Cerca</span></button> <button class="btn btn-primary btn-sm" ng-click="resetRicerca()">
+								<span translate="global.messages.resetricerca" class="ng-scope">Reset
+									ricerca</span>
+							</button></td></tr>
+	            </thead>
+	            <tbody>
+	                <tr ng-repeat="modelloCampo in modelloCampos">
+	                    <td><a ui-sref="modelloCampoDetailAdmin({flag:'admin',id:modelloCampo.id})">{{modelloCampo.id}}</a></td>
+	                    <td>{{modelloCampo.codice}}</td>
+	                    <td>{{modelloCampo.titolo}}</td>
+	                    
+	                    <td>{{getTitleTipoCampo(modelloCampo.tipoCampo)}}</td>
+	                    <td>
+	                    	<span ng-if="modelloCampo.profilo">{{modelloCampo.profilo.utente.nome}} {{modelloCampo.profilo.utente.cognome}} - {{modelloCampo.profilo.descrizione}} ({{modelloCampo.profilo.aoo.codice}})</span>
+	                    	<span ng-if="!modelloCampo.profilo">Tutti</span>
+	                    </td>
+	                    <td>{{modelloCampo.aoo ? '(' + modelloCampo.aoo.codice + ') ' + modelloCampo.aoo.descrizione : 'Tutte'}}</td>
+	                    <td>{{modelloCampo.tipoAtto ? modelloCampo.tipoAtto.descrizione : 'Non definito'}}</td>
+	                    <td>
+	                        <button type="submit"
+	                                ui-sref="modelloCampoDetailAdmin({flag:'admin',id:modelloCampo.id})"
+	                                class="btn btn-info btn-sm">
+	                            <span class="glyphicon glyphicon-eye-open"></span>&nbsp;<span translate="entity.action.view"> View</span>
+	                        </button>
+	                        <button ng-if="modelloCampo.profilo || isAdmin || isReferenteTecnico" type="submit"
+	                                ng-click="showUpdate(modelloCampo.id)"
+	                                class="btn btn-primary btn-xs">
+	                            <span class="glyphicon glyphicon-pencil"></span>&nbsp;<span translate="entity.action.edit"> Edit</span>
+	                        </button>
+	                        <button ng-if="modelloCampo.profilo || isAdmin || isReferenteTecnico" type="submit"
+	                                ng-click="delete(modelloCampo.id)"
+	                                class="btn btn-danger btn-sm">
+	                            <span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span translate="entity.action.delete"> Delete</span>
+	                        </button>
+	                    </td>
+	                </tr>
+	            </tbody>
+	        </table>
+	        <div ng-if="modelloCampos && modelloCampos.length == 0" class="search-no-result"><h3 translate="global.searchNoResult"></h3></div>
+	    </div>
+        <nav>
+            <ul class="pagination">
+                <li ng-show="links['first']" ng-click="loadPage(links['first'])"><a>&lt;&lt;</a></li>
+                <li ng-show="links['prev']" ng-click="loadPage(links['prev'])"><a>&lt;</a></li>
+                <li ng-show="page > 2" ng-click="loadPage(page - 2)"><a>{{page - 2}}</a></li>
+                <li ng-show="page > 1" ng-click="loadPage(page - 1)"><a>{{page - 1}}</a></li>
+                <li class="active"><a>{{page}}</a></li>
+                <li ng-show="page < links['last']" ng-click="loadPage(page + 1)"><a>{{page + 1}}</a></li>
+                <li ng-show="page < links['last'] - 1" ng-click="loadPage(page + 2)"><a>{{page + 2}}</a></li>
+                <li ng-show="links['next']" ng-click="loadPage(links['next'])"><a>&gt;</a></li>
+                <li ng-show="links['last']" ng-click="loadPage(links['last'])"><a>&gt;&gt;</a></li>
+            </ul>
+        </nav>
+    </div>
+</div>

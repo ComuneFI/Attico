@@ -1,0 +1,50 @@
+{
+    "cifra2gestattiApp": {
+        "beneficiario" : {
+            "alertCancellazione":"Procedere con l\u0027eliminazione del Beneficiario?",
+            "email":"E-mail",
+            "pec":"PEC",
+            "codiceFiscaleEstero":"Codice Fiscale Estero",
+            "partitaIvaEstero":"Partita IVA Estero",
+            "stato":"Stato",
+        	"idAscot": "ID Sistema Esterno",
+        	"iban":"IBAN",
+        	"tipoSoggetto":"Tipo Soggetto",
+        	"cap2":"CAP 2",
+        	"citta":"Citt\u00E0",
+        	"citta2":"Citt\u00E0 2",
+        	"provincia":"Provincia",
+        	"provincia2":"Provincia 2",
+        	"localita":"Localit\u00E0",
+        	"localita2":"Localit\u00E0 2",
+            "nome": "Nome",
+            "cognome": "Cognome",
+            "comuneNascita": "Comune di Nascita",
+            "provinciaNascita": "Provincia di Nascita",
+            "dataNascita": "Data di Nascita",
+            "sesso": "Sesso",
+            "codiceFiscale": "Codice Fiscale",
+            "denominazione": "Denominazione",
+            "partitaIva": "Partita Iva",
+            "dittaIndividuale": "Ditta Individuale",
+            "indirizzo1": "Indirizzo",
+            "cap": "CAP",
+            "indirizzo2": "Indirizzo 2",
+            "quietanzante": "Quietanzante",
+            "modalitaPagamento": "Modalit\u00E0 di Pagamento",
+            "fatture":"Fatture",
+            "aggiungiFatturaBtn":"Aggiungi Fattura",
+            "rimuoviFatturaBtn":"Rimuovi Fattura",
+            "fattura":{
+               "causale":"Causale",
+               "title":"Fattura",
+               "numero":"Numero Fattura",
+               "data":"Data Fattura",
+               "importo":"Importo Fattura",
+               "importoError":"Inserire un valore numerico con 2 cifre decimali (usare il punto come separatore dei decimali).",
+               "numeroRegistro":"Registro unico delle fatture N.",
+               "progressivoRegistro":"Progressivo nel registro unico N."
+            }
+        }
+    }
+}

@@ -1,0 +1,128 @@
+<div>
+	
+
+	<div class="form-group col-md-6">
+		<label>Parere Sintetico</label> *
+		<select ng-init="updateParereCommissione()" ng-change="updateParereCommissione()" class="form-control everActive" ng-model="dtoWorkflow.parere.parereSintetico" required>
+		 	<option ng-repeat="item in listaEsitoPareriCommissioni" ng-value="item.codice" 
+		 	ng-selected="(dtoWorkflow.parere.parereSintetico && item.codice && dtoWorkflow.parere.parereSintetico == item.codice) || (!dtoWorkflow.parere.parereSintetico && !item.codice) ? true : false">{{item.valore}}</option>
+		 </select>
+	</div>
+	
+	<div class="form-group col-md-6" ng-if="dtoWorkflow.parere.parereSintetico.toLowerCase().indexOf('personalizzato')>-1">
+		<label>Parere Personalizzato</label> * 
+		<textarea class="form-control" name="personalizzato" ng-model="dtoWorkflow.parere.parerePersonalizzato" maxlength="100" required></textarea>
+	</div>
+
+	<div class="form-group col-md-6">
+		<label>Note</label>
+		<textarea class="form-control" name="motivazione" ng-model="dtoWorkflow.parere.parere" maxlength="500"></textarea>
+	</div>
+	
+	<div class="form-group col-md-6">
+		<i class="fa fa-calendar"></i> <label>Data</label> *
+		<input type="text" class="form-control everActive" name="data" 
+			ng-model="dtoWorkflow.parere.data" bs-datepicker required>
+			
+			
+		<button type="button" ng-disabled="!dtoWorkflow.parere.data" class="btn btn-primary everActive ng-binding" ng-click="salva(indexSezioneCorrente,decisioneCorrente)"> 
+                    	Salva Data Parere
+                    </button>
+			
+	</div>
+<!--	<div class="form-group col-md-6">-->
+<!--		<i class="fa fa-calendar"></i> <label>Data Invio alla Commissione</label>-->
+<!--		<input type="text" class="form-control everActive" name="dataInvioACommissione" -->
+<!--			value = "{{dtoWorkflow.parere.dataInvioACommissione | date:'dd/MM/yyyy'}}"readonly=readonly>-->
+<!--	</div>-->
+	<div class="form-group col-md-6">
+		<i class="fa fa-calendar"></i> <label>Data Effettiva Richiesta</label>
+		<input type="text" class="form-control everActive" name="dataInvioACommissione"
+			   value = "{{dtoWorkflow.parere.dataInvioACommissione | date:'dd/MM/yyyy'}}"readonly=readonly>
+	</div>
+	<div class="form-group col-md-6">
+		<i class="fa fa-calendar"></i> <label>Data Scadenza</label>
+		<input type="text" class="form-control everActive" name="dataScadenza" 
+			ng-model="dtoWorkflow.parere.dataScadenza" bs-datepicker readonly=readonly>
+	</div>
+	
+	<div class="form-group col-md-6" ng-if="visualizzaAllegati==0">
+		<label>Azione:</label>
+		<button type="button" ng-click="saveParerePerInserimentoAllegati()" ng-disabled="mascheraWorkflow.$invalid || taskLoading"  class="form-control btn btn-primary">
+			<span class="glyphicon glyphicon-paperclip"></span>&nbsp;Aggiungi Allegati
+		</button>
+	</div>
+	
+	
+
+	<div class="row">
+		<div class="form-group col-md-12" ng-if="visualizzaAllegati>0 && dtoWorkflow.parere.id && dtoWorkflow.parere.id > 0">
+			<label>Allegati parere</label>
+	
+			<div ngf-drop ngf-select ngf-multiple="true"
+				ngf-change="fileDroppedParere($files, $event, $rejectedFiles,dtoWorkflow.parere)"
+				class="drop-box input-group everActive" ngf-drag-over-class="dragover"
+				ngf-max-size="ngfMaxSize"> <!-- accept="application/*" > -->
+				<h5 data-toggle="tooltip" title="File compatibili per allegati al parere: bmp doc docx gif jpg jp2 odg odp ods odt ots ott pdf txt png ppt pptx mpp ps rtf tar tiff wav xls xlsx xml zip eml.<br><strong>ATTENZIONE:</strong> Non si possono caricare file .zip contenenti file di tipo zip."
+					data-html="true" ng-init="initTooltip()">	<i class="fa fa-upload" ></i> Trascina qui gli allegati parere
+					<i class="fa fa-question" ></i>
+					<br/><b>{{'cifra2gestattiApp.atto.warnDatiSensibiliAllegati' | translate}}</b>
+				</h5>
+			</div>
+			<div class="progress">
+				<div class="progress-bar progress-bar-success progress-bar-striped everActive"
+					role="progressbar" aria-valuenow="{{progressPercentage}}"
+					aria-valuemin="0" aria-valuemax="100"
+					style="width: {{progressPercentage}}">
+					<span class="sr-only">{{progressPercentage}}% Complete
+						(success)</span>
+				</div>
+			</div>
+			<div ui-tree="allegatiOptions" data-drag-enabled="!solaLettura">
+				<ol class="list-group" ui-tree-nodes
+					ng-model="dtoWorkflow.parere.allegati" data-type="allegato">
+	
+					<li ng-repeat="allegato in dtoWorkflow.parere.allegati" ui-tree-node>
+	
+						<div ui-tree-handle class="tree-node tree-node-content row">
+	
+							<div class="col-md-1">
+								<i data-drag class="fa fa-bars"></i>
+							</div>
+							
+							<label flex data-nodrag class="col-md-10">
+								<a target="_blank" class="word-wrap"
+								href="api/pareres/allegato/{{allegato.id}}?access_token={{access_token}}">{{allegato.file.nomeFile}}
+									({{allegato.file.createdBy}})</a>
+	
+							</label>
+							<label translate="cifra2gestattiApp.documentoInformatico.pubblicabile">Pubblicabile</label> *
+							
+							<span data-toggle="tooltip"
+								title="<b>GUIDA</b><br/>Se l’allegato è <strong>Parte Integrante</strong> impostare a <strong>Si</strong> nel caso in cui l’allegato è da pubblicare altrimenti impostare a <strong>No</strong>."
+								data-html="true" ng-init="initTooltip()">
+								<i class="fa fa-question" ></i>
+							</span>
+							<select ng-model="allegato.pubblicabile" class="form-control"     
+								ng-options="item.valore as item.label for item in [{valore:true,label:'SI'},{valore:false,label:'NO'}]"
+								>
+							</select>
+	
+							<div data-nodrag class="pull-right col-md-1">
+								<button type="button" class="btn btn-danger btn-sm everActive"
+									ng-click="deleteAllegatoParere(dtoWorkflow.parere.allegati,$index)"
+									data-type="success" data-title="Elimina allegato parere"
+									bs-tooltip>
+									<i class="fa fa-minus"></i>
+								</button>
+							</div>
+	
+						</div>
+					</li>
+				</ol>
+			</div>
+			
+		</div>
+	</div>
+
+</div>

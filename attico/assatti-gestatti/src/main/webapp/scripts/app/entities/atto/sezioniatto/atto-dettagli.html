@@ -1,0 +1,76 @@
+<div>
+	<h4>Dettaglio Stato Atto</h4>
+	<a style="margin-bottom: 20px;" class="btn btn-danger btn-xs" target="_blank"
+		href="/api/preview/reportIterAtto{{atto.id}}.pdf?access_token={{access_token}}">
+			<i class="fa fa-file-pdf-o"></i>&nbsp;<span>Report Iter</span>
+	</a>
+	
+	<div class="bs-callout bs-callout-primary">
+		<div class="table-responsive">
+			<h3>STATO CORRENTE</h3>
+			
+			<button type="submit" ng-click="aggiornaUltimoStato()" class="btn btn-info btn-sm everActive">Aggiorna</button>
+	                        
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th><span>Ufficio di Giacenza</span></th>
+						<th><span>Data di Giacenza</span></th>
+						<th><span>In Carico A</span></th>
+						<th><span>Data di Presa In carico</span></th>
+						<th><span>Lavorazione da effettuare</span></th>
+		           	</tr>
+				</thead>
+				<tbody ng-if="statos && statos.length > 0">
+		             <tr ng-repeat="stato in statos">
+		                <td ng-if="stato.aoo != null">{{stato.aoo.codice}} - {{stato.aoo.descrizione}}</td>
+		                <td ng-if="stato.aoo == null"> - </td>
+		                <td>{{stato.datagiacenza | date:'dd/MM/yyyy HH:mm'}}</td>                
+		                <td ng-if="!stringEmpty(stato.nominativo)">{{stato.nominativo}}</td>
+		                <td ng-if="stringEmpty(stato.nominativo)">{{stato.ruoliTask}}</td>	
+		                <td>{{stato.datacarico | date:'dd/MM/yyyy HH:mm'}}</td>	
+		                <td>{{stato.descrizione}}</td>	                
+		            </tr>
+		        </tbody>
+		        <tbody ng-if="!statos || statos.length < 1">
+		            <tr>
+		                <td ng-if="aggiornamentoStato" colspan="5">Aggiornamento in corso...</td>
+		                <td ng-if="!aggiornamentoStato" colspan="5">Nessuno stato registrato.</td>
+		            </tr>
+				</tbody>
+			</table>
+			
+		</div>
+	</div>
+	
+	<div class="bs-callout bs-callout-primary" ng-repeat="categoria in categorieEvento | filter:{id: 1}">
+		<div class="table-responsive">
+			<h3>{{categoria.denominazione}}</h3>
+			
+			<button type="submit" ng-click="aggiornaEventi()" class="btn btn-info btn-sm everActive">Aggiorna</button>
+	                        
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th><span>Descrizione Stato</span></th>
+						<th><span>Data e ora</span></th>
+		           	</tr>
+				</thead>
+				<tbody>
+		             <tr ng-repeat="evento in eventiMap[categoria.id]">
+		                <td ng-if="evento.tipoEvento.codice == 'ADOZIONE' && atto.tipoAtto.codice != 'DIR'">
+		                	{{atto.tipoAtto.descrizione}} {{atto.esito}} nella Seduta N°{{atto.sedutaGiunta.numero}} del {{atto.sedutaGiunta.primaConvocazioneInizio | date: 'dd-MM-yyyy HH:mm':'Europe/Berlin'}}
+		                </td>	
+		                <td ng-if="evento.tipoEvento.codice != 'ADOZIONE' || atto.tipoAtto.codice == 'DIR'">{{evento.tipoEvento.descrizione}} {{evento.infoAggiuntive}}</td>	
+		                <td>{{evento.dataCreazione| date:'dd/MM/yyyy HH:mm'}}</td>                
+		            </tr>
+		            <tr ng-if="eventiMap[categoria.id] && eventiMap[categoria.id].length == 0">
+		                <td ng-if="aggiornamentoEventi" colspan="2">Aggiornamento in corso...</td>
+		                <td ng-if="!aggiornamentoEventi" colspan="2">Nessuno stato registrato.</td>
+		            </tr>
+				</tbody>
+			</table>
+			
+		</div>
+	</div>
+</div>

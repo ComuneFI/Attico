@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    <changeSet author="chiriacog" id="201912111415-1">
+    	<sql>
+	    	UPDATE `tipoiter` SET `descrizione`='Deliberazione di Giunta con verifica contabile' WHERE `id`='4';
+			UPDATE `tipoiter` SET `descrizione`='Deliberazione di Giunta senza verifica contabile' WHERE `id`='5';
+			UPDATE `tipoiter` SET `descrizione`='Deliberazione di Consiglio con verifica contabile' WHERE `id`='6';
+			UPDATE `tipoiter` SET `descrizione`='Deliberazione di Consiglio senza verifica contabile' WHERE `id`='7';
+			UPDATE `tipoiter` SET `descrizione`='Deliberazione di Indirizzo di Giunta' WHERE `id`='8';
+			UPDATE `tipoiter` SET `descrizione`='Deliberazione di Indirizzo di Consiglio' WHERE `id`='9';
+			UPDATE `tipoiter` SET `descrizione`='Deliberazione per il Consiglio senza verifica contabile' WHERE `id`='20';
+			UPDATE `tipoiter` SET `descrizione`='Deliberazione per il Consiglio con verifica contabile' WHERE `id`='21';
+    	</sql>
+    </changeSet>
+</databaseChangeLog>

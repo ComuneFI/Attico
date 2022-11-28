@@ -1,0 +1,7 @@
+<div ng-if="environment && environment.toggles && environment.toggles.indexOf('note-v2') >= 0">
+	<div class="form-group">
+		<label translate="cifra2gestattiApp.atto.nota">Nota</label>
+		<!-- <div ckeditor="options" ng-model="$parent.atto.note" ready="onReady()"></div> -->
+		<summernote ng-model="atto.finalNote" config="summernoteOptions" ng-required="true"></summernote>
+	</div>
+</div>

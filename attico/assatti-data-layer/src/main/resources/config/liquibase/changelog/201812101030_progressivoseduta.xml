@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    
+    <changeSet author="magria" id="201812101030-1">
+    	<sql>
+			CREATE TABLE `progressivoseduta` (
+			  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+			  `anno` int(11) DEFAULT NULL,
+			  `progressivo` int(11) DEFAULT NULL,
+			  `organo` varchar(1) DEFAULT NULL,
+			  PRIMARY KEY (`id`)
+			) ENGINE=InnoDB;
+		</sql>
+	</changeSet>
+	<changeSet author="magria" id="201812101030-2">
+    	<sql>
+			ALTER TABLE `progressivoseduta` 
+			CHANGE COLUMN `anno` `anno` INT(11) NOT NULL ,
+			CHANGE COLUMN `progressivo` `progressivo` INT(11) NOT NULL ,
+			CHANGE COLUMN `organo` `organo` VARCHAR(1) NOT NULL ,
+			ADD UNIQUE INDEX `UNIQ_PROG` (`progressivo` ASC, `anno` ASC, `organo` ASC);
+		</sql>
+	</changeSet>
+</databaseChangeLog>

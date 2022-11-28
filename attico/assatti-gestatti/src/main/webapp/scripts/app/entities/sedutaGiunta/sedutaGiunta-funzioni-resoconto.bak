@@ -1,0 +1,84 @@
+<div>
+	<nav>
+		<ul class="nav nav-pills">
+			<li ng-if="sedutaGiunta.fase == sedutaConstants.fasiSeduta.CONCLUSA && isOperatoreResoconto == true && (
+						(abilitaPulsantiResoconto() && (sedutaGiunta.resoconto == null || sedutaGiunta.resoconto.length < 1)) || 
+						(sedutaGiunta.resoconto != null && sedutaGiunta.resoconto.length > 0 && sedutaGiunta.resoconto.length < 3 && abilitaPulsantePresenzeAssenze() == false)
+						)" class="pull-left" >
+
+				<div class="dropdown">
+					<button class="btn btn-default btn-sm dropdown-toggle"
+						type="button" id="dropdownMenu1" data-toggle="dropdown"
+						aria-haspopup="true" aria-expanded="true">
+						Anteprima Documenti <span class="caret"></span>
+					</button>
+					<ul class="dropdown-menu" aria-labelledby="dropdownMenu1" ng-init="odgBase = getOdgBase(sedutaGiunta)">
+						<li ng-repeat="modelloHtml in modelloHtmls"><a
+							ng-if="modelloHtml.tipoDocumento.codice =='resoconto' && abilitaPerTipo(1)"
+							target="_blank"
+							href="/api/preview/{{modelloHtml.id}}/resoconto{{ odgBase.id }}.pdf?access_token={{access_token}}">
+								<i class="fa fa-file-pdf-o"></i>&nbsp;<span>{{modelloHtml.titolo}}</span>
+						</a></li>
+						<li ng-repeat="modelloHtml in modelloHtmls"><a 
+							ng-if="modelloHtml.tipoDocumento.codice =='foglio_assenti_riunione_giunta'  && (sedutaGiunta.resoconto != null && sedutaGiunta.resoconto.length > 0  && sedutaGiunta.resoconto.length < 3 )"
+							target="_blank"
+							href="/api/preview/{{modelloHtml.id}}/previewPresenzeAssenze{{ odgBase.id }}.pdf?profiloId={{profiloattivo.id}}&access_token={{access_token}}">
+								<i class="fa fa-file-pdf-o"></i>&nbsp;<span>{{modelloHtml.titolo}}</span>
+						</a></li>
+					</ul>
+				</div>
+			</li>
+			
+
+			<li ng-if="abilitaPulsantiResoconto() && isOperatoreResoconto == true && (sedutaGiunta.resoconto == null || sedutaGiunta.resoconto.length < 1) " class="pull-right" ng-repeat="decisione in decisioni | filter:{ tipo: 'sedutadocres'}">&nbsp;
+					<button type="button"
+						ng-click="callDecisioneOdg(indexSezioneCorrente,decisione,null)"
+						ng-disabled="(sedutaGiunta.sottoscrittoriresoconto.length < 1 || sottoscrittoriResocontoValid() != true)"
+						class="btn btn-primary btn-sm">
+						<i class="fa fa-spinner fa-pulse" ng-if="taskLoading"></i>
+						{{decisione.descrizione}}
+					</button>
+			</li>
+			
+			<li ng-if="abilitaPulsanteFirmaResoconto()" class="pull-right" ng-repeat="decisione in decisioni | filter:{ tipo: 'sedutaresdocfirma'}">&nbsp;
+					<button type="button"
+						ng-click="callDecisioneOdg(indexSezioneCorrente,decisione,null)"
+						class="btn btn-primary btn-sm">
+						<i class="fa fa-spinner fa-pulse" ng-if="taskLoading"></i>
+						{{decisione.descrizione}}
+					</button>
+			</li>
+			
+			<li ng-if="abilitaPulsanteFirmaPresenze()" class="pull-right" ng-repeat="decisione in decisioni | filter:{ tipo: 'sedutadocpreassfirma'}">&nbsp;
+					<button type="button"
+						ng-click="callDecisioneOdg(indexSezioneCorrente,decisione,null)"
+						class="btn btn-primary btn-sm">
+						<i class="fa fa-spinner fa-pulse" ng-if="taskLoading"></i>
+						{{decisione.descrizione}}
+					</button>
+			</li>
+
+			<!-- <li ng-if="abilitaPulsantiResoconto() && isOperatoreResoconto == true && (sedutaGiunta.resoconto != null && sedutaGiunta.resoconto.length > 1) && resocontoPubblicato == false" class="pull-right" ng-repeat="decisione in decisioni | filter:{ tipo: 'sedutapubdocres'}">&nbsp;
+
+					<button type="button"
+						ng-click="callDecisioneOdg(indexSezioneCorrente,decisione,null)"
+						class="btn btn-primary btn-sm">
+						<i class="fa fa-spinner fa-pulse" ng-if="taskLoading"></i>
+						{{decisione.descrizione}}
+					</button>
+			</li>
+
+			-->
+
+			<li ng-if="isOperatoreResoconto == true && sedutaGiunta.resoconto != null && sedutaGiunta.resoconto.length > 0 && sedutaGiunta.resoconto.length < 3 && abilitaPulsantePresenzeAssenze() == false" class="pull-right" ng-repeat="decisione in decisioni | filter:{ tipo: 'sedutapreass'}">&nbsp;
+					<button type="button"
+						ng-click="callDecisioneOdg(indexSezioneCorrente,decisione,null)"
+						class="btn btn-primary btn-sm">
+						<i class="fa fa-spinner fa-pulse" ng-if="taskLoading"></i>
+						{{decisione.descrizione}}
+					</button>
+			</li>
+		</ul>
+	</nav>
+	
+</div>

@@ -1,0 +1,19 @@
+{
+    "cifra2gestattiApp": {
+        "smsReport" : {
+            "home": {
+                "title": "Report Invio SMS",
+                "createLabel": "Create a new SmsReport",
+                "createOrEditLabel": "Create or edit a SmsReport"
+            },
+            "detail": {
+                "title": "Report Invio SMS "
+            },
+            "idInvio": "Id Invio",
+            "identificativo": "Id SMS",
+            "testo": "Testo SMS",
+            "dataInvio": "Data Invio",
+            "stato": "Stato Invio"
+        }
+    }
+}

@@ -1,0 +1,95 @@
+
+<div>
+    <h2><span translate="cifra2gestattiApp.rubricaDestinatarioEsterno.detail.title">RubricaDestinatarioEsterno</span></h2>
+    <h5>Destinatario Esterno {{rubricaDestinatarioEsterno.id}}</h5>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th translate="entity.detail.field">Field</th>
+                    <th translate="entity.detail.value">Value</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.rubricaDestinatarioEsterno.denominazione">Denominazione</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{rubricaDestinatarioEsterno.denominazione}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.rubricaDestinatarioEsterno.nome">Nome</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{rubricaDestinatarioEsterno.nome}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.rubricaDestinatarioEsterno.cognome">Cognome</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{rubricaDestinatarioEsterno.cognome}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.rubricaDestinatarioEsterno.titolo">Titolo</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{rubricaDestinatarioEsterno.titolo}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.rubricaDestinatarioEsterno.email">Email</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{rubricaDestinatarioEsterno.email}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.rubricaDestinatarioEsterno.pec">Pec</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{rubricaDestinatarioEsterno.pec}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.rubricaDestinatarioEsterno.tipo">Tipo</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{rubricaDestinatarioEsterno.tipo}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.rubricaDestinatarioEsterno.aoo">aoo</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{rubricaDestinatarioEsterno.aoo.codice + '-' + rubricaDestinatarioEsterno.aoo.descrizione}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.rubricaDestinatarioEsterno.indirizzo">indirizzo</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{rubricaDestinatarioEsterno.indirizzo.dug}} {{rubricaDestinatarioEsterno.indirizzo.toponimo}} {{rubricaDestinatarioEsterno.indirizzo.civico}} {{rubricaDestinatarioEsterno.indirizzo.cap}} {{rubricaDestinatarioEsterno.indirizzo.comune}} {{rubricaDestinatarioEsterno.indirizzo && rubricaDestinatarioEsterno.indirizzo.provincia ? '(' + rubricaDestinatarioEsterno.indirizzo.provincia + ')' : ''}}" readonly>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <button type="submit"
+            ui-sref="rubricaDestinatarioEsterno"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span translate="entity.action.back"> Back</span>
+    </button>
+</div>

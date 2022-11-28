@@ -1,0 +1,138 @@
+<br><p style="text-align: left; font-size: 14pt; margin-top:1.0in; font-weight: bold;">ESTRATTO DAL VERBALE DEL CONSIGLIO COMUNALE DEL <span th:if="${seduta!=null &amp;&amp; seduta.inizioLavoriEffettiva != null}">[[${seduta.inizioLavoriEffettiva.toString("dd/MM/yyyy")}]]</span><span th:if="${seduta!=null &amp;&amp; seduta.inizioLavoriEffettiva == null &amp;&amp; seduta.secondaConvocazioneInizio != null}">[[${seduta.secondaConvocazioneInizio.toString("dd/MM/yyyy")}]]</span><span th:if="${seduta!=null &amp;&amp; seduta.inizioLavoriEffettiva == null &amp;&amp; seduta.secondaConvocazioneInizio == null &amp;&amp; seduta.primaConvocazioneInizio != null}">[[${seduta.primaConvocazioneInizio.toString("dd/MM/yyyy")}]]</span><br>Ordine del Giorno N. <span th:if="${atto.numeroAdozione !=null}">[[${atto.tipoAtto.codice}]]/[[${atto.dataAdozione.toString("yyyy")}]]/[[${atto.numeroAdozione}]]</span></p>
+<p style="font-size: 12pt; line-height: 12pt;"><span style="font-weight: bold;">Oggetto:</span> <span style="text-align: justify" th:utext="${#strings.replace( #strings.escapeXml(atto.oggetto),T(java.lang.System).getProperty('line.separator'),'<br ></span>')}"></span> </p>
+<p style="font-size: 12pt; line-height: 12pt; text-align: justify">	L'Adunanza del Consiglio ha luogo giorno <span th:if="${seduta!=null &amp;&amp; seduta.inizioLavoriEffettiva != null}">[[${seduta.inizioLavoriEffettiva.toString("dd/MM/yyyy")}]]</span> <span th:if="${seduta!=null &amp;&amp; seduta.inizioLavoriEffettiva == null &amp;&amp; seduta.secondaConvocazioneInizio != null}">[[${seduta.secondaConvocazioneInizio.toString("dd/MM/yyyy")}]]</span><span th:if="${seduta!=null &amp;&amp; seduta.inizioLavoriEffettiva == null &amp;&amp; seduta.secondaConvocazioneInizio == null &amp;&amp; seduta.primaConvocazioneInizio != null}">[[${seduta.primaConvocazioneInizio.toString("dd/MM/yyyy")}]]</span>	alle ore <span th:if="${seduta!=null &amp;&amp; seduta.inizioLavoriEffettiva != null}">[[${seduta.inizioLavoriEffettiva.toString("HH:mm")}]]</span> <span th:if="${seduta!=null &amp;&amp; seduta.inizioLavoriEffettiva == null &amp;&amp; seduta.secondaConvocazioneInizio != null}">[[${seduta.secondaConvocazioneInizio.toString("HH:mm")}]]</span><span th:if="${seduta!=null &amp;&amp; seduta.inizioLavoriEffettiva == null &amp;&amp; seduta.secondaConvocazioneInizio == null &amp;&amp; seduta.primaConvocazioneInizio != null}">[[${seduta.primaConvocazioneInizio.toString("HH:mm")}]]</span> <span th:if="${seduta !=null &amp;&amp; seduta.luogo!=null}">presso [[${seduta.luogo}]]</span>, convocata dal 	Presidente del Consiglio con l'osservanza di tutte le formalità prescritte dalla normativa vigente, in I convocazione, in seduta pubblica ordinaria.</p>
+<p style="font-size: 12pt; line-height: 12pt;">	Presiede <span th:each="item: ${componentiGiunta}" th:if="${item.isPresidenteFine == true  &amp;&amp; item.profilo != null &amp;&amp; item.profilo.qualificaProfessionaleConsiglio != null}">[[${item.profilo.qualificaProfessionaleConsiglio.denominazione}]]</span> 	<span th:each="item: ${componentiGiunta}" th:if="${item.isPresidenteFine == true}">[[${item.profilo.utente.nome}]] [[${item.profilo.utente.cognome}]]</span>	<br>	Assiste	<span th:each="item: ${componentiGiunta}" th:if="${item.isSegretarioFine == true}">[[${item.profilo.descrizione}]] [[${item.profilo.utente.nome}]] [[${item.profilo.utente.cognome}]]</span></p>
+<p style="font-size: 12pt; line-height: 12pt;" th:if="${scrutatori!=null &amp;&amp; not #lists.isEmpty(scrutatori)}">	Fungono da scrutatori i signori <span th:each="item, iter: ${scrutatori}"><span th:if="${iter.index > 0}">, </span>[[${item.utente.nome}]] [[${item.utente.cognome}]]</span></p>
+<div id="presentiassenti">	<div th:if="${attiOdg!=null &amp;&amp; (attiOdg.votazioneSegreta==null || attiOdg.votazioneSegreta == false)}">		<div style="font-size: 12pt; line-height: 12pt; text-align: justify"> Al momento della votazione risultano presenti i consiglieri:</div>
+		<!-- <table width="100%" border="0">
+		    <tbody>
+		        <tr>
+		            <td style="border: 1px solid #000000;" valign="top">						<div th:each="item: ${componentiGiunta}" th:if="${ (item.isSindaco == null || item.isSindaco == false)  &amp;&amp; (item.presente!=null &amp;&amp; item.presente == true &amp;&amp; (item.isSegretarioInizio==null || item.isSegretarioInizio == false) &amp;&amp; (item.isSegretarioFine == null || item.isSegretarioFine == false))}" style="font-size: 12pt; margin: 0 3pt;">            		[[${item.profilo.utente.nome}]] [[${item.profilo.utente.cognome}]]            	</div>
+		            </td>
+		        </tr>
+		    </tbody>
+		</table> -->
+		<table width="100%" border="0">
+		    <tbody>
+		        <tr>
+		            <td style="border: 1px solid #000000;" valign="top" width="50%">						<div th:each="item: ${presentiDispari}" th:if="${ (item.isSindaco == null || item.isSindaco == false)  &amp;&amp; (item.presente!=null &amp;&amp; item.presente == true &amp;&amp; (item.isSegretarioInizio==null || item.isSegretarioInizio == false) &amp;&amp; (item.isSegretarioFine == null || item.isSegretarioFine == false))}" style="font-size: 12pt; margin: 0 3pt;">            		[[${item.profilo.utente.nome}]] [[${item.profilo.utente.cognome}]]            	</div>
+		            </td>
+		            <td style="border: 1px solid #000000;" valign="top" width="50%">						<div th:each="item: ${presentiPari}" th:if="${ (item.isSindaco == null || item.isSindaco == false)  &amp;&amp; (item.presente!=null &amp;&amp; item.presente == true &amp;&amp; (item.isSegretarioInizio==null || item.isSegretarioInizio == false) &amp;&amp; (item.isSegretarioFine == null || item.isSegretarioFine == false))}" style="font-size: 12pt; margin: 0 3pt;">            		[[${item.profilo.utente.nome}]] [[${item.profilo.utente.cognome}]]            	</div>
+		            </td>
+		        </tr>
+		    </tbody>
+		</table>
+		<br><div style="font-size: 12pt; line-height: 12pt; text-align: justify" th:each="item: ${componentiGiunta}" th:if="${ (item.isSindaco != null &amp;&amp; item.isSindaco == true)  &amp;&amp; (item.presente!=null &amp;&amp; item.presente == true &amp;&amp; (item.isSegretarioInizio==null || item.isSegretarioInizio == false) &amp;&amp; (item.isSegretarioFine == null || item.isSegretarioFine == false))}">Risulta presente il Sindaco [[${item.profilo.utente.nome}]] [[${item.profilo.utente.cognome}]]</div>
+		<br><div style="font-size: 12pt; line-height: 12pt; text-align: justify" th:if="${stampaAssenti == true}">risultano altresì assenti i consiglieri:</div>
+		<!-- <table width="100%" border="0" th:if="${stampaAssenti == true}">
+		    <tbody>
+		        <tr>
+		            <td style="border: 1px solid #000000;" valign="top">						<div th:each="item: ${componentiGiunta}" th:if="${(item.isSindaco == null || item.isSindaco == false)  &amp;&amp; ((item.presente == null || item.presente == false) &amp;&amp; (item.isSegretarioInizio == null || item.isSegretarioInizio == false) &amp;&amp; (item.isSegretarioFine == null || item.isSegretarioFine == false))}" style="font-size: 12pt; margin: 0 3pt;">            		[[${item.profilo.utente.nome}]] [[${item.profilo.utente.cognome}]]            	</div>
+		            </td>
+		        </tr>
+		    </tbody>
+		</table> -->
+		<table width="100%" border="0" th:if="${stampaAssenti == true}">
+		    <tbody>
+		        <tr>
+		            <td style="border: 1px solid #000000;" valign="top" width="50%">						<div th:each="item: ${assentiDispari}" th:if="${(item.isSindaco == null || item.isSindaco == false)  &amp;&amp; ((item.presente == null || item.presente == false) &amp;&amp; (item.isSegretarioInizio == null || item.isSegretarioInizio == false) &amp;&amp; (item.isSegretarioFine == null || item.isSegretarioFine == false))}" style="font-size: 12pt; margin: 0 3pt;">            		[[${item.profilo.utente.nome}]] [[${item.profilo.utente.cognome}]]            	</div>
+		            </td>
+		            <td style="border: 1px solid #000000;" valign="top" width="50%">						<div th:each="item: ${assentiPari}" th:if="${(item.isSindaco == null || item.isSindaco == false)  &amp;&amp; ((item.presente == null || item.presente == false) &amp;&amp; (item.isSegretarioInizio == null || item.isSegretarioInizio == false) &amp;&amp; (item.isSegretarioFine == null || item.isSegretarioFine == false))}" style="font-size: 12pt; margin: 0 3pt;">            		[[${item.profilo.utente.nome}]] [[${item.profilo.utente.cognome}]]            	</div>
+		            </td>
+		        </tr>
+		    </tbody>
+		</table>
+		<br><div style="font-size: 12pt; line-height: 12pt; text-align: justify" th:each="item: ${componentiGiunta}" th:if="${(item.isSindaco != null &amp;&amp; item.isSindaco == true)  &amp;&amp; ((item.presente == null || item.presente == false) &amp;&amp; (item.isSegretarioInizio == null || item.isSegretarioInizio == false) &amp;&amp; (item.isSegretarioFine == null || item.isSegretarioFine == false))}">Risulta altresì assente il Sindaco [[${item.profilo.utente.nome}]] [[${item.profilo.utente.cognome}]]</div>
+	</div>
+	<div th:if="${attiOdg!=null &amp;&amp; attiOdg.votazioneSegreta!=null &amp;&amp; attiOdg.votazioneSegreta == true}">		<div style="font-size: 12pt; line-height: 12pt; text-align: justify"> Al momento della votazione risultano presenti [[${attiOdg.numPresenti != null ? attiOdg.numPresenti : 0}]] consiglieri</div>
+		<br><div style="font-size: 12pt; line-height: 12pt; text-align: justify">risultano altresì assenti [[${attiOdg.numAssenti != null ? attiOdg.numAssenti : 0}]] consiglieri.</div>
+	</div>
+</div>
+<p style="font-size: 12pt; line-height: 18pt; margin-top: 5pt;"><br>Assiste alla seduta il Segretario redigente: [[${segretario.utente.nome}]] [[${segretario.utente.cognome}]]</p>
+<p style="page-break-before:always; border-bottom: 1px dashed #000;"></p>
+<div th:if="${atto.proponenti!=null &amp;&amp; not #lists.isEmpty(atto.proponenti)}">	<table width="50%" cellspacing="0" cellpadding="3">
+        <tbody>
+            <tr th:each="prop,item : ${atto.proponenti}">
+                <td style="margin: 0px 0 0px 0; padding: 0px 0; align: left;"><span th:if="${item.index==0}">Proponenti:</span></td>
+                <td style="margin: 0px 0 0px 0; padding: 0px 0; align: right;" th:text="${'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' +prop.utente.nome + ' ' + prop.utente.cognome}"></td>
+            </tr>
+        </tbody>
+    </table>
+    <br><br></div>
+<div style="font-family: Calibri; font-size: 11pt; line-height: 16.5pt; text-align: justify;" th:utext="${atto.domanda.testo}">+${atto.domanda}</div>
+<p>&nbsp;</p>
+<div style="font-family: Calibri; font-size: 11pt; line-height: 16.5pt; text-align: justify;" th:utext="${atto.motivazione.testo}"><span style="font-family: &quot;Titillium Web&quot;, sans-serif; font-size: 16px;">&nbsp;</span><br></div>
+<div><span style="font-size: 11pt; font-weight: bold; text-align: center; text-transform: uppercase;"><br></span></div>
+<div th:if="${attiOdg!=null}">    <p>Posta in votazione <span th:if="${(attiOdg.votazioneSegreta==null || attiOdg.votazioneSegreta == false)}">palese</span><span th:if="${(attiOdg.votazioneSegreta!=null &amp;&amp; attiOdg.votazioneSegreta == true)}">segreta</span> la proposta si hanno i seguenti risultati accertati e proclamati dal Presidente del Consiglio Comunale assistito dal Presidente assistito dagli scrutatori sopra indicati:    </p>
+    <table th:if="${attiOdg!=null}" width="100%" border="0">
+    	<tbody>
+<tr>
+    		<td width="20%" valign="top">Favorevoli</td>
+    		<td style="text-align: right;" width="5%" valign="top">[[${attiOdg.numFavorevoli}]]<span th:if="${attiOdg.numFavorevoli > 0 &amp;&amp; (attiOdg.votazioneSegreta==null || attiOdg.votazioneSegreta == false)}">:</span></td>
+    		<td width="75%" valign="top" th:if="${(attiOdg.votazioneSegreta==null || attiOdg.votazioneSegreta == false)}">    			<span th:each="item, iter: ${componentiGiunta}" th:if="${item.votazione == 'FAV' &amp;&amp; (item.isSegretarioFine == null || item.isSegretarioFine == false)}">[[${item.profilo.utente.nome}]] [[${item.profilo.utente.cognome}]],</span>    		</td>
+    	</tr>
+    	<tr>
+    		<td width="20%" valign="top">Contrari</td>
+    		<td style="text-align: right;" width="5%" valign="top">[[${attiOdg.numContrari}]]<span th:if="${attiOdg.numFavorevoli > 0 &amp;&amp; (attiOdg.votazioneSegreta==null || attiOdg.votazioneSegreta == false)}">:</span></td>
+    		<td width="75%" valign="top" th:if="${(attiOdg.votazioneSegreta==null || attiOdg.votazioneSegreta == false)}">    			<span th:each="item, iter: ${componentiGiunta}" th:if="${item.votazione == 'CON' &amp;&amp; (item.isSegretarioFine == null || item.isSegretarioFine == false)}">[[${item.profilo.utente.nome}]] [[${item.profilo.utente.cognome}]],</span>    		</td>
+    	</tr>
+    	<tr>
+    		<td width="20%" valign="top">Astenuti</td>
+    		<td style="text-align: right;" width="5%" valign="top">[[${attiOdg.numAstenuti}]]<span th:if="${attiOdg.numFavorevoli > 0 &amp;&amp; (attiOdg.votazioneSegreta==null || attiOdg.votazioneSegreta == false)}">:</span></td>
+    		<td width="75%" valign="top" th:if="${(attiOdg.votazioneSegreta==null || attiOdg.votazioneSegreta == false)}">    			<span th:each="item, iter: ${componentiGiunta}" th:if="${item.votazione == 'AST' &amp;&amp; (item.isSegretarioFine == null || item.isSegretarioFine == false)}">[[${item.profilo.utente.nome}]] [[${item.profilo.utente.cognome}]],</span>    		</td>
+    	</tr>
+    	<tr>
+    		<td width="20%" valign="top">Non votanti</td>
+    		<td style="text-align: right;" width="5%" valign="top">[[${attiOdg.numNpv}]]<span th:if="${attiOdg.numFavorevoli > 0 &amp;&amp; (attiOdg.votazioneSegreta==null || attiOdg.votazioneSegreta == false)}">:</span></td>
+    		<td width="75%" valign="top" th:if="${(attiOdg.votazioneSegreta==null || attiOdg.votazioneSegreta == false)}">    			<span th:each="item, iter: ${componentiGiunta}" th:if="${item.votazione == 'NPV' &amp;&amp; (item.isSegretarioFine == null || item.isSegretarioFine == false)}">[[${item.profilo.utente.nome}]] [[${item.profilo.utente.cognome}]],</span>    		</td>
+    	</tr>
+    </tbody>
+</table>
+    <p>    	essendo presenti [[${attiOdg.numPresenti}]] consiglieri    </p>
+    <p>    	L'ESITO DELLA PROPOSTA È [[${attiOdg.esitoLabel}]]    </p>
+<br></div>
+<span th:if="${pareriCommissioni!=null &amp;&amp; not #lists.isEmpty(pareriCommissioni)}">Sull'Ordine del Giorno sono stati acquisiti i seguenti pareri delle commissioni:</span><table th:if="${pareriCommissioni!=null &amp;&amp; not #lists.isEmpty(pareriCommissioni)}" style="page-break-inside: avoid;" width="100%" border="0">
+   	<tbody>
+	<tr style="margin: 0; padding: 0;">
+		<td style="font-weight: bold;">Commissione</td>
+		<td style="font-weight: bold;">Data Invio</td>
+		<td style="font-weight: bold;">Data Scadenza</td>
+		<td style="font-weight: bold;">Data Parere</td>
+		<td style="font-weight: bold;">Testo Parere</td>
+	</tr>
+		<tr th:each="parere, iter: ${pareriCommissioni}" th:if="${parere != null}" style="margin: 0; padding: 0;">
+			<td><span th:if="${parere.aoo != null}">[[${parere.aoo.descrizione}]]</span></td>
+			<td><span th:if="${parere.dataInvio != null}">[[${parere.dataInvio.toString("dd/MM/yyyy")}]]</span></td>
+			<td><span th:if="${parere.dataScadenza != null}">[[${parere.dataScadenza.toString("dd/MM/yyyy")}]]</span></td>
+			<td><span th:if="${parere.data != null}">[[${parere.data.toString("dd/MM/yyyy")}]]</span></td>
+			<td><span th:if="${parere.parere != null}">[[${parere.parere}]]</span><span th:if="${parere.parere == null}">Parere non espresso</span></td>
+	</tr>
+   	</tbody>
+</table>
+<span th:if="${pareriQuartiereRevisore!=null &amp;&amp; not #lists.isEmpty(pareriQuartiereRevisore)}">Sull'Ordine del Giorno sono stati acquisiti i seguenti pareri di consiglio di quartiere:</span><table th:if="${pareriQuartiereRevisore!=null &amp;&amp; not #lists.isEmpty(pareriQuartiereRevisore)}" style="page-break-inside: avoid;" width="100%" border="0">
+   	<tbody>
+	<tr style="margin: 0; padding: 0;">
+		<td style="font-weight: bold;">Quartiere</td>
+		<td style="font-weight: bold;">Data Invio</td>
+		<td style="font-weight: bold;">Data Scadenza</td>
+		<td style="font-weight: bold;">Data Parere</td>
+		<td style="font-weight: bold;">Testo Parere</td>
+	</tr>
+		<tr th:each="parere, iter: ${pareriQuartiereRevisore}" th:if="${parere != null}" style="margin: 0; padding: 0;">
+			<td><span th:if="${parere.aoo != null}">[[${parere.aoo.descrizione}]]</span></td>
+			<td><span th:if="${parere.dataInvio != null}">[[${parere.dataInvio.toString("dd/MM/yyyy")}]]</span></td>
+			<td><span th:if="${parere.dataScadenza != null}">[[${parere.dataScadenza.toString("dd/MM/yyyy")}]]</span></td>
+			<td><span th:if="${parere.data != null}">[[${parere.data.toString("dd/MM/yyyy")}]]</span></td>
+			<td><span th:if="${parere.parere != null}">[[${parere.parere}]]</span><span th:if="${parere.parere == null && parere.data==null}">Parere non espresso</span></td>
+	</tr>
+   	</tbody>
+</table>
+<div style="page-break-before:always;" th:if="${elencoTitoloAllegato!=null}"><br><p><b>ALLEGATI INTEGRANTI</b></p>
+<table style="page-break-inside: avoid;" width="100%" cellspacing="0" cellpadding="0">
+    <tbody>
+        <tr th:each="item: ${#lists.sort(elencoTitoloAllegato)}">
+            <td style="border: 1px solid #000; border-bottom: 2px solid #000; text-align: left; font-size: 9.5pt; margin: 0; padding: 2pt;">[[${item}]]</td>
+        </tr>
+    </tbody>
+</table>
+<br><br></div>

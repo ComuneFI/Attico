@@ -1,0 +1,248 @@
+package it.linksmt.assatti.service;
+
+import java.math.BigInteger;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
+
+import javax.inject.Inject;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import it.linksmt.assatti.datalayer.domain.Atto;
+import it.linksmt.assatti.datalayer.domain.Repertorio;
+import it.linksmt.assatti.datalayer.domain.SedutaGiuntaConstants;
+import it.linksmt.assatti.datalayer.domain.TipoAtto;
+import it.linksmt.assatti.datalayer.repository.RepertorioRepository;
+import it.linksmt.assatti.datalayer.repository.TipoAttoRepository;
+
+/**
+ * Service class - Contine i servizi legati alla repertoriazione degli atti
+ * N.B.: IN ATTICO NON USATA
+ */
+@Service
+@Transactional
+public class RepertorioService {
+	private final Logger log = LoggerFactory.getLogger(RepertorioService.class);
+	
+	@Inject
+	private AttoService attoService;
+	
+	@Inject
+	private RepertorioRepository repertorioRepository;
+	
+	@Inject
+	private TipoAttoRepository tipoAttoRepository;
+	
+	private static final String TIPO_ATTO_SDL = "SDL";
+	private static final String TIPO_ATTO_DDL = "DDL";
+	
+	@Transactional
+	public Map<Atto, Integer> getAttiDaRepertoriare(){
+		List<Object[]> attoRepertorio = repertorioRepository.getMappaAttoIdNumeroProgressivoDaRepertoriareAttiAdottati();
+		Map<Long, Integer> attoRepertorioMap = new TreeMap<Long, Integer>();
+		Long key = null;
+		Integer value = null;
+		for(Object[] map : attoRepertorio){
+			key = ((BigInteger)map[0]).longValue();
+			value = ((BigInteger)map[1]).intValue();
+			attoRepertorioMap.put(key, value);
+		}
+		
+		Map<Atto, Integer> ris = new TreeMap<Atto, Integer>();
+		if(attoRepertorioMap != null){
+			List<Atto> atti = attoService.findByIdIn(attoRepertorioMap.keySet());
+			for(Atto atto : atti){
+				log.debug(String.format("Atto con id=%s aggiunto alla mappa degli atti da repertoriare!!", atto.getId()));
+				ris.put(recuperaDocsPdfAdozioneAtto(atto.getId()), attoRepertorioMap.get(atto.getId()));
+			}
+		}
+		return ris;
+	}
+	
+	@Transactional
+	public boolean isRepertoriazionePossibile(Atto atto, Integer numeroAdozione){
+		boolean retValue = false;
+		DateFormat dfAnno = new SimpleDateFormat("yyyy");
+
+		try{
+			int anno = Integer.parseInt(dfAnno.format(atto.getDataAdozione().toDate()));
+			
+			// fix per errata gestione del repertorio. La tabella dovrebbe avere una riga 
+			// per ciascun tipo provvedimento, non per ciascun tipo atto.
+//			long idTipoAtto = atto.getTipoAtto().getId();
+			TipoAtto tipoAtto = atto.getTipoAtto();
+			if (atto.getTipoAtto().getCodice().equals(TIPO_ATTO_SDL)){
+//				idTipoAtto = tipoAttoRepository.findByCodice(TIPO_ATTO_DDL).getId();
+				tipoAtto = tipoAttoRepository.findByCodice(TIPO_ATTO_DDL);
+			}
+			
+			BigInteger next = repertorioRepository.findProssimoRepertorio(anno,	tipoAtto.getId());
+
+			log.debug("nextRepertorio: "+next);
+			if(next == null){
+				log.debug("next Repertorio non trovato. Lo creo ora...");
+
+				Repertorio r = new Repertorio();
+				r.setAnno(anno);
+				r.setNumero(0);
+				r.setTipoAtto(tipoAtto);
+				r.setAoo(null);
+
+				r = repertorioRepository.save(r);
+
+				next = BigInteger.valueOf(r.getNumero() + 1);
+			}
+
+			if(numeroAdozione.intValue() == next.intValue()){
+				log.debug(String.format("Atto con id=%s pronto per essere repertoriato!!", atto.getId()));
+				retValue = true;
+			}else{
+				log.warn(String.format("Atto con id:%s e numeroAdozione:%s non puo' essere repertoriato. Il numero atteso dal servizio di repertoriazione e':%s per tipoAtto :%s e anno :%s", 
+						atto.getId(), numeroAdozione, next, tipoAtto.getId(), anno ));
+				//			repertorioRepository.setRepertoriazioneError(atto.getId());
+			}
+		} catch (Exception exp){
+			log.error(exp.getMessage(), exp);
+		}
+
+		return retValue;
+	}
+	
+	@Transactional
+	public List<Atto> getAttiDaRepertoriareNonAdottati(){
+		List<Atto> attiConDocs = new ArrayList<>();
+		List<BigInteger> db_ids = repertorioRepository.getAttiDaRepertoriareNonAdottati();
+		
+		for(BigInteger id : db_ids){
+			Atto atto = recuperaDocsPdfAdozioneAtto(id.longValue());
+			if (atto != null)
+				attiConDocs.add(atto);
+		}
+		
+		return attiConDocs;
+	}
+	
+	@Transactional
+	public void richiediRepertoriazioneSchedulata(Long attoId){
+		log.debug(String.format("Richiesta repertoriazione per atto con id:%s", attoId));
+		repertorioRepository.richiediRepertoriazioneSchedulata(attoId);
+	}
+	
+	@Transactional
+	public void registraRepertoriazioneSuccess(Atto atto){
+		DateFormat dfAnno = new SimpleDateFormat("yyyy");
+		
+		if (isProvvedimentoDL(atto) || isProvvedimentoDG(atto)){
+			// fix per errata gestione del repertorio. La tabella dovrebbe avere una riga 
+			// per ciascun tipo provvedimento, non per ciascun tipo atto.
+			long idTipoAtto = atto.getTipoAtto().getId();
+			if (atto.getTipoAtto().getCodice().equals(TIPO_ATTO_SDL)){
+				idTipoAtto = tipoAttoRepository.findByCodice(TIPO_ATTO_DDL).getId();
+			}
+			repertorioRepository.incrementaRepertorio(
+					Integer.parseInt(atto.getNumeroAdozione()), 
+					Integer.parseInt(dfAnno.format(atto.getDataAdozione().toDate())), 
+					idTipoAtto);
+		}
+		
+		repertorioRepository.attoRepertoriato(atto.getId());
+	}
+	
+	@Transactional
+	public void setRepertoriazioneError(Long attoId){
+		repertorioRepository.setRepertoriazioneError(attoId);
+	}
+	
+	private Atto recuperaDocsPdfAdozioneAtto(Long idAtto){
+		Atto retValue =  attoService.findOne(idAtto);
+		
+		if (retValue != null){
+			retValue.getDocumentiPdfAdozione();
+		}
+		
+		return retValue;
+	}
+	
+	/**
+	 * Restituisce TRUE se l'atto passato in input è una 
+	 * Delibera Adottata 
+	 * @param atto
+	 * @return
+	 */
+	public boolean isProvvedimentoDG(final Atto atto){
+		boolean retValue = false;
+		
+		if("DEL".equalsIgnoreCase(atto.getTipoAtto().getCodice()) && 
+				atto.getStato().equalsIgnoreCase(SedutaGiuntaConstants.statiAtto.provvedimentoEsecutivo.toString()) &&
+				atto.getEsito() != null && "adottato".equalsIgnoreCase(atto.getEsito())){
+			retValue = true;
+		}
+		
+		return retValue;
+	}
+	
+	/**
+	 * Restituisce TRUE se l'atto passato in input è un 
+	 * Decreto Legge Approvato 
+	 * @param atto
+	 * @return
+	 */
+	public boolean isProvvedimentoDL(final Atto atto){
+		boolean retValue = false;
+		
+		String codTipoAtto = atto.getTipoAtto().getCodice();
+		
+		if((("DDL".equalsIgnoreCase(codTipoAtto)) || ("SDL".equalsIgnoreCase(codTipoAtto))) &&
+				atto.getStato().equalsIgnoreCase(SedutaGiuntaConstants.statiAtto.provvedimentoEsecutivo.toString()) &&
+				atto.getEsito() != null && "approvato".equalsIgnoreCase(atto.getEsito()))
+			retValue = true;
+		
+		return retValue;
+	}
+	
+	/**
+	 * Restituisce TRUE se l'atto passato in input è uno 
+	 * Schema di Disegno di Legge preso d atto
+	 * @param atto
+	 * @return
+	 */
+	public boolean isProvvedimentoSL(final Atto atto){
+		boolean retValue = false;
+		
+		String codTipoAtto = atto.getTipoAtto().getCodice();
+		
+		if(("SDL".equalsIgnoreCase(codTipoAtto)) &&
+				atto.getStato().equalsIgnoreCase(SedutaGiuntaConstants.statiAtto.provvedimentoPresoDatto.toString()) &&
+				atto.getEsito() != null && "presa_d_atto".equalsIgnoreCase(atto.getEsito()))
+			retValue = true;
+		
+		return retValue;
+	}
+	
+	/**
+	 * Restituisce TRUE se l'atto passato in input è una 
+	 * Comunicazione Verbalizzata 
+	 * @param atto
+	 * @return
+	 */
+	public boolean isProvvedimentoCO(final Atto atto){
+		boolean retValue = false;
+		
+		String codTipoAtto = atto.getTipoAtto().getCodice();
+		
+		if(("COM".equalsIgnoreCase(codTipoAtto)) &&
+				atto.getStato().equalsIgnoreCase(SedutaGiuntaConstants.statiAtto.provvedimentoVerbalizzato.toString()) &&
+				atto.getEsito() != null && "verbalizzato".equalsIgnoreCase(atto.getEsito()))
+			retValue = true;
+		
+		return retValue;
+	}
+	
+}

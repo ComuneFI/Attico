@@ -1,0 +1,200 @@
+<div>
+	<ul class="nav nav-tabs">
+		<li class="active third-width">
+			<a showtabcontabile="" name="informazioniAnagraficoContabili" href="#informazioniAnagraficoContabili" update-fn="updateSezioneContabile(value)">Dati Contabili
+			</a>
+		</li>
+		<li class="third-width">
+			<a name="adempimentiContabili" showtabcontabile="" href="#adempimentiContabili" update-fn="updateSezioneContabile(value)">Testo Ragioneria 
+			</a>
+		</li>
+	</ul>
+	
+	<div id="attoAdempimentiContabiliEdit" class="form-group" class="col-md-4" ng-if="showSezioneContabile === 'adempimentiContabili'" >
+		<label translate="cifra2gestattiApp.atto.stampaSiNo">Inserire testo della ragioneria nell'atto</label>
+		<div>
+			<select ng-model="atto.adempimentiContabili.stampa" ng-init="atto.adempimentiContabili.stampa = (atto && atto.adempimentiContabili && atto.adempimentiContabili.stampa ? atto.adempimentiContabili.stampa : false)"  class="form-control" ng-options="item.valore as item.label for item in [{valore:true,label:'SI'},{valore:false,label:'NO'}]" ng-disabled="(!scenariDisabilitazione || scenariDisabilitazione.indexOf('NoteContabiliEditabili') < 0 || atto.fineIterDate != null)"></select>
+
+		</div>
+		<label translate="cifra2gestattiApp.atto.noteDirigenteRagioneria">Note Responsabile Contabile</label>
+		<div>
+			<summernote ng-model="atto.adempimentiContabili.testo" ng-if="(!scenariDisabilitazione || (scenariDisabilitazione.indexOf('NoteContabiliEditabili') < 0 && scenariDisabilitazione.indexOf('NoteContabiliEditabiliDL') < 0))" config="{toolbar:[], readOnly:true, height: 80}"></summernote>
+			<summernote ng-model="atto.adempimentiContabili.testo" config="summernoteOptions" ng-if="(scenariDisabilitazione && (scenariDisabilitazione.indexOf('NoteContabiliEditabili') > -1 || scenariDisabilitazione.indexOf('NoteContabiliEditabiliDL') > -1))" ></summernote>
+		</div>
+	</div>
+
+	<div id="attoAdempimentiContabiliButtons" class="import-formcontrol" ng-if="(!scenariDisabilitazione && (scenariDisabilitazione.indexOf('NoteContabiliEditabili') > -1 || scenariDisabilitazione.indexOf('NoteContabiliEditabiliDL') > -1))">
+		<ng-include src="'scripts/app/entities/atto/import-formcontrol.html'" ng-init="codeSezImport='adempimenticontabili'"></ng-include>
+	</div>
+
+	<div class="form-group" id="informazioniAnagraficoContabili" ng-if="showSezioneContabile === 'informazioniAnagraficoContabili'" 
+	ng-init="atto.datiContabili.id = atto.datiContabili && atto.datiContabili.id ? atto.datiContabili.id : atto.id"
+	ng-init="$('.note-editable').attr('contenteditable','false')">
+		
+		<div ng-if="atto && atto.tipoIter && atto.tipoIter.codice != ITER_SENZA_VERIFICA_CONTABILE && (atto.improntaBozza || atto.improntaAtto)">
+			<div class="form-group row" ng-if="atto.improntaBozza">
+				<div class="col-xs-5">
+					<label>Impronta Bozza</label>
+					<input readonly="readonly" type="text" class="form-control" id="improntaBozza" ng-value="atto.improntaBozza" />
+					<button class="btn btn-xs btn-default everActive" ng-click="copyInputElementToClipBoard('improntaBozza');">Copia Impronta Bozza</button>
+				</div>
+				<div class="col-xs-7">
+				</div>
+			</div>
+			<div class="form-group row" ng-if="atto.improntaAtto">
+				<div class="col-xs-5">
+					<label>Impronta Atto</label>
+					<input readonly="readonly" type="text" class="form-control" id="improntaAtto" ng-value="atto.improntaAtto" />
+					<button class="btn btn-xs btn-default everActive" ng-click="copyInputElementToClipBoard('improntaAtto');">Copia Impronta Atto</button>
+				</div>
+				<div class="col-xs-7">
+				</div>
+			</div>
+		</div>
+		
+		<div class="form-group">
+			<label translate="cifra2gestattiApp.atto.contabileOggetto">Oggetto Contabile</label>*
+			<span data-toggle="tooltip"
+				title="<b>GUIDA</b><br/>Inserire l'oggetto della contabile.<br />"
+				data-html="true" ng-init="initTooltip()">
+				<i class="fa fa-question" ></i>
+			</span>
+			<textarea name="contabileOggetto"  ng-disabled="atto.tipoIter.codice == ITER_SENZA_VERIFICA_CONTABILE || atto.fineIterDate != null || isDisabledDatiContabili()" ng-model="atto.contabileOggetto" class="form-control everActive"></textarea>
+			<span ng-if="atto && atto.contabileOggetto && atto.contabileOggetto.length > 500" style="color: red;">Inserire massimo 500 caratteri (attualmente {{atto.contabileOggetto.length}}).</span>
+		</div>
+		
+		<div class="form-group">
+			<label translate="cifra2gestattiApp.atto.daticontabili.dataScadenza">datascadenza</label>
+			<input type="text" ng-model="atto.datiContabili.dataScadenza" 
+	 			size="9" onkeydown="return false;" bs-datepicker="" class="ng-pristine ng-valid ng-touched col-xs-12" 
+	 			ng-disabled="atto.tipoIter.codice == ITER_SENZA_VERIFICA_CONTABILE || isDisabledDataScadenzaContabile() || atto.fineIterDate != null"
+	 			ng-class="{'everActive' : taskBpm && taskBpm.idAssegnatario && scenariDisabilitazione && scenariDisabilitazione.indexOf('DataScadenzaContabileEditabile') > -1}"
+	 			aria-invalid="false" />
+		</div>
+		
+		<div class="form-group">
+			<label translate="cifra2gestattiApp.atto.daticontabili.importoentrata">entrata</label><span ng-if="areRequiredImportiEntrataUscita()">*</span>
+			<span ng-if="areRequiredImportiEntrataUscita()" data-toggle="tooltip"
+				title="<b>GUIDA</b><br/>Inserire almeno uno dei valori tra Importo Entrata e Importo Uscita.<br />Consentito inserire anche valori pari a zero.<br />"
+				data-html="true" ng-init="initTooltip()">
+				<i class="fa fa-question" ></i>
+			</span>
+			<input type="text" name="importoEntrata" ng-model="atto.datiContabili.importoEntrata" class="form-control everActive"
+				ng-disabled="isDisabledImportoEntrata() || atto.fineIterDate != null"
+				ng-class="{'btn-danger': atto.datiContabili && atto.datiContabili.importoEntrata && !isNumero(atto.datiContabili.importoEntrata)}"
+				value="0" ui-number-mask min="0.00" >
+		</div>
+		
+		<div class="form-group">
+			<label translate="cifra2gestattiApp.atto.daticontabili.importouscita">uscita</label><span ng-if="areRequiredImportiEntrataUscita()">*</span>
+			<span ng-if="areRequiredImportiEntrataUscita()" data-toggle="tooltip"
+				title="<b>GUIDA</b><br/>Inserire almeno uno dei valori tra Importo Entrata e Importo Uscita.<br />Consentito inserire anche valori pari a zero.<br />"
+				data-html="true" ng-init="initTooltip()">
+				<i class="fa fa-question" ></i>
+			</span>
+			<input type="text" name="importoUscita" ng-model="atto.datiContabili.importoUscita" class="form-control everActive"
+				ng-disabled="isDisabledImportoUscita() || atto.fineIterDate != null"
+				ng-class="{'btn-danger': atto.datiContabili && atto.datiContabili.importoUscita && !isNumero(atto.datiContabili.importoUscita)}"
+				value="0" ui-number-mask min="0.00">
+		</div>
+		
+		<div class="form-group">
+			<label translate="cifra2gestattiApp.atto.daticontabili.tipoBilancio">tipobilancio</label>
+			<select class="everActive"
+				ng-disabled="atto.tipoIter.codice == ITER_SENZA_VERIFICA_CONTABILE || atto.fineIterDate != null || isDisabledDatiContabili()"
+				ng-model="atto.datiContabili.tipoBilancio" class="form-control" 
+				ng-init="tipiBilancioArray = atto.datiContabili.tipoBilancio ? [{valore:null,label:''},{valore:'ORDINARIO',label:'Ordinario'},{valore:'STRAORDINARIO',label:'Straordinario'}] : [{valore:'ORDINARIO',label:'Ordinario'},{valore:'STRAORDINARIO',label:'Straordinario'}]"
+				ng-change="atto.datiContabili.tipoBilancio && tipiBilancioArray.length < 3 ? tipiBilancioArray.unshift({valore:null,label:''}) : ''"
+				ng-options="item.valore as item.label for item in tipiBilancioArray"></select>
+		</div>		
+		
+		<div ng-if="elencoMovimentoContabileVisibile" id="collapseElencoMovimentoContabile">
+	
+			<div style="padding:15px;" ng-show="movimentiCont && movimentiCont.length > 0">
+	
+				<h3>Elenco Movimenti</h3>
+	
+				<div class="form-group">
+				
+					<input type="checkbox" id="includiMovimentiAttoEdit" ng-model="atto.datiContabili.includiMovimentiAtto" ng-disabled="atto.fineIterDate != null"
+					 ng-change="resetNascondiBeneficiariMovimenti()"/>
+					<label translate="cifra2gestattiApp.atto.daticontabili.includiMovimenti">Includi Movimenti</label>
+					&nbsp;&nbsp;
+					<input ng-if="atto.tipoAtto.codice != 'DL'" type="checkbox" id="nascondiBeneficiariMovimentiEdit" ng-model="atto.datiContabili.nascondiBeneficiariMovimentiAtto" 
+						ng-disabled="atto.fineIterDate != null || atto.datiContabili.includiMovimentiAtto == false"/>
+					<label ng-if="atto.tipoAtto.codice != 'DL'" translate="cifra2gestattiApp.atto.daticontabili.nascondiBeneficiariMovimenti">Nascondi Beneficiario nell'Atto</label>
+					 
+					  
+				</div>
+	
+				<div class="table-responsive">
+					<table class="table table-striped">
+						<thead>
+							<tr>
+								<th class="text-left"><span>Tipo movimento</span></th>
+								<th class="text-left"><span>Impegno/Accertamento</span></th>
+								<th class="text-left"><span>Sub Impegno/Sub Accertamento</span></th>
+								<th class="text-center"><span>Programma</span></th>
+								<th class="text-right"><span>Esercizio</span></th>
+								<th class="text-right"><span>Capitolo</span></th>
+								<th class="text-right"><span>Articolo</span></th>
+								<th class="text-right"><span>Importo</span></th>
+								<th class="text-right"><span>Beneficiario</span></th>
+							</tr>
+						</thead>	
+						<tbody>
+							<tr ng-repeat="movimento in movimentiCont">
+								<td class="text-left">{{movimento.eu}}</td>
+								<td class="text-left">{{movimento.annoImpacc}}/{{movimento.numeroImpacc}}</td>
+								<td class="text-left">{{movimento.subImpacc}}</td>
+								<td class="text-center">{{movimento.programma}}</td>
+								<td class="text-right">{{movimento.esercizio}}</td>
+								<td class="text-right">{{movimento.capitolo}}</td>
+								<td class="text-right">{{movimento.articolo}}</td>
+								<td class="text-right">{{movimento.importo!=null?movimento.importo:movimento.importoImpacc}} &euro;</td>
+								<td class="text-right">{{movimento.codDebBen}} - {{movimento.descCodDebBen}}</td>
+							</tr>
+						</tbody>		
+					</table>
+				</div>
+			</div>
+			
+			<div style="padding:15px;" ng-show="liquidazioniCont && liquidazioniCont.length > 0">
+	
+				<h3>Elenco Liquidazioni</h3>
+	
+				<div class="table-responsive">
+					<table class="table table-striped">
+						<thead>
+							<tr>
+								<th><span>Numero Liquidazione</span></th>
+								<th><span>Numero Fattura</span></th>
+								<th><span>Data Fattura</span></th>
+								<th><span>Importo</span></th>
+								<th><span>Soggetto Beneficiario</span></th>
+								<th><span>Impegno</span></th>
+							</tr>
+						</thead>	
+						<tbody>
+							<tr ng-repeat="movimento in liquidazioniCont">
+								<td>{{movimento.annoLiq + '/' + movimento.numeroLiq}}</td>
+								<td>{{movimento.tipo ? movimento.tipo + '/' : ''}}{{movimento.numero}}</td>
+								<td>{{movimento.data}}</td>
+								<td>&euro; {{movimento.importo}}</td>
+								<td>{{movimento.soggettoNome}}</td>
+								<td>{{movimento.impegno.anno}}/{{movimento.impegno.numero}}{{movimento.impegno && movimento.impegno.sub ? ('/' + movimento.impegno.sub) : '' }}</td>
+							</tr>
+						</tbody>		
+					</table>
+				</div>
+			</div>
+			
+			<div ng-hide="(movimentiCont && movimentiCont.length > 0) || (liquidazioniCont && liquidazioniCont.length > 0)">
+				<h3>Non sono presenti Movimenti</h3>
+			</div>
+			<div ng-show="visErrMovimenti && !visErrMovimenti" class="alert alert-danger padded-lr text-danger">
+				Occorre effettuare l'invio dei dati contabili per proseguire.
+			</div>
+		</div>
+	</div>
+</div>

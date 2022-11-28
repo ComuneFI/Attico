@@ -1,0 +1,24 @@
+{
+    "cifra2gestattiApp": {
+        "versioneComposizioneConsiglio" : {
+            "home": {
+                "title": "Versione Composizione Consiglio",
+                "createLabel": "Crea nuova versione",
+                "createOrEditLabel": "Crea o Modifica nuova versione"
+            },
+            "action" : {
+            	"saveasnew": "Salva come nuova versione",
+            	"create": "Crea nuova versione"
+            },
+            "dataCreazione": "Data Creazione",
+            "descrizione": "Descrizione",
+            "versione": "Versione",
+            "predefinita": "Predefinita",
+            "qualificaProfessionale":"Qualifica Professionale",
+            "ordine":"Ordine Presenza/Votazione",
+            "componente":"Componente Consiglio",
+            "valido":"Valido",
+            "grupporuolo": "Gruppo Ruolo"
+        }
+    }
+}

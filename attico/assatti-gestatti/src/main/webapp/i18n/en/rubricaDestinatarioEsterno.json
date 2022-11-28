@@ -1,0 +1,75 @@
+{
+    "cifra2gestattiApp": {
+        "rubricaDestinatarioEsterno" : {
+        	{
+    "cifra2gestattiApp": {
+        "rubricaDestinatarioEsterno" : {
+        	"alreadyExists":"Attenzione. Non \u00E8 possibile salvare in quanto risulta gi\u00E1 presente nel sistema un destinatario esterno con stesse caratteristiche.\u003Cbr\u003EPer procedere al salvataggio occorre digitare un tipo di destinatario, nome, cognome, denominazione o pec differenti.",
+            "home": {
+                "title": "Rubrica Destinatari Esterni",
+                "createLabel": "Crea nuovo Destinatario Esterno",
+                "createOrEditLabel": "Crea / Modifica Destinatario Esterno"
+            },
+            "delete": {
+                "question": "Sei sicuro di vole disabilitare il destinatario esterno {{ name }} {{ surname }}?"
+            },
+            "detail": {
+                "title": "Rubrica Destinatari Esterni"
+            },
+            "filtro":{
+            	"label-stato" : "Stato",
+            	"stato" : {
+            		"disattivati" : "Destinatari esterni disabilitati",
+            		"attivi" : "Destinatari esterni attivi",
+            		"entrambi" : "Entrambi"
+            	}
+            },
+            "denominazione": "Denominazione",
+            "nome": "Nome",
+            "cognome": "Cognome",
+            "titolo": "Titolo",
+            "email": "Email",
+            "pec": "Pec",
+            "tipo": "Tipo",
+            "aoo": "Ufficio",
+            "indirizzo": "Indirizzo",
+            "notificagiunta": "Notifica Giunta",
+            "importazione":{
+                 "title":"Importazione da Rubrica",
+                 "btnImport":"Inserisci"
+             }
+        }
+    }
+}
+        	
+            "home": {
+                "title": "RubricaDestinatarioEsternos",
+                "createLabel": "Create a new RubricaDestinatarioEsterno",
+                "createOrEditLabel": "Create / Edit a RubricaDestinatarioEsterno"
+            },
+            "delete": {
+                "question": "Are you sure you want to disable RubricaDestinatarioEsterno {{ name }} {{ surname }}?"
+            },
+            "detail": {
+                "title": "RubricaDestinatarioEsterno"
+            },
+            "filtro":{
+            	"label-stato" : "Stato",
+            	"stato" : {
+            		"disattivati" : "Deactivated external recipients",
+            		"attivi" : "Activated external recipients",
+            		"entrambi" : "Both"
+            	}
+            },
+            "denominazione": "Denominazione",
+            "nome": "Nome",
+            "cognome": "Cognome",
+            "titolo": "Titolo",
+            "email": "Email",
+            "pec": "Pec",
+            "tipo": "Tipo",
+            "aoo": "ufficio",
+            "indirizzo": "indirizzo"
+        }
+    }
+}

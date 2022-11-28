@@ -1,0 +1,87 @@
+<div>
+
+    <h2 translate="cifra2gestattiApp.monitoraggioAccesso.home.title">MonitoraggioAccesso</h2>
+
+	<div>
+	    <div class="table-responsive">
+	        <table class="table table-striped">
+	            <thead>
+	                <tr>
+	                	<th width="30px"></th>
+	                    <th><span translate="cifra2gestattiApp.monitoraggioAccesso.data" ng-click="sort('data')" style="cursor:pointer">data</span></th>
+	                    <th><span translate="cifra2gestattiApp.monitoraggioAccesso.username" ng-click="sort('username')" style="cursor:pointer">username</span></th>
+	                    <!-- <th><span translate="cifra2gestattiApp.monitoraggioAccesso.hostname" ng-click="sort('hostname')" style="cursor:pointer">hostname</span></th>  -->
+	                    <th><span translate="cifra2gestattiApp.monitoraggioAccesso.ipAddress" ng-click="sort('ipAddress')" style="cursor:pointer">ipAddress</span></th>
+	                    <th><span translate="cifra2gestattiApp.monitoraggioAccesso.status" ng-click="sort('status')" style="cursor:pointer">status</span></th>
+	                    <th><span translate="cifra2gestattiApp.monitoraggioAccesso.dettaglio" ng-click="sort('dettaglio')" style="cursor:pointer">dettaglio</span></th>
+	                    <th></th>
+	                </tr>
+	                <tr>
+	                	<th style="text-align:center;"><button class="btn btn-primary btn-xs"
+								ng-click="ricerca()">
+								<span class="glyphicon glyphicon-search" /> <span
+									translate="global.messages.cerca">Ricerca</span>
+							</button>
+							<button class="btn btn-primary btn-xs" ng-click="resetRicerca()">
+								<span translate="global.messages.resetricerca">Reset
+									ricerca</span>
+							</button></th>
+						<th>
+							<div class="form-group">
+							    <div class="input-group" style="position:inherit;">
+							      <input type="text" ng-model="tempSearch.dataDa" size="7" onkeydown="return false;" bs-datepicker placeholder="Dal">
+							      <div class="input-group-addon" style="padding:0px !important;width:0px;"><button title="Cancella Data" ng-click="tempSearch.dataDa = null;" class="btn btn-xs btn-link"><span class="glyphicon glyphicon-remove"></span></button></div>
+							    </div>
+							</div>
+							<div class="form-group">
+							    <div class="input-group" style="position:inherit;">
+							      <input type="text" ng-model="tempSearch.dataA" size="7" onkeydown="return false;" bs-datepicker placeholder="Al">
+							      <div class="input-group-addon" style="padding:0px !important; width:0px;"><button title="Cancella Data" ng-click="tempSearch.dataA = null;" class="btn btn-xs btn-link"><span class="glyphicon glyphicon-remove"></span></button></div>
+							    </div>
+							</div>
+						</th>
+						<th><input type="text" ng-model="tempSearch.username"></th>
+						<!-- <th><input type="text" ng-model="tempSearch.hostname"></th> -->
+						<th><input type="text" ng-model="tempSearch.ipAddress"></th>
+						<th><input type="text" ng-model="tempSearch.status"></th>
+						<th><input type="text" ng-model="tempSearch.dettaglio"></th>
+						<th><button class="btn btn-primary btn-xs"
+								ng-click="ricerca()">
+								<span class="glyphicon glyphicon-search" /> <span
+									translate="global.messages.cerca">Ricerca</span>
+							</button>
+							<button class="btn btn-primary btn-xs" ng-click="resetRicerca()">
+								<span translate="global.messages.resetricerca">Reset
+									ricerca</span>
+							</button></th>
+					</tr>
+	            </thead>
+	            <tbody>
+	                <tr ng-repeat="accesso in accessi">
+	                	<td></td>
+	                    <td>{{accesso.data ? (accesso.data | date:'dd/MM/yyyy HH:mm:ss') : ''}}</td>
+	                    <td>{{accesso.username}}</td>
+	                    <!-- <td>{{accesso.hostname}}</td> -->
+	                    <td>{{accesso.ipAddress}}</td>
+	                    <td>{{accesso.status}}</td>
+	                    <td style="max-width: 300px; word-break:break-word;">{{accesso.dettaglio}}</td>
+	                    <td></td>
+	                </tr>
+	            </tbody>
+	        </table>
+	    </div>
+        <nav>
+            <ul class="pagination">
+                <li ng-show="links['first']" ng-click="loadPage(links['first'])"><a>&lt;&lt;</a></li>
+                <li ng-show="links['prev']" ng-click="loadPage(links['prev'])"><a>&lt;</a></li>
+                <li ng-show="page > 2" ng-click="loadPage(page - 2)"><a>{{page - 2}}</a></li>
+                <li ng-show="page > 1" ng-click="loadPage(page - 1)"><a>{{page - 1}}</a></li>
+                <li class="active"><a>{{page}}</a></li>
+                <li ng-show="page < links['last']" ng-click="loadPage(page + 1)"><a>{{page + 1}}</a></li>
+                <li ng-show="page < links['last'] - 1" ng-click="loadPage(page + 2)"><a>{{page + 2}}</a></li>
+                <li ng-show="links['next']" ng-click="loadPage(links['next'])"><a>&gt;</a></li>
+                <li ng-show="links['last']" ng-click="loadPage(links['last'])"><a>&gt;&gt;</a></li>
+            </ul>
+        </nav>
+    </div>
+</div>

@@ -1,0 +1,20 @@
+{
+    "cifra2gestattiApp": {
+        "modelloSezione" : {
+            "home": {
+                "title": "Modelli Sezione",
+                "createLabel": "Crea un nuovo Modello Sezione",
+                "createOrEditLabel": "Crea o modifica un Modello Sezione"
+            },
+            "delete": {
+                "question": "Sei sicuro di voler cancellare il Modello Sezione con ID {{ id }}?"
+            },
+            "detail": {
+                "title": "ModelloSezione"
+            },
+            "titolo": "Titolo",
+            "html": "Html",
+            "Aoo": "Ufficio"
+        }
+    }
+}

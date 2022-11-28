@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    <changeSet author="mazzottada" id="202107151135-00001">
+    	<sql>
+    		update modellohtml set html = replace(replace(html, '${item.atto.datiContabili.importoUscita}', '${item.atto.datiContabili.importoUscitaFormattato}'), '${item.atto.datiContabili.importoEntrata}', '${item.atto.datiContabili.importoEntrataFormattato}') where html like '%${item.atto.datiContabili.importoEntrata}%' and tipodocumento_id = (select id from tipodocumento where codice = 'ordinegiornogiunta');
+		</sql>
+    </changeSet>
+</databaseChangeLog>

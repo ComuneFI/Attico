@@ -1,0 +1,30 @@
+<p style="text-align: center; font-family: Calibri; color: #000; font-size: 20pt; text-transform: uppercase; margin-top:1.0in; padding-bottom: 10px;">	<span style="font-weight: bold;"><span style="font-family: Titillium Web; font-size: 18px;">PROPOSTA DI DECRETO DEL SINDACO</span></span></p>
+<p></p>
+<p></p>
+<table width="100%" cellspacing="0" cellpadding="3">
+	<tbody>
+		<tr>
+			<td style="border: 2px solid #000000;">				<p style="text-align: center; margin: 0pt; font-family: Calibri; font-size: 8.5pt; font-weight: bold;">				</p>
+				<div>					&nbsp;Numero: <span th:if="${atto.codiceCifra !=null}" style="font-weight: bold;">[[${atto.codiceCifra}]]</span>					</div>
+				<div>					&nbsp;Del: <span th:if="${atto.dataCreazione != null}" style="font-weight: bold;">[[${atto.dataCreazione.toString("dd/MM/yyyy")}]]					</span>				</div>
+				<div>					&nbsp;Proponente: <span th:if="${atto.aoo.descrizione !=null}" style="font-weight: bold;">[[${atto.aoo.descrizione}]]</span>				</div>
+			</td>
+		</tr>
+	</tbody>
+</table>
+<div>&nbsp;</div>
+<p style="font-family: Calibri; font-size: 11pt; padding-bottom: 20px;">	<span style="font-weight: bold;">OGGETTO: <br></span> <span>[[${atto.oggetto}]]</span></p>
+<div>&nbsp;</div>
+<div style="text-align: center;">	IL SINDACO</div>
+<div>&nbsp;</div>
+<div th:if="${atto.domanda.testo !=null}" th:utext="${atto.domanda.testo}">	<span>+${atto.domanda.testo}</span></div>
+<div th:if="${elencoTitoloAllegato!=null}">	<br>	<p><b>ALLEGATI INTEGRANTI</b></p>
+	<table style="page-break-inside: avoid;" width="100%" cellspacing="0" cellpadding="0">
+		<tbody>
+			<tr th:each="item: ${#lists.sort(elencoTitoloAllegato)}">
+				<td>					<div style="text-align: left; font-family: Calibri; font-size: 11pt;">[[${item}]]</div>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	<br>	<br></div>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    
+    <changeSet author="mazzottada" id="202001301547-1">
+    	<sql>
+			INSERT INTO configurazione_task
+			(nome, codice, id_tipo_configurazione_task, obbligatoria, multipla, proponente, ufficio_corrente, data_creazione, data_modifica, imposta_scadenza, uffici_livello_superiore, stessa_direzione_proponente)
+			VALUES
+			('Responsabile Tecnico Firmatario Delibera', 'DIR_VERIFICA_RESPONSABILE_TECNICO_FIRMATARIO_DELIBERA',
+			(select id_tipo_configurazione_task from tipo_configurazione_task where nome = 'PROFILO'),
+			 1, 0, 1, 0, NOW(), NOW(), 0, 1, 0);
+			
+			INSERT INTO ruolo (codice, descrizione, haqualifica, enabled) VALUES('ROLE_RESP_TECNICO_FIRM_DEL', 'Responsabile Tecnico Firmatario Delibera', 0, b'1');
+
+			INSERT INTO configurazione_task_ruolo (id_configurazione_task, id_ruolo)
+			VALUES(
+			(SELECT id_configurazione_task from configurazione_task where codice = 'DIR_VERIFICA_RESPONSABILE_TECNICO_FIRMATARIO_DELIBERA'),
+			(SELECT id from ruolo where codice = 'ROLE_RESP_TECNICO_FIRM_DEL')
+			);
+    	</sql>
+    </changeSet>
+    
+</databaseChangeLog>

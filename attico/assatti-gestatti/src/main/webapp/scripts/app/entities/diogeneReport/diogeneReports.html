@@ -1,0 +1,91 @@
+<div>
+
+    <h2 translate="cifra2gestattiApp.diogeneReport.home.title">DiogeneReport</h2>
+	<button class="btn btn-primary btn-xs" style="margin-bottom:5px;" ng-click="aggiorna()"><span id="updateList" class="glyphicon glyphicon-refresh"></span> Aggiorna Lista</button>
+	<div>
+	    <div class="table-responsive crud-search">
+	        <table class="table table-striped">
+	            <thead>
+	                <tr>
+	                	<th width="30px"></th>
+	                    <th translate="cifra2gestattiApp.diogeneReport.data">Data</th>
+	                    <th translate="cifra2gestattiApp.diogeneReport.nomeDocumento">NomeDocumento</th>
+	                    <th translate="cifra2gestattiApp.diogeneReport.destinazione">Destinazione</th>
+	                    <th translate="cifra2gestattiApp.diogeneReport.tipoDocumento">TipoDocumento</th>
+	                    <th translate="cifra2gestattiApp.diogeneReport.stato">Stato</th>
+	                    <th translate="cifra2gestattiApp.diogeneReport.errore">Errore</th>
+	                    <th translate="cifra2gestattiApp.diogeneReport.documento">Documento</th>
+	                    <th width="30px"></th>
+	                </tr>
+	                <tr>
+	                	<th style="text-align:center;"><button class="btn btn-primary btn-xs" ng-click="ricerca()"><span class="glyphicon glyphicon-search"/> <span translate="global.messages.cerca">Ricerca</span></button> <button class="btn btn-primary btn-xs" ng-click="resetRicerca()"><span translate="global.messages.resetricerca">Reset ricerca</span></button></th>
+	                	<th>
+	                    	<input type="text" ng-model="tempSearch.dataStart" onkeydown="return false;" bs-datepicker placeholder="Dal" style="width:100px"> <button title="Cancella Data" ng-click="tempSearch.dataStart = null;" class="btn btn-xs"><span class="glyphicon glyphicon-remove"></span></button><br/>
+				            <input type="text" ng-model="tempSearch.dataEnd" onkeydown="return false;" bs-datepicker placeholder="Al" style="width:100px"> <button title="Cancella Data" ng-click="tempSearch.dataEnd = null;" class="btn btn-xs"><span class="glyphicon glyphicon-remove"></span></button>
+			            </th>
+	                	<th><input type="text" ng-model="tempSearch.nomeDocumento"></th>
+	                	<th>
+			           		<ui-select ng-model="tempSearch.destinazione" theme="bootstrap">
+		                    	<ui-select-match allow-clear="true">{{$select.selected}}</ui-select-match>
+		                    	<ui-select-choices repeat="destinazione in destinazioni | filter: $select.search track by $index">
+		                            <div ng-bind-html="destinazione | highlight: $select.search"></div>
+		                    	</ui-select-choices>
+	                      	</ui-select>
+				       </th>
+	                	<th>
+			           		<ui-select ng-model="tempSearch.tipoDocumento" theme="bootstrap">
+		                    	<ui-select-match allow-clear="true">{{$select.selected.descrizione}}</ui-select-match>
+		                    	<ui-select-choices repeat="cur in tipodocumentoseries | filter: $select.search track by $index">
+		                            <div ng-bind-html="cur.descrizione | highlight: $select.search"></div>
+		                    	</ui-select-choices>
+	                      	</ui-select>
+				       </th>
+	                   <th>
+	                    	<ui-select ng-model="tempSearch.stato" theme="bootstrap">
+		                    	<ui-select-match allow-clear="true">{{$select.selected}}</ui-select-match>
+		                    	<ui-select-choices repeat="stato in statos | filter: $select.search track by $index">
+		                            <div ng-bind-html="stato | highlight: $select.search"></div>
+		                    	</ui-select-choices>
+	                      	</ui-select>
+	                    </th>
+	                    <th><input type="text" ng-model="tempSearch.errore"></th>
+	                    <th></th>
+	                    <th style="text-align:center;"><button class="btn btn-primary btn-xs" ng-click="ricerca()"><span class="glyphicon glyphicon-search"/> <span translate="global.messages.cerca">Ricerca</span></button> <button class="btn btn-primary btn-xs" ng-click="resetRicerca()"><span translate="global.messages.resetricerca">Reset ricerca</span></button></th>
+	                </tr>
+	            </thead>
+	            <tbody>
+	                <tr ng-repeat="diogeneReport in diogeneReports">
+	                	<td></td>
+	                    <td style="width:160px">{{diogeneReport.lastModifiedDate | date:'dd-MM-yyyy HH:mm:ss' }}</td>
+	                    <td>{{diogeneReport.nomeDocumento}}</td>
+	                    <td>{{diogeneReport.destinazione}}</td>
+	                    <td>{{diogeneReport.tipoDocumento}}</td>
+	                    <td>{{diogeneReport.stato}}</td>
+	                    <td>{{diogeneReport.errore}}</td>
+	                    <td align="center">
+	                    	<a ng-attr-title="{{(!diogeneReport.documentoInformatico || !diogeneReport.documentoInformatico.id) && (!diogeneReport.allegatoDocPdf || !diogeneReport.allegatoDocPdf.id) ? 'Documento Riversato' : 'Documento Principale'}}" ng-if="diogeneReport.documentoPdf && diogeneReport.documentoPdf.id" href="/api/attos/0/documento/{{diogeneReport.documentoPdf.id}}?access_token={{access_token}}" target="_blank"><span class="glyphicon glyphicon-file"></span></a>
+	                    	<a title="Allegato Riversato" style="color:#68b398 !important" ng-if="diogeneReport.documentoInformatico && diogeneReport.documentoInformatico.id" href="/api/attos/0/allegato/{{diogeneReport.documentoInformatico.id}}{{diogeneReport.destinazione == 'ALBO' ? '/omissis' : ''}}?access_token={{access_token}}" target="_blank"><span class="glyphicon glyphicon-file"></span></a>
+	                    	<a title="Allegato Riversato" style="color:#68b398 !important" ng-if="diogeneReport.allegatoDocPdf && diogeneReport.allegatoDocPdf.id" href="/api/attos/0/documento/{{diogeneReport.allegatoDocPdf.id}}?access_token={{access_token}}" target="_blank"><span class="glyphicon glyphicon-file"></span></a>
+	                    </td>
+	                    <td></td>
+	                </tr>
+	            </tbody>
+	        </table>
+        	<div ng-if="diogeneReports && diogeneReports.length == 0 && !loading" class="search-no-result"><h3 translate="global.searchNoResult"></h3></div>
+			<div ng-if="diogeneReports && diogeneReports.length == 0 && loading" class="search-no-result"><h3 translate="global.loading"></h3></div>
+	    </div>
+        <nav>
+            <ul class="pagination">
+                <li ng-show="links['first']" ng-click="loadPage(links['first'])"><a>&lt;&lt;</a></li>
+                <li ng-show="links['prev']" ng-click="loadPage(links['prev'])"><a>&lt;</a></li>
+                <li ng-show="page > 2" ng-click="loadPage(page - 2)"><a>{{page - 2}}</a></li>
+                <li ng-show="page > 1" ng-click="loadPage(page - 1)"><a>{{page - 1}}</a></li>
+                <li class="active"><a>{{page}}</a></li>
+                <li ng-show="page < links['last']" ng-click="loadPage(page + 1)"><a>{{page + 1}}</a></li>
+                <li ng-show="page < links['last'] - 1" ng-click="loadPage(page + 2)"><a>{{page + 2}}</a></li>
+                <li ng-show="links['next']" ng-click="loadPage(links['next'])"><a>&gt;</a></li>
+                <li ng-show="links['last']" ng-click="loadPage(links['last'])"><a>&gt;&gt;</a></li>
+            </ul>
+        </nav>
+    </div>
+</div>

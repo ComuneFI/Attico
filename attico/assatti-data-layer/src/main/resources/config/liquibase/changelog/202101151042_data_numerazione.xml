@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    <changeSet author="mazzottada" id="202101151042-0001">
+    	<sql>
+    		ALTER TABLE atto ADD data_numerazione date NULL after numero_adozione;
+		</sql>
+    </changeSet>
+    <changeSet author="mazzottada" id="202101151042-0002">
+    	<sql>
+    		update atto set data_numerazione = data_adozione where data_adozione is not null;
+		</sql>
+    </changeSet>
+</databaseChangeLog>

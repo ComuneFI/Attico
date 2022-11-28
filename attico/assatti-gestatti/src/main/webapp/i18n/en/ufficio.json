@@ -1,0 +1,40 @@
+{
+    "cifra2gestattiApp": {
+        "ufficio" : {
+            "home": {
+                "title": "Lista Servizi",
+                "createLabel": "Crea un nuovo Servizio",
+                "createOrEditLabel": "Crea o modifica un Servizio"
+            },
+            "delete": {
+                "question": "Sicuro di voler cancellare il Servizio {{ id }}?"
+            },
+            "detail": {
+                "title": "Servizio"
+            },
+            "filtro":{
+            	"label-stato" : "State",
+            	"stato" : {
+            		"disattivati" : "Deactivated services",
+            		"attivi" : "Activated services",
+            		"entrambi" : "Both"
+            	}
+            },
+            "codice": "Codice",
+            "descrizione": "Descrizione",
+            "validodal": "Validodal",
+            "validoal": "Validoal",
+            "fax": "Fax",
+            "email": "Email",
+            "pec": "Pec",
+            "responsabile": "Responsabile",
+            "indirizzo": "Indirizzo",
+            "aoo": "Ufficio",
+            "messages": {
+	            "error": {
+	                "operationNotPermitted": "Non \u00E8 possibile effettuare l\u0027operazione in quanto l\u0027elemento \u00E8 incluso in uno o pi\u00F9 atti."
+	            }
+	        }
+        }
+    }
+}

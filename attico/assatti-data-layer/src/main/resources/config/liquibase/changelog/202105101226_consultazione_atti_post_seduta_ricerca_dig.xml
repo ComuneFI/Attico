@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    <changeSet author="magria" id="202103081800-0001">
+    	<sql>
+			INSERT INTO task_per_ricerca (id,tipoatto_id,key_code,descrizione,type_code) VALUES (67,4,'Task_0265cnt','Presa Visione','TASK');
+			INSERT INTO task_per_ricerca (id,tipoatto_id,key_code,descrizione,type_code) VALUES (68,4,'Task_19mzyif','Amministratori Proponenti','TASK');
+			INSERT INTO task_per_ricerca (id,tipoatto_id,key_code,descrizione,type_code) VALUES (69,4,'UserTask_1ru1p04','Visto Assessore','TASK');
+			INSERT INTO tipologia_ricerca_task (tip_ricerca_id,task_id) VALUES (3,67);
+			INSERT INTO tipologia_ricerca_task (tip_ricerca_id,task_id) VALUES (3,68);
+			INSERT INTO tipologia_ricerca_task (tip_ricerca_id,task_id) VALUES (3,69);
+		</sql>
+    </changeSet>
+</databaseChangeLog>

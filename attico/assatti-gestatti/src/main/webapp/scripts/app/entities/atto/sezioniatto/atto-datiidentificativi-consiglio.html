@@ -1,0 +1,128 @@
+<div>
+	<h4>Dati Identificativi</h4>
+		<div class="form-group" ng-if="atto.id > 0">
+			<label translate="cifra2gestattiApp.atto.codiceNotRequired">Num. proposta&#92;Codice Attico</label>
+			<input type="text" class="form-control" name="codiceCifra"
+			ng-model="atto.codiceCifra" ng-disabled="true">
+
+		</div>
+		<!--  <div class="form-group" ng-if="atto.id > 0">
+			<label translate="cifra2gestattiApp.atto.dataCreazione">DataCreazione</label>
+			<input  type="text" class="form-control" name="dataCreazione"
+			value="{{atto.dataCreazione | date:'dd-MM-yyyy'}}" ng-disabled="true">
+		</div>-->
+		
+		<div ng-if="atto.id > 0 && (atto.numeroAdozione)">
+			<div ng-if="atto.numeroAdozione" class="form-group">
+				<div class="form-group">
+					<label translate="cifra2gestattiApp.atto.numeroAttoConsiglio">NumeroAttoConsiglio</label>
+					<input type="text" class="form-control" name="numeroAdozione"
+					ng-model="atto.numeroAdozione" ng-disabled="true">
+
+				</div>
+				<label translate="cifra2gestattiApp.atto.dataAttoConsiglio">DataAttoConsiglio</label>
+				<input   class="form-control" name="dataAdozione"
+				value="{{atto.dataAdozione| date:'dd-MM-yyyy'}}" ng-disabled="true">
+			</div>
+		</div>
+		
+		<div class="form-group">
+			<label translate="cifra2gestattiApp.atto.oggetto">Oggetto</label>
+			<textarea  class="form-control oggettoActive" name="oggetto" ng-model="atto.oggetto" required></textarea>
+		</div>
+
+		<div class="form-group">
+			<label translate="cifra2gestattiApp.atto.luogoCreazione">LuogoCreazione</label>
+			<input type="text" class="form-control" name="luogoCreazione"
+			ng-model="atto.luogoCreazione">
+		</div>
+		<div class="form-group">
+			<label translate="cifra2gestattiApp.atto.dataRicevimento">DataRicevimento</label>
+			<input class="form-control" type="text" ng-init="setTomorrowDate()"
+				ng-model="atto.dataRicevimento" size="7" onkeydown="return false;" 
+				bs-datepicker data-max-date="today" placeholder="dd/MM/yyyy">
+		</div>
+		
+		<div class="form-group">
+			<label translate="cifra2gestattiApp.atto.presentataDa">presentataDa</label>
+		     <ui-select multiple ng-model="atto.proponenti" theme="bootstrap" >
+		        	<ui-select-match placeholder="Seleziona Componenti Consiglio">{{$item.utente.cognome}} {{$item.utente.nome}} ({{$item.descrizione}})</ui-select-match>
+	         		<ui-select-choices repeat="componenteConsiglio in profilosComponentiConsiglio | orderBy: componenteConsiglio.descrizione | filter: $select.search track by componenteConsiglio.id" >
+	         			<div ng-bind-html="componenteConsiglio.utente.nome +' '+ componenteConsiglio.utente.cognome + ' (' + componenteConsiglio.descrizione + ')' | highlight: $select.search"></div>
+	    			</ui-select-choices>
+		 	</ui-select>
+		</div>
+		
+		<div class="form-group">
+			<label translate="cifra2gestattiApp.atto.numeroAttoRiferimento">NumeroAttoRiferimento</label>
+			<input type="text" class="form-control" name="numeroAttoRiferimento"
+			ng-model="atto.numeroAttoRiferimento">
+		</div>
+		<div class="form-group">
+			<label translate="cifra2gestattiApp.atto.tipoAttoRiferimento">TipoAttoRiferimento</label>
+			<input type="text" class="form-control" name="tipoAttoRiferimento"
+			ng-model="atto.tipoAttoRiferimento">
+		</div>
+		
+		<div class="form-group">
+			<label translate="cifra2gestattiApp.atto.tipoAtto">tipoAtto</label>
+			<input type="text" class="form-control"  ng-model="atto.tipoAtto.descrizione"  ng-disabled="true" >
+		 </div>
+
+		<div class="form-group">
+			<label translate="cifra2gestattiApp.atto.tipoIter">tipoIter</label>
+			<select id="tipoIter" class="form-control" name="tipoIter" ng-model="atto.tipoIter.id"  
+				ng-init="setTipoIterDefault()"
+				ng-change="atto.tipoAdempimento = null; atto.tipoIter.codice = getCodiceTipoIterById()"  
+				ng-options="item.id as item.descrizione for (id, item) in tipoiters"
+				required>
+			</select>
+		</div>
+		
+		<div class="form-group" id="attoFinanziamentiEdit" ng-if="visibilitaCampi && visibilitaCampi.tipo_finanziamento">
+			<label translate="cifra2gestattiApp.atto.tipoFinanziamento">tipoFinanziamento</label><b> *</b>
+			<ui-select multiple ng-model="atto.hasTipoFinanziamenti" theme="bootstrap" >
+                            	<ui-select-match placeholder="Seleziona Tipo Finanziamento">{{$item.descrizione}}</ui-select-match>
+                                <ui-select-choices repeat="tf in tipoFinanziamentos | filter: $select.search">
+                                	<div ng-bind-html="tf.descrizione | highlight: $select.search"></div>
+                            	</ui-select-choices>
+                         	</ui-select>
+		</div>
+
+		<div class="form-group" has-role="ROLE_ADMIN,ROLE_AMMINISTRATORE_RP" >
+			<label translate="cifra2gestattiApp.atto.profilo">profilo</label>
+				<input type="text" class="form-control"  value="{{atto.profilo.descrizione}} - {{atto.profilo.utente.username}}"  ng-disabled="true" >
+	    </div>
+
+		<!-- <div class="form-group" ng-if="(atto.id > 0) && tipoDeterminaziones && (tipoDeterminaziones.length > 0)" >
+			<label translate="cifra2gestattiApp.atto.tipoDeterminazione">tipoDeterminazione</label>
+			<select class="form-control" name="tipoDeterminazione" ng-model="atto.tipoDeterminazione"  ng-options="item.descrizione for item in tipoDeterminaziones track by item.id" required>
+			</select>
+		</div>
+
+		<div ng-if="(atto.id > 0) && atto.tipoDeterminazione && (atto.tipoDeterminazione.descrizione.toLowerCase() != 'ordinario')">
+			<hr>
+			<h4>Dati Atto Revocato</h4>
+
+			<div class="form-group">
+				<label translate="cifra2gestattiApp.atto.codicecifraAttoRevocato">CodicecifraAttoRevocato</label>
+				<input type="text" class="form-control" name="codicecifraAttoRevocato"
+				ng-model="atto.codicecifraAttoRevocato" ng-disabled="true" >
+
+			</div>
+			<div class="form-group">
+				<label translate="cifra2gestattiApp.atto.numeroAdozioneAttoRevocato">numeroAdozioneAttoRevocato</label>
+				<input type="text" class="form-control" name="numeroAdozioneAttoRevocato"
+				ng-model="atto.numeroAdozioneAttoRevocato" ng-disabled="true" >
+
+			</div>
+
+			<div class="form-group">
+				<label translate="cifra2gestattiApp.atto.dataAdozioneAttoRevocato">dataAdozioneAttoRevocato</label>
+				<input type="text" class="form-control" name="dataAdozioneAttoRevocato"
+				value="{{atto.dataAdozioneAttoRevocato | date:'dd-MM-yyyy'}}" ng-disabled="true" >
+
+			</div>
+			<button class="btn btn-info btn-sm" onclick="$('#ricercaAttoRevocato').modal('show');">Sostituisci Atto Revocato</button>
+		</div>-->
+</div>

@@ -1,0 +1,77 @@
+{
+    "cifra2gestattiApp": {
+        "tipoAtto" : {
+            "home": {
+                "title": "TipoAttos",
+                "createLabel": "Create a new TipoAtto",
+                "createOrEditLabel": "Create or edit a TipoAtto"
+            },
+            "delete": {
+                "question": "Are you sure you want to delete TipoAtto {{ id }}?"
+            },
+            "detail": {
+                "title": "TipoAtto"
+            },
+            "codice": "Codice",
+            "giorniPubblicazioneAlbo": "Giorni Pubblicazione Albo",
+            "progessivoPropostaUfficio": "Progressivo Proposta per Ufficio",
+            "progessivoAdozioneUfficio": "Progressivo Adozione per Ufficio",
+            "descrizione": "Descrizione",
+            "tipiIter": "Tipo iter burocratico",
+            "processoBpmName": "Processo Bpm Nome",
+            "processoBpmVersion": "Processo Bpm Versione",
+            "tipoProgressivo": "Tipo Progressivo",
+            "proponente": "Atto inizializzato da Ufficio Proponente",
+            "consiglio": "Atto di Consiglio",
+            "giunta": "Atto di Giunta",
+            "enabled":"Abilitato",
+            "messages": {
+	            "error": {
+	                "operationNotPermitted": "Non \u00E8 possibile effettuare l\u0027operazione in quanto l\u0027elemento \u00E8 incluso in uno o pi\u00F9 atti."
+	            }
+	        },
+	        "ricerca":{
+	            "visibilitaCompleta":"Consenti visibilit\u00E0 degli eventuali allegati riservati",
+	        	"hiddenColumnsLabel" : "Nascondi Colonne",
+	        	"hiddenColumns":{
+	        	   "attorevocato" : "Codice atto revocato",
+	        	   "tipoiter" : "Tipo iter burocratico",
+	        	   "cup" : "Codice CUP",
+	        	   "cig" : "Codice CIG",
+	        	   "tipoFinanziamento" : "Tipo Finanziamento"
+	        	},
+	        	"statoConclusoLabel" : "Stato concluso ai fini di ricerca",
+	        	"statoConcluso":{
+	        	  "conclusoByDataEsecutivita" : "Data Esecutivit\u00E0",
+	        	   "statoConclusoCompleto" : "Iter concluso completo",
+	        	   "statoConclusoRitirato":"Iter concluso ritirato",
+	        	   "statoConclusoAnnullato":"Iter concluso annullato",
+	        	   "statoConclusoRespinto":"Iter concluso respinto",
+	        	   "statoConclusoDecaduto":"Iter concluso decaduto",
+	        	   "statoConclusoAttesaRelata":"Pubblicato In attesa di Relata",
+	        	   "statoConclusoArchiviato":"Iter concluso archiviato"
+	        	},
+	        	"fase":{
+	        	   "itinere" : "Atto in itinere",
+	        	   "concluso_no_riserv_no_pub_integ" : "Atto concluso con omissis \u0028riservato \u003D NO\u003B pubblicazione integrale \u003D NO\u0029",
+	        	   "concluso_riservato" : "Atto concluso riservato \u0028riservato \u003D SI\u0029",
+	        	   "concluso_no_riserv_si_pub_integ" : "Atto concluso non riservato e senza omissis \u0028riservato \u003D NO\u003B pubblicazione integrale \u003D SI\u0029"
+	        	},
+	        	"criterio":{
+	        	   "uffici_atti_lavorati":"Tutti i profili degli uffici che hanno lavorato l\u0027atto",
+	        	   "resp_uffici_atti_lavorati":"Responsabili uffici gerarchicamente superiori a quelli che hanno lavorato l\u0027atto",
+	        	   "ufficio_proponente" : "Tutti i profili dell\u0027ufficio proponente",
+	        	   "tutti_gli_uffici" : "Tutti i profili di tutti gli uffici",
+	        	   "atti_lavorati" : "Tutti i profili che hanno lavorato l\u0027atto",
+	        	   "appartenenza_ufficio" : "Tutti i profili appartenenti ad uffici specifici - SOLO RICERCA",
+	        	   "appartenenza_ufficio_full_visib" : "Tutti i profili appartenenti ad uffici specifici - RICERCA E VISUALIZZAZIONE ALLEGATI RISERVATI",
+	        	   "appartenenza_sottostruttura_full_visib" : "Tutti i profili appartenenti agli uffici selezionati vedono gli atti della propria direzione - RICERCA E VISUALIZZAZIONE ALLEGATI RISERVATI",
+	        	   "profili_sottostruttura_full_visib" : "I profili selezionati vedono gli atti della propria direzione. - RICERCA E VISUALIZZAZIONE ALLEGATI RISERVATI",
+	        	   "link_doc_omissis" : "Tutti gli altri link documento omissis",
+	        	   "accesso_atto_negato" : "Tutti gli altri non accedono al dettaglio (a meno che non sia selezionato il filtro 'Tutti i profili di tutti gli uffici')",
+	        	   "visione_atti_gerarchica": "Responsabile Ufficio vede atti ufficio corrente e uffici gerarchicamente sottostanti"
+	        	}
+	        }
+        }
+    }
+}

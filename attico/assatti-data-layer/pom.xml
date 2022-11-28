@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>it.linksmt.assatti</groupId>
+		<artifactId>assatti</artifactId>
+		<version>1.0</version>
+	</parent>
+
+	<artifactId>assatti-data-layer</artifactId>
+	<packaging>jar</packaging>
+
+	<name>assatti-data-layer</name>
+
+	<properties>
+		<jadira.usertype.version>4.0.0.GA</jadira.usertype.version>
+		<mysema.version>3.6.6</mysema.version>
+				
+		<hibernate.version>4.3.11.Final</hibernate.version>
+		<hibernate.validator.version>5.1.3.Final</hibernate.validator.version>
+		<joda.time.hibernate.version>1.4</joda.time.hibernate.version>
+		
+		<hazelcast.version>3.5.2</hazelcast.version>
+	</properties>
+
+	<build>
+		<resources>
+			<resource>
+				<filtering>true</filtering>
+				<directory>src/main/resources</directory>
+				<includes>
+					<include>**/*.xml</include>
+					<include>**/*.properties</include>
+				</includes>
+			</resource>
+			<resource>
+				<filtering>false</filtering>
+				<directory>src/main/resources</directory>
+				<excludes>
+					<exclude>**/*.xml</exclude>
+					<exclude>**/*.properties</exclude>
+				</excludes>
+			</resource>
+		</resources>
+		<plugins>
+			<plugin>
+				<groupId>com.mysema.maven</groupId>
+				<artifactId>apt-maven-plugin</artifactId>
+				<version>1.1.3</version>
+				<executions>
+					<execution>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>process</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>target/generated-sources</outputDirectory>
+							<processor>com.mysema.query.apt.jpa.JPAAnnotationProcessor</processor>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		    <plugin>
+	            <artifactId>maven-antrun-plugin</artifactId>
+	            <version>1.8</version>
+	            <executions>
+	                <execution>
+	                    <id>Instrument domain classes</id>
+	                    <configuration>
+	                        <tasks>
+	                            <taskdef name="instrument" classname="org.hibernate.tool.instrument.javassist.InstrumentTask">
+	                                <classpath>
+	                                    <path refid="maven.dependency.classpath" />
+	                                    <path refid="maven.plugin.classpath" />
+	                                </classpath>
+	                            </taskdef>
+	                            <instrument>
+	                                <fileset dir="${project.build.outputDirectory}">
+	                                    <include name="**/datalayer/domain/Aoo.class" />
+	                                    <include name="**/datalayer/domain/Atto.class" />
+	                                    <include name="**/datalayer/domain/ConfigurazioneIncaricoProfilo.class" />
+	                                </fileset>
+	                            </instrument>
+	                        </tasks>
+	                    </configuration>
+	                    <phase>process-classes</phase>
+	                    <goals>
+	                        <goal>run</goal>
+	                    </goals>
+	                </execution>
+	            </executions>
+	        </plugin>
+		</plugins>
+
+	</build>
+
+	<dependencies>
+		<!-- Dipendenze Ereditate -->
+		<dependency>
+		  <groupId>org.springframework.boot</groupId>
+		  <artifactId>spring-boot-autoconfigure</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-jpa</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-data</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-crypto</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aspects</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.datatype</groupId>
+			<artifactId>jackson-datatype-json-org</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.datatype</groupId>
+			<artifactId>jackson-datatype-joda</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.datatype</groupId>
+			<artifactId>jackson-datatype-hibernate4</artifactId>
+		</dependency>
+		<dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-hppc</artifactId>
+        </dependency>
+        <dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-entitymanager</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-envers</artifactId>
+		</dependency>
+		<dependency>
+			<artifactId>hibernate-validator</artifactId>
+			<groupId>org.hibernate</groupId>
+		</dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-jpamodelgen</artifactId>
+        </dependency>
+       
+        <dependency>
+			<groupId>io.dropwizard.metrics</groupId>
+			<artifactId>metrics-core</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.liquibase</groupId>
+			<artifactId>liquibase-core</artifactId>
+		</dependency>
+		<dependency>
+            <groupId>com.mattbertolini</groupId>
+            <artifactId>liquibase-slf4j</artifactId>
+        </dependency>
+		<dependency>
+            <groupId>com.zaxxer</groupId>
+            <artifactId>HikariCP</artifactId>
+            <exclusions>
+                <exclusion>
+                    <artifactId>tools</artifactId>
+                    <groupId>com.sun</groupId>
+                </exclusion>
+            </exclusions>
+		</dependency>
+		
+        <dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+		</dependency>
+
+
+		<!-- Dipendenze specifiche del modulo -->
+		<dependency>
+			<artifactId>assatti-utility</artifactId>
+			<groupId>it.linksmt.assatti</groupId>
+			<version>${assatti.version}</version>
+		</dependency>
+
+		 <dependency>
+            <groupId>joda-time</groupId>
+            <artifactId>joda-time-hibernate</artifactId>
+            <version>${joda.time.hibernate.version}</version>
+        </dependency>
+  		<dependency>
+  			<groupId>org.jadira.usertype</groupId>
+			<artifactId>usertype.core</artifactId>
+			<version>${jadira.usertype.version}</version>
+  		</dependency>
+        
+        <dependency>
+            <groupId>com.hazelcast</groupId>
+            <artifactId>hazelcast</artifactId>
+            <version>${hazelcast.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.hazelcast</groupId>
+            <artifactId>hazelcast-hibernate4</artifactId>
+            <version>${hazelcast.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.hazelcast</groupId>
+            <artifactId>hazelcast-spring</artifactId>
+            <version>${hazelcast.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.hazelcast</groupId>
+            <artifactId>hazelcast-wm</artifactId>
+            <version>${hazelcast.version}</version>
+        </dependency>
+
+		<dependency>
+			<groupId>com.mysema.querydsl</groupId>
+			<artifactId>querydsl-jpa</artifactId>
+			<version>${mysema.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.mysema.querydsl</groupId>
+			<artifactId>querydsl-apt</artifactId>
+			<version>${mysema.version}</version>
+		</dependency>
+		
+		
+	</dependencies>
+
+</project>

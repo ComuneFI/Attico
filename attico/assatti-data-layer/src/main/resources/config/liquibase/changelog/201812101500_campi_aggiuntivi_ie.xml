@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    
+    <changeSet author="chiriacog" id="201812101500-1">
+    	<sql>
+		ALTER TABLE `componentigiunta` 
+		ADD COLUMN `is_presidente_ie` BIT(1) NULL AFTER `qualificaprofessionale_id`,
+		ADD COLUMN `is_segretario_ie` BIT(1) NULL AFTER `is_presidente_ie`,
+		ADD COLUMN `is_scrutatore_ie` BIT(1) NULL AFTER `is_segretario_ie`,
+		ADD COLUMN `qualificaprofessionale_ie_id` BIGINT(20) NULL AFTER `is_scrutatore_ie`,
+		ADD INDEX `fk_componente_qualifica_ie_idx` (`qualificaprofessionale_ie_id` ASC);
+		</sql>
+	</changeSet>
+	<changeSet author="chiriacog" id="201812101500-2">
+    	<sql>
+		ALTER TABLE `componentigiunta` 
+		ADD CONSTRAINT `fk_componente_qualifica_ie`
+		  FOREIGN KEY (`qualificaprofessionale_ie_id`)
+		  REFERENCES `qualificaprofessionale` (`id`)
+		  ON DELETE NO ACTION
+		  ON UPDATE NO ACTION;
+		  </sql>
+	</changeSet>
+</databaseChangeLog>

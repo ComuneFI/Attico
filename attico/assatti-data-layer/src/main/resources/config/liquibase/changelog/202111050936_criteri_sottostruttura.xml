@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    <changeSet author="magria" id="202111050936-00001">
+    	<sql>
+    		ALTER TABLE ricerca_criterio ADD profilo_based tinyint(4) DEFAULT 0 NOT NULL;
+		</sql>
+    </changeSet>
+    <changeSet author="magria" id="202111050936-00002">
+    	<sql>
+    		CREATE TABLE ricerca_fase_criterio_has_profilo (
+			  id bigint(20) NOT NULL AUTO_INCREMENT,
+			  ricerca_fase_criterio_id bigint(20) NOT NULL,
+			  profilo_id bigint(20) NOT NULL,
+			  PRIMARY KEY (`id`),
+			  KEY `ric_fase_crit_has_profilo_ric_fase_has_ric_crit_fk` (`ricerca_fase_criterio_id`),
+			  KEY `ricerca_fase_criterio_has_profilo_profilo_fk` (`profilo_id`),
+			  CONSTRAINT `ric_fase_crit_has_profilo_ric_fase_has_ric_crit_fk` FOREIGN KEY (`ricerca_fase_criterio_id`) REFERENCES `ricerca_fase_has_ricerca_criterio` (`id`),
+			  CONSTRAINT `ricerca_fase_criterio_has_profilo_profilo_fk` FOREIGN KEY (`profilo_id`) REFERENCES `profilo` (`id`)
+			) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+		</sql>
+    </changeSet>
+    <changeSet author="magria" id="202111050936-00003">
+    	<sql>
+    		INSERT INTO ricerca_criterio (tipo, aoo_based, codice, ordine, profilo_based) VALUES ('I', 1, 'APPARTENENZA_UFFICIO_FULL_VISIB_DIREZIONE', 11, 0);
+			INSERT INTO ricerca_criterio (tipo, aoo_based, codice, ordine, profilo_based) VALUES('I', 0, 'PROFILI_FULL_VISIB_DIREZIONE', 12, 1);
+		</sql>
+    </changeSet>
+    <changeSet author="magria" id="202111050936-00004">
+    	<sql>
+    		INSERT INTO ricerca_fase_has_ricerca_criterio (ricerca_fase_tipoatto_id, ricerca_criterio_id, value, visibilita_completa)
+			(select t.id, r.id, false, false from tipoatto_has_fase_ricerca t, ricerca_criterio r where r.codice in ('APPARTENENZA_UFFICIO_FULL_VISIB_DIREZIONE', 'PROFILI_FULL_VISIB_DIREZIONE'));
+		</sql>
+    </changeSet>
+    <changeSet author="magria" id="202111080900-00001">
+    	<sql>
+    		update ricerca_criterio set codice = 'APPARTENENZA_SOTTOSTRUTTURA_FULL_VISIB' where codice like 'APPARTENENZA_UFFICIO_FULL_VISIB_DIREZIONE';
+			update ricerca_criterio set codice = 'PROFILI_SOTTOSTRUTTURA_FULL_VISIB' where codice like 'PROFILI_FULL_VISIB_DIREZIONE';
+		</sql>
+    </changeSet>
+</databaseChangeLog>

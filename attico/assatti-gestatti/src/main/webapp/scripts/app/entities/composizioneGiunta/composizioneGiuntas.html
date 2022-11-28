@@ -1,0 +1,67 @@
+<div>
+    <h2 translate="cifra2gestattiApp.composizioneGiunta.home.title">Composizione Giunta</h2>
+	<div>
+	    <div class="table-responsive crud-search">
+	        <table class="table table-striped">
+	            <thead>
+	            	<tr>
+						<td colspan="5" class="text-center">
+							<button
+								class="btn btn-primary btn-sm" ng-click="loadAll()">
+								&nbsp;Annulla Modifiche
+							</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							<button
+								class="btn btn-primary btn-sm" ng-click="resetOrdine()">
+								&nbsp;Azzera Ordine
+							</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							<button
+								class="btn btn-primary btn-sm" ng-click="save()">
+								<span class="glyphicon glyphicon-save"></span>&nbsp;<span translate="entity.action.save">Save</span>
+							</button>
+							</td>
+					</tr>
+	                <tr>
+	                    <th translate="cifra2gestattiApp.composizioneGiunta.componente">Componente Giunta</th>
+	                    <th translate="cifra2gestattiApp.composizioneGiunta.grupporuolo">Gruppo Ruolo</th>
+	                    <th translate="cifra2gestattiApp.composizioneGiunta.ordine">Ordine Votazione</th>
+	                    <th translate="cifra2gestattiApp.composizioneGiunta.valido">Valido</th>
+	                    <th translate="cifra2gestattiApp.composizioneGiunta.qualificaProfessionale">Qualifica Professionale</th>
+	                </tr>
+					
+				</thead>
+	            <tbody>
+	                <tr ng-repeat="profilo in composizioneGiunta.componenti">
+	                    
+	                    <td>{{profilo.utente.nome}} {{profilo.utente.cognome}}</td>
+	                    <td>{{profilo.grupporuolo.denominazione}}</td>
+	                    <TD>
+	                    	<input type="text" size="2" maxlength="2"  ng-pattern="/^[0-9]{1,2}$/" ng-model="profilo.ordineGiunta">
+	                    	</TD>
+	                    <td><si-no-select required ng-model="profilo.validoSedutaGiunta"></si-no-select></td>
+	                    <td>
+	                    	<select class="form-control" name="qualificaProfessionaleGiunta" ng-model="profilo.qualificaProfessionaleGiunta.id" ng-options="qualifica.id as qualifica.denominazione for qualifica in profilo.hasQualifica" required></select>
+	                    </td>
+
+	                </tr>
+	                <tr>
+						<td colspan="5" class="text-center">
+							<button
+								class="btn btn-primary btn-sm" ng-click="loadAll()">
+								&nbsp;Annulla Modifiche
+							</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							<button
+								class="btn btn-primary btn-sm" ng-click="resetOrdine()">
+								&nbsp;Azzera Ordine Votazione
+							</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							<button
+								class="btn btn-primary btn-sm" ng-click="save()">
+								<span class="glyphicon glyphicon-save"></span>&nbsp;<span translate="entity.action.save">Save</span>
+							</button>
+							</td>
+					</tr>
+	            </tbody>
+	        </table>
+	        <div ng-if="profilos && profilos.length == 0" class="search-no-result"><h3 translate="global.searchNoResult"></h3></div>
+	    </div>
+    </div>
+</div>

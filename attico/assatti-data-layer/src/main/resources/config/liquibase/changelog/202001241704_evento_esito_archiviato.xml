@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    
+    <changeSet author="mazzottada" id="202001241704-1">
+    	<sql>
+			INSERT INTO tipoevento (descrizione, codice, categoriaEvento_id) VALUES('Atto archiviato', 'ATTO_ARCHIVIATO', 1);
+			INSERT INTO esito(id, label, tipiatto, registra_votazione, visibilita_presenza, visibilita_votazione, ammette_ie, organo) VALUES('archiviato', 'Atto Archiviato', 'INT', 0, 0, 0, 0, 'C');
+			update esito set tipiatto = concat(tipiatto, ',DAT') where id = 'ritirato';
+    	</sql>
+    </changeSet>
+    
+</databaseChangeLog>

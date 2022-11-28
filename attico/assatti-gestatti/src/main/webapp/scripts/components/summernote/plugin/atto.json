@@ -1,0 +1,158 @@
+{
+	"atto.codiceCifra" : {"key":"atto.codiceCifra","titolo": "Codice Atto", "template": "text", "fields":[] },
+	"atto.oggetto" : {"key":"atto.oggetto","titolo": "Oggetto", "template": "text", "fields":[] },
+
+	"atto.codiceUfficio" : {"key":"atto.codiceUfficio","titolo": "Codice Ufficio", "template": "text", "fields":[] , "show": false },
+	"atto.descrizioneUfficio" : {"key":"atto.descrizioneUfficio","titolo": "Descrizione Ufficio", "template": "text", "fields":[] , "show": false },
+	"atto.codiceServizio" : {"key":"atto.codiceServizio","titolo": "Codice Servizio", "template": "text", "fields":[] , "show": false },
+	"atto.descrizioneServizio" : {"key":"atto.descrizioneServizio","titolo": "Descrizione Servizio", "template": "text", "fields":[] , "show": false },
+	"atto.codiceArea" : {"key":"atto.codiceArea","titolo": "Codice Area", "template": "text", "fields":[] , "show": false},
+	"atto.descrizioneArea" : {"key":"atto.descrizioneArea","titolo": "Descrizione Area", "template": "text", "fields":[] , "show": false },
+
+	"atto.argomentoOdg" : {"key":"atto.argomentoOdg","titolo": "Argomento Odg", "template": "text", "fields":[] },
+	"atto.codiceProcedimento" : {"key":"atto.codiceProcedimento","titolo": "Codice Procedimento", "template": "text", "fields":[] },
+	"atto.codicecifraAttoRevocato" : {"key":"atto.codicecifraAttoRevocato","titolo": "Codice Atto Collegato", "template": "text", "fields":[] },
+	"atto.createdBy" : {"key":"atto.createdBy","titolo": "Creato da", "template": "text", "fields":[] },
+	
+	"atto.dataCreazione" : {"key":"atto.dataCreazione","titolo": "Data Creazione", "template": "text", "fields":[] },
+	"atto.esito" : {"key":"atto.esito","titolo": "Esito Giunta", "template": "text", "fields":[] },
+	"atto.durataGiorni" : {"key":"atto.durataGiorni","titolo": "Durata Giorni Pubblicazione Albo", "template": "text", "fields":[] },
+
+	"atto.pubblicazioneSito" : {"key":"atto.pubblicazioneSito","titolo": "Pubblicazione Web", "template": "text", "fields":[] },
+	"atto.dataPubblicaSito" : {"key":"atto.dataPubblicaSito","titolo": "Data Pubblicazione Web", "template": "text", "fields":[] },
+
+	"atto.pubblicazioneIntegrale" : {"key":"atto.pubblicazioneIntegrale","titolo": "Pubblicazione Integrale", "template": "text", "fields":[] },
+
+	"atto.finePubblicazioneAlbo" : {"key":"atto.finePubblicazioneAlbo","titolo": "Fine Pubblicazione Albo", "template": "text", "fields":[] },
+	"atto.inizioPubblicazioneAlbo" : {"key":"atto.inizioPubblicazioneAlbo","titolo": "Inizio Pubblicazione Albo", "template": "text", "fields":[] },
+	
+	"atto.obbligodlgs332013" : {"key":"atto.obbligodlgs332013","titolo": "Obbligo dlgs 33/2013", "template": "text", "fields":[] },
+	"atto.luogoCreazione" : {"key":"atto.luogoCreazione","titolo": "Luogo Creazione", "template": "text", "fields":[] },
+
+	"divider" : {"key":"divider","titolo": "divider", "template": "divider", "fields":[] },
+
+	"atto.preambolo": {"key":"atto.preambolo.testo", "titolo": "Preambolo", "template": "html" , "fields":[] },
+	"atto.testo": {"key":"atto.preambolo.testo", "titolo": "Testo", "template": "html" , "fields":[] },
+	"atto.motivazione" : {"key":"atto.motivazione.testo","titolo": "Motivazione", "template": "html", "fields":[] },
+	"atto.dispositivo" : {"key":"atto.dispositivo.testo","titolo": "Dispositivo", "template": "html", "fields":[] },
+	"atto.note" : {"key":"atto.note","titolo": "Note", "template": "html", "fields":[] },
+	"atto.garanzieRiservatezza" : {"key":"atto.garanzieRiservatezza.testo","titolo": "Garanzie Riservatezza", "template": "html", "fields":[] },
+	"atto.informazioniAnagraficoContabili" : {"key":"atto.informazioniAnagraficoContabili.testo","titolo": "Informazioni Anag. Contabili", "template": "html", "fields":[] },
+	"atto.adempimentiContabili" : {"key":"atto.adempimentiContabili.testo","titolo": "Adempimenti Contabili", "template": "html", "fields":[] },
+	"atto.dichiarazioni" : {"key":"atto.dichiarazioni.testo","titolo": "Dichiarazioni", "template": "html", "fields":[] },
+
+	"atto.numeroAdozione" : {"key":"atto.numeroAdozione","titolo": "Numero Adozione", "template": "text", "fields":[] },
+	"atto.dataAdozione" : {"key":"atto.dataAdozione","titolo": "Data Adozione", "template": "text", "fields":[] },
+	"atto.luogoAdozione" : {"key":"atto.luogoAdozione","titolo": "Luogo Adozione", "template": "text", "fields":[] },
+
+	"atto.regolamento" : {"key":"atto.regolamento","titolo": "Regolamento", "template": "text", "fields":[] },
+	"atto.riservato" : {"key":"atto.riservato","titolo": "Riservato", "template": "text", "fields":[] },
+	
+	"atto.sedutaGiunta" : {"key":"atto.sedutaGiunta","titolo": "Seduta Giunta", "template": "text", "fields":[] , "show": false},
+	"atto.ufficio" : {"key":"atto.ufficio.descrizione","titolo": "Servizio", "template": "text", "fields":[] },
+	"atto.version" : {"key":"atto.version","titolo": "Versione", "template": "text", "fields":[], "show": false },
+	"atto.votazione" : {"key":"atto.votazione","titolo": "Votazione Giunta", "template": "text", "fields":[] },
+
+	"divider1" : {"key":"divider","titolo": "divider", "template": "divider", "fields":[] },
+	
+	"atto.rupProfilo": {"key":"atto.rup", "titolo": "Rup", "template": "list" , 
+		"fields":[
+			{"key":"utente.nome", "titolo": "Nome", "template": "text" },
+			{"key":"utente.cognome", "titolo": "Cognome", "template": "text" }
+		]
+	},
+	
+	"atto.burp" : {"key":"atto.burp","titolo": "BURP", "template": "text", "fields":[] },
+	"atto.codiceBando" : {"key":"atto.codiceBando","titolo": "Codice Bando", "template": "text", "fields":[] },
+	"atto.codiceCig" : {"key":"atto.codiceCig","titolo": "Codice Cig", "template": "text", "fields":[] },
+	"atto.codiceCup" : {"key":"atto.codiceCup","titolo": "Codice Cup", "template": "text", "fields":[] },
+	"atto.codiceMir" : {"key":"atto.codiceMir","titolo": "Codice Mir", "template": "text", "fields":[] },
+	"atto.idDiogene" : {"key":"atto.idDiogene","titolo": "ID Documentale", "template": "text", "fields":[] },
+
+	"divider2" : {"key":"divider","titolo": "divider", "template": "divider", "fields":[] },
+
+	"atto.aoo.logo": {"key":"atto.aoo.logo", "titolo": "Aoo - Logo", "template": "image64", "fields":[] },
+	"atto.aoo.identitavisiva": {"key":"atto.aoo.identitavisiva", "titolo": "Aoo Logo", "template": "color", "fields":[] },
+	
+	"atto.aoo.codice": {"key":"atto.aoo.codice", "titolo": "Aoo - Codice", "template": "text", "fields":[] },
+	"atto.aoo.descrizione": {"key":"atto.aoo.descrizione", "titolo": "Aoo - descrizione", "template": "text", "fields":[] },
+	"atto.aoo.email": {"key":"atto.aoo.email", "titolo": "Aoo - Email", "template": "text", "fields":[] },
+	"atto.aoo.fax": {"key":"atto.aoo.fax", "titolo": "Aoo - Fax", "template": "text", "fields":[] },
+	"atto.aoo.indirizzo": {"key":"atto.aoo.indirizzo", "titolo": "Aoo - Indirizzo", "template": "text", "fields":[] },
+	"atto.aoo.pec": {"key":"atto.aoo.pec", "titolo": "Aoo - PEC", "template": "text", "fields":[] },
+	"atto.aoo.telefono": {"key":"atto.aoo.telefono", "titolo": "Aoo - Telefono", "template": "text", "fields":[] },
+	"atto.aoo.tipoAoo": {"key":"atto.aoo.tipoAoo", "titolo": "Aoo - Tipo", "template": "text", "fields":[] },
+
+	"divider3" : {"key":"divider","titolo": "divider", "template": "divider", "fields":[] },
+
+	"atto.tipoAtto.descrizione": {"key":"atto.tipoAtto.descrizione", "titolo": "Tipo Atto - Descrizione", "template": "text", "fields":[] },
+	"atto.tipoAtto.codice": {"key":"atto.tipoAtto.codice", "titolo": "Tipo Atto - Codice", "template": "text", "fields":[] },
+	"atto.tipoDeterminazione.descrizione": {"key":"atto.tipoDeterminazione.descrizione", "titolo": "Tipo Determinazione", "template": "text", "fields":[] },
+	"atto.tipoIter.descrizione": {"key":"atto.tipoIter.descrizione", "titolo": "Tipo Iter", "template": "text", "fields":[] },
+	"atto.tipoAdempimento.descrizione": {"key":"atto.tipoAdempimento.descrizione", "titolo": "Tipo adempimento ", "template": "text", "fields":[] },
+
+	"divider4" : {"key":"divider","titolo": "divider", "template": "divider", "fields":[] },
+
+	"atto.profilo.descrizione": {"key":"atto.profilo.descrizione", "titolo": "Istruttore Proponente", "template": "text", "fields":[] },
+
+	"atto.materia.descrizione": {"key":"atto.materia.descrizione", "titolo": "Materia descrizione ", "template": "text", "fields":[] },
+	"atto.sottoMateria.descrizione": {"key":"atto.sottoMateria.descrizione", "titolo": "Sotto Materia descrizione ", "template": "text", "fields":[] },
+	"atto.tipoMateria.descrizione": {"key":"atto.tipoMateria.descrizione", "titolo": "Tipo Materia descrizione ", "template": "text", "fields":[] },
+
+	"divider5" : {"key":"divider","titolo": "divider", "template": "divider", "fields":[] },
+
+	"atto.allegati": {"key":"atto.allegati", "titolo": "Allegati", "template": "table" , 
+		"fields":[
+			{"key":"titolo", "titolo": "Titolo", "template": "text" },
+			{"key":"nomeFile", "titolo": "Nome file", "template": "text" }
+		]
+	},
+
+	"atto.sottoscrittori": {"key":"atto.sottoscrittori", "titolo": "Sottoscrittori Proposta", "template": "list" , 
+		"fields":[
+			{"key":"qualificaProfessionale.denominazione", "titolo": "Qualifica Professionale", "template": "text" },
+			{"key":"profilo.utente.nome", "titolo": "Nome", "template": "text" },
+			{"key":"profilo.utente.cognome", "titolo": "Cognome", "template": "text" }
+			
+		]
+	},
+	"atto.qualificaEmanante": {"key":"atto.sottoscrittori", "titolo": "Sottoscrittore Emanante", "template": "list" , 
+		"fields":[
+			{"key":"denominazione", "titolo": "Qualifica Professionale", "template": "text" }
+		]
+	},
+	"atto.emananteProfilo": {"key":"atto.sottoscrittori", "titolo": "Sottoscrittore Emanante", "template": "list" , 
+		"fields":[
+			{"key":"utente.nome", "titolo": "Nome", "template": "text" },
+			{"key":"utente.cognome", "titolo": "Cognome", "template": "text" }
+		]
+	},
+	"atto.denominazioneRelatore" : {"key":"atto.denominazioneRelatore", "titolo": "Relatore Giunta", "template": "text", "fields":[] },
+	"atto.congiunto" : {"key":"atto.congiunto", "titolo": "Atto Congiunto", "template": "text", "fields":[] },
+	"atto.sedutaGiunta.luogo" : {"key":"atto.sedutaGiunta.luogo", "titolo": "Seduta Giunta - Luogo", "template": "text", "fields":[] },
+	"atto.sedutaGiunta.dataOra" : {"key":"atto.sedutaGiunta.dataOra", "titolo": "Seduta Giunta - Data e Ora", "template": "text", "fields":[] },
+	"atto.sedutaGiunta.stato" : {"key":"atto.sedutaGiunta.stato", "titolo": "Seduta Giunta - Stato", "template": "text", "fields":[] },
+	"atto.sedutaGiunta.tipoSeduta" : {"key":"atto.sedutaGiunta.tipoSeduta", "titolo": "Seduta Giunta - Tipo", "template": "text", "fields":[] },
+	"atto.sedutaGiunta.numero" : {"key":"atto.sedutaGiunta.numero", "titolo": "Seduta Giunta - Numero", "template": "text", "fields":[] },
+	"atto.sedutaGiunta.presidente.utente.nome" : {"key":"atto.sedutaGiunta.presidente.utente.nome", "titolo": "Presidente Seduta Giunta - Nome", "template": "text", "fields":[] },
+	"atto.sedutaGiunta.presidente.utente.cognome" : {"key":"atto.sedutaGiunta.presidente.utente.cognome", "titolo": "Presidente Seduta Giunta - Cognome", "template": "text", "fields":[] },
+
+	"atto.sedutaGiunta.segretario.utente.nome" : {"key":"atto.sedutaGiunta.segretario.utente.nome", "titolo": "Segretario Seduta Giunta - Nome", "template": "text", "fields":[] },
+	"atto.sedutaGiunta.segretario.utente.cognome" : {"key":"atto.sedutaGiunta.segretario.utente.cognome", "titolo": "Segretario Seduta Giunta - Cognome", "template": "text", "fields":[] },
+	
+	"atto.sedutaGiunta.componentiGiunta": {"key":"atto.sedutaGiunta.componentiGiunta", "titolo": "Componenti Giunta", "template": "list" , 
+		"fields":[
+			
+			{"key":"utente.nome", "titolo": "Nome", "template": "text" },
+			{"key":"utente.cognome", "titolo": "Cognome", "template": "text" }
+			
+		]
+}	
+
+
+}
+
+
+
+
+

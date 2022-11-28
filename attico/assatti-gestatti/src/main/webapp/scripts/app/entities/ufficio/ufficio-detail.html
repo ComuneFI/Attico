@@ -1,0 +1,96 @@
+
+<div>
+    <h2><!-- <span translate="cifra2gestattiApp.ufficio.detail.title">Ufficio</span> --> {{ufficio.codice}}</h2>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th translate="entity.detail.field">Field</th>
+                    <th translate="entity.detail.value">Value</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.ufficio.codice">Codice</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{ufficio.codice}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.ufficio.descrizione">Descrizione</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{ufficio.descrizione}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                         <validita-form ng-model="ufficio.validita" readonly></validita-form>
+                        
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{ufficio.validoal}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.ufficio.fax">Fax</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{ufficio.fax}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.ufficio.email">Email</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{ufficio.email}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.ufficio.pec">Pec</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{ufficio.pec}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.ufficio.responsabile">responsabile</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{ufficio.responsabile.utente.cognome}} {{ufficio.responsabile.utente.nome}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.ufficio.indirizzo">indirizzo</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" ng-if="ufficio.indirizzo.provincia" value="{{ufficio.indirizzo.dug}} {{ufficio.indirizzo.toponimo}} {{ufficio.indirizzo.civico}} {{ufficio.indirizzo.cap}} {{ufficio.indirizzo.comune}} ({{ufficio.indirizzo.provincia}}) " readonly>
+                        <input type="text" class="input-sm form-control" ng-if="!ufficio.indirizzo.provincia" value="{{ufficio.indirizzo.dug}} {{ufficio.indirizzo.toponimo}} {{ufficio.indirizzo.civico}} {{ufficio.indirizzo.cap}} {{ufficio.indirizzo.comune}} " readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.ufficio.aoo">aoo</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{ufficio.aoo.codice}}-{{ufficio.aoo.descrizione}}" readonly>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <button type="submit"
+            ui-sref="ufficio"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span translate="entity.action.back"> Back</span>
+    </button>
+</div>

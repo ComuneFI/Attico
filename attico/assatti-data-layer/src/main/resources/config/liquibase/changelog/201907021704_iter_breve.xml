@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    
+    <changeSet author="mazzottada" id="201907021704-01">
+    	<sql>
+    		INSERT INTO tipoiter (descrizione, tipoatto_id, codice) VALUES('Iter breve', (select id from tipoatto where codice = 'MZ'), 'ITER_BREVE');
+    		INSERT INTO tipoiter (descrizione, tipoatto_id, codice) VALUES('Iter breve', (select id from tipoatto where codice = 'RIS'), 'ITER_BREVE');
+    		INSERT INTO tipoiter (descrizione, tipoatto_id, codice) VALUES('Iter breve', (select id from tipoatto where codice = 'ODG'), 'ITER_BREVE');
+    	</sql>
+    </changeSet>
+    <changeSet author="mazzottada" id="201907021704-02">
+    	<sql>
+    		INSERT INTO tipoiter (descrizione, tipoatto_id, codice) VALUES('Iter breve', (select id from tipoatto where codice = 'DAT'), 'ITER_BREVE');
+    		INSERT INTO tipoiter (descrizione, tipoatto_id, codice) VALUES('Iter breve', (select id from tipoatto where codice = 'VERB'), 'ITER_BREVE');
+    		INSERT INTO tipoiter (descrizione, tipoatto_id, codice) VALUES('Iter breve', (select id from tipoatto where codice = 'QT'), 'ITER_BREVE');
+    	</sql>
+    </changeSet>
+</databaseChangeLog>

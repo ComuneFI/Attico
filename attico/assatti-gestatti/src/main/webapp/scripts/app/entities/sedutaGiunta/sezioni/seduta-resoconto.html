@@ -1,0 +1,102 @@
+<ng-include src="'scripts/app/entities/sedutaGiunta/sedutaGiunta-funzioni-resoconto.html'"></ng-include>
+<hr/>
+   
+<div>
+
+	<div ng-if="isOperatoreOdg && sedutaGiunta.organo == 'G'">
+		<div class="form-group">
+				<a target="_blank" href="/api/sedutaGiuntas/generareport/{{profiloattivo.id}}/{{sedutaGiunta.id}}/{{nomeFile(sedutaGiunta)}}?access_token={{access_token}}" class="btn btn-xs btn-success" style="color:white;">
+				    <span class="glyphicon glyphicon-save"></span>&nbsp;<span  >Esporta ODG in Excel</span>
+				</a>
+		</div>
+	</div>
+	<div ng-if="isOperatoreOdg && sedutaGiunta.organo == 'C'">
+		<div class="form-group">
+				<a target="_blank" href="/api/sedutaGiuntas/generareport/{{profiloattivo.id}}/{{sedutaGiunta.id}}/{{nomeFile(sedutaGiunta)}}?access_token={{access_token}}" class="btn btn-xs btn-success" style="color:white;">
+				    <span class="glyphicon glyphicon-save"></span>&nbsp;<span  >Esporta ODL in Excel</span>
+				</a>
+		</div>
+	</div>
+	<ul class="nav nav-tabs">
+		<li class="active col-sm-6">
+			<a showtabresoconto="" name="sottoscrittoriResoconto" href="#sottoscrittoriResoconto" update-fn="updateSezioneResoconto(value)">Sottoscrittori Resoconto e Doc. Presenze/Assenze *
+				<span data-toggle="tooltip"
+					title="<b>GUIDA</b><br/>Aggiungere obbligatoriamente almeno un Sottoscrittore."
+					data-html="true" ng-init="initTooltip()">
+					<i class="fa fa-question" ></i>
+				</span>
+			</a>
+		</li>
+	</ul>
+	
+	<!-- Sottoscrittori -->
+	<div id="sottoscrittoriResconto">
+		<hr/>
+		<button type="button" class="btn btn-default" ng-disabled="solaLetturaResoconto" ng-click="addSottoscrittoreResoconto(sedutaGiunta)">
+			<i class="fa fa-user-plus"></i> Aggiungi sottoscrittore
+		</button>
+		<span data-toggle="tooltip"
+			title="<b>GUIDA</b><br/>Aggiungere obbligatoriamente almeno un Sottoscrittore."
+			data-html="true" ng-init="initTooltip()">
+			<i class="fa fa-question" ></i>
+		</span>
+		
+		<input type="text" ng-hide="true" name="required_sottoscrittori" 
+			   ng-model="fake_model" ng-required="sedutaGiunta.sottoscrittoriresoconto.length==0" />
+	
+		<div ui-tree="sottoscrittoriResocontoOptions" data-drag-enabled="!solaLetturaResoconto" >
+			<ol class="list-group" ui-tree-nodes 
+				ng-model="sedutaGiunta.sottoscrittoriresoconto" 
+				data-type="sottoscrittore" >
+		
+				<li  ng-repeat="sottoscrittore in sedutaGiunta.sottoscrittoriresoconto"  ui-tree-node>
+					<div ui-tree-handle class="tree-node tree-node-content row">
+						<!-- <i  class="fa fa-bars"  ></i> --> 
+						<div data-nodrag class="col-md-5">
+							<label flex><span data-drag class="fa fa-bars"></span> Sottoscrittore *</label>
+							<ui-select  ng-change="sottoscrittore.edit=true"  name="sottoscrittoreResoconto" ng-disabled="solaLetturaResoconto" ng-model="sottoscrittore.profilo"  theme="bootstrap" title="Ricerca sottoscrittore" required>
+				          		<ui-select-match placeholder="Cerca profili..">{{$select.selected.descrizione}} - {{$select.selected.utente.cognome}} {{$select.selected.utente.nome}} </ui-select-match>
+				            	<ui-select-choices repeat="profilo in profilosResoconto | filter: $select.search">
+				            		<div ng-bind-html="profilo.descrizione | highlight: $select.search"></div>
+				                	<small>
+				                		Ufficio: <span ng-bind-html="profilo.aoo.descrizione| highlight: $select.search"  ></span>
+										Utente: <span ng-bind-html="profilo.utente.cognome +' '+ profilo.utente.nome| highlight: $select.search"  ></span>
+									</small>
+								</ui-select-choices>
+							</ui-select>
+						</div>
+	
+						<div  data-nodrag ng-if="sottoscrittore.profilo.hasQualifica != null && sottoscrittore.profilo.hasQualifica.length == 1" class="col-md-5 ng-scope">
+							<div class="col-md-12"><label translate="cifra2gestattiApp.sottoscrittoreAtto.Qualifica">Qualifica</label> &nbsp;</div>
+							<div class="col-md-12">
+								<label>  {{sottoscrittore.profilo.hasQualifica[0].denominazione}}</label>
+								<input type="hidden" ng-init="sottoscrittore.qualificaProfessionale = sottoscrittore.profilo.hasQualifica[0]">
+							</div>
+						</div>
+						
+						<div  data-nodrag ng-if="sottoscrittore.profilo.hasQualifica != null && sottoscrittore.profilo.hasQualifica.length > 1" class="col-md-5 ng-scope">
+							<div class="col-md-12"><label translate="cifra2gestattiApp.sottoscrittoreAtto.Qualifica">Qualifica</label> &nbsp;</div>
+							<div class="col-md-12"><select ng-change="sottoscrittore.edit=true" class="form-control" 
+									style="font-family: arial; font-weight: normal;" 
+									name="sottoscrittoreResocontoQualifica" 
+									ng-disabled="solaLetturaResoconto"
+									ng-model="sottoscrittore.qualificaProfessionale" 
+									ng-options="qualifica as qualifica.denominazione for qualifica in sottoscrittore.profilo.hasQualifica track by qualifica.id" 
+									required>
+							</select></div>
+						</div>
+						
+						<div data-nodrag class="pull-right form-group">
+							<button type="button" class="btn btn-danger btn-sm" ng-disabled="solaLetturaResoconto"
+									ng-click="deleteSottoscrittoreResoconto(sedutaGiunta,$index,sottoscrittore)" 
+									data-type="success"  data-title="Elimina sottoscrittore" 
+									bs-tooltip> 
+									<i class="fa fa-minus"></i>
+							</button>
+						</div>
+					</div> 
+				</li>
+			</ol>
+		</div> 
+	</div>
+</div>

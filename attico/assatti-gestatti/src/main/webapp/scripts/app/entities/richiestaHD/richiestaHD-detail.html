@@ -1,0 +1,157 @@
+<div ng-init="init()">
+
+    <h2 translate="cifra2gestattiApp.richiestaHD.detail.title">Dettaglio Richiesta</h2>
+	<div class="table-responsive">
+		<table class="table table-striped">
+			<tr>
+	         	<td translate="cifra2gestattiApp.richiestaHD.autore">autore</td>
+	         	<td>{{richiestaHD.autore.nome}} {{richiestaHD.autore.cognome}} {{'(' + richiestaHD.autore.username + ')'}}</td>
+	         </tr>
+	         <tr ng-if="richiestaHD.aoo">
+	         	<td translate="cifra2gestattiApp.richiestaHD.aoo">aoo</td>
+	         	<td>{{richiestaHD.aoo.codice + '-' + richiestaHD.aoo.descrizione}}</td>
+	         </tr>
+			<tr>
+				<td translate="cifra2gestattiApp.richiestaHD.dataInvio">DataInvio</td>
+				<td>{{richiestaHD.dataInvio | date:'dd-MM-yyyy HH:mm:ss'}}</td>
+			</tr>
+			<tr ng-if="richiestaHD.stato.descrizione == 'CHIUSA'">
+	         	<td translate="cifra2gestattiApp.richiestaHD.dataChiusura">datachiusura</td>
+	         	<td>{{richiestaHD.dataChiusura | date:'dd-MM-yyyy HH:mm:ss'}}</td>
+	         </tr>
+	         <tr ng-if="richiestaHD.stato.descrizione == 'SOSPESA'">
+	         	<td translate="cifra2gestattiApp.richiestaHD.dataSospensione">datasospensione</td>
+	         	<td>{{richiestaHD.dataSospensione | date:'dd-MM-yyyy HH:mm:ss'}}</td>
+	         </tr>
+	         <tr>
+	         	<td translate="cifra2gestattiApp.richiestaHD.oggetto">Oggetto</td>
+	         	<td>{{richiestaHD.oggetto}}</td>
+	         </tr>
+	         <tr>
+	         	<td translate="cifra2gestattiApp.richiestaHD.stato">Stato</td>
+	         	<td><span ng-class="{'btn btn-xs btn-default' : richiestaHD.stato.descrizione == 'APERTA', 'btn btn-xs btn-success' : richiestaHD.stato.descrizione == 'CHIUSA', 'btn btn-xs btn-warning' : richiestaHD.stato.descrizione == 'SOSPESA'}">{{richiestaHD.stato.descrizione}}</span></td>
+	         </tr>
+	         <tr>
+	         	<td translate="cifra2gestattiApp.richiestaHD.tipo">Tipo</td>
+	         	<td>{{richiestaHD.tipo.descrizione}}</td>
+	         </tr>
+	         <tr ng-if="richiestaHD.allegatoId">
+	         	<td translate="cifra2gestattiApp.richiestaHD.modulo">modulo</td>
+	         	<td><a href><span class="glyphicon glyphicon-file" ng-click="downloadModulo()"></span></a></td>
+	         </tr>
+         </table>
+	</div>
+	
+	<div class="table-responsive">
+		<table class="table table-striped" style="border: groove;background-color:#a4d2e2;">
+	         <tr>
+	         	<td align="center"><span style="font-weight: bold;" translate="cifra2gestattiApp.richiestaHD.richiesta">Richiesta</span></td>
+	         </tr>
+	         <tr>
+	         	<td class="white" align="center">
+	         		<summernote ng-if="richiestaHD.stato.descrizione != 'APERTA' || account.utente.id != richiestaHD.autore.id" ng-model="richiestaHD.testoRichiesta" config="{toolbar:[], readOnly:true, height: 120}"></summernote>
+	         		<div align="center" ng-if="richiestaHD.stato.descrizione == 'APERTA' && account.utente.id == richiestaHD.autore.id">
+	         			<summernote ng-model="richiestaHD.testoRichiesta" config="{height: 120}"></summernote>
+	         			<button ng-disabled="!richiestaHD.testoRichiesta || richiestaHD.testoRichiesta.trim().length == 0" class="btn btn-sm btn-primary" ng-click="editTestoRichiesta(richiestaHD);">Modifica</button>
+	         		</div>
+	         	</td>
+	         </tr>
+         </table>
+	</div>
+	<div class="table-responsive" ng-if="isAdmin">
+		<table class="table table-striped" style="border: groove;">
+	         <tr>
+	         	<td align="center">
+	         		<div class="form-group">
+		         		<label style="font-weight: bold;" translate="cifra2gestattiApp.richiestaHD.editStato">Modifica Stato</label>
+		         		<select style="display:inline; max-width:200px;" class="form-control" ng-model="statoUpdate" ng-options="stato as stato.descrizione for stato in statorichiestahds track by stato.id">
+	                    </select>
+		         		<button class="btn btn-sm btn-primary" ng-disabled="!statoUpdate || !statoUpdate.id" translate="cifra2gestattiApp.richiestaHD.editStatoBtn" ng-click="updateStato(richiestaHD.id, statoUpdate.id)">Modifica</button>
+	         		</div>
+	         	</td>
+	         </tr>
+         </table>
+	</div>
+	<div class="table-responsive" ng-if="!isAdmin && richiestaHD.stato.descrizione == 'APERTA'">
+		<table class="table table-striped" style="border: groove;">
+	         <tr>
+	         	<td align="center">
+	         		<div class="form-group">
+	         			<i>Hai risolto la richiesta in autonomia? Puoi chiudere la richiesta.</i><br/>
+		         		<button class="btn btn-xs btn-success" ng-click="chiudi(richiestaHD)"><span class="glyphicon glyphicon-check"></span> Chiudi Richiesta</button>
+	         		</div>
+	         	</td>
+	         </tr>
+         </table>
+	</div>
+	
+	<div>
+		<div ng-if="richiestaHD && richiestaHD.risposte.length > 0"><h3 translate="cifra2gestattiApp.richiestaHD.risposte"></h3></div>
+	    <div class="table-responsive" ng-if="richiestaHD && richiestaHD.risposte.length > 0">
+			<table ng-if="!$first" class="table table-striped" style="border: groove;background-color:#cce8f9;">
+	         <tr>
+	         	<td align="center">
+	         		<span ng-if="richiestaHD.risposte[0].operatore && richiestaHD.risposte[0].operatore.id" style="font-weight: bold;" translate="cifra2gestattiApp.richiestaHD.rispostaOperatore" translate-values="{username: '{{richiestaHD.risposte[0].operatore.username}}'}">Risposta</span>
+	         		<span ng-if="!richiestaHD.risposte[0].operatore || !richiestaHD.risposte[0].operatore.id" style="font-weight: bold;" translate="cifra2gestattiApp.richiestaHD.rispostaUtente" translate-values="{username: '{{richiestaHD.autore.username}}'}">Risposta</span>
+	         		 {{richiestaHD.risposte[0].dataInvio | date:'dd-MM-yyyy HH:mm:ss'}}
+	         	</td>
+	         </tr>
+	         <tr>
+	         	<td align="center" class="white">
+	         		<summernote ng-if="richiestaHD.stato.descrizione != 'APERTA' || (!(richiestaHD.risposte[0].operatore && richiestaHD.risposte[0].operatore.id && richiestaHD.risposte[0].operatore.id==account.utente.id) && !((!richiestaHD.risposte[0].operatore || !richiestaHD.risposte[0].operatore.id) && account.utente.id == richiestaHD.autore.id))" ng-model="richiestaHD.risposte[0].testoRisposta" config="{toolbar:[], readOnly:true, height: 80}"></summernote>
+	         		<div align="center" ng-if="richiestaHD.stato.descrizione == 'APERTA' && ((richiestaHD.risposte[0].operatore && richiestaHD.risposte[0].operatore.id && richiestaHD.risposte[0].operatore.id==account.utente.id) || ((!richiestaHD.risposte[0].operatore || !richiestaHD.risposte[0].operatore.id) && account.utente.id == richiestaHD.autore.id))">
+	         			<summernote ng-model="richiestaHD.risposte[0].testoRisposta" config="{height: 80}"></summernote>
+	         			<button ng-disabled="!richiestaHD.risposte[0].testoRisposta || richiestaHD.risposte[0].testoRisposta.trim().length == 0" class="btn btn-sm btn-primary" ng-click="editTestoRisposta(richiestaHD.risposte[0]);">Modifica</button>
+	         		</div>
+	         	</td>
+	         </tr>
+         </table>
+         </div>
+	    <div class="table-responsive" ng-if="isAdmin || richiestaHD.stato.descrizione == 'APERTA'">
+			<table class="table table-striped" style="border: groove;background-color:#f9d895;">
+		         <tr>
+		         	<td align="center"><span style="font-weight: bold;" translate="cifra2gestattiApp.richiestaHD.rispondi">Rispondi</span></td>
+		         </tr>
+		         <tr>
+		         	<td align="center">
+						<summernote ng-model="rispostaHD.testoRisposta" config="{height: 120}">
+					</td>
+		         </tr>
+		         <tr>
+			         <td align="center">
+			         	<button class="btn btn-sm btn-primary" ng-disabled="!rispostaHD.testoRisposta" translate="cifra2gestattiApp.richiestaHD.rispondi" ng-click="rispondi(richiestaHD.id);"></button>
+			         </td>
+		         </tr>
+	         </table>
+         <div align="center"></div>
+		</div>
+	    <div class="table-responsive" ng-repeat="risposta in richiestaHD.risposte">
+			<table ng-if="!$first" class="table table-striped" style="border: groove;background-color:#cce8f9;">
+	         <tr>
+	         	<td align="center">
+	         		<span ng-if="risposta.operatore && risposta.operatore.id" style="font-weight: bold;" translate="cifra2gestattiApp.richiestaHD.rispostaOperatore" translate-values="{username: '{{risposta.operatore.username}}'}">Risposta</span>
+	         		<span ng-if="!risposta.operatore || !risposta.operatore.id" style="font-weight: bold;" translate="cifra2gestattiApp.richiestaHD.rispostaUtente" translate-values="{username: '{{richiestaHD.autore.username}}'}">Risposta</span>
+	         		 {{risposta.dataInvio | date:'dd-MM-yyyy HH:mm:ss'}}
+	         	</td>
+	         </tr>
+	         <tr>
+	         	<td align="center" class="white">
+	         		<summernote ng-if="richiestaHD.stato.descrizione != 'APERTA' || (!(risposta.operatore && risposta.operatore.id && risposta.operatore.id==account.utente.id) && !((!risposta.operatore || !risposta.operatore.id) && account.utente.id == richiestaHD.autore.id))" ng-model="risposta.testoRisposta" config="{toolbar:[], readOnly:true, height: 80}"></summernote>
+	         		<div align="center" ng-if="richiestaHD.stato.descrizione == 'APERTA' && ((risposta.operatore && risposta.operatore.id && risposta.operatore.id==account.utente.id) || ((!risposta.operatore || !risposta.operatore.id) && account.utente.id == richiestaHD.autore.id))">
+	         			<summernote ng-model="risposta.testoRisposta" config="{height: 80}"></summernote>
+	         			<button ng-disabled="!risposta.testoRisposta || risposta.testoRisposta.trim().length == 0" class="btn btn-sm btn-primary" ng-click="editTestoRisposta(risposta);">Modifica</button>
+	         		</div>
+	         	</td>
+	         </tr>
+         </table>
+		</div>
+		<div ng-if="!richiestaHD || richiestaHD.risposte.length == 0" class="risposte-no-result"><h3 translate="cifra2gestattiApp.richiestaHD.nessunaRisposta"></h3></div>
+    </div>
+    
+    
+    
+    <button type="submit" ng-click="goBack()"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span translate="entity.action.back"> Back</span>
+    </button>
+</div>

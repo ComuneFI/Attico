@@ -1,0 +1,23 @@
+<div>
+	
+	<div class="tab-pane fade in active">
+		<div>
+			<br>
+			
+			<div class="form-group">
+				<h4 style="font-weight: bold;">	
+					Questa operazione consentir&agrave; di numerare e generare il documento definitivo dell'atto, vuoi andare avanti?
+				</h4>
+			</div>
+			<div class="form-group" ng-repeat="tipoDocumento in generaElencoTipoDocumento">
+				<label  >{{tipoDocumento.descrizione}}</label>
+    			 <select class="form-control everActive" ng-model="modelloHtml[$index]" ng-options="modello.titolo for modello in tipoDocumento.elencoModelloHtml" required>
+				</select>
+			</div>
+		</div>
+	</div>
+ 
+        
+            
+
+</div>

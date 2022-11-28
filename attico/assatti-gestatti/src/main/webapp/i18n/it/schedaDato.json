@@ -1,0 +1,22 @@
+{
+    "cifra2gestattiApp": {
+        "schedaDato" : {
+            "home": {
+                "title": "Schede Dato",
+                "createLabel": "Crea nuova Scheda Dato",
+                "createOrEditLabel": "Crea o modifica Scheda Dato"
+            },
+            "delete": {
+                "question": "Sei sicuro di voler cancellare la Scheda Dato con ID {{ id }}?"
+            },
+            "detail": {
+                "title": "Scheda Dato"
+            },
+            "obbligatorio": "Obbligatorio",
+            "ordine": "Ordine",
+            "Scheda": "Scheda",
+            "Dato": "Dato",
+            "Id": "Id"
+        }
+    }
+}

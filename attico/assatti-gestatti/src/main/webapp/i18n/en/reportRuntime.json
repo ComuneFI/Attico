@@ -1,0 +1,18 @@
+{
+    "cifra2gestattiApp": {
+        "reportRuntime" : {
+            "home": {
+                "title": "ReportRuntimes",
+                "createLabel": "Create a new ReportRuntime",
+                "createOrEditLabel": "Create or edit a ReportRuntime"
+            },
+            "delete": {
+                "question": "Are you sure you want to delete ReportRuntime {{ id }}?"
+            },
+            "detail": {
+                "title": "ReportRuntime"
+            },
+            "html": "Html"
+        }
+    }
+}

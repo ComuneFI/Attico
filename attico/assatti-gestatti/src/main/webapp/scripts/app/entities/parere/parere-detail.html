@@ -1,0 +1,70 @@
+
+<div>
+    <h2><span translate="cifra2gestattiApp.parere.detail.title">Parere</span> {{parere.id}}</h2>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th translate="entity.detail.field">Field</th>
+                    <th translate="entity.detail.value">Value</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.parere.tipoParere">TipoParere</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{parere.tipoParere}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.parere.parere">Parere</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{parere.parere}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.parere.idDiogene">IdDiogene</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{parere.idDiogene}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.parere.data">Data</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{parere.data | date:'dd-MM-yyyy'}}" ng-disabled="true">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.parere.Atto">Atto</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{parere.Atto.id}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.parere.Aoo">Ufficio</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{parere.Aoo.id}}" readonly>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <button type="submit"
+            ui-sref="parere"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span translate="entity.action.back"> Back</span>
+    </button>
+</div>

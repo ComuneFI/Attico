@@ -1,0 +1,667 @@
+<div>
+    <h2 ng-if="tipoRicerca == 'anno'">Elenco {{getDescrizioneTipoattoByCodice(tipoAtto)}} anno corrente</h2>
+    <h2 ng-if="tipoRicerca != null && tipoRicerca == 'storica'">Ricerca storica</h2>
+	<h2 ng-if="tipoRicerca != null && tipoRicerca == 'tematica'">Elenco {{getDescrizioneTipoattoByCodice(tipoAtto)}} per anno</h2>
+	<div style="padding-bottom:10px;" >
+		<span class="dropdown" ng-if="modelloHtmls && modelloHtmls.length > 1">
+			<button class="btn btn-xs btn-danger dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><span class="fa fa-file-pdf-o"></span> Esporta Ricerca (PDF)</button>
+			<ul class="dropdown-menu" aria-labelledby="dropdownMenu1" style="background-color:#EE8383;color:white;">
+				<li	ng-repeat="modello in modelloHtmls">
+					<a href target="_blank" ng-click="esportaRicercaPdf(modello.id)">
+						<span class="fa fa-file-pdf-o"></span> <span>{{modello.titolo}}</span>
+					</a>
+				</li>
+			</ul>
+		</span>
+		<a href target="_blank" ng-click="esportaRicercaPdf(modelloHtmls[0].id)" class="btn btn-xs btn-danger" style="color:white;"><span class="fa fa-file-pdf-o"></span> Esporta Ricerca (PDF)</a>
+		<!--  <a href target="_blank" ng-click="esportaRicercaXml()" class="btn btn-xs btn-primary" style="color:white;"><span class="fa fa-file-code-o"></span> Esporta Ricerca (XML)</a>--> 
+		<a href target="_blank" ng-click="esportaRicercaXls()" class="btn btn-xs btn-success" style="color:white;"><span class="fa fa-file-excel-o"></span> Esporta Ricerca (Excel)</a> 
+		<!--  <a href target="_blank" ng-click="esportaRicercaXls()" class="btn btn-xs btn-success" style="color:white;"><span class="fa fa-file-excel-o"></span> Export Corte dei Conti</a>
+		<a href target="_blank" ng-click="reportAVCPANAC()" class="btn btn-xs btn-success" style="color:white;"><span class="fa fa-file-excel-o"></span> Report AVCP/ANAC {{criteria.anno}} (Excel)</a>-->
+	</div>
+	<div class="form-group" ng-if="tipoRicerca != 'anno'">
+		<label translate="cifra2gestattiApp.atto.anno">Anno</label>		
+		&nbsp;&nbsp;&nbsp;<select ng-options="anno for anno in annoList" name="anno" ng-model="criteria.anno"></select> &nbsp;
+		<button class="btn btn-primary btn-sm" ng-click="ricerca()"><span class="glyphicon glyphicon-search"/> <span translate="global.messages.cerca">Ricerca</span></button> 
+	</div>
+	<ul class="nav nav-tabs">
+		<!-- <li ng-class="{'active' : criteria.viewtype == 'tutti'}" ng-show="tipoAtto != 'sedute'"><a showtabatti="" name="tutti" href="#attilist">Tutti 
+			</a>
+		</li>  -->
+		<li ng-class="{'active' : criteria.viewtype == 'tutti'}" ng-show="tipoAtto == 'sedute'"><a showtabatti="" name="tutti" href="#attilist">Elenco atti per sedute di giunta</a>
+		</li>
+		<li ng-class="{'active' : criteria.viewtype == 'conclusi'}"><a ng-click="" ng-show="tipoAtto != 'sedute'" name="conclusi" showtabatti="" href="#attilist" >Conclusi</a></li>
+		<li ng-class="{'active' : criteria.viewtype == 'itinere'}"><a ng-click="" ng-show="tipoAtto != 'sedute'" name="itinere"  showtabatti=""  href="#attilist">In itinere</a></li>
+	</ul>
+
+	<div class="tab-pane fade in active" id="attilist">
+
+	<!-- ELENCO ATTI CONCLUSI -->
+		<div ng-if="criteria.viewtype == 'conclusi'">
+		    <div class="table-responsive crud-search">
+		        <table class="table table-striped">
+		        	<thead>
+	
+		                <tr>
+		                	<th colname="001-numeroAdozione"><a href="#" onclick="return false;"><span ng-click="ordinamento('numeroAdozione')" translate="cifra2gestattiApp.atto.numeroAdozione2">numeroAdozione</span><span ng-show="criteria.ordinamento == 'numeroAdozione' && criteria.tipoOrinamento == 'asc'" class="glyphicon glyphicon-sort-by-attributes" aria-hidden="true"></span><span ng-show="criteria.ordinamento == 'numeroAdozione' && criteria.tipoOrinamento == 'desc'" class="glyphicon glyphicon-sort-by-attributes-alt" aria-hidden="true"></span></a></th>	
+		                    <th colname="002-dataAdozione"><a href="#" onclick="return false;"><span ng-click="ordinamento('dataAdozione')" translate="cifra2gestattiApp.atto.dataAdozione">dataAdozione</span><span ng-show="criteria.ordinamento == 'dataAdozione' && criteria.tipoOrinamento == 'asc'" class="glyphicon glyphicon-sort-by-attributes" aria-hidden="true"></span><span ng-show="criteria.ordinamento == 'dataAdozione' && criteria.tipoOrinamento == 'desc'" class="glyphicon glyphicon-sort-by-attributes-alt" aria-hidden="true"></span></a></th>
+		                    <th colname="003-codiceCifra"><a href="#" onclick="return false;"><span ng-click="ordinamento('codiceCifra')" translate="cifra2gestattiApp.atto.codiceCifraNotRequired">codiceCifra</span><span ng-show="criteria.ordinamento == 'codiceCifra' && criteria.tipoOrinamento == 'asc'" class="glyphicon glyphicon-sort-by-attributes" aria-hidden="true"></span><span ng-show="criteria.ordinamento == 'codiceCifra' && criteria.tipoOrinamento == 'desc'" class="glyphicon glyphicon-sort-by-attributes-alt" aria-hidden="true"></span></a></th>
+		                    <th ng-attr-colname="{{criteria.viewtype == 'conclusi' ? '004-dataInizio' : ''}}" ><a href="#" onclick="return false;"><span ng-click="ordinamento('inizioPubblicazioneAlbo')" translate="cifra2gestattiApp.atto.dataInizio">Data inizio</span><span ng-show="criteria.ordinamento == 'inizioPubblicazioneAlbo' && criteria.tipoOrinamento == 'asc'" class="glyphicon glyphicon-sort-by-attributes" aria-hidden="true"></span><span ng-show="criteria.ordinamento == 'inizioPubblicazioneAlbo' && criteria.tipoOrinamento == 'desc'" class="glyphicon glyphicon-sort-by-attributes-alt" aria-hidden="true"></span></a></th>
+		                    <th ng-attr-colname="{{criteria.viewtype == 'conclusi' ? '005-dataFine' : ''}}" ><a href="#" onclick="return false;"><span ng-click="ordinamento('finePubblicazioneAlbo')" translate="cifra2gestattiApp.atto.dataFine">Data fine</span><span ng-show="criteria.ordinamento == 'finePubblicazioneAlbo' && criteria.tipoOrinamento == 'asc'" class="glyphicon glyphicon-sort-by-attributes" aria-hidden="true"></span><span ng-show="criteria.ordinamento == 'finePubblicazioneAlbo' && criteria.tipoOrinamento == 'desc'" class="glyphicon glyphicon-sort-by-attributes-alt" aria-hidden="true"></span></a></th>
+		                    <th colname="006-stato"><a href="#" onclick="return false;"><span ng-click="ordinamento('stato')" translate="cifra2gestattiApp.atto.stato">stato</span><span ng-show="criteria.ordinamento == 'stato' && criteria.tipoOrinamento == 'asc'" class="glyphicon glyphicon-sort-by-attributes" aria-hidden="true"></span><span ng-show="criteria.ordinamento == 'stato' && criteria.tipoOrinamento == 'desc'" class="glyphicon glyphicon-sort-by-attributes-alt" aria-hidden="true"></span></a></th>
+		                    <!-- <th colname="007-estremiSeduta"  colspan=3 ng-if="tipoAtto != 'DIR'"><a href="#" onclick="return false;"><span ng-click="ordinamento('estremiSeduta')" translate="cifra2gestattiApp.atto.estremiSeduta">estremiSeduta</span><span ng-show="criteria.ordinamento == 'estremiSeduta' && criteria.tipoOrinamento == 'asc'" class="glyphicon glyphicon-sort-by-attributes" aria-hidden="true"></span><span ng-show="criteria.ordinamento == 'estremiSeduta' && criteria.tipoOrinamento == 'desc'" class="glyphicon glyphicon-sort-by-attributes-alt" aria-hidden="true"></span></a></th>	 
+		                    <th colname="008-esitoSeduta" ng-if="tipoAtto != 'DIR'"><a href="#" onclick="return false;"><span ng-click="ordinamento('esito')" translate="cifra2gestattiApp.atto.esitoSeduta">esitoSeduta</span><span ng-show="criteria.ordinamento == 'esito' && criteria.tipoOrinamento == 'asc'" class="glyphicon glyphicon-sort-by-attributes" aria-hidden="true"></span><span ng-show="criteria.ordinamento == 'esito' && criteria.tipoOrinamento == 'desc'" class="glyphicon glyphicon-sort-by-attributes-alt" aria-hidden="true"></span></a></th>
+		                     -->
+		                    <th ng-if="!isHiddenCol('tipoIter')" colname="009-tipoIter" onclick="return false;"><a href="#"><span ng-click="ordinamento('tipoIter.descrizione')" translate="cifra2gestattiApp.atto.tipoIterNotRequired	">tipoIter</span><span ng-show="criteria.ordinamento == 'tipoIter.descrizione' && criteria.tipoOrinamento == 'asc'" class="glyphicon glyphicon-sort-by-attributes" aria-hidden="true"></span><span ng-show="criteria.ordinamento == 'tipoIter.descrizione' && criteria.tipoOrinamento == 'desc'" class="glyphicon glyphicon-sort-by-attributes-alt" aria-hidden="true"></span></a></th>
+		                    
+		                    <th colname="010-dataEsecutivita"><a href="#" onclick="return false;"><span ng-click="ordinamento('dataAdozione')" translate="cifra2gestattiApp.atto.dataEsecutivita">Data Esecutività</span><span ng-show="criteria.ordinamento == 'dataAdozione' && criteria.tipoOrinamento == 'asc'" class="glyphicon glyphicon-sort-by-attributes" aria-hidden="true"></span><span ng-show="criteria.ordinamento == 'dataAdozione' && criteria.tipoOrinamento == 'desc'" class="glyphicon glyphicon-sort-by-attributes-alt" aria-hidden="true"></span></a></th>
+		                    
+		                    <th colname="011-oggetto"><a href="#" onclick="return false;"><span ng-click="ordinamento('oggetto')" translate="cifra2gestattiApp.atto.oggettoNotRequired">oggetto</span><span ng-show="criteria.ordinamento == 'oggetto' && criteria.tipoOrinamento == 'asc'" class="glyphicon glyphicon-sort-by-attributes" aria-hidden="true"></span><span ng-show="criteria.ordinamento == 'oggetto' && criteria.tipoOrinamento == 'desc'" class="glyphicon glyphicon-sort-by-attributes-alt" aria-hidden="true"></span></a></th>
+		                    <th ng-attr-colname="{{criteria.viewtype != 'conclusi' ? '012-aoo' : ''}}" ng-hide="criteria.viewtype == 'conclusi'"><a href="#" onclick="return false;"><span ng-click="ordinamento('codiceArea')" translate="cifra2gestattiApp.atto.aooNotRequired">aoo</span><span ng-show="criteria.ordinamento == 'codiceArea' && criteria.tipoOrinamento == 'asc'" class="glyphicon glyphicon-sort-by-attributes" aria-hidden="true"></span><span ng-show="criteria.ordinamento == 'codiceArea' && criteria.tipoOrinamento == 'desc'" class="glyphicon glyphicon-sort-by-attributes-alt" aria-hidden="true"></span></a></th>
+		                    <th colname="013-istruttore"><a href="#" onclick="return false;"><span ng-click="ordinamento('createdBy')" translate="cifra2gestattiApp.atto.istruttore">istruttore</span><span ng-show="criteria.ordinamento == 'createdBy' && criteria.tipoOrinamento == 'asc'" class="glyphicon glyphicon-sort-by-attributes" aria-hidden="true"></span><span ng-show="criteria.ordinamento == 'createdBy' && criteria.tipoOrinamento == 'desc'" class="glyphicon glyphicon-sort-by-attributes-alt" aria-hidden="true"></span></a></th>
+		                    <th colname="014-dataFineIter"><a href="#" onclick="return false;"><span ng-click="ordinamento('lastModifiedDate')" translate="cifra2gestattiApp.atto.dataConclusione">dataConclusione</span><span ng-show="criteria.ordinamento == 'lastModifiedDate' && criteria.tipoOrinamento == 'asc'" class="glyphicon glyphicon-sort-by-attributes" aria-hidden="true"></span><span ng-show="criteria.ordinamento == 'lastModifiedDate' && criteria.tipoOrinamento == 'desc'" class="glyphicon glyphicon-sort-by-attributes-alt" aria-hidden="true"></span></a></th>
+		                 	
+							<th ng-if="!isHiddenCol('codicecifraAttoRevocato')" colname="017-attoRiferimento"><a href="#" onclick="return false;"><span ng-click="ordinamento('codicecifraAttoRevocato')" translate="cifra2gestattiApp.atto.codicecifraAttoRevocato">codicecifraAttoRevocato</span><span ng-show="criteria.ordinamento == 'codicecifraAttoRevocato' && criteria.tipoOrinamento == 'asc'" class="glyphicon glyphicon-sort-by-attributes" aria-hidden="true"></span><span ng-show="criteria.ordinamento == 'codicecifraAttoRevocato' && criteria.tipoOrinamento == 'desc'" class="glyphicon glyphicon-sort-by-attributes-alt" aria-hidden="true"></span></a></th>
+							<th ng-if="!isHiddenCol('cig')" colname="018-codiceCig"><a href="#" onclick="return false;"><span ng-click="ordinamento('codiceCig')" translate="cifra2gestattiApp.atto.codiceCig">codiceCig</span><span ng-show="criteria.ordinamento == 'codiceCig' && criteria.tipoOrinamento == 'asc'" class="glyphicon glyphicon-sort-by-attributes" aria-hidden="true"></span><span ng-show="criteria.ordinamento == 'codiceCig' && criteria.tipoOrinamento == 'desc'" class="glyphicon glyphicon-sort-by-attributes-alt" aria-hidden="true"></span></a></th>
+							<th ng-if="!isHiddenCol('cup')" colname="019-codiceCup"><a href="#" onclick="return false;"><span ng-click="ordinamento('codiceCup')" translate="cifra2gestattiApp.atto.codiceCup">codiceCup</span><span ng-show="criteria.ordinamento == 'codiceCup' && criteria.tipoOrinamento == 'asc'" class="glyphicon glyphicon-sort-by-attributes" aria-hidden="true"></span><span ng-show="criteria.ordinamento == 'codiceCup' && criteria.tipoOrinamento == 'desc'" class="glyphicon glyphicon-sort-by-attributes-alt" aria-hidden="true"></span></a></th>
+		                    <th></th>
+		                </tr>
+		                <tr>
+	                		<th><input class="form-group fixed-small-width" type="text" name="numeroAdozione"  ng-model="criteria.numeroAdozione"></th>
+		                	<th>
+		                		<div class="form-group">
+									<div class="input-group" style="position:inherit;">
+		                				<input class="fixed-width" type="text" name="dataAdozione"  placeholder="Da" ng-model="criteria.dataAdozione" bs-datepicker onkeydown="return false;">
+		                				<div class="input-group-addon" style="padding:0px !important;width:0px;"><button title="Cancella Data" ng-click="criteria.dataAdozione = null;" class="btn btn-xs btn-link"><span class="glyphicon glyphicon-remove"></span></button></div>
+										</div>
+									</div>
+		                		<div class="form-group">
+									<div class="input-group" style="position:inherit;">
+		                				<input class="fixed-width" type="text" name="dataAdozioneA" placeholder="A"  ng-model="criteria.dataAdozioneA" bs-datepicker onkeydown="return false;">
+		                				<div class="input-group-addon" style="padding:0px !important;width:0px;"><button title="Cancella Data" ng-click="criteria.dataAdozioneA = null;" class="btn btn-xs btn-link"><span class="glyphicon glyphicon-remove"></span></button></div>
+									</div>
+								</div>
+		                	</th>
+	                		<th><input type="text" class="form-group" name="codiceCifra"   ng-model="criteria.codiceCifra"></th>
+	                		
+	                		<th>
+	                			<div class="form-group">
+									<div class="input-group" style="position:inherit;">
+	                					<input class="fixed-width" type="text" name="inizioPubblicazioneAlbo"   ng-model="criteria.inizioPubblicazioneAlbo" bs-datepicker onkeydown="return false;">
+	                					<div class="input-group-addon" style="padding:0px !important;width:0px;"><button title="Cancella Data" ng-click="criteria.inizioPubblicazioneAlbo = null;" class="btn btn-xs btn-link"><span class="glyphicon glyphicon-remove"></span></button></div>
+									</div>
+								</div>
+	                		</th>
+	                		<th>
+	                			<div class="form-group">
+									<div class="input-group" style="position:inherit;">
+	                					<input class="fixed-width" type="text" name="finePubblicazioneAlbo"   ng-model="criteria.finePubblicazioneAlbo" bs-datepicker onkeydown="return false;">
+	                					 <div class="input-group-addon" style="padding:0px !important;width:0px;"><button title="Cancella Data" ng-click="criteria.finePubblicazioneAlbo = null;" class="btn btn-xs btn-link"><span class="glyphicon glyphicon-remove"></span></button></div>
+										</div>
+									</div>
+	                		</th>
+		                	
+		                	<th class="limited-width">
+		                	   	<ui-select class="form-group" ng-model="criteria.stato" theme="bootstrap">
+			                    	<ui-select-match allow-clear="true">{{$select.selected}}</ui-select-match>
+			                    	<ui-select-choices repeat="item in stati | orderBy:'toString()' | filter: $select.search track by $index">
+			                            <div ng-bind-html="item | highlight: $select.search"></div>
+			                    	</ui-select-choices>
+		                      	</ui-select>
+		                    </th>    
+		                	<th ng-if="!isHiddenCol('tipoIter')" class="limited-width">
+		                	   	<ui-select class="form-group" ng-model="criteria.tipoIter" theme="bootstrap">
+			                    	<ui-select-match allow-clear="true">{{$select.selected}}</ui-select-match>
+			                    	<ui-select-choices repeat="item in tipiIter | filter: $select.search track by $index">
+			                            <div ng-bind-html="item | highlight: $select.search"></div>
+			                    	</ui-select-choices>
+		                      	</ui-select>
+		                    </th>
+		                    
+		                	<th>
+		                		<div class="form-group">
+									<div class="input-group" style="position:inherit;">
+		                				<input class="fixed-width" type="text" name="dataEsecutiva"   ng-model="criteria.dataEsecutiva" bs-datepicker onkeydown="return false;">
+		                				<div class="input-group-addon" style="padding:0px !important;width:0px;"><button title="Cancella Data" ng-click="criteria.dataEsecutiva = null;" class="btn btn-xs btn-link"><span class="glyphicon glyphicon-remove"></span></button></div>
+									</div>
+								</div>
+		                	</th>
+	
+	                		<th><input type="text" class="form-group" name="oggetto"   ng-model="criteria.oggetto"></th>
+	                		<th><input type="text" class="form-group" name="istruttore"   ng-model="criteria.istruttore"></th>
+	                		<th>
+	                			<div class="form-group">
+									<div class="input-group" style="position:inherit;">
+		                				<input class="fixed-width" type="text" name="lastModifiedDateDa"  placeholder="Da" ng-model="criteria.lastModifiedDateDa" bs-datepicker onkeydown="return false;">
+		                				<div class="input-group-addon" style="padding:0px !important;width:0px;"><button title="Cancella Data" ng-click="criteria.lastModifiedDateDa = null;" class="btn btn-xs btn-link"><span class="glyphicon glyphicon-remove"></span></button></div>
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="input-group" style="position:inherit;">
+		                				<input class="fixed-width" type="text" name="lastModifiedDateA" placeholder="A"  ng-model="criteria.lastModifiedDateA" bs-datepicker onkeydown="return false;">
+		                				<div class="input-group-addon" style="padding:0px !important;width:0px;"><button title="Cancella Data" ng-click="criteria.lastModifiedDateA = null;" class="btn btn-xs btn-link"><span class="glyphicon glyphicon-remove"></span></button></div>
+									</div>
+								</div>
+		                	</th>
+		                	<th ng-if="!isHiddenCol('codicecifraAttoRevocato')"><input type="text" class="form-group" name="codicecifraAttoRevocato"   ng-model="criteria.attoRevocato"></th>
+		                	<th ng-if="!isHiddenCol('cig')"><input type="text" name="codiceCig" class="form-group"   ng-model="criteria.codiceCig"></th>
+		                	<th ng-if="!isHiddenCol('cup')"><input type="text" name="codiceCup" class="form-group"   ng-model="criteria.codiceCup"></th>
+		                	<th></th>
+		                </tr>
+		                <tr><td colspan="16" class="text-center"><button class="btn btn-primary btn-sm" ng-click="ricerca()"><span class="glyphicon glyphicon-search"></span> <span translate="global.messages.cerca" class="ng-scope">Cerca</span></button> <button class="btn btn-primary btn-sm" ng-click="resetRicerca()">
+								<span translate="global.messages.resetricerca" class="ng-scope">Reset
+									ricerca</span>
+							</button></td></tr>
+		            </thead>
+		            <tbody>
+		                <tr ng-repeat="atto in attos">
+							<td>{{atto.numeroAdozione}}</td>
+							<td>{{atto.dataAdozione| date:'dd/MM/yyyy'}}</td>
+		                    <td>{{atto.codiceCifra}}</td>
+		                    <td >{{atto.inizioPubblicazioneAlbo| date:'dd/MM/yyyy'}}</td>
+		                    <td >{{atto.finePubblicazioneAlbo| date:'dd/MM/yyyy'}}</td>
+		                    <td>{{atto.stato}}</td>
+		                    
+		                    <td ng-if="!isHiddenCol('tipoIter')">{{atto.tipoIter}}</td> 
+		                    <td>{{atto.dataEsecutivita | date:'dd/MM/yyyy'}}</td>
+		                    <td style="word-wrap: break-word; max-width: 300px">{{visualizzaOggetto(atto.oggetto)}}</td>
+		                    <td ng-hide="criteria.viewtype == 'conclusi'">{{atto.aoo}}</td>
+		                    <td>{{atto.createdBy}}</td>
+		                    <td>{{atto.fineIterDate | date:'dd/MM/yyyy'}}</td>
+							<td ng-if="!isHiddenCol('codicecifraAttoRevocato')">{{atto.codicecifraAttoRevocato}}</td>
+							<td ng-if="!isHiddenCol('cig')" style="word-wrap: break-word; max-width: 150px">{{atto.codiceCig}}</td>
+							<td ng-if="!isHiddenCol('cup')" style="word-wrap: break-word; max-width: 150px">{{atto.codiceCup}}</td>
+		                   <td>
+		                     <a href="#/atto/{{atto.id}}" ng-if="!atto.accessoNegato">
+		                        <button
+		                        class="btn btn-info btn-sm btn-block">
+		                        <span class="glyphicon glyphicon-eye-open"></span>&nbsp;<span translate="entity.action.view"> View</span>
+		                    	</button>
+	                    	</a>
+	                    	<a href="{{atto.omissisLink}}" target="_blank" ng-if="atto.omissisLink">
+		                        <button
+		                        class="btn btn-info btn-sm btn-block">
+		                        <span class="glyphicon glyphicon-download-alt"></span>&nbsp;Documento Omissis
+		                    	</button>
+	                    	</a>
+	                    	<button ng-if="atto.allegati && atto.allegati.length > 0" class="btn btn-info btn-sm btn-block" type="button" data-toggle="modal" data-target="#allegati{{atto.id}}">
+	                    		Allegati
+	                    	</button>
+	                    	<div ng-if="atto.allegati && atto.allegati.length > 0" class="modal fade" id="allegati{{atto.id}}" tabindex="-1" role="dialog" aria-labelledby="allegati{{atto.id}}Label"
+						         aria-hidden="true">
+						        <div class="modal-dialog">
+						            <div class="modal-content">                
+						                    <div class="modal-header">
+						                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+						                        <h4 class="modal-title" id="allegati{{atto.id}}Label">Allegati Atto {{atto.codiceCifra}}</h4>
+						                    </div>
+						                    <div class="modal-body">
+						                        <table class="table table-striped">
+													<thead>
+														<tr><td><b>Titolo</b></td><td><b>Nome File</b></td><td><b>Omissis</b></td><td><b>Download</b></td></tr>
+													</thead>
+													<tbody>	
+														<tr ng-repeat="allegato in atto.allegati">
+															<td>{{allegato.titolo}}</td>
+															<td>{{allegato.fileName}}</td>
+															<td>{{allegato.omissis ? 'Si' : 'No'}}</td>
+															<td><b ng-if="!allegato.link">RISERVATO</b><a ng-if="allegato.link" href="{{allegato.link}}" target="_blank"><span class="glyphicon glyphicon-paperclip"></span></a></td>
+														</tr>
+													</tbody>
+												</table>
+						                    </div>
+						                    <div class="modal-footer">
+						                        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
+						                            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.close">close</span>
+						                        </button>
+						                    </div>
+						            </div>
+						        </div>
+						    </div>
+		                    <!-- 
+		                    <a ng-href="api/attos/xml/{{atto.id}}" target="_blank" style="color:white;" ng-if="true || (environment && environment.toggles && environment.toggles.indexOf('export-xml-ricerca') >= 0)" 
+		                    	class="btn btn-primary btn-xs btn-block">
+		                    	<span class="fa fa-file-code-o"></span> Xml
+		                    </a>
+		                     -->
+		                </td>
+		            </tr>
+		        </tbody>
+		    </table>
+		    <div ng-if="attos && attos.length == 0 && !loading" class="search-no-result"><h3 translate="global.searchNoResult"></h3></div>
+			<div ng-if="attos && attos.length == 0&& loading" class="search-no-result"><h3 translate="global.loading"></h3></div>
+		</div>
+	    <nav>
+	        <ul class="pagination">
+	            <li ng-show="links['first']" ng-click="loadPage(links['first'])"><a>&lt;&lt;</a></li>
+	            <li ng-show="links['prev']" ng-click="loadPage(links['prev'])"><a>&lt;</a></li>
+	            <li ng-show="page > 2" ng-click="loadPage(page - 2)"><a>{{page - 2}}</a></li>
+	            <li ng-show="page > 1" ng-click="loadPage(page - 1)"><a>{{page - 1}}</a></li>
+	            <li class="active"><a>{{page}}</a></li>
+	            <li ng-show="page < links['last']" ng-click="loadPage(page + 1)"><a>{{page + 1}}</a></li>
+	            <li ng-show="page < links['last'] - 1" ng-click="loadPage(page + 2)"><a>{{page + 2}}</a></li>
+	            <li ng-show="links['next']" ng-click="loadPage(links['next'])"><a>&gt;</a></li>
+	            <li ng-show="links['last']" ng-click="loadPage(links['last'])"><a>&gt;&gt;</a></li>
+	        </ul>
+	    </nav>
+    </div>
+    
+    	<!-- ELENCO ATTI IN ITINERE-->
+    	<div ng-if="criteria.viewtype == 'itinere'">
+		    <div class="table-responsive crud-search">
+		        <table class="table table-striped">
+		        	<thead>
+	
+		                <tr>
+		                	<!--<th colname="000-numeroAdozione"><a href="#" onclick="return false;"><span ng-click="ordinamento('numeroAdozione')" translate="cifra2gestattiApp.atto.numeroAdozione2">numeroAdozione</span><span ng-show="criteria.ordinamento == 'numeroAdozione' && criteria.tipoOrinamento == 'asc'" class="glyphicon glyphicon-sort-by-attributes" aria-hidden="true"></span><span ng-show="criteria.ordinamento == 'numeroAdozione' && criteria.tipoOrinamento == 'desc'" class="glyphicon glyphicon-sort-by-attributes-alt" aria-hidden="true"></span></a></th>-->
+		                    <th colname="001-codiceCifra"><a href="#" onclick="return false;"><span ng-click="ordinamento('codiceCifra')" translate="cifra2gestattiApp.atto.codiceNotRequired">codiceCifra</span><span ng-show="criteria.ordinamento == 'codiceCifra' && criteria.tipoOrinamento == 'asc'" class="glyphicon glyphicon-sort-by-attributes" aria-hidden="true"></span><span ng-show="criteria.ordinamento == 'codiceCifra' && criteria.tipoOrinamento == 'desc'" class="glyphicon glyphicon-sort-by-attributes-alt" aria-hidden="true"></span></a></th>
+		                    <th colname="002-dataCreazione"><a href="#" onclick="return false;"><span ng-click="ordinamento('dataCreazione')" translate="cifra2gestattiApp.atto.dataCreazione">dataCreazione</span><span ng-show="criteria.ordinamento == 'dataCreazione' && criteria.tipoOrinamento == 'asc'" class="glyphicon glyphicon-sort-by-attributes" aria-hidden="true"></span><span ng-show="criteria.ordinamento == 'dataCreazione' && criteria.tipoOrinamento == 'desc'" class="glyphicon glyphicon-sort-by-attributes-alt" aria-hidden="true"></span></a></th>
+		                    <th colname="003-oggetto"><a href="#" onclick="return false;"><span ng-click="ordinamento('oggetto')" translate="cifra2gestattiApp.atto.oggettoNotRequired">oggetto</span><span ng-show="criteria.ordinamento == 'oggetto' && criteria.tipoOrinamento == 'asc'" class="glyphicon glyphicon-sort-by-attributes" aria-hidden="true"></span><span ng-show="criteria.ordinamento == 'oggetto' && criteria.tipoOrinamento == 'desc'" class="glyphicon glyphicon-sort-by-attributes-alt" aria-hidden="true"></span></a></th>
+		                    <th colname="004-tipoIter" ng-if="!isHiddenCol('tipoIter')"><a href="#" onclick="return false;"><span ng-click="ordinamento('tipoIter.descrizione')" translate="cifra2gestattiApp.atto.tipoIterNotRequired	">tipoIter</span><span ng-show="criteria.ordinamento == 'tipoIter.descrizione' && criteria.tipoOrinamento == 'asc'" class="glyphicon glyphicon-sort-by-attributes" aria-hidden="true"></span><span ng-show="criteria.ordinamento == 'tipoIter.descrizione' && criteria.tipoOrinamento == 'desc'" class="glyphicon glyphicon-sort-by-attributes-alt" aria-hidden="true"></span></a></th>
+		                    <th colname="005-stato"><a href="#" onclick="return false;"><span ng-click="ordinamento('stato')" translate="cifra2gestattiApp.atto.stato">stato</span><span ng-show="criteria.ordinamento == 'stato' && criteria.tipoOrinamento == 'asc'" class="glyphicon glyphicon-sort-by-attributes" aria-hidden="true"></span><span ng-show="criteria.ordinamento == 'stato' && criteria.tipoOrinamento == 'desc'" class="glyphicon glyphicon-sort-by-attributes-alt" aria-hidden="true"></span></a></th>
+		                    <th colname="006-inCarico"><span translate="cifra2gestattiApp.atto.incaricoA">incaricoA</span><span ng-show="criteria.ordinamento == 'avanzamento.createdBy' && criteria.tipoOrinamento == 'asc'" class="glyphicon glyphicon-sort-by-attributes" aria-hidden="true"></span><span ng-show="criteria.ordinamento == 'avanzamento.createdBy' && criteria.tipoOrinamento == 'desc'" class="glyphicon glyphicon-sort-by-attributes-alt" aria-hidden="true"></span></th>
+		                    <th colname="007-dataInCarico"><span translate="cifra2gestattiApp.atto.dataIncarico">dataIncarico</span><span ng-show="criteria.ordinamento == 'avanzamento.dataAttivita' && criteria.tipoOrinamento == 'asc'" class="glyphicon glyphicon-sort-by-attributes" aria-hidden="true"></span><span ng-show="criteria.ordinamento == 'avanzamento.dataAttivita' && criteria.tipoOrinamento == 'desc'" class="glyphicon glyphicon-sort-by-attributes-alt" aria-hidden="true"></span></th>
+		                    <th ng-if="!isHiddenCol('codicecifraAttoRevocato')" colname="008-attoRiferimento" ><a href="#" onclick="return false;"><span ng-click="ordinamento('codicecifraAttoRevocato')" translate="cifra2gestattiApp.atto.codicecifraAttoRevocato">codicecifraAttoRevocato</span><span ng-show="criteria.ordinamento == 'codicecifraAttoRevocato' && criteria.tipoOrinamento == 'asc'" class="glyphicon glyphicon-sort-by-attributes" aria-hidden="true"></span><span ng-show="criteria.ordinamento == 'codicecifraAttoRevocato' && criteria.tipoOrinamento == 'desc'" class="glyphicon glyphicon-sort-by-attributes-alt" aria-hidden="true"></span></a></th>
+		                    <th ng-if="!isHiddenCol('cig')" colname="009-codiceCig"><a href="#" onclick="return false;"><span ng-click="ordinamento('codiceCig')" translate="cifra2gestattiApp.atto.codiceCig">codiceCig</span><span ng-show="criteria.ordinamento == 'codiceCig' && criteria.tipoOrinamento == 'asc'" class="glyphicon glyphicon-sort-by-attributes" aria-hidden="true"></span><span ng-show="criteria.ordinamento == 'codiceCig' && criteria.tipoOrinamento == 'desc'" class="glyphicon glyphicon-sort-by-attributes-alt" aria-hidden="true"></span></a></th>
+							<th ng-if="!isHiddenCol('cup')" colname="010-codiceCup"><a href="#" onclick="return false;"><span ng-click="ordinamento('codiceCup')" translate="cifra2gestattiApp.atto.codiceCup">codiceCup</span><span ng-show="criteria.ordinamento == 'codiceCup' && criteria.tipoOrinamento == 'asc'" class="glyphicon glyphicon-sort-by-attributes" aria-hidden="true"></span><span ng-show="criteria.ordinamento == 'codiceCup' && criteria.tipoOrinamento == 'desc'" class="glyphicon glyphicon-sort-by-attributes-alt" aria-hidden="true"></span></a></th>
+		                    <th></th>
+		                </tr>
+		                <tr>
+		                	<!--<th><input class="form-group fixed-small-width" type="text" name="numeroAdozione"  ng-model="criteria.numeroAdozione"></th>-->
+	                		<th><input type="text" class="form-group" name="codiceCifra"   ng-model="criteria.codiceCifra"></th>
+	                		<th>
+	                			<div class="form-group">
+									<div class="input-group" style="position:inherit;">
+	                					<input class="fixed-width" type="text" name="dataCreazione"   ng-model="criteria.dataCreazione" bs-datepicker onkeydown="return false;">
+	                					<div class="input-group-addon" style="padding:0px !important;width:0px;"><button title="Cancella Data" ng-click="criteria.dataCreazione = null;" class="btn btn-xs btn-link"><span class="glyphicon glyphicon-remove"></span></button></div>
+									</div>
+								</div>
+	                		</th>
+	                		<th><input type="text" class="form-group" name="oggetto"   ng-model="criteria.oggetto"></th>
+		                	
+		                	<th ng-if="!isHiddenCol('tipoIter')" class="limited-width">
+		                	   	<ui-select class="form-group" ng-model="criteria.tipoIter" theme="bootstrap">
+			                    	<ui-select-match allow-clear="true">{{$select.selected}}</ui-select-match>
+			                    	<ui-select-choices repeat="item in tipiIter | filter: $select.search track by $index">
+			                            <div ng-bind-html="item | highlight: $select.search"></div>
+			                    	</ui-select-choices>
+		                      	</ui-select>
+		                    </th>
+		                	
+		                	<th class="limited-width">
+		                	   	<ui-select class="form-group" ng-model="criteria.stato" theme="bootstrap">
+			                    	<ui-select-match allow-clear="true">{{$select.selected}}</ui-select-match>
+			                    	<ui-select-choices repeat="item in stati | orderBy:'toString()' | filter: $select.search track by $index">
+			                            <div ng-bind-html="item | highlight: $select.search"></div>
+			                    	</ui-select-choices>
+		                      	</ui-select>
+		                    </th>
+	                		                		
+	                		
+		                	<th><input type="text" class="form-group" name="incaricoa"   ng-model="criteria.incaricoa"></th>
+		                	<th>
+		                		<div class="form-group">
+									<div class="input-group" style="position:inherit;">
+		                				<input class="fixed-width" type="text" name="dataIncarico"   ng-model="criteria.dataIncarico" bs-datepicker onkeydown="return false;">
+		                				<div class="input-group-addon" style="padding:0px !important;width:0px;"><button title="Cancella Data" ng-click="criteria.dataIncarico = null;" class="btn btn-xs btn-link"><span class="glyphicon glyphicon-remove"></span></button></div>
+									</div>
+								</div>
+		                	</th>
+		                    
+		                    <!-- NON PRESENTI IN ATTICO -->
+		                 	<!-- 
+		                    <th ng-if="tipoAtto == 'DEL'">
+		                    	<ui-select class="form-group" ng-model="criteria.regolamento" theme="bootstrap">
+			                    	<ui-select-match allow-clear="true">{{$select.selected.label}}</ui-select-match>
+			                    	<ui-select-choices repeat="item.valore as item in regolamenti | orderBy:'toString()' | filter: {valore:$select.search} track by $index">
+			                            <div ng-bind-html="item.label | highlight: $select.search"></div>
+			                    	</ui-select-choices>
+		                      	</ui-select>  
+		                    </th>
+		                    -->
+		                	<th ng-if="!isHiddenCol('codicecifraAttoRevocato')"><input type="text" class="form-group" name="codicecifraAttoRevocato"   ng-model="criteria.attoRevocato"></th>
+		                	<th ng-if="!isHiddenCol('cig')"><input type="text" name="codiceCig" class="form-group"   ng-model="criteria.codiceCig"></th>
+		                	<th ng-if="!isHiddenCol('cup')"><input type="text" name="codiceCup" class="form-group"   ng-model="criteria.codiceCup"></th>
+		                	<th></th>
+		                </tr>
+		                <tr><td colspan="16" class="text-center"><button class="btn btn-primary btn-sm" ng-click="ricerca()"><span class="glyphicon glyphicon-search"></span> <span translate="global.messages.cerca" class="ng-scope">Cerca</span></button> <button class="btn btn-primary btn-sm" ng-click="resetRicerca()">
+								<span translate="global.messages.resetricerca" class="ng-scope">Reset
+									ricerca</span>
+							</button></td></tr>
+		            </thead>
+		            <tbody>
+		                <tr ng-repeat="atto in attos">
+		                	<!--<td>{{atto.numeroAdozione}}</td>-->
+		                    <td>{{atto.codiceCifra}}</td>
+		                    <td>{{atto.dataCreazione| date:'dd/MM/yyyy'}}</td>
+		                    <td style="word-wrap: break-word; max-width: 300px">{{visualizzaOggetto(atto.oggetto)}}</td>
+		                    <td ng-if="!isHiddenCol('tipoIter')">{{atto.tipoIter}}</td> 
+		                    <td>{{atto.stato}}</td>
+		                    
+		                    <td>{{atto.createdByAvanzamento}}</td>
+							<td>{{atto.noteAvanzamento | date:'dd/MM/yyyy'}}</td>
+							<td ng-if="!isHiddenCol('codicecifraAttoRevocato')">{{atto.codicecifraAttoRevocato}}</td>
+		                    <td ng-if="!isHiddenCol('cig')" style="word-wrap: break-word; max-width: 150px">{{atto.codiceCig}}</td>
+		                    <td ng-if="!isHiddenCol('cup')" style="word-wrap: break-word; max-width: 150px">{{atto.codiceCup}}</td>
+		                    <td>
+		                        <a href="#/atto/{{atto.id}}" ng-if="!atto.accessoNegato">
+			                        <button
+			                        class="btn btn-info btn-sm btn-block">
+			                        <span class="glyphicon glyphicon-eye-open"></span>&nbsp;<span translate="entity.action.view"> View</span>
+			                    	</button>
+		                    	</a>
+		                    	<a href="#/{{atto.omissisLink}}" target="_blank" ng-if="atto.omissisLink">
+			                        <button
+			                        class="btn btn-info btn-sm btn-block">
+			                        <span class="glyphicon glyphicon-download-alt"></span>&nbsp;<span translate="entity.action.view"> View</span>
+			                    	</button>
+		                    	</a>
+		                    	<button ng-if="atto.allegati && atto.allegati.length > 0" class="btn btn-info btn-sm btn-block" type="button" data-toggle="modal" data-target="#allegati{{atto.id}}">
+		                    		Allegati
+		                    	</button>
+		                    	<div ng-if="atto.allegati && atto.allegati.length > 0" class="modal fade" id="allegati{{atto.id}}" tabindex="-1" role="dialog" aria-labelledby="allegati{{atto.id}}Label"
+							         aria-hidden="true">
+							        <div class="modal-dialog">
+							            <div class="modal-content">                
+							                    <div class="modal-header">
+							                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+							                        <h4 class="modal-title" id="allegati{{atto.id}}Label">Allegati Atto {{atto.codiceCifra}}</h4>
+							                    </div>
+							                    <div class="modal-body">
+							                        <table class="table table-striped">
+														<thead>
+															<tr><td><b>Titolo</b></td><td><b>Nome File</b></td><td><b>Omissis</b></td><td><b>Download</b></td></tr>
+														</thead>
+														<tbody>	
+															<tr ng-repeat="allegato in atto.allegati">
+																<td>{{allegato.titolo}}</td>
+																<td>{{allegato.fileName}}</td>
+																<td>{{allegato.omissis ? 'Si' : 'No'}}</td>
+																<td><b ng-if="!allegato.link">RISERVATO</b><a ng-if="allegato.link" href="{{allegato.link}}" target="_blank"><span class="glyphicon glyphicon-paperclip"></span></a></td>
+															</tr>
+														</tbody>
+													</table>
+							                    </div>
+							                    <div class="modal-footer">
+							                        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
+							                            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.close">close</span>
+							                        </button>
+							                    </div>
+							            </div>
+							        </div>
+							    </div>
+		                    <!-- 
+		                    <a ng-href="api/attos/xml/{{atto.id}}" target="_blank" style="color:white;" ng-if="true || ((environment && environment.toggles && environment.toggles.indexOf('export-xml-ricerca')) >= 0)" 
+		                    	class="btn btn-primary btn-xs btn-block">
+		                    	<span class="fa fa-file-code-o"></span> Xml
+		                    </a>
+		                     -->
+		                </td>
+		            </tr>
+		        </tbody>
+		    </table>
+		    <div ng-if="attos && attos.length == 0 && !loading" class="search-no-result"><h3 translate="global.searchNoResult"></h3></div>
+			<div ng-if="attos && attos.length == 0&& loading" class="search-no-result"><h3 translate="global.loading"></h3></div>
+		</div>
+	    <nav>
+	        <ul class="pagination">
+	            <li ng-show="links['first']" ng-click="loadPage(links['first'])"><a>&lt;&lt;</a></li>
+	            <li ng-show="links['prev']" ng-click="loadPage(links['prev'])"><a>&lt;</a></li>
+	            <li ng-show="page > 2" ng-click="loadPage(page - 2)"><a>{{page - 2}}</a></li>
+	            <li ng-show="page > 1" ng-click="loadPage(page - 1)"><a>{{page - 1}}</a></li>
+	            <li class="active"><a>{{page}}</a></li>
+	            <li ng-show="page < links['last']" ng-click="loadPage(page + 1)"><a>{{page + 1}}</a></li>
+	            <li ng-show="page < links['last'] - 1" ng-click="loadPage(page + 2)"><a>{{page + 2}}</a></li>
+	            <li ng-show="links['next']" ng-click="loadPage(links['next'])"><a>&gt;</a></li>
+	            <li ng-show="links['last']" ng-click="loadPage(links['last'])"><a>&gt;&gt;</a></li>
+	        </ul>
+	    </nav>
+    </div>
+    
+    <!-- ELENCO ATTI TUTTI -->
+    	<div ng-if="criteria.viewtype == 'tutti' && tipoAtto != 'sedute'">
+		    <div class="table-responsive crud-search">
+		        <table class="table table-striped">
+		        	<thead>
+	
+		                <tr>
+		                    <th colname="01-codiceCifra"><a href="#" onclick="return false;"><span ng-click="ordinamento('codiceCifra')" translate="cifra2gestattiApp.atto.codiceCifraNotRequired">codiceCifra</span><span ng-show="criteria.ordinamento == 'codiceCifra' && criteria.tipoOrinamento == 'asc'" class="glyphicon glyphicon-sort-by-attributes" aria-hidden="true"></span><span ng-show="criteria.ordinamento == 'codiceCifra' && criteria.tipoOrinamento == 'desc'" class="glyphicon glyphicon-sort-by-attributes-alt" aria-hidden="true"></span></a></th>
+		                    <th colname="02-dataCreazione"><a href="#" onclick="return false;"><span ng-click="ordinamento('dataCreazione')" translate="cifra2gestattiApp.atto.dataCreazione">dataCreazione</span><span ng-show="criteria.ordinamento == 'dataCreazione' && criteria.tipoOrinamento == 'asc'" class="glyphicon glyphicon-sort-by-attributes" aria-hidden="true"></span><span ng-show="criteria.ordinamento == 'dataCreazione' && criteria.tipoOrinamento == 'desc'" class="glyphicon glyphicon-sort-by-attributes-alt" aria-hidden="true"></span></a></th>
+		                    <th colname="03-oggetto"><a href="#" onclick="return false;"><span ng-click="ordinamento('oggetto')" translate="cifra2gestattiApp.atto.oggettoNotRequired">oggetto</span><span ng-show="criteria.ordinamento == 'oggetto' && criteria.tipoOrinamento == 'asc'" class="glyphicon glyphicon-sort-by-attributes" aria-hidden="true"></span><span ng-show="criteria.ordinamento == 'oggetto' && criteria.tipoOrinamento == 'desc'" class="glyphicon glyphicon-sort-by-attributes-alt" aria-hidden="true"></span></a></th>
+		                    <th colname="04-aoo"><a href="#" onclick="return false;"><span ng-click="ordinamento('codiceArea')" translate="cifra2gestattiApp.atto.aooNotRequired">aoo</span><span ng-show="criteria.ordinamento == 'codiceArea' && criteria.tipoOrinamento == 'asc'" class="glyphicon glyphicon-sort-by-attributes" aria-hidden="true"></span><span ng-show="criteria.ordinamento == 'codiceArea' && criteria.tipoOrinamento == 'desc'" class="glyphicon glyphicon-sort-by-attributes-alt" aria-hidden="true"></span>
+		                    <span data-toggle="tooltip"
+								title="<b>GUIDA</b><br/>Inserire il codice AOO oppure la denominazione dell’AOO."
+								data-html="true" ng-init="initTooltip()">
+								<i class="fa fa-question" ></i>
+							</span>
+		                    </a></th>
+		                    <th colname="05-tipoIter" ng-if="!isHiddenCol('tipoIter')"><a href="#" onclick="return false;"><span ng-click="ordinamento('tipoIter.descrizione')" translate="cifra2gestattiApp.atto.tipoIterNotRequired	">tipoIter</span><span ng-show="criteria.ordinamento == 'tipoIter.descrizione' && criteria.tipoOrinamento == 'asc'" class="glyphicon glyphicon-sort-by-attributes" aria-hidden="true"></span><span ng-show="criteria.ordinamento == 'tipoIter.descrizione' && criteria.tipoOrinamento == 'desc'" class="glyphicon glyphicon-sort-by-attributes-alt" aria-hidden="true"></span></a></th>
+		                    <th colname="06-stato"><a href="#" onclick="return false;"><span ng-click="ordinamento('stato')" translate="cifra2gestattiApp.atto.stato">stato</span><span ng-show="criteria.ordinamento == 'stato' && criteria.tipoOrinamento == 'asc'" class="glyphicon glyphicon-sort-by-attributes" aria-hidden="true"></span><span ng-show="criteria.ordinamento == 'stato' && criteria.tipoOrinamento == 'desc'" class="glyphicon glyphicon-sort-by-attributes-alt" aria-hidden="true"></span></a></th>
+		                    <th colname="07-numeroAdozione" "><a href="#" onclick="return false;"><span ng-click="ordinamento('numeroAdozione')" translate="cifra2gestattiApp.atto.numeroAdozione2">numeroAdozione</span><span ng-show="criteria.ordinamento == 'numeroAdozione' && criteria.tipoOrinamento == 'asc'" class="glyphicon glyphicon-sort-by-attributes" aria-hidden="true"></span><span ng-show="criteria.ordinamento == 'numeroAdozione' && criteria.tipoOrinamento == 'desc'" class="glyphicon glyphicon-sort-by-attributes-alt" aria-hidden="true"></span></a></th>	 
+		                    <th colname="08-dataAdozione" "><a href="#" onclick="return false;"><span ng-click="ordinamento('dataAdozione')" translate="cifra2gestattiApp.atto.dataAdozione">dataAdozione</span><span ng-show="criteria.ordinamento == 'dataAdozione' && criteria.tipoOrinamento == 'asc'" class="glyphicon glyphicon-sort-by-attributes" aria-hidden="true"></span><span ng-show="criteria.ordinamento == 'dataAdozione' && criteria.tipoOrinamento == 'desc'" class="glyphicon glyphicon-sort-by-attributes-alt" aria-hidden="true"></span></a></th>
+		                    <th ng-if="!isHiddenCol('codicecifraAttoRevocato')" colname="09-attoRiferimento" ><a href="#" onclick="return false;"><span ng-click="ordinamento('codicecifraAttoRevocato')" translate="cifra2gestattiApp.atto.codicecifraAttoRevocato">codicecifraAttoRevocato</span><span ng-show="criteria.ordinamento == 'codicecifraAttoRevocato' && criteria.tipoOrinamento == 'asc'" class="glyphicon glyphicon-sort-by-attributes" aria-hidden="true"></span><span ng-show="criteria.ordinamento == 'codicecifraAttoRevocato' && criteria.tipoOrinamento == 'desc'" class="glyphicon glyphicon-sort-by-attributes-alt" aria-hidden="true"></span></a></th>
+		                    <th ng-if="!isHiddenCol('cig')" colname="10-codiceCig"><a href="#" onclick="return false;"><span ng-click="ordinamento('codiceCig')" translate="cifra2gestattiApp.atto.codiceCig">codiceCig</span><span ng-show="criteria.ordinamento == 'codiceCig' && criteria.tipoOrinamento == 'asc'" class="glyphicon glyphicon-sort-by-attributes" aria-hidden="true"></span><span ng-show="criteria.ordinamento == 'codiceCig' && criteria.tipoOrinamento == 'desc'" class="glyphicon glyphicon-sort-by-attributes-alt" aria-hidden="true"></span></a></th>
+							<th ng-if="!isHiddenCol('cup')" colname="11-codiceCup"><a href="#" onclick="return false;"><span ng-click="ordinamento('codiceCup')" translate="cifra2gestattiApp.atto.codiceCup">codiceCup</span><span ng-show="criteria.ordinamento == 'codiceCup' && criteria.tipoOrinamento == 'asc'" class="glyphicon glyphicon-sort-by-attributes" aria-hidden="true"></span><span ng-show="criteria.ordinamento == 'codiceCup' && criteria.tipoOrinamento == 'desc'" class="glyphicon glyphicon-sort-by-attributes-alt" aria-hidden="true"></span></a></th>
+		                    <th></th>
+		                </tr>
+		                
+		                <tr>
+	                		<th><input type="text" class="form-group" name="codiceCifra"   ng-model="criteria.codiceCifra"></th>
+	                		<th>
+	                			<div class="form-group">
+									<div class="input-group" style="position:inherit;">
+	                					<input class="fixed-width" type="text" name="dataCreazione"   ng-model="criteria.dataCreazione" bs-datepicker onkeydown="return false;">
+	                					 <div class="input-group-addon" style="padding:0px !important;width:0px;"><button title="Cancella Data" ng-click="criteria.dataCreazione = null;" class="btn btn-xs btn-link"><span class="glyphicon glyphicon-remove"></span></button></div>
+									</div>
+								</div>
+	                		</th>
+	                		<th><input type="text" class="form-group" name="oggetto"   ng-model="criteria.oggetto"></th>
+							<th><input class="form-group fixed-small-width-150" type="text" name="area"  ng-model="criteria.area"></th>                	
+		                	
+		                	<th class="limited-width">
+		                	   	<ui-select class="form-group" ng-if="!isHiddenCol('tipoIter')" ng-model="criteria.tipoIter" theme="bootstrap">
+			                    	<ui-select-match allow-clear="true">{{$select.selected}}</ui-select-match>
+			                    	<ui-select-choices repeat="item in tipiIter | filter: $select.search track by $index">
+			                            <div ng-bind-html="item | highlight: $select.search"></div>
+			                    	</ui-select-choices>
+		                      	</ui-select>
+		                    </th>
+		                	
+		                	<th class="limited-width">
+		                	   	<ui-select class="form-group" ng-model="criteria.stato" theme="bootstrap">
+			                    	<ui-select-match allow-clear="true">{{$select.selected}}</ui-select-match>
+			                    	<ui-select-choices repeat="item in stati | orderBy:'toString()' | filter: $select.search track by $index">
+			                            <div ng-bind-html="item | highlight: $select.search"></div>
+			                    	</ui-select-choices>
+		                      	</ui-select>
+		                    </th>
+             		
+	                		<th ><input class="form-group fixed-small-width" type="text" name="numeroAdozione"  ng-model="criteria.numeroAdozione"></th>
+		                	<th>
+		                		<div class="form-group">
+									<div class="input-group" style="position:inherit;">
+		                				<input class="fixed-width" type="text" name="dataAdozione"   ng-model="criteria.dataAdozione" bs-datepicker onkeydown="return false;">
+		                				 <div class="input-group-addon" style="padding:0px !important;width:0px;"><button title="Cancella Data" ng-click="criteria.dataAdozione = null;" class="btn btn-xs btn-link"><span class="glyphicon glyphicon-remove"></span></button></div>
+									</div>
+								</div>
+		                	</th>
+		                	<th ng-if="!isHiddenCol('codicecifraAttoRevocato')"><input type="text" class="form-group" name="codicecifraAttoRevocato"   ng-model="criteria.attoRevocato"></th>
+		                    <th ng-if="!isHiddenCol('cig')"><input type="text" name="codiceCig" class="form-group"   ng-model="criteria.codiceCig"></th>
+		                    <th ng-if="!isHiddenCol('cup')"><input type="text" name="codiceCup" class="form-group"   ng-model="criteria.codiceCup"></th>
+		                    <th></th>
+		                </tr>
+		                <tr><td colspan="16" class="text-center"><button class="btn btn-primary btn-sm" ng-click="ricerca()"><span class="glyphicon glyphicon-search"></span> <span translate="global.messages.cerca" class="ng-scope">Cerca</span></button> <button class="btn btn-primary btn-sm" ng-click="resetRicerca()">
+								<span translate="global.messages.resetricerca" class="ng-scope">Reset
+									ricerca</span>
+							</button></td></tr>
+		            </thead>
+		            <tbody>
+		                <tr ng-repeat="atto in attos">
+		                    <td>{{atto.codiceCifra}}</td>
+		                    <td>{{atto.dataCreazione| date:'dd/MM/yyyy'}}</td>
+		                    <td style="word-wrap: break-word; max-width: 300px">{{visualizzaOggetto(atto.oggetto)}}</td>
+		                    <td>{{atto.aoo}}</td>
+		                    <td ng-if="!isHiddenCol('tipoIter')">{{atto.tipoIter}}</td> 
+		                    <td>{{atto.stato}}</td>
+		                    <td >{{atto.numeroAdozione}}</td>
+							<td >{{atto.dataAdozione| date:'dd/MM/yyyy'}}</td>
+							<td ng-if="!isHiddenCol('codicecifraAttoRevocato')">{{atto.codicecifraAttoRevocato}}</td>
+							<td ng-if="!isHiddenCol('cig')" style="word-wrap: break-word; max-width: 150px">{{atto.codiceCig}}</td>
+							<td ng-if="!isHiddenCol('cup')" style="word-wrap: break-word; max-width: 150px">{{atto.codiceCup}}</td>
+							
+		                    <td>
+		                        <button type="submit"
+		                        	ui-sref="attoDetail({id:atto.id})"
+		                        	class="btn btn-info btn-sm btn-block">
+		                        	<span class="glyphicon glyphicon-eye-open"></span>&nbsp;<span translate="entity.action.view"> View</span>
+		                    	</button>
+		                    	<!-- <a ng-href="api/attos/xml/{{atto.id}}" target="_blank" style="color:white;" class="btn btn-primary btn-xs btn-block"> 
+		                    	<span class="fa fa-file-code-o"></span> Xml
+		                    </a> -->
+		                	</td>
+		            	</tr>
+		        	</tbody>
+		    	</table>
+		    	<div ng-if="attos && attos.length == 0 && !loading" class="search-no-result"><h3 translate="global.searchNoResult"></h3></div>
+				<div ng-if="attos && attos.length == 0&& loading" class="search-no-result"><h3 translate="global.loading"></h3></div>
+			</div>
+	    	<nav>
+		        <ul class="pagination">
+		            <li ng-show="links['first']" ng-click="loadPage(links['first'])"><a>&lt;&lt;</a></li>
+		            <li ng-show="links['prev']" ng-click="loadPage(links['prev'])"><a>&lt;</a></li>
+		            <li ng-show="page > 2" ng-click="loadPage(page - 2)"><a>{{page - 2}}</a></li>
+		            <li ng-show="page > 1" ng-click="loadPage(page - 1)"><a>{{page - 1}}</a></li>
+		            <li class="active"><a>{{page}}</a></li>
+		            <li ng-show="page < links['last']" ng-click="loadPage(page + 1)"><a>{{page + 1}}</a></li>
+		            <li ng-show="page < links['last'] - 1" ng-click="loadPage(page + 2)"><a>{{page + 2}}</a></li>
+		            <li ng-show="links['next']" ng-click="loadPage(links['next'])"><a>&gt;</a></li>
+		            <li ng-show="links['last']" ng-click="loadPage(links['last'])"><a>&gt;&gt;</a></li>
+		        </ul>
+		    </nav>
+	    </div> 
+	
+	<!-- elenco atti per seduta -->
+	<div ng-if="criteria.viewtype == 'elencopersedute' && tipoAtto == 'sedute'"> tab8
+	    <div class="form-group " >
+	        <div ui-tree="options"  >
+	        	<table class="table table-striped">
+			        	<thead>		
+		                    <tr>
+		                    	<th>Filtri seduta:</th>
+		                    	<th>
+		                    	<span>Data seduta</span>
+		                    	</th>
+		                    	<th>
+		                    		<div class="form-group">
+										<div class="input-group" style="position:inherit;">
+		                    				<input class="fixed-width" type="text" name="inizioDataSeduta"  placeholder="Da" ng-model="criteria.inizioDataSeduta" bs-datepicker  onkeydown="return false;">
+		                    				 <div class="input-group-addon" style="padding:0px !important;width:0px;"><button title="Cancella Data" ng-click="criteria.inizioDataSeduta = null;" class="btn btn-xs btn-link"><span class="glyphicon glyphicon-remove"></span></button></div>
+										</div>
+									</div>
+									<div class="form-group">
+										<div class="input-group" style="position:inherit;">
+		                					<input class="fixed-width" type="text" name="fineDataSeduta" placeholder="A"  ng-model="criteria.fineDataSeduta" bs-datepicker  onkeydown="return false;">
+		                					 <div class="input-group-addon" style="padding:0px !important;width:0px;"><button title="Cancella Data" ng-click="criteria.fineDataSeduta = null;" class="btn btn-xs btn-link"><span class="glyphicon glyphicon-remove"></span></button></div>
+										</div>
+									</div>
+		                    	</th>
+		                    	<th>
+		                    	<span>Luogo</span>
+		                    	</th>
+		                    	<th>
+		                    		<input type="text" class="form-group" name="luogoSeduta"   ng-model="criteria.luogoSeduta">
+		                    	</th>
+		                    </tr>
+		                    <tr>
+			                	<th width="5%"></th>
+			                	<th width="5%" colname="01-estremiSeduta" style="display:none"><span translate="cifra2gestattiApp.atto.estremiSeduta">estremiSeduta</span></th>
+			                	<th width="5%" colname="02-esitoSeduta" ><span translate="cifra2gestattiApp.atto.esitoSeduta">esitoSeduta</span></th>		                    
+			                	<th width="5%" colname="03-numeroAdozione"><span translate="cifra2gestattiApp.atto.numeroAdozione">numeroAdozione</span></th>
+			                	<th width="10%" colname="04-dataAdozione"><span translate="cifra2gestattiApp.atto.dataAdozione">dataAdozione</span></th>
+			                	<th width="10%" colname="05-tipoProvvedimento" ><span translate="cifra2gestattiApp.atto.tipoProvvedimento">tipoProvvedimento</span></th>
+		                     	<th width="10%" colname="06-codiceCifra"><span translate="cifra2gestattiApp.atto.codiceCifraNotRequired">codiceCifra</span></th>
+		                     <th width="40%" colname="07-oggetto"><span translate="cifra2gestattiApp.atto.oggettoNotRequired">oggetto</span></th>
+		                    <th width="5%" colname="08-relatore"><span translate="cifra2gestattiApp.atto.relatore">relatore</span></th>
+		                   <th width="10%" colname="09-assenti"><span translate="cifra2gestattiApp.atto.assenti">assenti</span></th>
+		                    </tr>
+		                     <tr>
+		                	<th><button class="btn btn-primary btn-sm btn-block" ng-click="ricerca()"><span class="glyphicon glyphicon-search"/> <span translate="global.messages.cerca">Ricerca</span></button> <button class="btn btn-primary btn-sm btn-block" ng-click="resetRicerca();criteria.assenti=null;"><span translate="global.messages.resetricerca">Reset ricerca</span></button></th>
+	                		<th class="limited-width">
+		                	   	<ui-select class="form-group" ng-model="criteria.esitoSeduta" theme="bootstrap">
+			                    	<ui-select-match allow-clear="true">{{$select.selected}}</ui-select-match>
+			                    	<ui-select-choices repeat="item in esitiSeduta | orderBy:'toString()' | filter: $select.search track by $index">
+			                            <div ng-bind-html="item | highlight: $select.search"></div>
+			                    	</ui-select-choices>
+		                      	</ui-select>
+		                    </th>
+	                		<th><!-- <input class="fixed-small-width" type="text" name="numeroAdozione"  ng-model="criteria.numeroAdozione"> -->
+	                		<input class="fixed-small-width" type="text" name="numeroAdozioneDa"  placeholder="Da" ng-model="criteria.numeroAdozioneDa">
+	                		<input class="fixed-small-width" type="text" name="numeroAdozioneA" placeholder="A" ng-model="criteria.numeroAdozioneA"></th>
+	                		<th>
+	                			<div class="form-group">
+									<div class="input-group" style="position:inherit;">
+		                				<input class="fixed-width" type="text" name="dataAdozione"  placeholder="Da" ng-model="criteria.dataAdozione" bs-datepicker  onkeydown="return false;">
+		                				 <div class="input-group-addon" style="padding:0px !important;width:0px;"><button title="Cancella Data" ng-click="criteria.dataAdozione = null;" class="btn btn-xs btn-link"><span class="glyphicon glyphicon-remove"></span></button></div>
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="input-group" style="position:inherit;">
+		                				<input class="fixed-width" type="text" name="dataAdozioneA" placeholder="A"  ng-model="criteria.dataAdozioneA" bs-datepicker  onkeydown="return false;">
+		                				<div class="input-group-addon" style="padding:0px !important;width:0px;"><button title="Cancella Data" ng-click="criteria.dataAdozioneA = null;" class="btn btn-xs btn-link"><span class="glyphicon glyphicon-remove"></span></button></div>
+									</div>
+								</div>
+		                	</th>
+	                		<th><!-- <input type="text" name="tipoProvvedimento"   ng-model="criteria.tipoProvvedimento">-->
+	                		<div class="form-group">
+				                    	<div class="input-group" style="position:inherit;">
+				                    	<select class="form-control" style="width:100%" name="TipoAtto" ng-model="criteria.tipoProvvedimento" ng-options="tipoAtto.codice as tipoAtto.descrizione for tipoAtto in tipoattos"></select>
+				                    	<div class="input-group-addon" style="padding:0px !important;width:0px;">
+				                    		<button title="Cancella Tipo Atto" ng-click="criteria.tipoProvvedimento = null;" class="btn btn-xs btn-link" ng-if="criteria.tipoProvvedimento != null"><span class="glyphicon glyphicon-remove"></span></button>
+				                    	</div>
+				                    	</div>
+			                    	</div>
+	                		
+	                		</th>
+	                		<th><input type="text" class="form-group" name="codiceCifra"   ng-model="criteria.codiceCifra"></th>
+	                		<th><input type="text" class="form-group" name="oggetto"   ng-model="criteria.oggetto"></th>
+	                		<th><input type="text" class="form-group" name="istruttore"   ng-model="criteria.istruttore"></th>
+	                		<th  class="limited-width">
+	                		<input type="text" class="form-group" name="assenti"   ng-model="criteria.assenti">
+		                	   	<!-- <si-no-select ng-model="criteria.assenti" ></si-no-select>-->
+		                    </th>
+		                	
+	                	
+		                </tr>
+		                    
+		                    
+		                    
+		                    
+		                    </thead>
+		                    <tr ng-repeat-start="seduta in sedutas">
+		                    	<td colspan="9">
+              <button ng-if="seduta.expanded" ng-click="seduta.expanded = false" class="btn btn-success btn-xs"><span class="glyphicon glyphicon-chevron-right"></span></button>
+              <button ng-if="!seduta.expanded" ng-click="seduta.expanded = true" class="btn btn-success btn-xs"><span class="glyphicon glyphicon-chevron-down"></span></button>
+              <label  data-nodrag >{{seduta.primaConvocazioneInizio | date:'dd/MM/yyyy HH:mm:ss'}} - {{seduta.luogo}} </label>
+            </td>
+		                    </tr>
+		                    <tr ng-repeat-end ng-repeat="atto in attos" ng-if="atto.sedutaGiunta.id == seduta.id && seduta.expanded">
+		                    	<td width="5%"></td>
+		                    	<td width="5%" style="display:none">{{seduta.primaConvocazioneInizio | date:'dd/MM/yyyy HH:mm:ss'}} - {{seduta.luogo}}</td>
+					    		<td width="5%">{{getEsitoLabel(atto.esito)}}</td>
+					    		<td width="5%">{{atto.numeroAdozione}}</td>
+					    		<td width="10%">{{atto.dataAdozione| date:'dd/MM/yyyy'}}</td>
+					    		<td width="10%">{{atto.tipoProvvedimento}}</td>
+					    		<td width="10%">{{atto.codiceCifra}}</td>
+					    		<td width="40%">{{visualizzaOggetto(atto.oggetto)}}</td>
+					    		<td width="5%">{{atto.denominazioneRelatore}} </td>
+					    		<td width="10%">{{atto.assenti}}  </td>
+			            	</tr>
+		         </table>
+	        </div>
+	    </div>
+	    
+	    
+	    
+	</div>
+	</div>
+</div>

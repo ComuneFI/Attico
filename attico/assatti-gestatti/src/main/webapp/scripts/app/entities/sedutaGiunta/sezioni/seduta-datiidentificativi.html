@@ -1,0 +1,206 @@
+	<div ng-if="isOperatoreOdg && sedutaGiunta.organo == 'G'">
+		<div class="form-group">
+				<a target="_blank" href="/api/sedutaGiuntas/generareport/{{profiloattivo.id}}/{{sedutaGiunta.id}}/{{nomeFile(sedutaGiunta)}}?access_token={{access_token}}" class="btn btn-xs btn-success" style="color:white;">
+				    <span class="glyphicon glyphicon-save"></span>&nbsp;<span  >Esporta ODG in Excel</span>
+				</a>
+		</div>
+	</div>
+	<div ng-if="isOperatoreOdg && sedutaGiunta.organo == 'C'">
+		<div class="form-group">
+				<a target="_blank" href="/api/sedutaGiuntas/generareport/{{profiloattivo.id}}/{{sedutaGiunta.id}}/{{nomeFile(sedutaGiunta)}}?access_token={{access_token}}" class="btn btn-xs btn-success" style="color:white;">
+				    <span class="glyphicon glyphicon-save"></span>&nbsp;<span  >Esporta ODL in Excel</span>
+				</a>
+		</div>
+	</div>
+
+	<div class="form-group">
+		<div class="form-group col-sm-3">
+			<label translate="cifra2gestattiApp.sedutaGiunta.numeroOdg">Numero</label>
+			<input class="form-control" name="numeroOdg" ng-model="sedutaGiunta.numero" readonly>
+		</div>
+		<div class="form-group col-sm-1">
+			<br/>
+			<button ng-if="sedutaGiunta.numero && sedutaGiunta.organo == 'C' && sedutaGiunta.fase != sedutaConstants.fasiSeduta.CONCLUSA"
+					type="button" ng-click="showEditNumeroSeduta()"
+					class="btn btn-danger btn-sm"><span translate="entity.action.edit">Edit</span></button>
+		</div>
+		<div class="form-group col-sm-4">
+			<label translate="cifra2gestattiApp.sedutaGiunta.luogo">Luogo</label>
+			<input type="text" ng-disabled="isSolaLettura() || (!isOperatoreSegreteriaConsiglio && !isOperatoreSegreteriaGiunta)" class="form-control" name="luogo" ng-model="sedutaGiunta.luogo" required>
+		</div>
+		<div class="form-group col-sm-4">
+			<label translate="cifra2gestattiApp.sedutaGiunta.protocollo">Numero Protocollo</label>
+			<input type="text" ng-disabled="isSolaLettura() || (!isOperatoreSegreteriaConsiglio && !isOperatoreSegreteriaGiunta)" class="form-control" name="protocollo" ng-model="sedutaGiunta.protocollo">
+		</div>
+	</div>
+
+	<hr>
+
+	<!-- <h4><span translate="cifra2gestattiApp.sedutaGiunta.convocazione.prima">Prima convocazione</span></h4> -->
+	<div class="form-group">
+		<div class="form-group col-sm-6">
+			<label translate="cifra2gestattiApp.sedutaGiunta.dataOraInizioLavori">Data e ora - Convocazione</label>
+
+			<input class="form-control" name="primaConvocazioneInizio"
+			       ng-model="sedutaGiunta.primaConvocazioneInizio"
+			       ng-model-options="{ updateOn: 'blur' }"
+			       placeholder="gg/mm/aaaa, --:--"
+			       ng-disabled="isSolaLettura() || (!isOperatoreSegreteriaConsiglio && !isOperatoreSegreteriaGiunta)"
+			       moment-picker
+			       autocomplete="off"
+			       size="17"
+			       maxlength="17"
+			       required>
+
+		</div>
+		<input type="hidden" ng-required="!sedutaGiunta.primaConvocazioneInizio || !sedutaGiunta.primaConvocazioneInizio._isAMomentObject" ng-model="primaConvocazioneInizioValidation">
+		<div class="form-group col-sm-6" >
+			<label translate="cifra2gestattiApp.sedutaGiunta.tipoSeduta">TipoSeduta</label>
+			<select ng-disabled="isSolaLettura() || (!isOperatoreSegreteriaConsiglio && !isOperatoreSegreteriaGiunta)" ng-model="sedutaGiunta.tipoSeduta" class="form-control" ng-options="item.valore as item.label for item in [{valore:1,label:'Ordinaria'},{valore:2,label:'Straordinaria'}]" required>
+			</select>
+		</div>
+		<div style="clear:both"></div>
+	</div>
+	<div class="form-group" ng-if="(sedutaGiunta.fase == sedutaConstants.fasiSeduta.PREDISPOSTA || sedutaGiunta.fase == sedutaConstants.fasiSeduta.CONCLUSA) && modificaEstremi == false">
+
+		<div class="form-group col-sm-6">
+			<label translate="cifra2gestattiApp.sedutaGiunta.dataOraInizioLavoriEffettiva">Data e ora - Inizio lavori Effettiva</label>
+
+			<input class="form-control" name="inizioLavoriEffettiva" id="dtInizioLavoriEffettiva"
+				ng-model="sedutaGiunta.inizioLavoriEffettiva"
+				ng-model-options="{ updateOn: 'blur' }"
+				placeholder="gg/mm/aaaa, --:--"
+				ng-disabled="sedutaGiunta.fase == sedutaConstants.fasiSeduta.CONCLUSA || !isOperatoreOdg"
+				moment-picker
+				autocomplete="off"
+				size="17"
+				maxlength="17"
+				required>
+			<input type="hidden" ng-required="!sedutaGiunta.inizioLavoriEffettiva || !sedutaGiunta.inizioLavoriEffettiva._isAMomentObject" ng-model="inizioLavoriEffettivaValidation">
+			<div style="color:red" ng-if="editForm.inizioLavoriEffettiva.$error.min !== undefined">La data ora Inizio Lavori effettiva deve essere successiva alla data ora Inizio Lavori</div>
+		</div>
+		<div class="form-group col-sm-6">
+			<label translate="cifra2gestattiApp.sedutaGiunta.dataOraFineLavori">Data e ora - Fine lavori Effettiva</label>
+
+			<input class="form-control" name="primaConvocazioneFine" id="dtPrimaConvocazioneFine"
+				ng-model="sedutaGiunta.primaConvocazioneFine"
+				ng-model-options="{ updateOn: 'blur' }"
+				placeholder="gg/mm/aaaa, --:--"
+				ng-disabled="sedutaGiunta.fase == sedutaConstants.fasiSeduta.CONCLUSA || !isOperatoreOdg"
+				moment-picker
+				autocomplete="off"
+				size="17"
+				maxlength="17"
+				required>
+				<!-- max-date="endOfToday" -->
+			<input type="hidden" ng-required="!sedutaGiunta.primaConvocazioneFine || !sedutaGiunta.primaConvocazioneFine._isAMomentObject" ng-model="primaConvocazioneFineValidation">
+			<div style="color:red" ng-if="editForm.primaConvocazioneFine.$error.min !== undefined">La data ora Fine Lavori deve essere successiva alla data ora Inizio Lavori</div>
+		</div>
+	</div>
+
+	<hr>
+
+	<div class="form-group" ng-if="modificaEstremi == true || sedutaGiunta.secondaConvocazioneInizio != null">
+		<h4 class="col-sm-12"><span translate="cifra2gestattiApp.sedutaGiunta.convocazione.seconda">Variazione</span></h4>
+		<div class="form-group col-sm-12" ng-if="modificaEstremi == true || sedutaGiunta.secondaConvocazioneInizio != null">
+			<label translate="cifra2gestattiApp.sedutaGiunta.luogo">Luogo</label>
+			<input type="text" ng-disabled="isSolaLettura() && disabledCampiVariazione() == true" class="form-control" name="secondaConvocazioneLuogo" ng-model="sedutaGiunta.secondaConvocazioneLuogo" required>
+		</div>
+		<div class="form-group col-sm-6">
+			<label translate="cifra2gestattiApp.sedutaGiunta.dataOraInizioLavori">Data e ora - Inizio lavori</label>
+
+			<input class="form-control" name="secondaConvocazioneInizio"
+				ng-model="sedutaGiunta.secondaConvocazioneInizio"
+				ng-model-options="{ updateOn: 'blur' }"
+				placeholder="gg/mm/aaaa, --:--"
+				ng-disabled="isSolaLettura() && disabledCampiVariazione() == true"
+				moment-picker
+				autocomplete="off"
+				size="17"
+				maxlength="17"
+				required>
+			<input type="hidden" ng-required="!sedutaGiunta.secondaConvocazioneInizio || !sedutaGiunta.secondaConvocazioneInizio._isAMomentObject" ng-model="secondaConvocazioneInizioValidation">
+		</div>
+		<div class="form-group col-sm-6" ng-if="isSolaLettura() && disabledCampiVariazione() == true">
+			<label translate="cifra2gestattiApp.sedutaGiunta.sottoscrittoreVariaz">Sottoscrittore Doc Variazione</label>
+			<ui-select ng-disabled="true" ng-model="sedutaGiunta.sottoscrittoreDocVariazione" theme="bootstrap" title="Ricerca sottoscrittore...">
+				<ui-select-match placeholder="Cerca profili..">{{$select.selected.descrizione}} - {{$select.selected.utente.cognome}} {{$select.selected.utente.nome}}</ui-select-match>
+           		<ui-select-choices repeat="profilo in profilosSottoscrittoriOdg | filter: $select.search">
+					<div ng-bind-html="profilo.descrizione | highlight: $select.search"></div>
+					<small>
+                      	Ufficio: <span ng-bind-html="profilo.aoo.descrizione| highlight: $select.search"  ></span>
+                        Utente: <span ng-bind-html="profilo.utente.cognome +' '+ profilo.utente.nome| highlight: $select.search"  ></span>
+					</small>
+				</ui-select-choices>
+			</ui-select>
+		</div>
+		<div style="clear:both"></div>
+	</div>
+
+	<div class="form-group" ng-if="showSottoscrittoreAnnull()">
+		<div class="form-group col-sm-6" >
+			<label translate="cifra2gestattiApp.sedutaGiunta.annullataDa">Seduta annulla da</label>
+			<ui-select ng-disabled="true" ng-model="sedutaGiunta.sottoscrittoreDocAnnullamento" theme="bootstrap" title="Ricerca sottoscrittore..." required>
+				<ui-select-match placeholder="Cerca profili..">{{$select.selected.descrizione}} - {{$select.selected.utente.cognome}} {{$select.selected.utente.nome}}</ui-select-match>
+           		<ui-select-choices repeat="profilo in profilosSottoscrittoriOdg | filter: $select.search">
+					<div ng-bind-html="profilo.descrizione | highlight: $select.search"></div>
+					<small>
+                      	Ufficio: <span ng-bind-html="profilo.aoo.descrizione| highlight: $select.search"  ></span>
+                        Utente: <span ng-bind-html="profilo.utente.cognome +' '+ profilo.utente.nome| highlight: $select.search"  ></span>
+					</small>
+				</ui-select-choices>
+			</ui-select>
+		</div>
+		<div class="form-group col-sm-6" >
+		</div>
+		<div style="clear:both"></div>
+	</div>
+
+	<div class="form-group">
+		<div class="form-group col-sm-6" >
+			<label translate="cifra2gestattiApp.sedutaGiunta.presidente">presidente</label>
+			<ui-select  ng-disabled="(isSolaLettura() && !modificaEstremi) || (!isOperatoreSegreteriaConsiglio && !isOperatoreSegreteriaGiunta)" ng-model="sedutaGiunta.presidente"  theme="bootstrap" title="Ricerca presidente">
+          		<ui-select-match allow-clear="{{!(isSolaLettura() && !modificaEstremi)}}" placeholder="Cerca profili..">{{$select.selected.descrizione}} - {{$select.selected.utente.cognome}} {{$select.selected.utente.nome}} </ui-select-match>
+            	<ui-select-choices repeat="profilo in profilosPresidente | filter: $select.search">
+            		<div ng-bind-html="profilo.descrizione | highlight: $select.search"></div>
+                	<small>
+                		Ufficio: <span ng-bind-html="profilo.aoo.descrizione| highlight: $select.search"  ></span>
+						Utente: <span ng-bind-html="profilo.utente.cognome +' '+ profilo.utente.nome| highlight: $select.search"  ></span>
+					</small>
+				</ui-select-choices>
+			</ui-select>
+		</div>
+
+		<div class="form-group col-sm-6" >
+			<label translate="cifra2gestattiApp.sedutaGiunta.vicepresidente">vicepresidente</label>
+			<ui-select ng-disabled="(isSolaLettura() && !modificaEstremi) || (!isOperatoreSegreteriaConsiglio && !isOperatoreSegreteriaGiunta)" ng-model="sedutaGiunta.vicepresidente"  theme="bootstrap" title="Ricerca vicepresidente">
+          		<ui-select-match allow-clear="{{!(isSolaLettura() && !modificaEstremi)}}" placeholder="Cerca profili..">{{$select.selected.descrizione}} - {{$select.selected.utente.cognome}} {{$select.selected.utente.nome}} </ui-select-match>
+            	<ui-select-choices repeat="profilo in profilosVicePresidente | filter: $select.search">
+            		<div ng-bind-html="profilo.descrizione | highlight: $select.search"></div>
+                	<small>
+                		Ufficio: <span ng-bind-html="profilo.aoo.descrizione| highlight: $select.search"  ></span>
+						Utente: <span ng-bind-html="profilo.utente.cognome +' '+ profilo.utente.nome| highlight: $select.search"  ></span>
+					</small>
+				</ui-select-choices>
+			</ui-select>
+		</div>
+	</div>
+	<div class="form-group">
+		<div class="form-group col-sm-6" >
+			<label translate="cifra2gestattiApp.sedutaGiunta.segretarioNotRequired">segretario</label>
+			<ui-select ng-disabled="(isSolaLettura() && !modificaEstremi) || (!isOperatoreSegreteriaConsiglio && !isOperatoreSegreteriaGiunta)" ng-model="sedutaGiunta.segretario" theme="bootstrap" title="Ricerca segretario">
+				<ui-select-match allow-clear="{{!(isSolaLettura() && !modificaEstremi)}}" placeholder="Cerca profili..">{{$select.selected.descrizione}} - {{$select.selected.utente.cognome}} {{$select.selected.utente.nome}}</ui-select-match>
+           		<ui-select-choices repeat="profilo in profilos | filter: $select.search">
+					<div ng-bind-html="profilo.descrizione | highlight: $select.search"></div>
+					<small>
+                      	Ufficio: <span ng-bind-html="profilo.aoo.descrizione| highlight: $select.search"  ></span>
+                        Utente: <span ng-bind-html="profilo.utente.cognome +' '+ profilo.utente.nome| highlight: $select.search"  ></span>
+					</small>
+				</ui-select-choices>
+			</ui-select>
+		</div>
+		<div class="form-group col-sm-6" >
+		</div>
+		<div style="clear:both"></div>
+	</div>
+</div>

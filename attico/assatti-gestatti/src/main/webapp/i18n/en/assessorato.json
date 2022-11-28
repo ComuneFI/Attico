@@ -1,0 +1,34 @@
+{
+    "cifra2gestattiApp": {
+        "assessorato" : {
+            "home": {
+                "title": "Elenco Assessorati",
+                "createLabel": "Crea una nuova Denominazione",
+                "createOrEditLabel": "Crea o modifica una Denominazione"
+            },
+            "delete": {
+                "question": "Sei sicuro di voler eliminare  Assessorato {{ id }}?"
+            },
+            "detail": {
+                "title": "Assessorato"
+            },
+            "filtro":{
+            	"label-stato" : "State",
+            	"stato" : {
+            		"disattivati" : "Deactivated departments",
+            		"attivi" : "Activated departments",
+            		"entrambi" : "Both"
+            	}
+            },
+            "profiloresponsabile":"Profilo Responsabile",
+            "id":"ID",
+            "denominazione":"Denominazione",
+            "qualifica":"Qualifica",
+            "codice": "Codice",
+            "indirizzo": "Indirizzo",
+            "telefono": "Telefono",
+            "fax": "Fax",
+            "nominativoresponsabile": "Responsabile"
+        }
+    }
+}

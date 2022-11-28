@@ -1,0 +1,36 @@
+<div ng-repeat="parere in atto.pareri">
+	
+	
+	<div class="list-group" >
+		<h3>Documenti del {{parere.tipoAzione.descrizione}}</h3>
+		<a ng-repeat="documento in parere.documentiPdf" class="list-group-item padding"  target="_blank" href="api/attos/{{atto.id}}/documento/{{documento.id}}?access_token={{access_token}}"  >
+	        <span class="label label-{{parere.parereSintetico == 'positivo' ?'success':'danger' }}">{{parere.parereSintetico}}</span> - 
+			
+	        <i  class="fa fa-file-pdf-o"></i>
+	        
+	        {{documento.file.nomeFile}}   
+			
+			<span class="label label-info pull-right">({{documento.createdBy}} - {{documento.createdDate | date:'medium'}})</span>
+	    	
+        	<span class="label label-warning pull-right"  ng-if="documento.firmato" ><i   class="fa fa-shield"></i> Firmato digitalmente da {{documento.firmatario}}</span>
+        	<span class="label label-success pull-right"  ng-if="documento.numeroProtocollo != null && documento.numeroProtocollo != ''" ><i   class="fa fa-shield"></i> Protocollato con n. {{documento.numeroProtocollo}}</span>
+        	<br/><span style="width: 100%;" ng-if="documento.diogenes && documento.diogenes.length > 0"><br/><!-- <span translate="global.diogeneid"></span>: [<span ng-repeat="diogene in documento.diogenes track by $index">{{diogene.idDocumentoDiogene}}{{documento.diogenes.length - 1 > $index ? ',' : ''}}</span>] </span> -->
+		</a>
+	</div>
+			
+	<div class="list-group" >
+		<h3>Allegati parte integrante del {{parere.tipoAzione.descrizione}}</h3>
+		<a ng-repeat="allegato in parere.allegati" class="list-group-item"  target="_blank" href="api/attos/{{atto.id}}/allegato/{{allegato.id}}?access_token={{access_token}}"  >
+	        <span class="label label-{{parere.parereSintetico == 'positivo' ?'success':'danger' }}">{{parere.parereSintetico}}</span> - 
+			
+	        <i  class="fa fa-file-pdf-o"></i>
+	        
+	        {{allegato.file.nomeFile}}
+			
+			<span class="label label-info pull-right">({{allegato.file.createdBy}} - {{allegato.file.createdDate | date:'medium'}})</span>
+			<br/><span style="width: 100%;" ng-if="documento.diogenes && documento.diogenes.length > 0"><br/><!-- <span translate="global.diogeneid"></span>: [<span ng-repeat="diogene in documento.diogenes track by $index">{{diogene.idDocumentoDiogene}}{{documento.diogenes.length - 1 > $index ? ',' : ''}}</span>] </span> -->
+		</a>
+	</div>
+	
+	<br>
+</div>

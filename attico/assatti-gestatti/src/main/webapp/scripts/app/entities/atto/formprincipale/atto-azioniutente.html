@@ -1,0 +1,186 @@
+<div class="row">
+	<div class="col-md-12">
+		<nav ng-if="atto.id > 0">
+			<ul class="pager">
+	
+	
+				<!-- <li class="previous"><a ng-if="thereisPrevious(indexSezioneCorrente)"
+					href ng-click="loadSection(previusSection)">Indietro</a></li> -->
+	
+				<li><span class="md-subhead">
+						<!-- {{atto.stato}}  -->{{ultimoStato | date:'short'}} {{dataStato | date:'short'}}
+						<!-- {{atto.avanzamento[0].dataAttivita | date:'short'}} -->
+						<!-- <span
+						ng-if="atto.id > 0">- v.{{atto.version}}</span> -->
+						<br /><span ng-if="!hasBackRicerca()"><a ui-sref="taskDesktop" class="btn btn-xs btn-primary"><span class="glyphicon glyphicon-menu-left"></span>Torna alla Scrivania</a></span>
+						<span ng-if="hasBackRicerca()"><button class="btn btn-xs btn-primary everActive" ng-click="goBack()" ng-show="hasBack()"><span class="glyphicon glyphicon-menu-left"></span>Torna alla ricerca</button></span>
+				</span></li>
+				<!-- <li class="next"><a
+					ng-if="!taskLoading && thereisNext(indexSezioneCorrente)"
+					href ng-click="loadSection(nextSection)">Avanti</a></li> -->
+	
+			</ul>
+	
+		</nav>
+	
+		<nav>
+			<ul class="nav nav-pills">
+	
+				<li ng-if="atto.id > 0">
+					<!--<div class="dropdown">
+						<a class="btn btn-primary btn-sm" target="_blank"
+								href="/api/preview/reportIterAtto{{atto.id}}.pdf?access_token={{access_token}}">
+									<i class="fa fa-file-pdf-o"></i>&nbsp;<span>Anteprima Report Iter</span>
+							</a>
+					</div>-->
+					
+					<div class="dropdown" ng-repeat="tipoDocumento in previewElencoTipoDocumento" style="margin-right: 10px; float: left;">
+						<div>
+							<button class="btn btn-default btn-sm dropdown-toggle everActive"
+								type="button" id="dropdownMenuPreview{{tipoDocumento.idTipoDocumento}}" data-toggle="dropdown"
+								aria-haspopup="true" aria-expanded="true"
+								>
+								<span>Anteprima {{tipoDocumento.descrizione}}</span> <span class="caret"></span>
+							</button>
+							<ul class="dropdown-menu" aria-labelledby="dropdownMenuPreview{{tipoDocumento.idTipoDocumento}}">
+								<li ng-repeat="modelloHtml in tipoDocumento.elencoModelloHtml">
+									<a ng-if="atto.id > 0" target="_blank" href="/api/preview/{{modelloHtml.idModelloHtml}}/atto{{atto.id}}.pdf?access_token={{access_token}}&omissis=false">
+										<i class="fa fa-file-pdf-o"></i>&nbsp;<span>{{modelloHtml.titolo}}</span>
+									</a>
+									<!-- ng-if="atto.pubblicazioneIntegrale == false && !mostraAnteprimaParere && isFirmaAtto" -->
+									<a ng-if="atto.pubblicazioneIntegrale == false" target="_blank" href="/api/preview/{{modelloHtml.idModelloHtml}}/atto{{atto.id}}.pdf?access_token={{access_token}}&omissis=true">
+										<i class="fa fa-file-pdf-o"></i>&nbsp;<span>{{modelloHtml.titolo}} (Omissis)</span>
+									</a>
+								</li>
+							</ul>
+						</div>
+					</div>
+					
+					<div class="dropdown">
+						<button class="btn btn-default btn-sm dropdown-toggle everActive"
+							type="button" id="dropdownMenu3" data-toggle="dropdown"
+							aria-haspopup="true" aria-expanded="true"
+							ng-if="mostraAnteprimaParere">
+							<span>{{atto.pareri[0].parereSintetico != 'ritirato_proponente' ? 'Anteprima Parere' : 'Anteprima Restituzione'}}</span> <span class="caret"></span>
+						</button>
+						<ul ng-if="atto.id > 0 && mostraAnteprimaParere && atto.pareri[0].parereSintetico != 'ritirato_proponente'" class="dropdown-menu" aria-labelledby="dropdownMenu3">
+							<li ng-repeat="modelloHtml in modelloHtmls | filter:{tipoDocumento:{codice:'parere'}}">
+								<a ng-if="atto.id > 0 && mostraAnteprimaParere" target="_blank"
+								href="/api/preview/{{modelloHtml.id}}/parere{{atto.pareri[0].id}}.pdf?access_token={{access_token}}">
+									<i class="fa fa-file-pdf-o"></i>&nbsp;<span>{{modelloHtml.titolo}}</span>
+							</a>
+							</li>
+						</ul>
+						<ul ng-if="atto.id > 0 && mostraAnteprimaParere && atto.pareri[0].parereSintetico == 'ritirato_proponente'" class="dropdown-menu" aria-labelledby="dropdownMenu3">
+							<li ng-repeat="modelloHtml in modelloHtmls | filter:{tipoDocumento:{codice:'restituzione_su_istanza_ufficio_proponente'}}">
+								<a ng-if="atto.id > 0 && mostraAnteprimaParere" target="_blank"
+								href="/api/preview/{{modelloHtml.id}}/parere{{atto.pareri[0].id}}.pdf?access_token={{access_token}}">
+									<i class="fa fa-file-pdf-o"></i>&nbsp;<span>{{modelloHtml.titolo}}</span>
+							</a>
+							</li>
+						</ul>
+					</div>
+					
+					<div>
+						<div>
+							<a class="btn btn-info btn-sm everActive ng-binding" ng-if="configurationParams && configurationParams.tipo_atto_proposta_completa_frontespizio && configurationParams.tipo_atto_proposta_completa_frontespizio.indexOf(atto.tipoAtto.codice+'#') > -1 && atto.id > 0 && (!atto.numeroAdozione)" target="_blank" href="/api/attos/propostaCompletaFrontespizio/{{profiloattivo.id}}/{{atto.id}}/Frontespizio_e_Proposta.pdf?access_token={{access_token}}&omissis=false">
+								<i class="fa fa-file-pdf-o"></i>&nbsp;<span>Anteprima Proposta Completa Frontespizio</span>
+							</a>
+						</div>
+					</div>
+	
+				</li>
+	
+				<!--Sistemare questa parte direttamnete dal server pulsanti prendi in carico-->
+				<li ng-if="taskBpm && (!taskBpm.idAssegnatario || taskBpm.idAssegnatario == '')" class="pull-right">
+					<button type="button" ng-disabled="taskLoading"
+						ng-click="callPrendiIncaricoTask(indexSezioneCorrente)"
+						class="btn btn-info btn-sm everActive">
+						<i class="fa fa-spinner fa-pulse" ng-if="taskLoading"></i> Prendi in carico
+					</button>
+				</li>
+				
+				<li ng-if="taskBpm && taskBpm.candidateGroups && taskBpm.idAssegnatario" class="pull-right">
+					<button ng-click="unclaim(taskDesktop)" ng-if="taskBpm.idAssegnatario && (taskBpm.candidateGroups || taskBpm.idDelegante) && profiloattivo.utente.username == taskBpm.idAssegnatario.substring(0, taskBpm.idAssegnatario.indexOf('_'))" class="btn btn-info btn-sm everActive"">
+						<span class="fa fa-code-fork"></span> <span translate="entity.action.rilascia"> rilascia</span>
+					</button>
+				</li>
+	
+				<div class="modal fade" id="unclameConfirm" tabindex="-1" role="dialog"
+					aria-labelledby="unclameConfirmLabel" aria-hidden="true">
+					<div class="modal-dialog">
+						<div class="modal-content">
+				
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal"
+										aria-hidden="true" ng-click="clear()">&times;</button>
+									<h4 class="modal-title" id="unclameConfirmLabel"
+										translate="global.manageUserTask">manage</h4>
+								</div>
+				
+								<div class="modal-body">
+									<span translate="global.confirmUnclaim" ng-if="taskBpm.candidateGroups"
+											translate-values="{codiceCifra: '{{taskBpm.codiceCifra}}', utente: '{{onlyUsername(taskBpm.idAssegnatario)}}', coda:'{{onlyAooCode(taskBpm.candidateGroups)}}', ruoli:'{{onlyRoles(taskBpm.candidateGroups)}}'}"></span>
+									<span translate="global.confirmUnclaimDelegante" ng-if="taskBpm.idDelegante"
+											translate-values="{codiceCifra: '{{taskBpm.codiceCifra}}'}"></span>
+								</div>
+				
+								<div class="modal-footer">
+									<button type="button" class="btn btn-default" data-dismiss="modal"
+										ng-click="clear()">
+										<span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span
+											translate="entity.action.cancel">Cancel</span>
+									</button>
+									<button ng-click="dounclaim(taskBpm.id, taskBpm.businessKey, indexSezioneCorrente)"
+										class="btn btn-warning">
+										<span class="fa fa-code-fork"></span>&nbsp;<span
+											translate="entity.action.rilascia">rilascia</span>
+									</button>
+								</div>
+						</div>
+					</div>
+				</div>
+	
+				<li ng-if="taskBpm && (taskBpm.idAssegnatario && taskBpm.idAssegnatario.length > 0)" class="pull-right"
+					ng-repeat="decisione in decisioni">&nbsp;
+					<button type="button"
+						ng-if="checkImpersonificaFirma(decisione)"
+						ng-click="callDecisione(indexSezioneCorrente,decisione)"
+						class="btn btn-info btn-sm everActive" 
+						ng-disabled="(!decisione.sempreAttiva || taskLoading) && (decisione.completaTask && (taskLoading || disabledButton || decisione.codice == 'DISABILITATO'))">
+						<i class="fa fa-spinner fa-pulse" ng-if="taskLoading"></i>
+						{{decisione.descrizione}}
+					</button>
+				</li>
+				
+				<!--Sistemare con solo attivita di start-->
+				<li ng-if="!(atto.id > 0)" class="pull-right"
+					ng-repeat="decisione in decisioni">
+					<button type="button"
+						ng-click="callDecisione(indexSezioneCorrente,decisione)"
+						ng-class="{'btn btn-default btn-sm everActive' : (!editForm.$valid || taskLoading), 'btn btn-primary btn-sm everActive' : !(!editForm.$valid || taskLoading)}"
+						ng-disabled="(!decisione.sempreAttiva || taskLoading) && (!editForm.$valid || taskLoading)">
+						<i class="fa fa-spinner fa-pulse" ng-if="taskLoading"></i>
+						{{decisione.descrizione}}
+					</button>
+				</li>
+				
+				<li class="pull-right" ng-if="atto.id > 0"
+					ng-repeat="decisione in decisioniPostPubblicazione">&nbsp;
+					<button type="button"
+						ng-click="callDecisione(indexSezioneCorrente,decisione)"
+						class="btn btn-info btn-sm everActive" 
+						ng-disabled="(!decisione.sempreAttiva || taskLoading) && (decisione.completaTask && (taskLoading || disabledButton || decisione.codice == 'DISABILITATO'))">
+						<i class="fa fa-spinner fa-pulse" ng-if="taskLoading"></i>
+						{{decisione.descrizione}}
+					</button>
+				</li>
+			</ul>
+		</nav>
+	</div>
+	<!-- <h3>
+	
+
+BPM tasksAssegnati:<span class="label label-info">{{tasksAssegnati.task[0].nome}}</span> - tasksArrivo:<span class="label label-info">{{tasksArrivo.task[0].nome}}</span>
+</h3> -->
+</div>

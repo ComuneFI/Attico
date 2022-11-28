@@ -1,0 +1,20 @@
+{
+    "cifra2gestattiApp": {
+        "file" : {
+            "home": {
+                "title": "Files",
+                "createLabel": "Create a new File",
+                "createOrEditLabel": "Create or edit a File"
+            },
+            "delete": {
+                "question": "Are you sure you want to delete File {{ id }}?"
+            },
+            "detail": {
+                "title": "File"
+            },
+            "nomeFile": "NomeFile",
+            "contentType": "ContentType",
+            "size": "Size"
+        }
+    }
+}

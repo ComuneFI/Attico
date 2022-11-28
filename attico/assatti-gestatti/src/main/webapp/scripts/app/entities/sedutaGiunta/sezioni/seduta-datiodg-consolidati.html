@@ -1,0 +1,417 @@
+<div class="form-group">
+	<!--
+	<div class="form-group col-sm-4">
+		<label translate="cifra2gestattiApp.sedutaGiunta.protocollo">Protocollo</label>
+		<input class="form-control" name="protocollo" ng-model="odg.protocollo" readonly>
+	</div>
+	<div class="form-group col-sm-2">
+		<label translate="cifra2gestattiApp.sedutaGiunta.dataPubblicazioneSito">Data pubblicazione</label>
+		<input type="text" class="form-control" name="dataPubblicazione" value="{{odg.dataPubblicazioneSito | date:'dd/MM/yyyy'}}" readonly >
+	</div>
+
+	<div class="form-group col-sm-5" ng-if="showSottoscrittoreOdg(odg)">
+		<label translate="cifra2gestattiApp.sedutaGiunta.sottoscrittore">Sottoscrittore</label>
+		<ui-select  ng-disabled="true" ng-model="odg.sottoscrittore"  theme="bootstrap" title="Seleziona sottoscrittore" required>
+         		<ui-select-match placeholder="Cerca profili..">{{$select.selected.descrizione}} - {{$select.selected.utente.cognome}} {{$select.selected.utente.nome}} </ui-select-match>
+           	<ui-select-choices repeat="profilo in profilosSottoscrittoriOdg | filter: $select.search">
+           		<div ng-bind-html="profilo.descrizione | highlight: $select.search"></div>
+               	<small>
+               		Ufficio: <span ng-bind-html="profilo.aoo.descrizione| highlight: $select.search"  ></span>
+					Utente: <span ng-bind-html="profilo.utente.cognome +' '+ profilo.utente.nome| highlight: $select.search"  ></span>
+				</small>
+			</ui-select-choices>
+		</ui-select>
+	</div> -->
+	<div style="clear: both;"></div>
+
+	<ul id="odgTabsConsolidati" class="nav nav-tabs" role="tablist">
+		<li id="navTab_atti_trattati" role="presentation" ng-click="openTabOdgBaseOrdinario('tab-0');" ng-class="{'active' : tabIndex == 'tab-0'}"><a showtab-odg-base-ordinario tab-selected="tab-0" name="tab-0" id="tab-0-header" href="#tab-0" role="tab" data-toggle="tab">Atti trattati</a></li>
+		<li id="navTab_atti_non_trattati" role="presentation" ng-click="openTabOdgBaseOrdinario('tab-1');" ng-class="{'active' : tabIndex == 'tab-1'}"><a name="tab-1" showtab-odg-base-ordinario tab-selected="tab-1" id="tab-1-header" href="#tab-1" role="tab" data-toggle="tab">Atti non trattati</a></li>
+		<li id="navTab_preambolo" role="presentation" ng-click="openTabOdgBaseOrdinario('tab-2');" ng-class="{'active' : tabIndex == 'tab-2'}"><a name="tab-2" showtab-odg-base-ordinario tab-selected="tab-2" id="tab-2-header" href="#tab-2" role="tab" data-toggle="tab">Preambolo {{odgStr}}</a></li>
+	</ul>
+
+
+
+	<!-- INIZIO ATTI TRATTATI -->
+	<div role="tabpanel" class="tab-pane odgBaseOrdinarioTab {{tabIndex == 'tab-0' ? ' active': ''}}" id="tab-0" >
+		<div class="{{(!isSolaLettura(odg))? 'col-sm-12' : 'col-sm-12' }} ui-tree-concatenate-node-theme">
+	  	<div class="row">
+	  		<div class="col-md-12" ng-if="sedutaGiunta.stato == sedutaConstants.statiSeduta.sedutaConclusaIndicazioneAttiTrattati.label && isOperatoreResoconto == true">
+		   			<!-- <button
+		   				ng-if="abilitaRegistraResoconto()"
+		   				ng-disabled="odg.selected == undefined || odg.selected.length < 1 || abilitaDaStato([sedutaConstants.statiAtto.propostaInAttesaDiEsito,sedutaConstants.statiAtto.propostaInseribileInOdg,sedutaConstants.statiAtto.propostaInseribileInOdl],sedutaGiunta) == false"
+		   				class="btn btn-sm btn-primary" ng-click="apriRegistraEsitoMassivo(odg)">
+		   				<span>Registra Esito Massivo</span>
+						</button>  -->
+						<button
+		   				ng-if="abilitaRegistraResoconto()"
+		   				ng-disabled="abilitaDaStato([sedutaConstants.statiAtto.propostaInAttesaDiEsito,sedutaConstants.statiAtto.propostaInseribileInOdg,sedutaConstants.statiAtto.propostaInseribileInOdl],odg) == false"
+		   				class="btn btn-sm btn-primary" ng-click="nontTrattatoMassivo(odg)">
+							<span>Non Trattati</span>
+						</button>
+
+						<!--
+						<a ng-if="sedutaGiunta.stato == sedutaConstants.statiSeduta.sedutaConclusaRegistrazioneEsiti.label && abilitaRegistraResoconto(odg) && !node.esito"
+						ng-disabled="" class="pull-right btn btn-primary btn-xs" data-nodrag ng-click="nonTrattato(node)"
+						style="margin-right: 8px;"><span>Non trattato</span></a>
+
+	   			<button
+	   				ng-if="abilitaRegistraResoconto(odg)"
+	   				ng-disabled="odg.selected == undefined || odg.selected.length < 1 || abilitaDaStato([sedutaConstants.statiAtto.propostaConEsito,sedutaConstants.statiAtto.propostaInseribileInOdg,sedutaConstants.statiAtto.propostaInAttesaDiRitiro],odg) == false"
+	   				class="btn btn-sm btn-primary"
+	   				ng-click="annullaResocontoMassivo(odg)"
+	   				>Non trattato</button>
+	   			<button
+	   				ng-if="verificaShowButtonNumeraAtto(odg)"
+	   				ng-disabled="odg.selected == undefined || odg.selected.length < 1 || verificaEnableButtonNumeraAtto(odg.selected) == false"
+	   				class="btn btn-sm btn-primary"
+	   				ng-click="numeraAtti(odg)"
+	   				><i class="fa fa-spinner fa-pulse" ng-if="taskLoading"></i>Numera Provvedimento</button>
+	   			<!-- Il processo attico non consente l'annullamento della numerazione
+	            <button
+	            	ng-if="verificaShowButtonAnnullaNumeraAtto(odg)"
+	            	ng-disabled="odg.selected == undefined || odg.selected.length < 1 || verificaEnableButtonAnnullaNumeraAtto(odg.selected) == false"
+	            	class="btn btn-sm btn-primary"
+	            	ng-click="annullaNumerazioni(odg)"
+	            	><i class="fa fa-spinner fa-pulse" ng-if="taskLoading"></i>Annulla Numerazione Provvedimento</button>
+	            -->
+	            <!-- Il processo attico non consente la generazione massiva
+	            <button
+	            	ng-if="verificaShowButtonGeneraDoc(odg)"
+	            	ng-disabled="odg.selected == undefined || odg.selected.length < 1 || verificaEnableButtonGeneraDoc(odg.selected) == false"
+	            	class="btn btn-sm btn-primary"
+	            	ng-click="generaDocAtti(odg)"
+	            	><i class="fa fa-spinner fa-pulse" ng-if="taskLoading"></i>Genera Documento di Provvedimento</button>
+	            <button
+	            	ng-if="generazionemassiva == true"
+	            	class="btn btn-sm btn-primary pull-right"
+	            	ng-click="annullaGeneraDocAtti()"
+	            	>Ferma Genera Documento di Provvedimento</button>
+	            -->
+	  		</div>
+	  	</div>
+	  	<!-- Il processo attico non consente l'annullamento della numerazione
+	  	<div class="row">
+	  		<div class="col-md-12" ng-if="verificaShowButtonAnnullaNumeraAtto(odg) && messaggioButtonAnnullaNumeraAtto(odg) == true">
+	  			<! -- <div class="alert alert-warning">
+	  				Non è possibile annullare la numerazione degli atti selezionati perchè presenti atti con numero adozione superiore
+	  			</div> -- >
+	  		</div>
+	  	</div>
+	  	-->
+	    <h3 class="header-title">Atti trattati in {{odgStr}}</h3>
+	    <table ui-tree id="tree-root" empty-place-holder-enabled="false" class="table table-responsive">
+      	<thead>
+					<tr>
+						<th ng-if="isSolaLettura(odg) && (sedutaGiunta.stato == sedutaConstants.statiSeduta.sedutaConclusaIndicazioneAttiTrattati.label && isOperatoreResoconto == true)">
+							<input type="checkbox" ng-click="checkAllAtti(odg,null)" name="selectAll{{odg.id}}"
+								ng-checked="odg.selected != undefined && odg.selected.length == odg.attos.length">
+						</th>
+						<th>N. {{odgStr}}</th>
+						<th>Num. proposta&#92;Codice Attico</th>
+		    		<th>Oggetto</th>
+						<th></th>
+		    		<th>Stato</th>
+		    		<th ng-if="sedutaGiunta.fase == sedutaConstants.fasiSeduta.CONCLUSA && isOdl()">N.Adozione/<br>N.Atto di Consiglio</th>
+					<th ng-if="sedutaGiunta.fase == sedutaConstants.fasiSeduta.CONCLUSA && !isOdl()">N.Adozione</th>
+		    		<th ng-if="sedutaGiunta.fase == sedutaConstants.fasiSeduta.CONCLUSA">Data adozione</th>
+		    		<th ng-if="sedutaGiunta.fase == sedutaConstants.fasiSeduta.CONCLUSA">Esito</th>
+		    		<th ng-if="sedutaGiunta.fase == sedutaConstants.fasiSeduta.CONCLUSA">Assenti</th>
+		    		<th ng-if="sedutaGiunta.fase == sedutaConstants.fasiSeduta.CONCLUSA">Presidente</th>
+		    		<th ng-if="sedutaGiunta.fase == sedutaConstants.fasiSeduta.CONCLUSA">Segretario</th>
+		    		<th ng-if="sedutaGiunta.stato == sedutaConstants.statiSeduta.sedutaConclusaRegistrazioneEsiti.label && isOperatoreResoconto == true"></th>
+		    		<!-- FUNZIONI PREVISTE DA ATTICO NELLE FASI SUCCESSIVE DEL PROCESSO -->
+		    		<!--
+		    		<th ng-if="(profiloattivo.id == node.segretarioid || profiloattivo.id == node.presidenteid || isOperatoreResoconto == true) && sedutaGiunta.stato != sedutaConstants.statiSeduta.sedutaTerminata"></th>
+		    		-->
+	    			<th></th>
+						<th></th>
+	      	</tr>
+	      	<tr>
+		    		<th ng-if="isSolaLettura(odg) && (sedutaGiunta.stato == sedutaConstants.statiSeduta.sedutaConclusaIndicazioneAttiTrattati.label && isOperatoreResoconto == true)"></th>
+						<th></th>
+						<th class="scrivania"><input type="text" ng-model="filtroCodiceCifra" style="width:100%" class="ng-pristine ng-untouched ng-valid" aria-invalid="false"></th>
+						<th class="scrivania"><input type="text" ng-model="filtroOggetto" style="width:100%" class="ng-pristine ng-untouched ng-valid" aria-invalid="false"></th>
+						<th></th>
+						<th></th>
+						<th ng-if="sedutaGiunta.fase == sedutaConstants.fasiSeduta.CONCLUSA"></th>
+						<th ng-if="sedutaGiunta.fase == sedutaConstants.fasiSeduta.CONCLUSA"></th>
+						<th ng-if="sedutaGiunta.fase == sedutaConstants.fasiSeduta.CONCLUSA"></th>
+						<th ng-if="sedutaGiunta.fase == sedutaConstants.fasiSeduta.CONCLUSA"></th>
+						<th ng-if="sedutaGiunta.fase == sedutaConstants.fasiSeduta.CONCLUSA"></th>
+						<th ng-if="sedutaGiunta.fase == sedutaConstants.fasiSeduta.CONCLUSA"></th>
+						<th ng-if="sedutaGiunta.stato == sedutaConstants.statiSeduta.sedutaConclusaRegistrazioneEsiti.label && isOperatoreResoconto == true"></th>
+		    		<th class="scrivania" style="text-align:center;">
+							 <button class="btn btn-primary btn-xs" ng-click="filtraAtti(odg,filtroCodiceCifra,filtroOggetto)"><span class="glyphicon glyphicon-search"></span> <span translate="global.messages.cerca" class="ng-scope">Cerca</span></button>
+							 <button class="btn btn-primary btn-xs" ng-click="resetFiltraAtti(odg,filtroCodiceCifra,filtroOggetto)"><span translate="global.messages.resetricerca" class="ng-scope">Reset ricerca</span></button>
+						</th>
+					 </tr>
+  			</thead>
+	      <tbody ui-tree-nodes ng-model="odg.attos" style="display:table-row-group;">
+	        <tr ng-repeat="node in odg.attos | filter:filtraTrattati" ui-tree-node  style="display:table-row;"  data-nodrag ng-if="node.atto.escludiDaVisualizzazione == undefined || node.atto.escludiDaVisualizzazione === 0">
+						<td ng-if="isSolaLettura(odg) && (sedutaGiunta.stato == sedutaConstants.statiSeduta.sedutaConclusaIndicazioneAttiTrattati.label && isOperatoreResoconto == true)">
+              <input ng-if="(abilitaRegistraResoconto(odg.attos) && node.ultimoOdg) && !node.esito" type="checkbox"
+          			ng-checked="odg.selected != undefined && odg.selected.indexOf(node) > -1" ng-click="checkAttoOdg(odg,node)"></td>
+          	<td >{{node.ordineOdg}}</td>
+          	<td >{{node.atto.codiceCifra}}</td>
+	      		<td title="{{node.atto.oggetto}}">{{visualizzaOggetto(node.atto.oggetto)}}</td>
+						<td>
+							<span data-toggle="tooltip" ng-if="getTooltip(node.atto) != undefined && node.bloccoModifica != 1" bs-tooltip data-html="true" data-placement="top" data-title="{{getTooltip(node.atto)}}" >
+								 <span class="glyphicon glyphicon-info-sign" style="font-size:20px;color:red"></span>
+							</span>
+						</td>
+	      		<td>{{node.atto.stato}}</td>
+	      		<td ng-if="sedutaGiunta.fase == sedutaConstants.fasiSeduta.CONCLUSA">
+	      			{{node.atto.numeroAdozione ? node.atto.numeroAdozione:''}}</td>
+	      		<td ng-if="sedutaGiunta.fase == sedutaConstants.fasiSeduta.CONCLUSA">
+	      			{{node.atto.dataAdozione ? (node.atto.dataAdozione | date:'dd-MM-yyyy') :''}}</td>
+	      		<td ng-if="sedutaGiunta.fase == sedutaConstants.fasiSeduta.CONCLUSA">
+	      			{{getEsitoLabel(node.esito)}}</td>
+	      		<td ng-if="sedutaGiunta.fase == sedutaConstants.fasiSeduta.CONCLUSA">
+	      		<ul style="padding-left: 1em;list-style-position: outside;">
+	      			<li ng-repeat="assente in node.assenti track by $index">{{assente}}</li>
+	      		</ul>
+	      		</td>
+	      		<td ng-if="sedutaGiunta.fase == sedutaConstants.fasiSeduta.CONCLUSA">{{node.presidente}}</td>
+	      		<td ng-if="sedutaGiunta.fase == sedutaConstants.fasiSeduta.CONCLUSA">{{node.segretario}}</td>
+	      		<td ng-if="sedutaGiunta.stato == sedutaConstants.statiSeduta.sedutaConclusaRegistrazioneEsiti.label && isOperatoreResoconto == true">
+	      			<!--<button ng-if="node.atto.stato == sedutaConstants.statiAtto.propostaInAttesaDiEsito" class="btn btn-sm btn-primary" ng-click="apriResoconto(node,odg,odg.attos[$index - 1])">Registra Esito</button>-->
+	      		<!--	<button ng-if="sedutaConstants.statiAtto.propostaInAttesaDiEsito != node.atto.stato &&
+	      						   sedutaConstants.statiSeduta.sedutaConclusaRegistrazioneEsiti.label == sedutaGiunta.stato"
+	      				class="btn btn-sm btn-primary" ng-click="apriResoconto(node,odg,odg.attos[$index - 1])">Presenze / Votazioni</button> -->
+
+
+	      			<!-- <button ng-if="verificaShowButtonNumeraAttoSingolo(node)" class="btn btn-sm btn-primary" ng-click="numeraAtto(node.atto)">Numera Provvedimento</button>-->
+	               	<!-- <button ng-if="verificaShowButtonAnnullaNumeraAttoSingolo(node)" class="btn btn-sm btn-primary" ng-click="annullaNumerazione(node.atto)">Annulla Numerazione Provvedimento</button>-->
+
+	               	<!-- TODO: in cifra viene passato "/0/{{sedutaGiunta.id}}" nel link per aprire l'atto, verificare!!! -->
+
+	               	<a ng-if="node.nextTaskId && node.nextTaskId.length > 0" type="submit" href="#/atto/{{node.atto.id}}/0/{{node.nextTaskId}}" class="btn btn-info btn-sm">
+	                    <span class="ng-scope">Visualizza Provvedimento</span>
+	               	</a>
+	               	<!-- <button ng-if="verificaShowButtonGeneraDocSingolo(node)" class="btn btn-sm btn-primary" ng-click="generaDocAtto(node.atto)">Genera Documento di Provvedimento</button>-->
+	      		</td>
+
+	      		<!-- FUNZIONI PREVISTE DA ATTICO NELLE FASI SUCCESSIVE -->
+	      		<!--
+	      		<td ng-if="(profiloattivo.id == node.segretarioid || profiloattivo.id == node.presidenteid || isOperatoreResoconto == true) && sedutaGiunta.stato != sedutaConstants.statiSeduta.sedutaTerminata">
+	      			<a ng-if="(node.atto.stato == sedutaConstants.statiAtto.propostaInAttesaDiFirmaSegretario && profiloattivo.id == node.segretarioid) || (node.atto.stato == sedutaConstants.statiAtto.propostaInAttesaDiFirmaPresidente && profiloattivo.id == node.presidenteid)" type="submit" href="#/attodelibera/{{node.atto.id}}/0/{{node.nextTaskId}}/2/{{sedutaGiunta.id}}" class="btn btn-info btn-sm">
+	                    <span class="ng-scope">Firma Provvedimento</span>
+	               	</a>
+	               	<a ng-if="isOperatoreResoconto == true && (node.atto.stato == sedutaConstants.statiAtto.propostaDaRitirare || node.atto.stato == sedutaConstants.statiAtto.ritiroInPredisposizione) && node.esito == 'ritirato'" type="submit" href="#/attodelibera/{{node.atto.id}}/0/{{node.nextTaskId}}/1/{{sedutaGiunta.id}}" class="btn btn-info btn-sm">
+	                    <span class="ng-scope">Crea ritiro</span>
+	               	</a>
+	      		</td>
+
+	      		<td>
+	      			<i class="fa fa-spinner fa-pulse" ng-if="generazionemassiva == true && node.loading != undefined && node.loading == true"></i>
+	      			<a ng-if=" !isSolaLettura(odg)" class="pull-right btn btn-danger btn-xs" data-nodrag ng-click="removeItem(node,$index,odg.id)"><span class="glyphicon glyphicon-remove"></span></a>
+	      		</td>
+							-->
+						<td>
+							<!-- <a ng-if="sedutaGiunta.stato == sedutaConstants.statiSeduta.sedutaConclusaRegistrazioneEsiti.label && isOperatoreResoconto == true  && node.esito" class="pull-right btn btn-primary btn-xs" ng-click="apriResoconto(node,sedutaGiunta)">
+								<div ng-if="node.esito && !node.bloccoModifica"><span>Modifica/Cancella Esito<span></div>
+								<div ng-if="node.esito && node.bloccoModifica"><span>Visualizza Esito<span></div>
+							</a>-->
+						</td>
+					</tr>
+	      </tbody>
+	    </table>
+	  </div>
+	</div>
+	<!-- FINE  ATTI  TRATTATI -->
+
+	<!-- INIZIO ATTI NON TRATTATI -->
+	<div role="tabpanel" class="tab-pane odgBaseOrdinarioTab {{tabIndex == 'tab-1' ? ' active': ''}}" id="tab-1">
+		<div class="{{(!isSolaLettura(odg))? 'col-sm-12' : 'col-sm-12' }} ui-tree-concatenate-node-theme">
+	  	<div class="row">
+	  		<div class="col-md-12" ng-if="sedutaGiunta.stato == sedutaConstants.statiSeduta.sedutaConclusaIndicazioneAttiTrattati.label && isOperatoreResoconto == true">
+
+
+	   			<button
+	   				ng-if="abilitaRegistraResoconto(odg.attos)"
+	   				ng-disabled="odg.selected == undefined || odg.selected.length < 1 || abilitaDaStato([sedutaConstants.statiAtto.propostaConEsito,sedutaConstants.statiAtto.propostaInseribileInOdg,sedutaConstants.statiAtto.propostaInAttesaDiRitiro],odg) == true"
+	   				class="btn btn-sm btn-primary"
+	   				ng-click="apriTrattatiMassivo(odg)">Riporta Atto in </br>elenco Atti Trattati</button>
+
+				<button
+   				ng-if="abilitaRegistraResoconto(odg.attos)"
+   				ng-disabled="odg.selected == undefined || odg.selected.length < 1 || abilitaDaStato([sedutaConstants.statiAtto.propostaConEsito,sedutaConstants.statiAtto.propostaInseribileInOdg,sedutaConstants.statiAtto.propostaInAttesaDiRitiro],odg) == true"
+   				class="btn btn-sm btn-primary"
+   				ng-click="confirmSpostaAltraSedutaMassivo(odg)">Disp. per<br/>ins.in altra seduta</button>
+
+	   			<!-- <button
+	   				ng-if="verificaShowButtonNumeraAtto(odg)"
+	   				ng-disabled="odg.selected == undefined || odg.selected.length < 1 || verificaEnableButtonNumeraAtto(odg.selected) == false"
+	   				class="btn btn-sm btn-primary"
+	   				ng-click="numeraAtti(odg)"
+	   				><i class="fa fa-spinner fa-pulse" ng-if="taskLoading"></i>Numera Provvedimento</button> -->
+	   			<!-- Il processo attico non consente l'annullamento della numerazione
+	            <button
+	            	ng-if="verificaShowButtonAnnullaNumeraAtto(odg)"
+	            	ng-disabled="odg.selected == undefined || odg.selected.length < 1 || verificaEnableButtonAnnullaNumeraAtto(odg.selected) == false"
+	            	class="btn btn-sm btn-primary"
+	            	ng-click="annullaNumerazioni(odg)"
+	            	><i class="fa fa-spinner fa-pulse" ng-if="taskLoading"></i>Annulla Numerazione Provvedimento</button>
+	            -->
+	            <!-- Il processo attico non consente la generazione massiva
+	            <button
+	            	ng-if="verificaShowButtonGeneraDoc(odg)"
+	            	ng-disabled="odg.selected == undefined || odg.selected.length < 1 || verificaEnableButtonGeneraDoc(odg.selected) == false"
+	            	class="btn btn-sm btn-primary"
+	            	ng-click="generaDocAtti(odg)"
+	            	><i class="fa fa-spinner fa-pulse" ng-if="taskLoading"></i>Genera Documento di Provvedimento</button>
+	            <button
+	            	ng-if="generazionemassiva == true"
+	            	class="btn btn-sm btn-primary pull-right"
+	            	ng-click="annullaGeneraDocAtti()"
+	            	>Ferma Genera Documento di Provvedimento</button>
+	            -->
+	  		</div>
+	  	</div>
+	  	<!-- Il processo attico non consente l'annullamento della numerazione
+	  	<div class="row">
+	  		<div class="col-md-12" ng-if="verificaShowButtonAnnullaNumeraAtto(odg) && messaggioButtonAnnullaNumeraAtto(odg) == true">
+	  			<! -- <div class="alert alert-warning">
+	  				Non è possibile annullare la numerazione degli atti selezionati perchè presenti atti con numero adozione superiore
+	  			</div> -- >
+	  		</div>
+	  	</div>
+	  	-->
+	    <h3 class="header-title">Atti non trattati in {{odgStr}}</h3>
+	    <table ui-tree id="tree-root" empty-place-holder-enabled="false"  class="table table-responsive">
+      	<thead>
+					<tr>
+						<th ng-if="isSolaLettura(odg) && (sedutaGiunta.stato == sedutaConstants.statiSeduta.sedutaConclusaIndicazioneAttiTrattati.label && isOperatoreResoconto == true)">
+							<input type="checkbox" ng-click="checkAllAtti(odg,sedutaConstants.esitoAttoOdg.nonTrattato)" name="selectAll{{odg.id}}"
+								ng-checked="odg.selected != undefined && odg.selected.length == odg.attos.length">
+						</th>
+						<th>N. {{odgStr}}</th>
+						<th>Num. proposta&#92;Codice Attico</th>
+		    		<th>Oggetto</th>
+						<th></th>
+		    		<th>Stato</th>
+		    		<th ng-if="sedutaGiunta.fase == sedutaConstants.fasiSeduta.CONCLUSA && isOdl()">N.Adozione/<br>N.Atto di Consiglio</th>
+					<th ng-if="sedutaGiunta.fase == sedutaConstants.fasiSeduta.CONCLUSA && !isOdl()">N.Adozione</th>
+		    		<th ng-if="sedutaGiunta.fase == sedutaConstants.fasiSeduta.CONCLUSA">Data adozione</th>
+		    		<th ng-if="sedutaGiunta.fase == sedutaConstants.fasiSeduta.CONCLUSA">Esito</th>
+		    		<th ng-if="sedutaGiunta.fase == sedutaConstants.fasiSeduta.CONCLUSA">Assenti</th>
+		    		<th ng-if="sedutaGiunta.fase == sedutaConstants.fasiSeduta.CONCLUSA">Presidente</th>
+		    		<th ng-if="sedutaGiunta.fase == sedutaConstants.fasiSeduta.CONCLUSA">Segretario</th>
+		    		<th ng-if="sedutaGiunta.stato == sedutaConstants.statiSeduta.sedutaConclusaRegistrazioneEsiti.label && isOperatoreResoconto == true"></th>
+		    		<!-- FUNZIONI PREVISTE DA ATTICO NELLE FASI SUCCESSIVE DEL PROCESSO -->
+		    		<!--
+		    		<th ng-if="(profiloattivo.id == node.segretarioid || profiloattivo.id == node.presidenteid || isOperatoreResoconto == true) && sedutaGiunta.stato != sedutaConstants.statiSeduta.sedutaTerminata"></th>
+		    		-->
+	    			<th></th>
+	      	</tr>
+	      	<tr>
+		    		<th ng-if="isSolaLettura(odg) && (sedutaGiunta.stato == sedutaConstants.statiSeduta.sedutaConclusaIndicazioneAttiTrattati.label && isOperatoreResoconto == true)"></th>
+						<th></th>
+						<th class="scrivania"><input type="text" ng-model="filtroCodiceCifra" style="width:100%" class="ng-pristine ng-untouched ng-valid" aria-invalid="false"></th>
+						<th class="scrivania"><input type="text" ng-model="filtroOggetto" style="width:100%" class="ng-pristine ng-untouched ng-valid" aria-invalid="false"></th>
+						<th></th>
+						<th></th>
+						<th ng-if="sedutaGiunta.fase == sedutaConstants.fasiSeduta.CONCLUSA"></th>
+						<th ng-if="sedutaGiunta.fase == sedutaConstants.fasiSeduta.CONCLUSA"></th>
+						<th ng-if="sedutaGiunta.fase == sedutaConstants.fasiSeduta.CONCLUSA"></th>
+						<th ng-if="sedutaGiunta.fase == sedutaConstants.fasiSeduta.CONCLUSA"></th>
+						<th ng-if="sedutaGiunta.fase == sedutaConstants.fasiSeduta.CONCLUSA"></th>
+						<th ng-if="sedutaGiunta.fase == sedutaConstants.fasiSeduta.CONCLUSA"></th>
+						<th ng-if="sedutaGiunta.stato == sedutaConstants.statiSeduta.sedutaConclusaRegistrazioneEsiti.label && isOperatoreResoconto == true"></th>
+		    		<th class="scrivania" style="text-align:center;">
+							 <button class="btn btn-primary btn-xs" ng-click="filtraAtti(odg,filtroCodiceCifra,filtroOggetto)"><span class="glyphicon glyphicon-search"></span> <span translate="global.messages.cerca" class="ng-scope">Cerca</span></button>
+							 <button class="btn btn-primary btn-xs" ng-click="resetFiltraAtti(odg,filtroCodiceCifra,filtroOggetto)"><span translate="global.messages.resetricerca" class="ng-scope">Reset ricerca</span></button>
+						</th>
+					 </tr>
+  			</thead>
+	      <tbody ui-tree-nodes ng-model="odg.attos" style="display:table-row-group;">
+	        <tr ng-repeat="node in odg.attos | filter:filtraNonTrattati" ui-tree-node  style="display:table-row;"  data-nodrag ng-if="node.atto.escludiDaVisualizzazione == undefined || node.atto.escludiDaVisualizzazione === 0">
+						<td ng-if="isSolaLettura(odg) && (sedutaGiunta.stato == sedutaConstants.statiSeduta.sedutaConclusaIndicazioneAttiTrattati.label && isOperatoreResoconto == true)">
+              <input ng-if="abilitaRegistraResoconto(odg.attos) && node.ultimoOdg" type="checkbox" ng-disabled="node.bloccoModifica>0"
+          			ng-checked="odg.selected != undefined && odg.selected.indexOf(node) > -1" ng-click="checkAttoOdg(odg,node)"></td>
+          	<td >{{node.ordineOdg}}</td>
+          	<td >{{node.atto.codiceCifra}}</td>
+	      		<td title="{{node.atto.oggetto}}">{{visualizzaOggetto(node.atto.oggetto)}}</td>
+						<td>
+							<span data-toggle="tooltip" ng-if="getTooltip(node.atto) != undefined && node.bloccoModifica != 1" bs-tooltip data-html="true" data-placement="top" data-title="{{getTooltip(node.atto)}}" >
+								 <span class="glyphicon glyphicon-info-sign" style="font-size:20px;color:red"></span>
+							</span>
+						</td>
+	      		<td>{{node.atto.stato}}</td>
+	      		<td ng-if="sedutaGiunta.fase == sedutaConstants.fasiSeduta.CONCLUSA">
+	      			{{node.atto.numeroAdozione ? node.atto.numeroAdozione:''}}</td>
+	      		<td ng-if="sedutaGiunta.fase == sedutaConstants.fasiSeduta.CONCLUSA">
+	      			{{node.atto.dataAdozione ? (node.atto.dataAdozione | date:'dd-MM-yyyy') :''}}</td>
+	      		<td ng-if="sedutaGiunta.fase == sedutaConstants.fasiSeduta.CONCLUSA">
+	      			{{getEsitoLabel(node.esito)}}</td>
+	      		<td ng-if="sedutaGiunta.fase == sedutaConstants.fasiSeduta.CONCLUSA">
+	      		<ul style="padding-left: 1em;list-style-position: outside;">
+	      			<li ng-repeat="assente in node.assenti track by $index">{{assente}}</li>
+	      		</ul>
+	      		</td>
+	      		<td ng-if="sedutaGiunta.fase == sedutaConstants.fasiSeduta.CONCLUSA">{{node.presidente}}</td>
+	      		<td ng-if="sedutaGiunta.fase == sedutaConstants.fasiSeduta.CONCLUSA">{{node.segretario}}</td>
+	      		<td ng-if="sedutaGiunta.stato == sedutaConstants.statiSeduta.sedutaConclusaRegistrazioneEsiti.label && isOperatoreResoconto == true">
+	      			<!--<button ng-if="node.atto.stato == sedutaConstants.statiAtto.propostaInAttesaDiEsito" class="btn btn-sm btn-primary" ng-click="apriResoconto(node,odg,odg.attos[$index - 1])">Registra Esito</button>
+	      			<button ng-if="sedutaConstants.statiAtto.propostaInAttesaDiEsito != node.atto.stato &&
+	      						   sedutaConstants.statiSeduta.sedutaConclusaRegistrazioneEsiti.label == sedutaGiunta.stato"
+	      				class="btn btn-sm btn-primary" ng-click="apriResoconto(node,odg,odg.attos[$index - 1])">Presenze / Votazioni</button>
+								-->
+	      			<!-- <button ng-if="verificaShowButtonNumeraAttoSingolo(node)" class="btn btn-sm btn-primary" ng-click="numeraAtto(node.atto)">Numera Provvedimento</button>-->
+	               	<!-- <button ng-if="verificaShowButtonAnnullaNumeraAttoSingolo(node)" class="btn btn-sm btn-primary" ng-click="annullaNumerazione(node.atto)">Annulla Numerazione Provvedimento</button>-->
+
+	               	<!-- TODO: in cifra viene passato "/0/{{sedutaGiunta.id}}" nel link per aprire l'atto, verificare!!! -->
+
+	               	<a ng-if="node.nextTaskId && node.nextTaskId.length > 0" type="submit" href="#/atto/{{node.atto.id}}/0/{{node.nextTaskId}}" class="btn btn-info btn-sm">
+	                    <span class="ng-scope">Visualizza Provvedimento</span>
+	               	</a>
+	               	<!-- <button ng-if="verificaShowButtonGeneraDocSingolo(node)" class="btn btn-sm btn-primary" ng-click="generaDocAtto(node.atto)">Genera Documento di Provvedimento</button>-->
+	      		</td>
+
+	      		<!-- FUNZIONI PREVISTE DA ATTICO NELLE FASI SUCCESSIVE -->
+	      		<!--
+	      		<td ng-if="(profiloattivo.id == node.segretarioid || profiloattivo.id == node.presidenteid || isOperatoreResoconto == true) && sedutaGiunta.stato != sedutaConstants.statiSeduta.sedutaTerminata">
+	      			<a ng-if="(node.atto.stato == sedutaConstants.statiAtto.propostaInAttesaDiFirmaSegretario && profiloattivo.id == node.segretarioid) || (node.atto.stato == sedutaConstants.statiAtto.propostaInAttesaDiFirmaPresidente && profiloattivo.id == node.presidenteid)" type="submit" href="#/attodelibera/{{node.atto.id}}/0/{{node.nextTaskId}}/2/{{sedutaGiunta.id}}" class="btn btn-info btn-sm">
+	                    <span class="ng-scope">Firma Provvedimento</span>
+	               	</a>
+	               	<a ng-if="isOperatoreResoconto == true && (node.atto.stato == sedutaConstants.statiAtto.propostaDaRitirare || node.atto.stato == sedutaConstants.statiAtto.ritiroInPredisposizione) && node.esito == 'ritirato'" type="submit" href="#/attodelibera/{{node.atto.id}}/0/{{node.nextTaskId}}/1/{{sedutaGiunta.id}}" class="btn btn-info btn-sm">
+	                    <span class="ng-scope">Crea ritiro</span>
+	               	</a>
+	      		</td>
+
+	      		<td>
+	      			<i class="fa fa-spinner fa-pulse" ng-if="generazionemassiva == true && node.loading != undefined && node.loading == true"></i>
+	      			<a ng-if=" !isSolaLettura(odg)" class="pull-right btn btn-danger btn-xs" data-nodrag ng-click="removeItem(node,$index,odg.id)"><span class="glyphicon glyphicon-remove"></span></a>
+	      		</td>
+							-->
+						<td>
+							<span class="pull-right" ng-if="isSolaLettura(odg) && !node.bloccoModifica">
+              	<button  class="btn btn-primary btn-xs" data-nodrag ng-click="confirmTrattato(node)" style="margin-right: 8px;">
+									<span>trattato</span>
+								</button>
+								<button class="btn btn-primary btn-xs" ng-click="confirmSpostaAltraSeduta(node,odg)">
+										<span>Disp. per ins.</br> in altra seduta</span>
+								</button>
+							</span>
+					</td>
+					</tr>
+	      </tbody>
+	    </table>
+	  </div>
+	</div>
+	<!-- FINE  ATTI  NON TRATTATI -->
+
+	<!-- INIZIO PREAMBOLO -->
+	<div role="tabpanel" class="tab-pane odgBaseOrdinarioTab {{tabIndex == 'tab-2' ? ' active': ''}}" id="tab-2">
+		<div class="col-sm-12 ui-tree-concatenate-node-theme">
+	    <h3 class="header-title" style="margin-bottom: 5px;">Preambolo {{odgStr}}</h3>
+	    <div>
+			<summernote required ng-model="odg.preambolo.testo" config="summernoteOptions"></summernote>
+		</div>
+	  </div>
+	</div>
+	<!-- FINE  PREAMBOLO -->
+
+  <div style="clear: both;"></div>
+</div>

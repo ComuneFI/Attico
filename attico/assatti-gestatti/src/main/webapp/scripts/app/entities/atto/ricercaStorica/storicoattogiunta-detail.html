@@ -1,0 +1,167 @@
+<div class="col-md-12">
+	<nav ng-if="atto.id > 0" >
+			<ul class="pager">
+				<li class="previous"><a ui-sref="attoStorica({tipo: 'atti-giunta'})">Indietro</a></li>
+				<li><span class="md-subhead">{{atto.codiceCifra}}</span></li>
+			</ul>
+		
+			<div class="col-md-12 form-group">
+				<div class="col-md-2"><label>Struttura Proponente</label></div>
+				<div class="col-md-10"><textarea class="form-control" type="text" name="descrizioneArea" ng-model="atto.descrizioneArea" ng-disabled="true"></textarea></div>
+			</div>
+			<div class="col-md-12 form-group">
+				<div class="col-md-2"><label>Data Creazione</label></div>
+				<div class="col-md-10"><input class="form-control" type="text" name="dataCreazione" value="{{atto.dataCreazione | date:'dd-MM-yyyy'}}" ng-disabled="true"></div>
+			</div>
+			<div class="col-md-12 form-group">
+				<div class="col-md-2"><label>Tipo Provvedimento</label></div>
+				<div class="col-md-10"><input class="form-control" type="text" name="descrizioneTipoProvvedimento" ng-model="atto.descrizioneTipoProvvedimento" ng-disabled="true"></div>
+			</div>
+			<div class="col-md-12 form-group">
+				<div class="col-md-2"><label>Numero di Adozione</label></div>
+				<div class="col-md-10"><input class="form-control" type="text" name="numeroAdozione" ng-model="atto.numeroAdozione" ng-disabled="true"></div>
+			</div>
+			<div class="col-md-12 form-group">
+				<div class="col-md-2"><label>Data Adozione</label></div>
+				<div class="col-md-10"><input class="form-control" type="text" name="dataAdozione" value="{{atto.dataAdozione | date:'dd-MM-yyyy'}}" ng-disabled="true"></div>
+			</div>
+			<div class="col-md-12 form-group">
+				<div class="col-md-2"><label>Pubblica su Burp</label></div>
+				<div class="col-md-10"><input class="form-control" type="text" name="burp" ng-model="atto.burp" ng-disabled="true"></div>
+			</div>
+			<div class="col-md-12 form-group">
+				<div class="col-md-2"><label>Data Burp</label></div>
+				<div class="col-md-10"><input class="form-control" type="text" name="dataBurp" value="{{atto.dataBurp | date:'dd-MM-yyyy'}}" ng-disabled="true"></div>
+			</div>
+			<div class="col-md-12 form-group">
+				<div class="col-md-2"><label>Numero Burp</label></div>
+				<div class="col-md-10"><input class="form-control" type="text" name="numeroBurp" ng-model="atto.numeroBurp" ng-disabled="true"></div>
+			</div>
+			<div class="col-md-12 form-group">
+				<div class="col-md-2"><label>Soggetto al Controllo Consiglio Regionale</label></div>
+				<div class="col-md-10"><input class="form-control" type="text" name="consRegi" ng-model="atto.consRegi" ng-disabled="true"></div>
+			</div>
+			<div class="col-md-12 form-group">
+				<div class="col-md-2"><label>Controllo</label></div>
+				<div class="col-md-10"><input class="form-control" type="text" name="controllo" ng-model="atto.controllo" ng-disabled="true"></div>
+			</div>
+			<div class="col-md-12 form-group">
+				<div class="col-md-2"><label>Tipo Argomenti</label></div>
+				<div class="col-md-10"><input class="form-control" type="text" name="tipoArgomenti" ng-model="atto.tipoArgomenti" ng-disabled="true"></div>
+			</div>
+			<div class="col-md-12 form-group">
+				<div class="col-md-2"><label>Redigente</label></div>
+				<div class="col-md-10"><input class="form-control" type="text" name="redigente" ng-model="atto.redigente" ng-disabled="true"></div>
+			</div>
+			<div class="col-md-12 form-group">
+				<div class="col-md-2"><label>Regolamento</label></div>
+				<div class="col-md-10"><input class="form-control" type="text" name="regolamento" ng-model="atto.regolamento" ng-disabled="true"></div>
+			</div>
+			<div class="col-md-12 form-group">
+				<div class="col-md-2"><label>Delibera collegata</label></div>
+				<div class="col-md-10"><input class="form-control" type="text" name="deliberaCollegata" ng-model="atto.deliberaCollegata" ng-disabled="true"></div>
+			</div>
+			<div class="col-md-12 form-group">
+				<div class="col-md-2"><label>Oggetto</label></div>
+				<div class="col-md-10"><textarea class="form-control" name="oggetto" ng-model="atto.oggetto" ng-disabled="true"></textarea></div>
+			</div>
+			<div class="col-md-12 form-group">
+				<div class="col-md-2"><label>Lavorazione Effettuata</label></div>
+				<div class="col-md-10"><input class="form-control" type="text" name="lavorazioneEffettuata" ng-model="atto.lavorazioneEffettuata" ng-disabled="true"></div>
+			</div>
+			<div class="col-md-12 form-group">
+				<div class="col-md-2"><label>Data Lavorazione</label></div>
+				<div class="col-md-10"><input class="form-control" type="text" name="dataInvio" value="{{atto.dataInvio | date:'dd-MM-yyyy'}}" ng-disabled="true"></div>
+			</div>
+			<div class="col-md-12 form-group">
+				<div class="col-md-2"><label>Note sulla Lavorazione</label></div>
+				<div class="col-md-10"><textarea class="form-control" name="noteLavorazione" ng-model="atto.noteLavorazione" ng-disabled="true"></textarea></div>
+			</div>
+			<div class="col-md-12 form-group">
+				<div class="col-md-2"><label>Annullato</label></div>
+				<div class="col-md-10"><input class="form-control" type="text" name="annullato" ng-model="atto.annullato" ng-disabled="true"></div>
+			</div>
+			<div class="col-md-12 form-group">
+				<div class="col-md-2"><label>Motivazione</label></div>
+				<div class="col-md-10"><textarea class="form-control" name="motivazione" ng-model="atto.motivazione" ng-disabled="true"></textarea></div>
+			</div>
+			<div class="col-md-12 form-group">
+				<div class="col-md-2"><label>Parere Controlli Formali</label></div>
+				<div class="col-md-10"><input class="form-control" type="text" name="tipoAtto" ng-model="atto.tipoAtto" ng-disabled="true"></div>
+			</div>
+			<div class="col-md-12 form-group">
+				<div class="col-md-2"><label>Data Riunione Giunta</label></div>
+				<div class="col-md-10"><input class="form-control" type="text" name="dataRiunioneGiunta" value="{{atto.dataRiunioneGiunta | date:'dd-MM-yyyy'}}" ng-disabled="true"></div>
+			</div>
+			<div class="col-md-12 form-group">
+				<div class="col-md-2"><label>Ora Riunione Giunta</label></div>
+				<div class="col-md-10"><input class="form-control" type="text" name="oraRiunioneGiunta" ng-model="atto.oraRiunioneGiunta" ng-disabled="true"></div>
+			</div>
+			<div class="col-md-12 form-group">
+				<div class="col-md-2"><label>Tipo Riunione Giunta</label></div>
+				<div class="col-md-10"><input class="form-control" type="text" name="tipoRiunioneGiunta" ng-model="atto.tipoRiunioneGiunta" ng-disabled="true"></div>
+			</div>
+			<div class="col-md-12 form-group">
+				<div class="col-md-2"><label>Numero Riunione Giunta</label></div>
+				<div class="col-md-10"><input class="form-control" type="text" name="numRiunioneGiunta" ng-model="atto.numRiunioneGiunta" ng-disabled="true"></div>
+			</div>
+			<div class="col-md-12 form-group">
+				<div class="col-md-2"><label>Sede Riunione Giunta</label></div>
+				<div class="col-md-10"><input class="form-control" type="text" name="sedeRiunioneGiunta" ng-model="atto.sedeRiunioneGiunta" ng-disabled="true"></div>
+			</div>
+			<div class="col-md-12 form-group">
+				<div class="col-md-2"><label>Presenti / Assenti</label></div>
+				<div class="col-md-5">
+					<table class="table table-striped">
+   			 			<thead><tr><th>Presenti</th></tr></thead>
+        			 	<tbody><tr ng-repeat="p in atto.presenti"><td>{{p.descrizione}}</td></tr></tbody>
+        			</table>
+				</div>
+				<div class="col-md-5">
+					<table class="table table-striped">
+   			 			<thead><tr><th>Assenti</th></tr></thead>
+        			 	<tbody><tr ng-repeat="a in atto.assenti"><td>{{a.descrizione}}</td></tr></tbody>
+        			</table>
+				</div>
+			</div>
+			<div class="col-md-12 form-group">
+				<div class="col-md-2"><label>Segretario</label></div>
+				<div class="col-md-10"><input class="form-control" type="text" name="segretario" ng-model="atto.segretario" ng-disabled="true"></div>
+			</div>
+			<div class="col-md-12 form-group">
+				<div class="col-md-2"><label>Data Completamento Notifica</label></div>
+				<div class="col-md-10"><input class="form-control" type="text" name="dataCompNoti" value="{{atto.dataCompNoti | date:'dd-MM-yyyy'}}" ng-disabled="true"></div>
+			</div>
+			<div class="col-md-12 form-group">
+				<div class="col-md-2"><label>Destinatari della Notifica</label></div>
+				<div class="col-md-10">
+					<textarea class="form-control" name="destinatariNotifica" ng-disabled="true">{{atto.destinatariNotifica + ' ' + atto.destinatariNotificaOpzionali}}</textarea>
+				</div>
+			</div>
+			<div class="col-md-12 form-group">
+				<div class="col-md-2"><label>Data Invio Notifica</label></div>
+				<div class="col-md-10"><input class="form-control" type="text" name="dataInvioNotifica" value="{{atto.dataInvioNotifica | date:'dd-MM-yyyy'}}" ng-disabled="true"></div>
+			</div>
+			<div class="col-md-12 form-group">
+				<div class="col-md-2"><label>Dati Ritiro Notifica</label></div>
+				<div class="col-md-10"><textarea class="form-control" name="datiRitiroNotifica" ng-model="atto.datiRitiro" ng-disabled="true"></textarea></div>
+			</div>
+			
+			<div class="col-md-12 form-group">
+				<label>Allegati</label>
+				<div ng-if="atto.documenti != null && atto.documenti.length > 0" class="list-group">
+					<a ng-repeat="doc in atto.documenti" class="list-group-item padding"  target="_blank" href="api/storicoattos/{{atto.id}}/documento/{{doc.id}}?access_token={{access_token}}"  >
+				    	<i  class="fa fa-file-pdf-o"></i>
+				        {{doc.nome}}   
+						<!-- <span class="label label-info pull-right">({{docPdf.createdBy}} - {{docPdf.createdDate | date:'medium'}})</span>
+				        <span class="label label-warning pull-right"  ng-if="docPdf.firmato" ><i   class="fa fa-shield"></i> Firmato digitalmente da {{docPdf.firmatario}}</span> -->
+				    </a>
+				</div>	
+			</div>
+
+			<ul class="pager">
+				<li class="previous"><a ui-sref="attoStorica({tipo: 'atti-giunta'})">Indietro</a></li>
+				<li><span class="md-subhead">{{atto.codiceCifra}}</span></li>
+			</ul>
+		</nav>
+</div>

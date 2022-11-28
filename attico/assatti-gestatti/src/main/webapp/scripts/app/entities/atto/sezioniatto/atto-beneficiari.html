@@ -1,0 +1,339 @@
+<div>
+	<br>
+	<label>Beneficiari</label>
+	<span data-toggle="tooltip"
+		title="<b>GUIDA</b><br/>Questa sezione contiene le informazioni sui Beneficiari dell’Atto. E’ possibile allegare il documento dei Beneficiari gestendolo nella sezione Allegati. Alternativamente è possibile inserire i dati dei Beneficiari aggiungendo una o più schede Beneficiario.<br />"
+		data-html="true" ng-init="initTooltip()">
+		<i class="fa fa-question" ></i>
+	</span>
+	<hr>
+
+	<div class="form-group" ng-hide="atto.beneficiari != null && atto.beneficiari.length > 0">
+		<label translate="cifra2gestattiApp.atto.caricatoAllegatoBeneficiari">Allegato file con elenco beneficiari</label>
+		<span data-toggle="tooltip"
+			title="<b>GUIDA</b><br/>Impostare a <strong>Si</strong> se i Beneficiari sono caricati come documento allegato.<br />"
+			data-html="true" ng-init="initTooltip()">
+			<i class="fa fa-question" ></i>
+		</span>
+		<select ng-model="atto.allegatoBeneficiari" class="form-control" ng-disabled="atto.tipoIter.codice == ITER_SENZA_VERIFICA_CONTABILE || ( atto.beneficiari != null && atto.beneficiari.length > 0 )"
+			ng-options="item.valore as item.label for item in allegatoBeneficiariChoices" ng-required="atto.tipoAdempimento && atto.tipoAdempimento.beneficiarioRequired == true">
+		</select>
+	</div>
+   	<button ng-disabled="atto.tipoIter.codice == ITER_SENZA_VERIFICA_CONTABILE || atto.allegatoBeneficiari" type="button" class="btn btn-default" ng-click="aggiungiSchedaBeneficiario()">
+   		<span class="glyphicon glyphicon-plus"></span>&nbsp;<span>Aggiungi scheda Beneficiario</span>
+   	</button>
+   	<button ng-disabled="atto.tipoIter.codice == ITER_SENZA_VERIFICA_CONTABILE || atto.allegatoBeneficiari" type="button" class="btn btn-default" ng-click="viewImportBeneficiarioFromRubrica()">
+   		<span class="glyphicon glyphicon-import"></span>&nbsp;<span>Aggiungi Beneficiario da Rubrica</span>
+   	</button>
+   	<div class="row"><div class="col-xs-12">&nbsp;</div></div>
+   	<ul class="nav nav-tabs" ng-if="atto.beneficiari && atto.beneficiari.length > 0">
+   		<li ng-repeat="beneficiario in atto.beneficiari" ng-class="{'active':$last}"><a data-toggle="tab" onclick="return false;" ng-href="#beneficiario{{$index}}" >{{ beneficiario.descrizioneLeggibileBeneficiario ? beneficiario.descrizioneLeggibileBeneficiario : 'Nuovo Beneficiario' }}</a></li>
+   	</ul>
+	<div class="tab-content" ng-if="atto.beneficiari && atto.beneficiari.length > 0">
+		<div ng-attr-id="beneficiario{{$index}}" ng-repeat="beneficiario in atto.beneficiari" ng-class="{'tab-pane':true, 'fade':true, 'in': $last, 'active':$last}">
+			<ng-form name="beneficiarioForm">
+					<div class="row"><div class="col-xs-12">&nbsp;</div></div>
+					<div class="row">
+		        		<div class="col-xs-6">
+				        	<div class="form-group">
+								<button type="button" class="btn btn-default" ng-click="addBeneficiarioFattura(beneficiario)">
+						      		<span class="glyphicon glyphicon-plus"></span>&nbsp;<span translate="cifra2gestattiApp.beneficiario.aggiungiFatturaBtn">Aggiungi Fatture</span>
+						      	</button>
+							</div>
+		        		</div> 
+		        		<div class="col-xs-6 pull-right">
+		        			<button class="btn btn-danger btn-sm  pull-right" ng-click="eliminaSchedaBeneficiari(beneficiario,$index)" 
+								data-type="success"  data-title="Elimina beneficiario" bs-tooltip> <i class="fa fa-minus"></i></button>
+		        		</div>
+		        	</div>
+		        	<div ng-if="beneficiario.fatture && beneficiario.fatture.length>0">
+		        		<div class="row">
+			        		<div class="col-xs-12">
+				        		<h4 translate="cifra2gestattiApp.beneficiario.fatture">Fatture</h4>
+			        		</div>
+		        		</div>
+		        		<div class="row">
+			        		<div class="col-xs-1"></div>
+			        		<div class="col-xs-8 list-group">
+			        			<div class="row list-group-item" ng-repeat="fattura in beneficiario.fatture">
+									<div class="col-xs-9">
+								                 Fattura n. {{fattura.numeroFattura}} del {{fattura.dataFattura | date:dd-MM-yyyy}} (Importo: {{fattura.importo | currency:'\u20AC'}})    
+								    </div>
+								    <div class="col-xs-3">
+								    	<button class="btn btn-primary btn-sm" ng-click="editBeneficiarioFattura(beneficiario, fattura)"><span class="glyphicon glyphicon-pencil"></span>&nbsp;<span translate="entity.action.edit">Modifica</span></button>&nbsp;<button ng-click="removeFattura(beneficiario, fattura)" class="btn btn-danger btn-sm"> <span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span translate="entity.action.delete"> Cancella</span></button>
+								    </div>
+							    </div>
+							</div>
+							<div class="col-xs-3"></div>
+						</div>
+		        	</div>
+					
+		        	<div class="row">
+		        		<div class="col-xs-5">
+				        	<div class="form-group">
+								<label translate="cifra2gestattiApp.beneficiario.idAscot">ID Sistema Esterno</label>
+								<span data-toggle="tooltip"
+									title="<b>GUIDA</b><br/>Specificare l’identificativo del Beneficiario nel sistema esterno.<br />"
+									data-html="true" ng-init="initTooltip()">
+									<i class="fa fa-question" ></i>
+								</span>
+								<input type="text" class="form-control" name="idAscot" ng-model="beneficiario.idAscot">
+							</div>
+		        		</div> 
+		        		<div class="col-md-offset-2 col-xs-5">
+				        	<div class="form-group">
+								<label translate="cifra2gestattiApp.beneficiario.tipoSoggetto">tipo soggetto</label> *
+								<span data-toggle="tooltip"
+									title="<b>GUIDA</b><br/>Specificare se trattasi di soggetto privato o ditta individuale o impresa o ente pubblico.<br />"
+									data-html="true" ng-init="initTooltip()">
+									<i class="fa fa-question" ></i>
+								</span>
+								<select class="form-control" name="tipoSoggetto" ng-model="beneficiario.tipoSoggetto" ng-options="item.valore as item.label for item in [{valore:null,label:''},{valore:'PRIVATO',label:'Soggetto Privato'},{valore:'PUBBLICO',label:'Ente Pubblico'},{valore:'IMPRESA_DITTA',label:'Impresa/Ditta'},{valore:'DITTA_INDIVIDUALE',label:'Ditta Individuale'}]">
+     									</select>
+							</div>					        		
+		        		</div> 
+		        	</div>
+
+					<hr>
+		        	<div class="row">
+		        		<div class="col-xs-5">
+				        	<div class="form-group">
+								<label translate="cifra2gestattiApp.beneficiario.nome">nome</label><span ng-if="beneficiario.tipoSoggetto == 'PRIVATO' || beneficiario.tipoSoggetto == 'DITTA_INDIVIDUALE'"> *</span>
+								<span data-toggle="tooltip"
+									title="<b>GUIDA</b><br/>Da specificare obbligatoriamente se <strong>Tipo Soggetto</strong> = Soggetto Privato o Ditta Individuale.<br />"
+									data-html="true" ng-init="initTooltip()">
+									<i class="fa fa-question" ></i>
+								</span>
+								<input type="text" class="form-control" name="nome" ng-model="beneficiario.nome">
+							</div>					        		
+		        		</div>
+		        		<div class="col-md-offset-2 col-xs-5">
+				        	<div class="form-group">
+								<label translate="cifra2gestattiApp.beneficiario.cognome">cognome</label><span ng-if="beneficiario.tipoSoggetto == 'PRIVATO' || beneficiario.tipoSoggetto == 'DITTA_INDIVIDUALE'"> *</span>
+								<span data-toggle="tooltip"
+									title="<b>GUIDA</b><br/>Da specificare obbligatoriamente se <strong>Tipo Soggetto</strong> = Soggetto Privato o Ditta Individuale.<br />"
+									data-html="true" ng-init="initTooltip()">
+									<i class="fa fa-question" ></i>
+								</span>
+								<input type="text" class="form-control" name="cognome" ng-model="beneficiario.cognome">
+							</div>					        		
+		        		</div>
+		        	</div>
+		        	
+		        	<div class="row">
+		        		<div class="col-xs-4">
+				        	<div class="form-group">
+								<label translate="cifra2gestattiApp.beneficiario.comuneNascita">comune nascita</label>
+								<input type="text" class="form-control" name="comuneNascita" ng-model="beneficiario.comuneNascita">
+							</div>					        		
+		        		</div>
+		        		<div class="col-xs-4">
+				        	<div class="form-group">
+								<label translate="cifra2gestattiApp.beneficiario.provinciaNascita">prov nascita</label>
+								<input type="text" class="form-control" name="provNascita" ng-model="beneficiario.provNascita">
+							</div>					        		
+		        		</div>
+		        		<div class="col-xs-4">
+				        	<div class="form-group">
+								<i class="fa fa-calendar"></i>&nbsp;
+								<label translate="cifra2gestattiApp.beneficiario.dataNascita">data nascita</label>
+						 		<input type="text" class="form-control" style="width:80% !important; display:inline-block;" onkeydown="return false;" name="dataNascita" data-date-type="date" ng-model="beneficiario.dataNascita" ng-change="setBeneficiario('dataNascita', $index)" bs-datepicker> <button title="Cancella Data" onclick="return false;" ng-click="beneficiario.dataNascita = null;" class="btn btn-xs"><span class="glyphicon glyphicon-remove"></span></button>
+							</div>					        		
+		        		</div>
+		        		
+		        	</div>
+		        	
+		        	<div class="row">
+		        		<div class="col-xs-5">
+				        	<div class="form-group">
+								<label translate="cifra2gestattiApp.beneficiario.codiceFiscale">codiceFiscale</label><span ng-if="beneficiario.tipoSoggetto == 'PRIVATO' || beneficiario.tipoSoggetto == 'DITTA_INDIVIDUALE' || beneficiario.tipoSoggetto == 'PUBBLICO'"> *</span>
+								<span data-toggle="tooltip"
+									title="<b>GUIDA</b><br/>Da specificare obbligatoriamente se <strong>Tipo Soggetto</strong> =  Soggetto Privato o Ditta Individuale o Ente Pubblico.<br />"
+									data-html="true" ng-init="initTooltip()">
+									<i class="fa fa-question" ></i>
+								</span>
+								<input type="text" class="form-control" name="codiceFiscale" ng-model="beneficiario.codiceFiscale"
+									ng-class="{'btn-danger': beneficiario.codiceFiscale && ((beneficiario.tipoSoggetto == 'PUBBLICO') ? (beneficiario.codiceFiscale.length != '11') : (beneficiario.codiceFiscale.length != '16'))}">
+							</div>			        		
+		        		</div>
+		        		<div class="col-xs-5">
+				        	<div class="form-group">
+								<label translate="cifra2gestattiApp.beneficiario.codiceFiscaleEstero">codiceFiscaleEstero</label>
+								<input type="text" class="form-control" name="codiceFiscaleEstero" ng-model="beneficiario.codiceFiscaleEstero">
+							</div>			        		
+		        		</div>
+		        		<div class="col-xs-2">
+				        	<div class="form-group">
+								<label translate="cifra2gestattiApp.beneficiario.sesso">sesso</label>
+								<select class="form-control" name="sesso" ng-model="beneficiario.sesso">
+									<option value="F">F</option>
+      									<option value="M">M</option>
+     									</select>        									
+							</div>					        		
+		        		</div>
+		        	</div>
+		        	
+		        	<hr>
+		        	<div class="row">
+		        		<div class="col-xs-4">
+				        	<div class="form-group">
+								<label translate="cifra2gestattiApp.beneficiario.denominazione">denominazione</label><span ng-if="beneficiario.tipoSoggetto == 'PUBBLICO' || beneficiario.tipoSoggetto == 'IMPRESA_DITTA'"> *</span>
+								<span data-toggle="tooltip"
+									title="<b>GUIDA</b><br/>Da specificare obbligatoriamente se <strong>Tipo Soggetto</strong> = Impresa/Ditta o Ente Pubblico.<br />"
+									data-html="true" ng-init="initTooltip()">
+									<i class="fa fa-question" ></i>
+								</span>
+								<input type="text" class="form-control" name="denominazione" ng-model="beneficiario.denominazione">
+							</div>					        		
+		        		</div>
+		        		<div class="col-xs-4">
+				        	<div class="form-group">
+								<label translate="cifra2gestattiApp.beneficiario.partitaIva">partitaiva</label><span ng-if="beneficiario.tipoSoggetto == 'DITTA_INDIVIDUALE' || beneficiario.tipoSoggetto == 'IMPRESA_DITTA'"> *</span>
+								<span data-toggle="tooltip"
+									title="<b>GUIDA</b><br/>Da specificare obbligatoriamente se <strong>Tipo Soggetto</strong> = Ditta Individuale o Impresa/Ditta facoltativamente se <strong>Tipo Soggetto</strong> = Ente Pubblico.<br />"
+									data-html="true" ng-init="initTooltip()">
+									<i class="fa fa-question" ></i>
+								</span>
+								<input type="text" class="form-control" name="partitaIva" ng-model="beneficiario.partitaIva"
+									ng-class="{'btn-danger': beneficiario.partitaIva && (beneficiario.partitaIva.length != '11')}">
+							</div>				        		
+		        		</div>
+		        		<div class="col-xs-4">
+				        	<div class="form-group">
+								<label translate="cifra2gestattiApp.beneficiario.partitaIvaEstero">partitaIvaEstero</label>
+								<span data-toggle="tooltip"
+									title="<b>GUIDA</b><br/>Da specificare se <strong>Tipo Soggetto</strong> = Ditta Individuale o Impresa/Ditta.<br />"
+									data-html="true" ng-init="initTooltip()">
+									<i class="fa fa-question" ></i>
+								</span>
+								<input type="text" class="form-control" name="partitaIvaEstero" ng-model="beneficiario.partitaIvaEstero">
+							</div>				        		
+		        		</div>
+		        	</div>
+		        	<hr>
+		        		<div class="row">
+			        		<div class="col-xs-6">
+					        	<div class="form-group">
+									<label translate="cifra2gestattiApp.beneficiario.pec">pec</label><span data-title="** Inserire almeno un dato tra PEC ed E-mail" bs-tooltip> **</span>
+									<input ng-class="{'btn-danger': beneficiarioForm.pecBeneficiario.$invalid && !beneficiarioForm.pecBeneficiario.$pristine}" type="email" class="form-control" name="pecBeneficiario" ng-model="beneficiario.pec">
+								</div>				        		
+			        		</div>
+			        		<div class="col-xs-6">
+					        	<div class="form-group">
+									<label translate="cifra2gestattiApp.beneficiario.email">email</label><span data-title="** Inserire almeno un dato tra PEC ed E-mail" bs-tooltip> **</span>
+									<input ng-class="{'btn-danger': beneficiarioForm.emailBeneficiario.$invalid && !beneficiarioForm.emailBeneficiario.$pristine}" type="email" class="form-control" name="emailBeneficiario" ng-model="beneficiario.email">
+								</div>				        		
+			        		</div>
+		        		</div>
+		        	<hr>
+		        	<div class="row">
+		        		<div class="col-xs-4">
+				        	<div class="form-group">
+								<label translate="cifra2gestattiApp.beneficiario.cap">cap</label>
+								<input maxlength="5" ng-class="{'btn-danger': beneficiarioForm.cap.$invalid && !beneficiarioForm.cap.$pristine}" ng-pattern="/\b\d{5}\b/" type="text" class="form-control" name="cap" ng-model="beneficiario.cap">
+							</div>				        		
+		        		</div>
+		        		<div class="col-xs-8">
+				        	<div class="form-group">
+								<label translate="cifra2gestattiApp.beneficiario.indirizzo1">indirizzo1</label>
+								<input type="text" class="form-control" name="indirizzo1" ng-model="beneficiario.indirizzo1">
+							</div>					        		
+		        		</div>
+		        	</div>
+		        	
+		        	<div class="row">
+		        		<div class="col-xs-4">
+				        	<div class="form-group">
+								<label translate="cifra2gestattiApp.beneficiario.citta">città</label>
+								<input type="text" class="form-control" name="citta1" ng-model="beneficiario.citta1">
+							</div>				        		
+		        		</div>
+		        		<div class="col-xs-4">
+				        	<div class="form-group">
+								<label translate="cifra2gestattiApp.beneficiario.provincia">provincia</label>
+								<input type="text" class="form-control" name="provincia1" ng-model="beneficiario.provincia1">
+							</div>					        		
+		        		</div>
+		        		<div class="col-xs-4">
+				        	<div class="form-group">
+								<label translate="cifra2gestattiApp.beneficiario.localita">localita</label>
+								<input type="text" class="form-control" name="localita1" ng-model="beneficiario.localita1">
+							</div>					        		
+		        		</div>
+		        	</div>
+		        	<div class="row">
+		        		<div class="col-xs-4">
+	        				<label translate="cifra2gestattiApp.beneficiario.stato">stato</label>
+							<input type="text" class="form-control" name="stato" ng-model="beneficiario.stato">
+		        		</div>
+		        		<div class="col-xs-8">
+		        		</div>
+		        	</div>
+		        	
+		        	<hr>
+		        	
+		        	<div class="row">
+		        		<div class="col-xs-4">
+				        	<div class="form-group">
+								<label translate="cifra2gestattiApp.beneficiario.cap2">cap2</label>
+								<input maxlength="5" ng-class="{'btn-danger': beneficiarioForm.cap2.$invalid && !beneficiarioForm.cap.$pristine}" ng-pattern="/\b\d{5}\b/" type="text" class="form-control" name="cap2" ng-model="beneficiario.cap2">
+							</div>				        		
+		        		</div>
+		        		<div class="col-xs-8">
+				        	<div class="form-group">
+								<label translate="cifra2gestattiApp.beneficiario.indirizzo2">indirizzo2</label>
+								<input type="text" class="form-control" name="indirizzo2" ng-model="beneficiario.indirizzo2">
+							</div>					        		
+		        		</div>
+		        	</div>
+		        	
+		        	<div class="row">
+		        		<div class="col-xs-4">
+				        	<div class="form-group">
+								<label translate="cifra2gestattiApp.beneficiario.citta2">città2</label>
+								<input type="text" class="form-control" name="citta2" ng-model="beneficiario.citta2">
+							</div>				        		
+		        		</div>
+		        		<div class="col-xs-4">
+				        	<div class="form-group">
+								<label translate="cifra2gestattiApp.beneficiario.provincia2">provincia2</label>
+								<input type="text" class="form-control" name="provincia2" ng-model="beneficiario.provincia2">
+							</div>					        		
+		        		</div>
+		        		<div class="col-xs-4">
+				        	<div class="form-group">
+								<label translate="cifra2gestattiApp.beneficiario.localita2">localita2</label>
+								<input type="text" class="form-control" name="localita2" ng-model="beneficiario.localita2">
+							</div>					        		
+		        		</div>
+		        	</div>					        	
+					<hr>
+		        	<div class="row">
+		        		<div class="col-xs-12">
+							<div class="form-group">
+								<label translate="cifra2gestattiApp.beneficiario.quietanzante">quietanzante</label>
+								<input type="text" class="form-control" name="quietanzante" ng-model="beneficiario.quietanzante">
+							</div>
+		        		</div>
+		        	</div>
+		        	<div class="row">
+		        		<div class="col-xs-12">
+							<div class="form-group">
+								<label translate="cifra2gestattiApp.beneficiario.iban">iban</label>
+								<input type="text" class="form-control" name="iban" ng-model="beneficiario.iban">
+								<!-- <input maxlength="27" ng-class="{'btn-danger': beneficiarioForm.cap2.$invalid && !beneficiarioForm.cap.$pristine}" ng-pattern="/\b\S{27}\b/" type="text" class="form-control" name="iban" ng-model="beneficiario.iban"> -->
+							</div>
+		        		</div>
+		        	</div>
+		        	<div class="row">
+		        		<div class="col-xs-12">
+							<div class="form-group">
+								<label translate="cifra2gestattiApp.beneficiario.modalitaPagamento">modalita</label>
+								<input type="text" class="form-control" name="modalitaPagamento" ng-model="beneficiario.modalitaPagamento">
+							</div>
+		        		</div>
+		        	</div>
+		    </ng-form>
+	    </div>
+	</div>
+</div>

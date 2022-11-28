@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    
+    <changeSet author="mazzottada" id="202002111624-1">
+    	<sql>
+			CREATE TABLE insediamento_consiglio (
+				id bigint(20) auto_increment NOT NULL,
+				descrizione varchar(100) NOT NULL,
+				inizio_insediamento DATETIME NOT NULL,
+				fine_insediamento DATETIME NOT NULL,
+				CONSTRAINT insediamento_consiglio_pk PRIMARY KEY (id)
+			)
+			ENGINE=InnoDB
+			DEFAULT CHARSET=utf8
+			COLLATE=utf8_general_ci;
+    	</sql>
+    </changeSet>
+    <changeSet author="mazzottada" id="202002111624-2">
+    	<sql>
+			insert into insediamento_consiglio (
+				descrizione,
+				inizio_insediamento,
+				fine_insediamento
+			)values(
+				'Primo Insediamento',
+				'1900-01-01 00:00:00',
+				'2900-12-31 23:59:59'
+			);
+    	</sql>
+    </changeSet>
+</databaseChangeLog>

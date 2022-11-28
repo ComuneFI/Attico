@@ -1,0 +1,88 @@
+<div>
+	<ul class="nav nav-tabs" ng-if="configurationParams && configurationParams.upload_doc_firmato_visible">
+		<li ng-click="switchFirma(true)" ng-class="firma ? 'active' : ''" ><a>Firma documenti</a></li>
+		<li ng-click="switchFirma(false)" ng-class="!firma ? 'active' : ''"><a>Carica documenti firmati digitalmente</a></li>
+	</ul>
+
+	<div class="tab-pane fade in active">
+		<div class="form-group" ng-if="!configurationParams || !configurationParams.upload_doc_firmato_visible || firma">
+			<label>Documento da firmare</label>
+			<div class="form-group">
+				<a class="list-group-item padding"  target="_blank" href="api/attos/{{atto.id}}/documento/{{generaElencoDocumentiDaFirmare[0].id}}?access_token={{access_token}}"  >
+			    	<i class="fa fa-file-pdf-o"></i>{{generaElencoDocumentiDaFirmare[0].nomeFile}}   
+					<!-- <span class="label label-info pull-right">({{generaElencoDocumentiDaFirmare[0].createdBy}} - {{generaElencoDocumentiDaFirmare[0].createdDate | date:'medium'}})</span> -->
+	     			<br />
+	                <span class="label label-warning pull-right"  ng-if="generaElencoDocumentiDaFirmare[0].firmato" ><i   class="fa fa-shield"></i> Firmato digitalmente da {{generaElencoDocumentiDaFirmare[0].firmatario}}</span>
+	            </a>
+            </div>
+            <div class="row">
+			    <div class="col-xs-4">
+			      <label for="firmaPsw">Password*:</label>
+			      <input type="password" class="form-control everActive" ng-model="dtoFdr['password']" name="firmaPsw" required>
+			    </div>
+			    <div class="col-xs-4">
+			      <label for="firmaOtp">OTP*:</label>
+			      <input type="password" class="form-control everActive" ng-model="dtoFdr['otp']" name="firmaOtp" required>
+			    </div>
+			    <div class="col-xs-3">
+			    	<br/>
+					<button type="button" ng-disabled="mascheraWorkflow.firmaPsw.$invalid || taskLoading" ng-click="richiediOtp()"
+						class="btn btn-default everActive">
+                       	Richiedi OTP
+                   	</button>
+			    </div>
+			    <!-- TODO: ??? -->
+		        <span ng-init="dtoFdr['filesId'][0]=atto.relatePubblicazione[0].id"></span>
+		        <span ng-init="dtoFdr['filesOmissis'][0]=false"></span>
+		        <span ng-init="dtoFdr['filesAdozione'][0]=false"></span>
+		        <span ng-init="dtoFdr['filesParereId'][0]=-1"></span>
+		        <span ng-init="dtoFdr['filesScheda'][0]=false"></span>
+		        <span ng-init="dtoFdr['filesAttoInesistente'][0]=false"></span>
+		        <span ng-init="dtoFdr['filesRelataPubblicazione'][0]=true"></span>
+		  	</div>
+		  	<div class="row" ng-if="dtoFdr && ( (dtoFdr.errorMessage && dtoFdr.errorMessage != '') || (dtoFdr.errorCode && dtoFdr.errorCode != ''))">
+		  		<div class="col-md-12" style="padding-top:10px;" ng-switch on="dtoFdr.errorCode">
+		  			<label ng-switch-when="0003" style="word-break:normal;" class="alert alert-danger padded-lr text-danger"  
+		  				translate="global.firma.credenzialiErrate"></label>
+		  			
+		  			<label ng-switch-when="0004" style="word-break:normal;" class="alert alert-danger padded-lr text-danger"  
+		  				translate="global.firma.otpErrato"></label>
+		  				
+		  			<label ng-switch-when="0011" style="word-break:normal;" class="alert alert-danger padded-lr text-danger"  
+		  				translate="global.firma.profiloNonTrovato"></label>
+		  			
+		  			<label ng-switch-when="0012" style="word-break:normal;" class="alert alert-danger padded-lr text-danger"  
+		  				translate="global.firma.profiloDuplicato"></label>
+			    	
+			    	<label ng-switch-default style="word-break:normal;" class="alert alert-danger padded-lr text-danger" 
+			    		translate="global.firma.error" translate-values="{msg: '{{dtoFdr.errorMessage}}'}"></label>
+			    	
+		  		</div>
+	    	</div>
+		</div>
+					
+		<div class="form-group" ng-if="configurationParams && configurationParams.upload_doc_firmato_visible && !firma">
+			<br>
+			<label>Documento da scaricare</label>
+			<a class="list-group-item padding"  target="_blank" href="api/attos/{{atto.id}}/documento/{{generaElencoDocumentiDaFirmare[0].id}}?access_token={{access_token}}"  >
+		    	<i class="fa fa-file-pdf-o"></i>{{generaElencoDocumentiDaFirmare[0].nomeFile}}   
+				<!-- <span class="label label-info pull-right">({{atto.documentiPdfAdozione[0].createdBy}} - {{atto.documentiPdfAdozione[0].createdDate | date:'medium'}})</span> -->
+     			<br />
+                <!-- <span class="label label-warning pull-right"  ng-if="atto.documentiPdfAdozione[0].firmato" ><i   class="fa fa-shield"></i> Firmato digitalmente da {{atto.documentiPdfAdozione[0].firmatario}}</span> -->
+            </a>
+			<div class="form-group" ng-show="false">
+    			<input type="text" class="form-control everActive" name="firmato{{$index}}" ng-model="dtoWorkflow.campi['firmato{{$index}}']"  ng-required="dtoWorkflow.campi['firmato{{$index}}'] ? false : true">
+			</div>
+			<div class="form-group" id="propostaFirmata_{{$index}}"></div>
+            <div ngf-drop ngf-select  ngf-multiple="true" 
+                  name="caricaDocumentoFirmato_{{$index}}" 
+                  ngf-change="fileDropperDocumentoFirmato($files, $event, $rejectedFiles, false, false, dtoWorkflow ,null, undefined, 'propostaFirmata_{{$index}}','{{generaElencoDocumentiDaFirmare[0].tipoDocumento.codice}}')"
+                  class="btn btn-default everActive" 
+                  ngf-drag-over-class="dragover" 
+                  ngf-max-size="ngfMaxSize">
+                  <i class="fa fa-upload" ></i> Carica documento firmato digitalmente *
+            </div>		
+		</div>
+	</div>
+	
+</div>

@@ -1,0 +1,54 @@
+
+<div>
+    <h2><span translate="cifra2gestattiApp.progressivoAdozione.detail.title">ProgressivoAdozione</span></h2>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th translate="entity.detail.field">Field</th>
+                    <th translate="entity.detail.value">Value</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.progressivoAdozione.anno">Anno</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{progressivoAdozione.anno}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.progressivoAdozione.progressivo">Progressivo</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{progressivoAdozione.progressivo}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.progressivoAdozione.tipoProgressivo">tipoAtto</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{progressivoAdozione.tipoProgressivo.descrizione}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.progressivoAdozione.aoo">aoo</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{progressivoAdozione.aoo.codice}} - {{progressivoAdozione.aoo.descrizione}}" readonly>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <button type="submit"
+            ui-sref="progressivoAdozione"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span translate="entity.action.back"> Back</span>
+    </button>
+</div>

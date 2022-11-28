@@ -1,0 +1,64 @@
+<div>
+
+    <h2 translate="cifra2gestattiApp.msg.detail.title">Dettaglio Msg</h2>
+	<div class="table-responsive">
+		<table class="table table-striped">
+			<tr>
+	         	<td translate="cifra2gestattiApp.msg.datainserimento">datainserimento</td>
+	         	<td>{{msg.dataInserimento | date:'dd-MM-yyyy HH:mm:ss'}}</td>
+	        </tr>
+	        <tr>
+	         	<td translate="cifra2gestattiApp.msg.validodal">validodal</td>
+	         	<td>{{msg.validita.validodal | date:'dd-MM-yyyy'}}</td>
+	        </tr>
+	        <tr>
+	         	<td translate="cifra2gestattiApp.msg.validoal">validoal</td>
+	         	<td>{{msg.validita.validoal | date:'dd-MM-yyyy'}}</td>
+	        </tr>
+	        <tr>
+	         	<td translate="cifra2gestattiApp.msg.priorita">priorita</td>
+	         	<td>{{msg.priorita}}</td>
+	        </tr>
+	        <tr>
+	         	<td translate="cifra2gestattiApp.msg.pubblicatoIntranet">pubblicatoIntranet</td>
+	         	<td>{{msg.pubblicatoIntranet ? 'Si' : 'No'}}</td>
+	        </tr>
+	        <tr>
+	         	<td translate="cifra2gestattiApp.msg.pubblicatoInternet">pubblicatoInternet</td>
+	         	<td>{{msg.pubblicatoInternet ? 'Si' : 'No'}}</td>
+	        </tr>
+	        <tr>
+	         	<td translate="cifra2gestattiApp.msg.categoria">categoria</td>
+	         	<td>{{msg.categoriaMsg.descrizione}}</td>
+	        </tr>
+	        <tr>
+	         	<td translate="cifra2gestattiApp.msg.destinatari">destinatari</td>
+	         	<td>
+	         		<ul>
+	         			<li ng-repeat="aoo in msg.destinatari">{{aoo.codice + ' - ' + aoo.descrizione}}</li>
+	         		</ul>
+	         	</td>
+	        </tr>
+         </table>
+	</div>
+	<div class="table-responsive">
+		<table class="table table-striped" style="border: groove;background-color:#a4d2e2;">
+	         <tr>
+	         	<td align="center"><span style="font-weight: bold;" translate="cifra2gestattiApp.msg.testo">testo</span></td>
+	         </tr>
+	         <tr>
+	         	<td class="white" align="center"><summernote ng-model="msg.testo" config="{toolbar:[], readOnly:true, height: 150}"></summernote></td>
+	         </tr>
+         </table>
+	</div>
+    <button has-role="ROLE_ADMIN,ROLE_AMMINISTRATORE_RP" type="submit"
+            ui-sref="msg"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span translate="entity.action.back"> Back</span>
+    </button>
+    <button not-has-role="ROLE_ADMIN,ROLE_AMMINISTRATORE_RP" type="submit"
+            ui-sref="msgu"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span translate="entity.action.back"> Back</span>
+    </button>
+</div>

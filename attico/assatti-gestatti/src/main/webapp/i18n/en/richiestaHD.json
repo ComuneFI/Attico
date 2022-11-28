@@ -1,0 +1,43 @@
+{
+    "cifra2gestattiApp": {
+        "richiestaHD" : {
+            "home": {
+                "title": "Lista Richieste",
+                "titleDirigente": "Lista Richieste Dirigente",
+                "createLabel": "Nuova Richiesta all'Help Desk",
+                "createLabelDirigente": "Nuova Richiesta",
+                "createOrEditLabel": "Crea o modifica una Richiesta HD"
+            },
+            "delete": {
+                "question": "Siete sicuri di voler cancellare la Richiesta HD {{ id }}?"
+            },
+            "detail": {
+                "title": "Riepilogo Richiesta"
+            },
+            "feedback": {
+                "title": "Richiesta HD e Feedback"
+            },
+            "presaVisione":"Presa Visione Operatore",
+            "dataInvio": "Data Richiesta",
+            "dataUltimaOp": "Data Ultima Operazione",
+            "oggetto": "Oggetto",
+            "testoRichiesta": "Testo Richiesta",
+            "testoRisposta": "Testo Risposta",
+            "autore": "Autore",
+            "operatore": "Operatore",
+            "rispondi": "Rispondi",
+            "stato": "Stato",
+            "tipo": "Tipo",
+            "risposte":"Risposte",
+            "rispostaOperatore":"Risposta Operatore {{username}}",
+            "rispostaUtente":"Risposta Utente {{username}}",
+            "richiesta":"Richiesta",
+            "nessunaRisposta":"Ancora Nessuna Risposta Presente",
+            "viewreplay":"Visualizza / Rispondi",
+            "editStato":"Modifica Stato Richiesta",
+            "editStatoBtn":"Modifica",
+            "dataSospensione":"Data Sospensione",
+            "dataChiusura":"Data Chiusura"
+        }
+    }
+}

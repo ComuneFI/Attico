@@ -1,0 +1,19 @@
+{
+    "login": {
+        "title": "Accedi",
+        "form": {
+            "password": "Password",
+            "password.placeholder": "Tua password",
+            "rememberme": "Automatic Login",
+            "button": "Accedi"
+        },
+        "messages": {
+            "error": {
+                "authentication": "<strong>Autenticazione Fallita!</strong> Le credenziali immesse potrebbero essere errate o l'utente potrebbe non essere abilitato all'uso del sistema."
+            }
+        },
+        "password" : {
+            "forgot": "Cambio Password o Password Dimenticata?"
+        }
+    }
+}

@@ -1,0 +1,124 @@
+{
+    "cifra2gestattiApp": {
+        "sedutaGiunta" : {
+            "erroreCongruenzaPresentiNumVoti":"Attenzione\u0021 Il numero dei presenti deve essere uguale alla somma dei Favorevoli, Contrari, Astenuti e Presenti non votanti.",
+            "copiaGestioneSedutaToIE":"Copia Gestione Seduta",
+			"dataOraDiscussione": "Data discussione",
+            "home": {
+                "title": "Sedute",
+                "createGiuntaLabel": "Crea nuova Seduta di Giunta",
+                "createConsiglioLabel": "Crea nuova Seduta di Consiglio",
+                "createOrEditLabel": "Crea o modifica Seduta di Giunta"
+            },
+            "delete": {
+                "question": "Sei sicuro di voler cancellare la Seduta di Giunta {{ id }} ?",
+                "questionRubrica": "Sei sicuro di voler cancellare la voce in Rubrica?"
+            },
+            "detail": {
+                "title": "Gestione Seduta"
+            },
+            "convocazione": {
+            	"prima": "Prima convocazione",
+            	"seconda": "Variazione"
+            },
+            "salvaProcedi": "Salva e Procedi",
+            "annullataDa":"Seduta annulla da",
+            "salvaRegistrazione": "Salva Registrazione",
+            "alertRegistrazioni":"ATTENZIONE: eventuali registrazioni non salvate, oppure atti per i quali la registrazione non e' stata salvata, dovranno essere reinseriti.",
+            "terminaRegistrazioni": "Termina Registrazioni",
+            "sottoscrittore":"Sottoscrittore",
+            "sottoscrittoreVariaz":"Sottoscrittore Doc. Variazione",
+            "sottoscrittoreAnnull":"Sottoscrittore Doc Annullamento",
+            "sottoscrittoreResoconto":"Sottoscrittore Resoconto",
+            "sottoscrittorePresenze":"Sottoscrittore Presenze/Assenze",
+            "destinatariInterniTitle":"Destinatari Interni",
+            "destinatariEsterniTitle":"Destinatari Esterni",
+            "modificaestremi": "Modifica estremi",
+            "annullaModificaestremi": "Annulla modifica estremi",
+            "luogo": "Luogo *",
+            "anno" : "Anno",
+            "dataOra": "Data Ora",
+            "dataOraInizioLavori": "Data Ora - Convocazione *",
+            "dataOraInizioLavoriEffettiva": "Data Ora - Inizio lavori effettiva *",
+            "dataOraFineLavori": "Data Ora - Fine lavori effettiva *",
+            "stato": "Stato della Seduta",
+            "tipoSeduta": "Tipo Seduta *",
+            "presidente": "Presidente",
+            "vicepresidente": "Vicepresidente",
+            "segretario": "Segretario *",
+			"segretarioNotRequired": "Segretario",
+            "componentiGiunta": "Componenti Giunta",
+            "sedutariferimento": "Seduta di riferimento",
+            "votazionesegreta": "Votazione segreta",
+            "immediataEseguibilita": "Immediata Eseguibilit\u00E0",
+            "sedutaConvocata": "Seduta convocata da",
+            "attoPresentato": "Atto presentato in seduta da",
+            "dichiarazioniVoto": "Dichiarazioni di voto",
+            "numeroOdg":"Numero",
+            "protocollo":"Protocollo",
+            "dataPubblicazioneSito": "Data Pub",
+            "numSeduta":"Numero",
+            "numodg":"Numero OdG base",
+            "varEstremi":"Variazione Estremi",
+            "decorsiTermini":"Decorsi Termini",
+            "notificaAssessori":"Tutti gli Assessori",
+            "notificaConsiglieri":"Tutti i Consiglieri",
+            "notificaEsterni":"Altre Strutture Regionali",
+            "rubrica": {
+            	"import": "Inserisci",
+            	"importazione": {
+            		"title": "Importazione da Rubrica"
+            	}
+            },
+            "annulla": {
+            	"label": "Annulla Seduta",
+            	"title": "Confermi l'annullamento della Seduta?",
+            	"question": "Sei sicuro di voler annullare la Seduta di Giunta {{ id }} ?"
+            },
+            "annullaprovvisoria": {
+            	"label": "Annulla Seduta",
+            	"title": "Confermi l'annullamento della Seduta provvisoria?",
+            	"question": "Sei sicuro di voler annullare la Seduta di Giunta provvisoria {{ id }} ?"
+            },
+            "resoconto": {
+            	"label": "Resoconto",
+            	"esito": "Esito",
+            	"assessore": "Assessore",
+            	"presenza": "Presenza",
+            	"votazione": "Votazione",
+            	"isAttoModificato": "Atto modificato in seduta",
+            	"isPresidente": "Presidente",
+            	"isSegretario": "Segretario",
+            	"presidenteInizio": "Presidente Inizio Discussione",
+            	"presidenteFine": "Presidente Fine Discussione",
+            	"presidenteIE": "Presidente Fine Discussione",
+            	"segretarioInizio": "Segretario Inizio Discussione",
+            	"segretarioFine": "Segretario Fine Discussione",
+            	"segretarioIE": "Segretario Fine Discussione",
+            	"scrutatori": "Scrutatori",
+            	"scrutatore": "Scrutatore",
+            	"nome": "Nome",
+            	"qualifica": "Qualifica",
+            	"annulla": {
+            		"label": "Cancella",
+            		"title": "Confermi l'annullamento del resoconto?",
+            		"question": "Sei sicuro di voler annullare questi resoconti?"
+            	},
+              "annullaEsito": {
+            		"label": "Cancella",
+            		"title": "Cancella esito",
+            		"question": "Sei sicuro di voler cancellare questi esiti?"
+            	}
+            },
+            "verbale": {
+            	"editAllegato":"Imposta / Modifica Propriet\u00E0 dell\u0027Allegato * <i class=\u0027glyphicon glyphicon-edit\u0027></i>",
+            	"label": "Verbale",
+            	"noteFinali": "Note Conclusive",
+            	"rinuncia": {
+	            	"question": "Sei sicuro di voler rinunciare al verbale? Confermando l'operazione, NON SARA' PIU' POSSIBILE redigere e generare tale documento",
+	            	"label": "Conferma la Rinuncia al Verbale"
+	            }
+            }
+        }
+    }
+}

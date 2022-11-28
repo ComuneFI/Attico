@@ -1,0 +1,25 @@
+{
+    "cifra2gestattiApp": {
+        "tipoAoo" : {
+            "home": {
+                "title": "Tipi di Ufficio",
+                "createLabel": "Crea un Tipo di Ufficio",
+                "createOrEditLabel": "Crea o modifica un Tipo di Ufficio"
+            },
+            "delete": {
+                "question": "Sei sicuro di voler cancellare il Tipo Ufficio {{ id }}?"
+            },
+            "detail": {
+                "title": "Tipi di Ufficio"
+            },
+            "codice": "Codice",
+            "descrizione": "Descrizione",
+            "note": "Note",
+            "messages": {
+	            "error": {
+	                "operationNotPermitted": "Non \u00E8 possibile effettuare l\u0027operazione in quanto l\u0027elemento \u00E8 incluso in uno o pi\u00F9 atti."
+	            }
+	        }
+        }
+    }
+}

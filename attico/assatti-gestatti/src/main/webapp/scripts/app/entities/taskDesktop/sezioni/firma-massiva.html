@@ -1,0 +1,102 @@
+<div class="form-group">
+	<div class="row">
+		<div class="col-xs-12">
+			<label>ATTENZIONE!!! Confermando l'operazione sar&agrave; apposta la firma digitale sugli atti selezionati e per quelli ancora da generare sar&agrave; 
+			generato il documento e contestualmente ne verr&agrave; apposto la firma digitale. 
+			Prima di procedere, assicuratevi che gli atti selezionati siano quelli di vostro effettivo interesse 
+			poich&egrave;, dopo l'operazione, essi procederanno secondo l’iter previsto dalla rispettiva tipologia.</label><br/>
+			<label>INOLTRE, nel caso in cui gli atti selezionati prevedano l'emissione di un parere, esso sarà impostato automaticamente dal sistema
+			 con il valore "Favorevole", nel caso in cui al momento non risultasse espresso alcun parere, altrimenti, nel caso in cui sia stato 
+			 espresso un parere (favorevole o articolato), il sistema rispetterà quello già emesso.</label>
+		</div>
+	</div>
+	<hr>
+	<div ng-if="nDocDaFirmare && nDocDaFirmare > 0 && nDocDaFirmareResolved == nDocDaFirmare && documentiDaFirmare && documentiDaFirmare.length > 0">
+		<div class="row">
+			<div class="col-xs-12">
+				<label>Documenti da firmare:</label>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-12">
+				<a ng-repeat="docFirma in documentiDaFirmare" class="list-group-item padding" target="_blank" 
+					href="api/attos/0/documento/{{docFirma.id}}?access_token={{access_token}}"  >
+					<i class="fa fa-file-pdf-o"></i>{{docFirma.nomeFile}}   
+					<br />
+					<span class="label label-warning pull-right"  ng-if="docFirma.firmato" >
+						<i class="fa fa-shield"></i> Firmato digitalmente da {{docFirma.firmatario}}</span>
+				</a>
+			</div>
+		</div>
+	</div>
+	
+	<div ng-if="documentiDaGenerareFirmare && documentiDaGenerareFirmare.length > 0">
+		<div class="row">
+			<div class="col-xs-12">
+				<label>Documenti da generare e firmare:</label>
+			</div>
+		</div>
+		<div class="row">
+			<div class="form-group">
+				<div class="col-xs-12">
+					<div ng-repeat="obj in documentiDaGenerareFirmare" class="list-group-item padding" >
+						<div class="form-group">
+							<div class="input-group" style="position:inherit;">
+								<span><span ng-if="obj.modelloId"><a target="_blank" href="/api/preview/{{obj.modelloId}}/atto{{obj.attoId}}.pdf?access_token={{access_token}}&omissis=false"><i class="fa fa-file-pdf-o"></i> Anteprima</a></span> {{obj.codiceCifra}}</span> 
+								<div class="input-group-addon" style="padding:0px !important;">
+									<select id="modelloId" class="text-right" name="modelloId" ng-model="obj.modelloId"  
+									ng-options="item.id as item.titolo for (id, item) in filterModelli(obj.modelliDisponibili)"
+									required>
+									</select>
+								</div>
+							</div>
+							<div ng-if="obj.modelliDisponibiliSolaGenerazione && obj.modelliDisponibiliSolaGenerazione.length" class="input-group" style="position:inherit;margin-top: 20px;">
+								<span><span ng-if="obj.modelliSolaGenerazioneIds && obj.modelliSolaGenerazioneIds.length"><a target="_blank" href="/api/preview/{{obj.modelliSolaGenerazioneIds[0]}}/atto{{obj.attoId}}.pdf?access_token={{access_token}}&omissis=false"><i class="fa fa-file-pdf-o"></i> Anteprima*</a></span> {{obj.codiceCifra}}<br/><small>(*Sola Generazione - Firma non prevista per questo documento)</small></span> 
+								<div class="input-group-addon" style="padding:0px !important;">
+									<select id="solaGenerazioneId" class="text-right" name="solaGenerazioneId" ng-model="obj.modelliSolaGenerazioneIds[0]"  
+									ng-options="item.id as item.titolo for (id, item) in filterModelli(obj.modelliDisponibiliSolaGenerazione)"
+									required>
+									</select>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+	    <div class="col-xs-4">
+	      <label for="firmaPsw">Password*:</label>
+	      <input type="password" class="form-control everActive" ng-model="dtoFdr['password']" name="firmaPsw" required>
+	    </div>
+	    <div class="col-xs-4">
+	      <label for="firmaOtp">OTP*:</label>
+	      <input type="password" class="form-control everActive" ng-model="dtoFdr['otp']" name="firmaOtp" required>
+	    </div>
+	    <div class="col-xs-3">
+	    	<br/>
+			<button type="button" ng-disabled="mascheraWorkflow.firmaPsw.$invalid || taskLoading || ((!documentiDaGenerareFirmare || documentiDaGenerareFirmare.length < 1) && (!documentiDaFirmare || documentiDaFirmare.length < 1))" ng-click="richiediOtp()"
+				class="btn btn-default everActive">Richiedi OTP</button>
+	    </div>
+	</div>
+	<div class="row" ng-if="dtoFdr && ( (dtoFdr.errorMessage && dtoFdr.errorMessage != '') || (dtoFdr.errorCode && dtoFdr.errorCode != ''))">
+  		<div class="col-md-12" style="padding-top:10px;" ng-switch on="dtoFdr.errorCode">
+  			<label ng-switch-when="0003" style="word-break:break-all;" class="alert alert-danger padded-lr text-danger"  
+  				translate="global.firma.credenzialiErrate"></label>
+  			
+  			<label ng-switch-when="0004" style="word-break:break-all;" class="alert alert-danger padded-lr text-danger"  
+  				translate="global.firma.otpErrato"></label>
+  				
+  			<label ng-switch-when="0011" style="word-break:break-all;" class="alert alert-danger padded-lr text-danger"  
+  				translate="global.firma.profiloNonTrovato"></label>
+  			
+  			<label ng-switch-when="0012" style="word-break:break-all;" class="alert alert-danger padded-lr text-danger"  
+  				translate="global.firma.profiloDuplicato"></label>
+	    	
+	    	<label ng-switch-default style="word-break:break-all;" class="alert alert-danger padded-lr text-danger" 
+	    		translate="global.firma.error" translate-values="{msg: '{{dtoFdr.errorMessage}}'}"></label>
+	    	
+  		</div>
+   	</div>
+</div>

@@ -1,0 +1,124 @@
+<div>
+	<nav>
+		<ul class="nav nav-pills">
+			<li ng-if="isOperatoreOdg == true && isSolaLettura() && verificaGenDocVariazione()" class="pull-left" >
+				<div class="dropdown">
+					<button class="btn btn-default btn-sm dropdown-toggle"
+						type="button" id="dropdownMenu1" data-toggle="dropdown"
+						aria-haspopup="true" aria-expanded="true">
+						Anteprima Documenti <span class="caret"></span>
+					</button>
+					<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+						<li ng-repeat="modelloHtml in modelloHtmls"><a
+							ng-if="modelloHtml.tipoDocumento.codice =='variazione_estremi_seduta_giunta' && sedutaGiunta.organo == 'G'"
+							target="_blank"
+							href="/api/preview/{{modelloHtml.id}}/variazioneestremiseduta{{ sedutaGiunta.id }}.pdf?access_token={{access_token}}&idProfilo={{profiloattivo.id}}">
+								<i class="fa fa-file-pdf-o"></i>&nbsp;<span>{{modelloHtml.titolo}}</span>
+						</a></li>
+						<li ng-repeat="modelloHtml in modelloHtmls"><a
+							ng-if="modelloHtml.tipoDocumento.codice =='variazione_estremi_seduta_consiglio' && sedutaGiunta.organo == 'C'"
+							target="_blank"
+							href="/api/preview/{{modelloHtml.id}}/variazioneestremiseduta{{ sedutaGiunta.id }}.pdf?access_token={{access_token}}&idProfilo={{profiloattivo.id}}">
+								<i class="fa fa-file-pdf-o"></i>&nbsp;<span>{{modelloHtml.titolo}}</span>
+						</a></li>
+					</ul>
+				</div>
+			</li>
+			<!--
+			<li ng-if="isOperatoreOdg == true && isSolaLettura() && verificaAnteprimaDocAnnull()" class="pull-left" >
+				<div class="dropdown">
+					<button class="btn btn-default btn-sm dropdown-toggle"
+						type="button" id="dropdownMenu1" data-toggle="dropdown"
+						aria-haspopup="true" aria-expanded="true">
+						Anteprima Documenti <span class="caret"></span>
+					</button>
+					<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+						<li ng-repeat="modelloHtml in modelloHtmls"><a
+							ng-if="modelloHtml.tipoDocumento.codice =='annullamento_seduta_giunta' && sedutaGiunta.organo == 'G'"
+							target="_blank"
+							href="/api/preview/{{modelloHtml.id}}/annullamentoseduta{{ sedutaGiunta.id }}.pdf?access_token={{access_token}}&idProfilo={{profiloattivo.id}}">
+								<i class="fa fa-file-pdf-o"></i>&nbsp;<span>{{modelloHtml.titolo}}</span>
+						</a></li>
+						<li ng-repeat="modelloHtml in modelloHtmls"><a
+							ng-if="modelloHtml.tipoDocumento.codice =='annullamento_seduta_consiglio' && sedutaGiunta.organo == 'C'"
+							target="_blank"
+							href="/api/preview/{{modelloHtml.id}}/annullamentoseduta{{ sedutaGiunta.id }}.pdf?access_token={{access_token}}&idProfilo={{profiloattivo.id}}">
+								<i class="fa fa-file-pdf-o"></i>&nbsp;<span>{{modelloHtml.titolo}}</span>
+						</a></li>
+					</ul>
+				</div>
+			</li>
+			 -->
+			<li ng-if="isOperatoreOdg == true && isSolaLettura() && verificaGenDocVariazione()" class="pull-right" ng-repeat="decisione in decisioni | filter:{ codice: 'sedutavariazione-generadocodg'}">&nbsp;
+				<button type="button" ng-init="odgBase = getOdgBase(sedutaGiunta)"
+					ng-click="callDecisioneOdg(indexSezioneCorrente,decisione,odgBase)"
+					ng-class="{'btn btn-default btn-sm' : (!editForm.$valid), 'btn btn-primary btn-sm' : !(!editForm.$valid)}">
+					<i class="fa fa-spinner fa-pulse" ng-if="taskLoading"></i>
+					{{decisione.descrizione}}
+				</button>
+
+			</li>
+
+			<li ng-init="odgBase = getOdgBase(sedutaGiunta)" ng-if="verificaShowButtonFirmaSeduta(odgBase,true)" class="pull-right" ng-repeat="decisione in decisioni | filter:{ codice: 'sedutavariazione-firmadocodg'}">&nbsp;
+				<button type="button"
+					ng-click="callDecisioneOdg(indexSezioneCorrente,decisione,odgBase)"
+					ng-class="{'btn btn-default btn-sm' : (!editForm.$valid), 'btn btn-primary btn-sm' : !(!editForm.$valid)}">
+					<i class="fa fa-spinner fa-pulse" ng-if="taskLoading"></i>
+					{{decisione.descrizione}}
+				</button>
+
+			</li>
+			<li ng-init="odgBase = getOdgBase(sedutaGiunta)" ng-if="verificaShowButtonFirmaSeduta(odgBase,false)" class="pull-right" ng-repeat="decisione in decisioni | filter:{ codice: 'seduta-firmadocann'}">
+				<button type="button"
+					ng-click="callDecisione(indexSezioneCorrente,decisione)"
+					ng-class="{'btn btn-default btn-sm' : (!editForm.$valid || taskLoading), 'btn btn-primary btn-sm' : !(!editForm.$valid || taskLoading)}">
+					<i class="fa fa-spinner fa-pulse" ng-if="taskLoading"></i>
+					{{decisione.descrizione}}
+				</button>
+			</li>
+			<!-- FIRMA NON PREVISTA
+			n g-i f="decisione.codice != 'seduta-firmadocann'"
+			 -->
+			<li class="pull-right" ng-if="isOperatoreOdg == true" ng-repeat="decisione in decisioni | filter:{ tipo: 'globale'}">&nbsp;
+				<button type="button"
+					ng-click="callDecisione(indexSezioneCorrente,decisione)"
+					ng-class="{'btn btn-default btn-sm' : (!editForm.$valid || taskLoading), 'btn btn-primary btn-sm' : !(!editForm.$valid || taskLoading)}"
+					ng-disabled="!editForm.$valid || sedutaGiunta.fase == sedutaConstants.fasiSeduta.ANNULLATA || (isSolaLettura() && disabledCampiVariazione() && (sedutaGiunta.primaConvocazioneFine == null || sedutaGiunta.primaConvocazioneFine != null && sedutaGiunta.fase == sedutaConstants.fasiSeduta.CONCLUSA))">
+					<i class="fa fa-spinner fa-pulse" ng-if="taskLoading"></i>
+					{{decisione.descrizione}}
+				</button>
+
+			</li>
+			
+			<li class="pull-right" ng-if="isOperatoreOdg == true" ng-repeat="decisione in decisioni | filter:{ tipo: 'pass-to'}">&nbsp;
+				<button type="button" ng-if="sedutaGiunta.stato == sedutaConstants.statiSeduta.sedutaConclusaIndicazioneAttiTrattati.label"
+					ng-click="callDecisione(indexSezioneCorrente,decisione)"
+					class="btn btn-primary btn-sm"
+					ng-disabled="sedutaGiunta.fase == sedutaConstants.fasiSeduta.ANNULLATA">
+					<i class="fa fa-spinner fa-pulse" ng-if="taskLoading"></i>
+					{{decisione.descrizione}}
+				</button>
+
+			</li>
+			
+			<li class="pull-right" ng-if="isOperatoreOdg == true">
+				<button class="btn btn-sm btn-primary pull-right" ng-if="modificaShow() == true" ng-click="abilitaModificaEstremi()"><span translate="cifra2gestattiApp.sedutaGiunta.modificaestremi">Modifica Estremi</span></button>
+			</li>
+			<li class="pull-right" ng-if="isOperatoreOdg == true">
+				<button class="btn btn-sm btn-danger pull-right" ng-if="annullaEstremi == true" ng-click="annullaModificaEstremi()"><span translate="cifra2gestattiApp.sedutaGiunta.annullaModificaestremi">Annulla modifica Estremi</span></button>
+			</li>
+			<!--
+			<li class="pull-right" ng-if="isOperatoreOdg == true">
+				<button class="btn btn-sm btn-danger pull-right" ng-if="sedutaGiunta.stato == sedutaConstants.statiSeduta.sedutaConsolidata" ng-click="callDecisioneOdg(indexSezioneCorrente,{codice:'seduta-annulla',mostraMaschera: true,descrizione: 'Annullamento Seduta di Giunta', tipo: 'seduta'},null)"><span translate="cifra2gestattiApp.sedutaGiunta.annulla.label">Annulla seduta</span></button>
+			</li>
+			 -->
+			<li class="pull-right" ng-if="isOperatoreOdg == true">
+				<button class="btn btn-sm btn-danger pull-right" ng-if="sedutaGiunta.fase == sedutaConstants.fasiSeduta.PREDISPOSTA || sedutaGiunta.fase == sedutaConstants.fasiSeduta.PREDISPOSIZIONE"
+						ng-click="callDecisioneOdg(indexSezioneCorrente,{codice:'seduta-provvisoria-annulla',mostraMaschera: true,descrizione: 'Annulla Seduta Provvisoria', tipo: 'seduta'},null)">
+					<span translate="cifra2gestattiApp.sedutaGiunta.annullaprovvisoria.label">Annulla seduta provvisoria</span>
+				</button>
+			</li>
+		</ul>
+	</nav>
+
+</div>

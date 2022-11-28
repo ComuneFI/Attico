@@ -1,0 +1,73 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                         http://www.springframework.org/schema/beans/spring-beans.xsd
+                         http://www.springframework.org/schema/tx
+        				 http://www.springframework.org/schema/tx/spring-tx.xsd">
+          
+    <tx:annotation-driven/>            
+	<bean id="dataSourceCamunda" class="org.springframework.jdbc.datasource.TransactionAwareDataSourceProxy">
+	  <property name="targetDataSource">
+	    <bean class="org.springframework.jdbc.datasource.SimpleDriverDataSource">
+			<property name="driverClass" value="${datasource.camunda.driverClassName}" />
+	        <property name="url" value="${datasource.camunda.url}" />
+	        <property name="username" value="${datasource.camunda.username}" />
+	        <property name="password" value="${datasource.camunda.password}" />
+	    </bean>
+	  </property>
+	</bean>
+	
+	<bean id="transactionManagerCamunda" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+	  <property name="dataSource" ref="dataSourceCamunda" />
+	</bean>
+	
+	<bean id="processEngineConfiguration" class="org.camunda.bpm.engine.spring.SpringProcessEngineConfiguration">
+		<property name="processEngineName" value="default" />
+		<property name="dataSource" ref="dataSourceCamunda" />
+		<property name="transactionManager" ref="transactionManagerCamunda" />
+		<property name="history" value="full" />
+	    <property name="databaseSchemaUpdate" value="false" />
+	    <property name="jobExecutorActivate" value="true" />
+	    <property name="deploymentResources" value="classpath*:bpmn/*.bpmn" />
+	    <property name="enableExceptionsAfterUnhandledBpmnError" value="true"/>
+	    <property name="metricsEnabled" value="false" />
+	    
+	    <property name="idGenerator">
+	      <bean class="org.camunda.bpm.engine.impl.persistence.StrongUuidGenerator" />
+	    </property>
+	    
+	    <property name="postParseListeners">
+		  <list>
+		    <bean class="it.linksmt.assatti.bpm.wrapper.GlobalBpmnParseListener" />
+		  </list>
+		</property>
+	    
+	    <!-- 
+	    <property name="authorizationEnabled" value="true" />
+	    <property name="processEnginePlugins">
+	      <list> -->
+	        <!--<ref bean="ldapIdentityProviderPlugin" />-->
+	        <!--<ref bean="administratorAuthorizationPlugin" />-->
+	        <!-- 
+	        <bean id="spinPlugin" class="org.camunda.spin.plugin.impl.SpinProcessEnginePlugin" />
+	        <bean id="connectPlugin" class="org.camunda.connect.plugin.impl.ConnectProcessEnginePlugin" />
+	      </list>
+	    </property>
+	     -->
+	    <!-- 
+	    <property name="historyCleanupBatchWindowStartTime" value="00:01" />
+	     -->
+	</bean>
+	
+	<bean id="processEngine" class="org.camunda.bpm.engine.spring.ProcessEngineFactoryBean">
+	  <property name="processEngineConfiguration" ref="processEngineConfiguration" />
+	</bean>
+	
+	<bean id="repositoryService" factory-bean="processEngine" factory-method="getRepositoryService" />
+	<bean id="runtimeService" factory-bean="processEngine" factory-method="getRuntimeService" />
+	<bean id="taskService" factory-bean="processEngine" factory-method="getTaskService" />
+	<bean id="historyService" factory-bean="processEngine" factory-method="getHistoryService" />
+	<bean id="managementService" factory-bean="processEngine" factory-method="getManagementService" />
+
+</beans>

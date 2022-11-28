@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    
+    <changeSet author="mazzottada" id="202001301204-1">
+    	<sql>
+			UPDATE tipoevento SET descrizione = 'In attesa di invio all''Albo' where codice = 'ATTESA_PUBBLICAZIONE_ALBO';
+			UPDATE tipoevento SET descrizione = 'In attesa di invio alla Trasparenza' where codice = 'ATTESA_PUBBLICAZIONE_TRASPARENZA';
+			UPDATE tipoevento SET descrizione = 'Preso in carico dall''Albo' where codice = 'ATTO_PUBBLICATO_ALBO';
+			UPDATE tipoevento SET descrizione = 'Preso in carico dalla Trasparenza' where codice = 'ATTO_PUBBLICATO_TRASPARENZA';
+			UPDATE tipoevento SET descrizione = 'Pubblicazione Albo terminata' where codice = 'PUBBLICAZIONE_TERMINATA';
+			UPDATE tipoevento SET descrizione = 'Recuperata Relata Pubblicazione Albo' where codice = 'RELATA_RECUPERATA';
+    	</sql>
+    </changeSet>
+    
+</databaseChangeLog>

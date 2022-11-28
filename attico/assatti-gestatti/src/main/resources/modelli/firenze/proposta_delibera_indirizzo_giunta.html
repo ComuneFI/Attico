@@ -1,0 +1,40 @@
+<p style="text-align: center; font-size: 20pt; text-transform: uppercase; margin-top:1.0in; padding-bottom: 0px; margin-bottom: 0px">    <span>PROPOSTA DI DELIBERAZIONE DI INDIRIZZO DELLA GIUNTA COMUNALE</span></p>
+<p></p>
+<p></p>
+<table width="100%" cellspacing="0" cellpadding="3">
+    <tbody>
+        <tr>
+            <td width="10%"></td>
+            <td style="border: 2px solid #000000;">                <p style="text-align: center; margin: 0pt; font-size: 8.5pt; font-weight: bold;">                </p>
+                <div>                    &nbsp;Numero: <span th:if="${atto.codiceCifra!=null}" style="font-weight: bold;">[[${atto.codiceCifra}]]</span>                </div>
+                <div>                    &nbsp;Del: <span th:if="${atto.dataCreazione!= null}" style="font-weight: bold;">[[${atto.dataCreazione.toString("dd/MM/yyyy")}]]					</span>                </div>
+                <div>                    &nbsp;Proponente: <span th:if="${atto.aoo.descrizione !=null}" style="font-weight: bold;">[[${atto.aoo.descrizione}]]</span>                </div>
+            </td>
+            <td width="10%"></td>
+        </tr>
+    </tbody>
+</table>
+<br><br>						<span style="font-weight: bold; text-transform: uppercase;">OGGETTO: </span>						<span th:utext="${#strings.replace( #strings.escapeXml(atto.oggetto),T(java.lang.System).getProperty('line.separator'),'<br></span>')}"></span>															<p style="page-break-before: always; border-bottom: 1px dashed #000;"></p>
+<div style="font-family: Calibri; font-size: 11pt; text-align: justify;" th:utext="${atto.domanda.testo}">+${atto.domanda}</div>
+<p>&nbsp;</p>
+	<p>&nbsp;</p>
+<div th:if="${elencoTitoloAllegato!=null}">	<br>	<p><b>ALLEGATI INTEGRANTI</b></p>
+	<table style="page-break-inside: avoid;" width="100%" cellspacing="0" cellpadding="0">
+		<tbody>
+			<tr th:each="item: ${#lists.sort(elencoTitoloAllegato)}">
+				<td>					<div style="text-align: left; font-family: Calibri; font-size: 11pt;">- [[${item}]]</div>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	<br>	<br></div>
+	<table style="page-break-inside: avoid;" width="100%" cellspacing="0" cellpadding="0">
+		<tbody>
+			<tr th:each="item: ${#lists.sort(atto.sottoscrittori)}">
+				<td>					<div style="font-family: Cambria; font-size: 11pt;">[[${item.qualificaProfessionale.denominazione}]]</div>
+					<div style="font-family: Cambria; font-size: 11pt;">[[${item.profilo.utente.nome}]] [[${item.profilo.utente.cognome}]]</div>
+					<br>				</td>
+			</tr>
+		</tbody>
+	</table>
+<br><br><p style="text-align: justify;">	<span>Documento informatico firmato digitalmente ai sensi del Testo Unico D.P.R. 28 dicembre 2000, n. 445 e del D.Lgs 7 marzo 2005, n. 82 e norme collegate che sostituisce il testo cartaceo e la firma autografa.</span></p>

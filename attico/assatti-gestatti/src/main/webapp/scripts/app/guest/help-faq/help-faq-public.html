@@ -1,0 +1,53 @@
+<div>
+	<h2 translate="cifra2gestattiApp.faq.home.title">FAQs</h2>
+
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-7">
+			</div>
+			 <div class="col-md-5 ">
+            	<div class="form-group form-inline pull-right">
+        			<label translate="cifra2gestattiApp.categoriaFaq.home.title">Categoria FAQs</label>&nbsp;
+        			<select class="form-control" name="categoria" ng-model="categoriaID" ng-options="catfaq.id as catfaq.descrizione for catfaq in categoriafaqs" ng-change="loadOnChange()" >
+        			</select>
+    			</div>
+
+        	</div>
+		</div>
+	</div>
+
+	<div ng-repeat="categoriaPerFaq in faqsToFilter() | filter:filterCategories" class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+		<h4>{{ categoriaPerFaq.categoria.descrizione }}</h4>
+		
+	 	<div ng-repeat="faq in faqs | filter:{categoria: categoriaPerFaq.categoria}" class="panel panel-default">
+		    <div class="panel-heading" role="tab" >
+				<h5 class="panel-title">
+					<a class="collapsed" data-target="#{{faq.id}}"
+						data-parent="#accordion" data-toggle="collapse"
+						aria-expanded="false">{{faq.domanda}}</a>
+				</h5>
+			</div>
+
+			<div id="{{faq.id}}" class="panel-collapse collapse"
+				aria-expanded="false">
+				<div class="panel-body">{{faq.risposta}}</div>
+			</div>
+	   </div>
+	</div>
+	<nav>
+            <ul class="pagination">
+                <li ng-show="links['first']" ng-click="loadPage(links['first'])"><a>&lt;&lt;</a></li>
+                <li ng-show="links['prev']" ng-click="loadPage(links['prev'])"><a>&lt;</a></li>
+                <li ng-show="page > 2" ng-click="loadPage(page - 2)"><a>{{page - 2}}</a></li>
+                <li ng-show="page > 1" ng-click="loadPage(page - 1)"><a>{{page - 1}}</a></li>
+                <li class="active"><a>{{page}}</a></li>
+                <li ng-show="page < links['last']" ng-click="loadPage(page + 1)"><a>{{page + 1}}</a></li>
+                <li ng-show="page < links['last'] - 1" ng-click="loadPage(page + 2)"><a>{{page + 2}}</a></li>
+                <li ng-show="links['next']" ng-click="loadPage(links['next'])"><a>&gt;</a></li>
+                <li ng-show="links['last']" ng-click="loadPage(links['last'])"><a>&gt;&gt;</a></li>
+            </ul>
+    </nav>	
+</div>
+
+
+

@@ -1,0 +1,102 @@
+<h2 translate="cifra2gestattiApp.ordineGiorno.giacenza.title">Giacenza</h2>
+<br/>
+<h4 translate="cifra2gestattiApp.ordineGiorno.giacenza.selectlabel">Seleziona Atti</h4>
+
+
+<div class="tab-pane fade in active" id="tasklist">
+	
+	<nav >
+		<ul class="pager" >
+			<li ng-if="checkedButton"><a  href="#/ordineGiorno/nuovo"><span
+					class="md-subhead"> Crea O.d.g.x</span></a></li>
+			<li ng-if="currentOdgId>0 && checkedButton"><a  href="#/ordineGiorno/{{currentOdgId}}"><span
+					class="md-subhead"> Modifica O.d.g.  {{currentOdgId}}</span></a></li>
+			<li ng-if="checkedButton"><a  href="#/ordineGiorno/suppletivo"><span
+					class="md-subhead"> Crea O.d.g. Suppletivo </span></a></li>
+			<li ng-if="checkedButton"><a href="#/ordineGiorno/fuorisacco"><span
+					class="md-subhead"> Crea O.d.g. Fuori Sacco </span></a></li>
+			<li ng-if="checkedButton"><a data-toggle="modal" data-target="#sospendiAttoModal"><span
+					class="md-subhead"> Sospendi</span></a></li>
+			<li><a  ui-sref="ordineGiornoSospesi"><span
+					class="md-subhead"> Sospesi</span></a></li>
+		</ul>
+	</nav>
+    <div class="modal fade" id="sospendiAttoModal" tabindex="-1" role="dialog" aria-labelledby="myProfiloLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form name="editForm" role="form" novalidate ng-submit="sospendi()" show-validation>
+
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                                ng-click="clear()">&times;</button>
+                        <h4 class="modal-title" id="myProfiloLabel" translate="cifra2gestattiApp.profilo.home.createOrEditLabel">Create or edit a Profilo</h4>
+                    </div>
+                    <div class="modal-body">
+                        <label>Motivazione della Sospensione *</label>
+                        <textarea class="form-control" name="oggetto" ng-model="motivoSospensione" required></textarea>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
+                            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+                        </button>
+                        <button type="submit" ng-disabled="editForm.$invalid" class="btn btn-primary">
+                            <span class="glyphicon glyphicon-save"></span>&nbsp;<span>Sospendi</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+	<div>
+		<div class="table-responsive">
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th><input type="checkbox" ng-change="selectAll()"
+							ng-model="allItemsSelected"></th>
+						<th>ID</th>
+						<th>Num. proposta&#92;Codice Attico</th>
+						<th>Oggetto</th>
+						<th>Tipo</th>
+						<th>Data attività</th>
+						<th>Avviato da</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="atto in resultAttiOdg"
+						ng-class="{selected: atto.isChecked}">
+						<td><input type="checkbox" ng-model="atto.isChecked"
+							ng-change="selectEntity()"></td>
+						<td>{{atto.id}}</td>
+						<td>{{atto.codiceCifra}}</td>
+						<td>{{atto.oggetto}}</td>
+						<td>{{atto.tipoAtto.descrizione}}</td>
+						<td></td>
+						<td><a href title="{{taskDesktop.taskBpm.idAssegnatario}}">
+								{{atto.createdBy}} </a></td>
+						<td></td>
+						<td><a href="/#/atto/{{taskDesktop.atto.id}}"
+							class="btn btn-info btn-sm"> <span
+								class="glyphicon glyphicon-eye-open"></span>&nbsp;<span
+								translate="entity.action.view"> View</span>
+						</a></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<nav>
+			<ul class="pager">
+				<li ng-show="links['first']" ng-click="loadPage(links['first'])"><a
+					href="#">&lt;&lt;</a></li>
+				<li ng-show="links['prev']" ng-click="loadPage(links['prev'])"><a
+					href="#">&lt;</a></li>
+				<li ng-show="links['next']" ng-click="loadPage(links['next'])"><a
+					href="#">&gt;</a></li>
+				<li ng-show="links['last']" ng-click="loadPage(links['last'])"><a
+					href="#">&gt;&gt;</a></li>
+			</ul>
+		</nav>
+
+	</div>

@@ -1,0 +1,28 @@
+{
+    "reset": {
+        "request": {
+            "title": "Cambio Password o Password Dimenticata",
+            "form": {
+                "button": "Recupera password"
+            },
+            "messages": {
+                "info": "Inserisci l'indirizzo E-mail dell'utente di cui si vuole recuperare la password.",
+                "success": "Verifica nella tua email come resettare la tua password",
+                "notfound": "<strong>E-Mail non registrata!</strong> Per favore riprova"
+            }
+        },
+        "finish" : {
+            "title": "Cambio password",
+            "form": {
+                "button": "Valida  nuova password"
+            },
+            "messages": {
+                "info": "Scegli una nuova password",
+                "success": "<strong>La tua password \u00E8 stata resettata.</strong> <a href=\"{{configurationParams.login_url}}\">Accedi</a>.",
+                "keymissing": "La chiave di recupero non \u00E8 stata trovata",
+                "error": "La tua password non può essere recuperata."
+            }
+        }
+    }
+
+}

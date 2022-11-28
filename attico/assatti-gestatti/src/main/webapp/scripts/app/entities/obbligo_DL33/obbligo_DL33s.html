@@ -1,0 +1,239 @@
+<div>
+
+    <h2 translate="cifra2gestattiApp.obbligo_DL33.home.title">Obbligo_DL33</h2>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <button class="btn btn-primary" data-toggle="modal" data-target="#saveObbligo_DL33Modal" ng-click="clear()">
+                    <span class="glyphicon glyphicon-flash"></span> <span translate="cifra2gestattiApp.obbligo_DL33.home.createLabel">Create a new Obbligo_DL33</span>
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal fade" id="operationNotPermitted">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                   <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                           ng-click="clear()">&times;</button>
+                   <h4 class="modal-title" translate="entity.modify.notPermitted">Operation not permitted</h4>
+               </div>
+               <div class="modal-body">
+                   <p translate="cifra2gestattiApp.obbligo_DL33.messages.error.operationNotPermitted">Operation not permitted</p>
+               </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="saveObbligo_DL33Modal" tabindex="-1" role="dialog" aria-labelledby="myObbligo_DL33Label"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form name="editForm" role="form" novalidate ng-submit="save()">
+
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                                ng-click="clear()">&times;</button>
+                        <h4 class="modal-title" id="myObbligo_DL33Label" translate="cifra2gestattiApp.obbligo_DL33.home.createOrEditLabel">Create or edit a Obbligo_DL33</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label>ID</label>
+                            <input type="text" class="form-control" name="id"
+                                   ng-model="obbligo_DL33.id" readonly>
+                        </div>
+                        
+						<div class="form-group">
+                            <label translate="cifra2gestattiApp.obbligo_DL33.codice">Codice</label> * <span data-toggle="tooltip" bs-tooltip data-html="true" data-placement="right" data-title="{{'cifra2gestattiApp.obbligo_DL33.guida.codice' | translate}}">
+								<i class="fa fa-question" ></i>
+							</span>
+                            <input type="text" class="form-control" name="codice"
+                                   ng-model="obbligo_DL33.codice" required>
+
+                        </div>
+                        <div class="alert alert-danger" ng-if="checkEsistenza == true"><span translate="cifra2gestattiApp.obbligo_DL33.alreadyExists"></span></div>
+                        
+                        <div class="form-group">
+                            <label translate="cifra2gestattiApp.obbligo_DL33.descrizione">Descrizione</label> *
+                            <input type="text" class="form-control" name="descrizione"
+                                   ng-model="obbligo_DL33.descrizione" required>
+
+                        </div>
+                        <!-- <div class="form-group">
+                            <label translate="cifra2gestattiApp.obbligo_DL33.attivo">Attivo</label>
+                            <input type="checkbox" class="form-control" name="attivo"
+                                   ng-model="obbligo_DL33.attivo">
+
+                        </div> -->
+						<div class="form-group">
+                            <label translate="cifra2gestattiApp.obbligo_DL33.macro_cat_obbligo_DL33">macro_cat_obbligo_DL33</label> *
+                            <select required class="form-control" name="macro_cat_obbligo_DL33" ng-change="resetCatObbligo()" ng-model="obbligo_DL33.macro_cat_obbligo_DL33.id"  ng-options="macro_cat_obbligo_DL33.id as macro_cat_obbligo_DL33.descrizione for macro_cat_obbligo_DL33 in macro_cat_obbligo_dl33s | booleanFilter:{attiva:true}">
+                            </select>
+                        </div>
+                        <div class="form-group" ng-show="obbligo_DL33.macro_cat_obbligo_DL33.id">
+                            <label translate="cifra2gestattiApp.obbligo_DL33.cat_obbligo_DL33">cat_obbligo_DL33</label> *
+                            <select required class="form-control" name="cat_obbligo_DL33" ng-model="obbligo_DL33.cat_obbligo_DL33.id" ng-options="cat_obbligo_DL33.id as cat_obbligo_DL33.descrizione for cat_obbligo_DL33 in cat_obbligo_dl33s | filter:{'fk_cat_obbligo_macro_cat_obbligo_idx':{'id':obbligo_DL33.macro_cat_obbligo_DL33.id}} | booleanFilter:{attiva:true}">
+                            </select>
+                            
+                        </div>
+                        <div class="form-group">
+                            <label translate="cifra2gestattiApp.obbligo_DL33.schede">schede</label>
+                            <ui-select multiple ng-model="obbligo_DL33.schedas" theme="bootstrap" >
+                                        <ui-select-match placeholder="Seleziona schede ">{{$item.etichetta}}</ui-select-match>
+                                        <ui-select-choices repeat="scheda in schedas | filter: $select.search">
+                                        <div ng-bind-html="scheda.etichetta | highlight: $select.search"></div>
+                            </ui-select-choices>
+                            <!--  <select class="form-control" multiple name="scheda" ng-model="obbligo_DL33.schedas" ng-options="scheda as scheda.id for scheda in schedas track by scheda.id">
+                            </select>-->
+                        </div>
+                        
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
+                            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+                        </button>
+                        <button type="submit" ng-disabled="editForm.$invalid || !obbligo_DL33.macro_cat_obbligo_DL33 || !obbligo_DL33.macro_cat_obbligo_DL33.id || !obbligo_DL33.cat_obbligo_DL33 || !obbligo_DL33.cat_obbligo_DL33.id" class="btn btn-primary">
+                            <span class="glyphicon glyphicon-save"></span>&nbsp;<span translate="entity.action.save">Save</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="deleteObbligo_DL33Confirmation">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form name="deleteForm" ng-submit="confirmDelete(obbligo_DL33.id)">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                                ng-click="clear()">&times;</button>
+                        <h4 class="modal-title" translate="entity.delete.title">Confirm delete operation</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p translate="cifra2gestattiApp.obbligo_DL33.delete.question" translate-values="{id: '{{obbligo_DL33.id}}'}">Are you sure you want to delete this Obbligo_DL33?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
+                            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+                        </button>
+                        <button type="submit" ng-disabled="deleteForm.$invalid" class="btn btn-danger">
+                            <span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span translate="entity.action.delete">Delete</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div>
+    	<div class="table-responsive crud-search">
+	        <table class="table table-striped">
+	            <thead>
+	                <tr>
+	                	<th width="30px"></th>
+	                    <th>ID</th>
+						<th translate="cifra2gestattiApp.obbligo_DL33.codice">Codice</th>
+	                    <th translate="cifra2gestattiApp.obbligo_DL33.descrizione">Descrizione</th>
+	                    <th translate="cifra2gestattiApp.obbligo_DL33.attivo">Attivo</th>
+	                    <th translate="cifra2gestattiApp.obbligo_DL33.cat_obbligo_DL33">cat_obbligo_DL33</th>
+	                    <th translate="cifra2gestattiApp.obbligo_DL33.macro_cat_obbligo_DL33">macro_cat_obbligo_DL33</th>
+	                    <th translate="cifra2gestattiApp.obbligo_DL33.schede">schede</th>
+	                    <th></th>
+	                </tr>
+	                <tr>
+	                   <th style="text-align:center;"><button class="btn btn-primary btn-xs" ng-click="ricerca()"><span class="glyphicon glyphicon-search"/> <span translate="global.messages.cerca">Ricerca</span></button> <button class="btn btn-primary btn-xs" ng-click="resetRicerca()"><span translate="global.messages.resetricerca">Reset ricerca</span></button></th>
+			           <th></th>
+					   <th><input type="text" ng-model="tempSearch.codice"></th>
+			           <th><input type="text" ng-model="tempSearch.descrizione"></th>
+			           <th class="limited-width">
+			           		<ui-select ng-model="tempSearch.attiva" theme="bootstrap">
+		                    	<ui-select-match allow-clear="true">{{$select.selected.descrizione}}</ui-select-match>
+		                    	<ui-select-choices repeat="cur in listTrueFalse | filter: $select.search track by $index">
+		                            <div ng-bind-html="cur.descrizione | highlight: $select.search"></div>
+		                    	</ui-select-choices>
+	                      	</ui-select>
+			           	</th>
+			           <th class="limited-width">
+			           		<ui-select ng-model="tempSearch.cat_obbligo_DL33" theme="bootstrap">
+		                    	<ui-select-match allow-clear="true">{{$select.selected.descrizione}}</ui-select-match>
+		                    	<ui-select-choices repeat="cur in cat_obbligo_dl33s | filter: $select.search track by $index">
+		                            <div ng-bind-html="cur.descrizione | highlight: $select.search"></div>
+		                    	</ui-select-choices>
+	                      	</ui-select>
+			           	</th>
+			           	<th class="limited-width">
+			           		<ui-select ng-model="tempSearch.macro_cat_obbligo_DL33" theme="bootstrap">
+		                    	<ui-select-match allow-clear="true">{{$select.selected.descrizione}}</ui-select-match>
+		                    	<ui-select-choices repeat="cur in macro_cat_obbligo_dl33s | filter: $select.search track by $index">
+		                            <div ng-bind-html="cur.descrizione | highlight: $select.search"></div>
+		                    	</ui-select-choices>
+	                      	</ui-select>
+			           	</th>
+			           	<th class="limited-width">
+			           		<ui-select ng-model="tempSearch.schede" theme="bootstrap">
+		                    	<ui-select-match allow-clear="true">{{$select.selected.descrizione}}</ui-select-match>
+		                    	<ui-select-choices repeat="cur in schedeSelect | filter: $select.search track by $index">
+		                            <div ng-bind-html="cur.descrizione | highlight: $select.search"></div>
+		                    	</ui-select-choices>
+	                      	</ui-select>
+			           	</th>
+			           <th><button class="btn btn-primary btn-xs" ng-click="ricerca()"><span class="glyphicon glyphicon-search"/> <span translate="global.messages.cerca">Ricerca</span></button> <button class="btn btn-primary btn-xs" ng-click="resetRicerca()"><span translate="global.messages.resetricerca">Reset ricerca</span></button></th>
+			        </tr>
+	            </thead>
+	            <tbody>
+	                <tr ng-repeat="obbligo_DL33 in obbligo_DL33s">
+	                    <td></td>
+	                    <td><a ui-sref="obbligo_DL33Detail({id:obbligo_DL33.id})">{{obbligo_DL33.id}}</a></td>
+	                    <td>{{obbligo_DL33.codice}}</td>
+						<td>{{obbligo_DL33.descrizione}}</td>
+	                    <td><span ng-if="obbligo_DL33.attivo!=null && obbligo_DL33.attivo==true">Si</span><span ng-if="obbligo_DL33.attivo!=null && obbligo_DL33.attivo==false">No</span></td>
+	                    <td>{{obbligo_DL33.cat_obbligo_DL33.descrizione}}</td>
+	                    <td>{{obbligo_DL33.cat_obbligo_DL33.fk_cat_obbligo_macro_cat_obbligo_idx.descrizione}}</td>
+	                    <td>{{obbligo_DL33.schedas && obbligo_DL33.schedas.length > 0 ? 'Si' : 'No'}}</td>
+	                    <td>
+	                        <button type="submit"
+	                                ui-sref="obbligo_DL33Detail({id:obbligo_DL33.id})"
+	                                class="btn btn-info btn-sm">
+	                            <span class="glyphicon glyphicon-eye-open"></span>&nbsp;<span translate="entity.action.view"> View</span>
+	                        </button>
+	                        <button type="submit"
+	                                ng-click="showUpdate(obbligo_DL33.id)"
+	                                class="btn btn-primary btn-sm">
+	                            <span class="glyphicon glyphicon-pencil"></span>&nbsp;<span translate="entity.action.edit"> Edit</span>
+	                        </button>
+	                        <button type="submit"
+	                        		ng-show="obbligo_DL33.attivo"
+	                                ng-click="disabilita(obbligo_DL33)"
+	                                class="btn btn-warning btn-sm">
+	                            <span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span translate="entity.action.disable"> Disable</span>
+	                        </button>
+	                        <button type="submit"
+	                        		ng-show="!obbligo_DL33.attivo"
+	                                ng-click="abilita(obbligo_DL33)"
+	                                class="btn btn-success btn-sm">
+	                            <span class="glyphicon glyphicon-ok-circle"></span>&nbsp;<span translate="entity.action.enable"> Enable</span>
+	                        </button>
+	                    </td>
+	                </tr>
+	            </tbody>
+	        </table>
+	        <div ng-if="obbligo_DL33s && obbligo_DL33s.length == 0" class="search-no-result"><h3 translate="global.searchNoResult"></h3></div>
+	    </div>
+        <nav>
+            <ul class="pagination">
+                <li ng-show="links['first']" ng-click="loadPage(links['first'])"><a>&lt;&lt;</a></li>
+                <li ng-show="links['prev']" ng-click="loadPage(links['prev'])"><a>&lt;</a></li>
+                <li ng-show="page > 2" ng-click="loadPage(page - 2)"><a>{{page - 2}}</a></li>
+                <li ng-show="page > 1" ng-click="loadPage(page - 1)"><a>{{page - 1}}</a></li>
+                <li class="active"><a>{{page}}</a></li>
+                <li ng-show="page < links['last']" ng-click="loadPage(page + 1)"><a>{{page + 1}}</a></li>
+                <li ng-show="page < links['last'] - 1" ng-click="loadPage(page + 2)"><a>{{page + 2}}</a></li>
+                <li ng-show="links['next']" ng-click="loadPage(links['next'])"><a>&gt;</a></li>
+                <li ng-show="links['last']" ng-click="loadPage(links['last'])"><a>&gt;&gt;</a></li>
+            </ul>
+        </nav>
+    </div>
+</div>

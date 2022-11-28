@@ -1,0 +1,15 @@
+{
+    "cifra2gestattiApp": {
+        "monitoraggioAccesso" : {
+            "home": {
+                "title": "Monitoraggio Accessi"
+            },
+            "data": "Data",
+            "username": "Username",
+            "hostname": "Hostname",
+            "ipAddress": "Indirizzo IP",
+            "status": "Status",
+            "dettaglio":"Dettaglio"
+        }
+    }
+}

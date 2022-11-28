@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    
+    <changeSet author="magria" id="202203101414-00001">
+    	<sql>
+    		INSERT INTO categoriaevento (denominazione,ordine)	VALUES ('JEnte', (select max(c.ordine)+1 from categoriaevento c));
+    		INSERT INTO tipoevento (descrizione, codice, categoriaEvento_id) VALUES('Invio Dati Proposta', 'JENTE_INVIO_DATI_PROPOSTA', (select c.id from categoriaevento c where c.denominazione like 'JEnte' limit 1));
+    	</sql>
+    </changeSet>
+</databaseChangeLog>

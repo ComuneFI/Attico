@@ -1,0 +1,109 @@
+{
+
+"parere.tipoParere" : {"key":"parere.tipo", "titolo": "Tipo ", "template": "text", "fields":[] },
+"parere.parere" : {"key":"parere.parere", "titolo": "Parere ", "template": "text", "fields":[] },
+"parere.idDiogene" : {"key":"parere.idDiogene", "titolo": "Id Documentale", "template": "text", "fields":[] },
+"parere.organoDeliberante" : {"key":"parere.organoDeliberante", "titolo": "Organo Deliberante", "template": "text", "fields":[] },
+
+"parere.data" : {"key":"parere.data", "titolo": "Data", "template": "text", "fields":[] },
+
+"divider-1" : {"key":"divider-1","titolo": "divider", "template": "divider", "fields":[] },
+
+"parere.aoo.logo": {"key":"parere.aoo.logo", "titolo": "Aoo Logo", "template": "image64", "fields":[] },
+"parere.aoo.identitavisiva": {"key":"parere.aoo.identitavisiva", "titolo": "Aoo Logo", "template": "color", "fields":[] },
+"parere.aoo.codice": {"key":"parere.aoo.codice", "titolo": "Aoo codice", "template": "text", "fields":[] },
+"parere.aoo.descrizione": {"key":"parere.aoo.descrizione", "titolo": "Aoo descrizione", "template": "text", "fields":[] },
+"parere.aoo.email": {"key":"parere.aoo.email", "titolo": "Aoo email", "template": "text", "fields":[] },
+"parere.aoo.fax": {"key":"parere.aoo.fax", "titolo": "Aoo fax", "template": "text", "fields":[] },
+"parere.aoo.indirizzo": {"key":"parere.aoo.indirizzo", "titolo": "Aoo indirizzo", "template": "text", "fields":[] },
+"parere.aoo.pec": {"key":"parere.aoo.pec", "titolo": "Aoo pec", "template": "text", "fields":[] },
+"parere.aoo.telefono": {"key":"parere.aoo.telefono", "titolo": "Aoo telefono", "template": "text", "fields":[] },
+"parere.aoo.tipoAoo": {"key":"parere.aoo.tipoAoo", "titolo": "Aoo tipoAoo", "template": "text", "fields":[] },
+
+"divider-0" : {"key":"divider-0","titolo": "divider", "template": "divider", "fields":[] },
+
+"parere.atto.codiceCifra" : {"key":"parere.atto.codiceCifra","titolo": "Codice Atto", "template": "text", "fields":[] },
+"parere.atto.oggetto" : {"key":"parere.atto.oggetto","titolo": "oggetto", "template": "text", "fields":[] },
+
+"parere.atto.codiceUfficio" : {"key":"parere.atto.codiceUfficio","titolo": "codiceUfficio", "template": "text", "fields":[] },
+"parere.atto.descrizioneUfficio" : {"key":"parere.atto.descrizioneUfficio","titolo": "descrizioneUfficio", "template": "text", "fields":[] },
+"parere.atto.codiceServizio" : {"key":"parere.atto.codiceServizio","titolo": "codiceServizio", "template": "text", "fields":[] },
+"parere.atto.descrizioneServizio" : {"key":"parere.atto.descrizioneServizio","titolo": "descrizioneServizio", "template": "text", "fields":[] },
+"parere.atto.codiceArea" : {"key":"parere.atto.codiceArea","titolo": "codiceArea", "template": "text", "fields":[] },
+"parere.atto.descrizioneArea" : {"key":"parere.atto.descrizioneArea","titolo": "descrizioneArea", "template": "text", "fields":[] },
+
+"parere.atto.argomentoOdg" : {"key":"parere.atto.argomentoOdg","titolo": "argomentoOdg", "template": "text", "fields":[] },
+"parere.atto.codiceProcedimento" : {"key":"parere.atto.codiceProcedimento","titolo": "Codice codiceProcedimento", "template": "text", "fields":[] },
+"parere.atto.codicecifraAttoRevocato" : {"key":"parere.atto.codicecifraAttoRevocato","titolo": "Codice Cifra Atto Collegato", "template": "text", "fields":[] },
+"parere.atto.createdBy" : {"key":"parere.atto.createdBy","titolo": "createdBy", "template": "text", "fields":[] },
+
+"parere.atto.dataCreazione" : {"key":"parere.atto.dataCreazione","titolo": "dataCreazione", "template": "text", "fields":[] },
+"parere.atto.esito" : {"key":"parere.atto.esito","titolo": "esito", "template": "text", "fields":[] },
+"parere.atto.durataGiorni" : {"key":"parere.atto.durataGiorni","titolo": "durataGiorni", "template": "text", "fields":[] },
+
+"parere.atto.pubblicazioneSito" : {"key":"parere.atto.pubblicazioneSito","titolo": "pubblicazioneSito", "template": "text", "fields":[] },
+"parere.atto.dataPubblicaSito" : {"key":"parere.atto.dataPubblicaSito","titolo": "dataPubblicaSito", "template": "text", "fields":[] },
+
+"parere.atto.pubblicazioneIntegrale" : {"key":"parere.atto.pubblicazioneIntegrale","titolo": "pubblicazioneIntegrale", "template": "text", "fields":[] },
+
+"parere.atto.finePubblicazioneAlbo" : {"key":"parere.atto.finePubblicazioneAlbo","titolo": "finePubblicazioneAlbo", "template": "text", "fields":[] },
+"parere.atto.inizioPubblicazioneAlbo" : {"key":"parere.atto.inizioPubblicazioneAlbo","titolo": "inizioPubblicazioneAlbo", "template": "text", "fields":[] },
+
+"parere.atto.obbligodlgs332013" : {"key":"parere.atto.obbligodlgs332013","titolo": "obbligodlgs332013", "template": "text", "fields":[] },
+"parere.atto.luogoCreazione" : {"key":"parere.atto.luogoCreazione","titolo": "luogoCreazione", "template": "text", "fields":[] },
+
+"divider" : {"key":"divider","titolo": "divider", "template": "divider", "fields":[] },
+
+"parere.atto.preambolo": {"key":"parere.atto.preambolo.testo", "titolo": "Preambolo", "template": "html" , "fields":[] },
+"parere.atto.motivazione" : {"key":"parere.atto.motivazione.testo","titolo": "Motivazione", "template": "html", "fields":[] },
+"parere.atto.dispositivo" : {"key":"parere.atto.dispositivo.testo","titolo": "Dispositivo", "template": "html", "fields":[] },
+"parere.atto.note" : {"key":"parere.atto.note","titolo": "Note", "template": "html", "fields":[] },
+"parere.atto.garanzieRiservatezza" : {"key":"parere.atto.garanzieRiservatezza.testo","titolo": "Garanzie Riservatezza", "template": "html", "fields":[] },
+"parere.atto.informazioniAnagraficoContabili" : {"key":"parere.atto.informazioniAnagraficoContabili.testo","titolo": "Informazioni Anag. Contabili", "template": "html", "fields":[] },
+"parere.atto.adempimentiContabili" : {"key":"parere.atto.adempimentiContabili.testo","titolo": "Adempimenti Contabili", "template": "html", "fields":[] },
+"parere.atto.dichiarazioni" : {"key":"parere.atto.dichiarazioni.testo","titolo": "Dichiarazioni", "template": "html", "fields":[] },
+
+"parere.atto.numeroAdozione" : {"key":"parere.atto.numeroAdozione","titolo": "numeroAdozione", "template": "text", "fields":[] },
+"parere.atto.dataAdozione" : {"key":"parere.atto.dataAdozione","titolo": "dataAdozione", "template": "text", "fields":[] },
+"parere.atto.luogoAdozione" : {"key":"parere.atto.luogoAdozione","titolo": "luogoAdozione", "template": "text", "fields":[] },
+
+"parere.atto.regolamento" : {"key":"parere.atto.regolamento","titolo": "regolamento", "template": "text", "fields":[] },
+"parere.atto.riservato" : {"key":"parere.atto.riservato","titolo": "riservato", "template": "text", "fields":[] },
+
+"parere.atto.sedutaGiunta" : {"key":"parere.atto.sedutaGiunta","titolo": "sedutaGiunta", "template": "text", "fields":[] },
+"parere.atto.ufficio" : {"key":"parere.atto.ufficio.descrizione","titolo": "ufficio", "template": "text", "fields":[] },
+"parere.atto.version" : {"key":"parere.atto.version","titolo": "version", "template": "text", "fields":[] },
+"parere.atto.votazione" : {"key":"parere.atto.votazione","titolo": "votazione", "template": "text", "fields":[] },
+
+"divider1" : {"key":"divider","titolo": "divider", "template": "divider", "fields":[] },
+
+"parere.atto.rupProfilo": {"key":"parere.atto.rup", "titolo": "Rup", "template": "list" , 
+	"fields":[
+		{"key":"utente.nome", "titolo": "Nome", "template": "text" },
+		{"key":"utente.cognome", "titolo": "Cognome", "template": "text" }
+	]
+},
+
+"parere.atto.burp" : {"key":"parere.atto.burp","titolo": "burp", "template": "text", "fields":[] },
+"parere.atto.codiceBando" : {"key":"parere.atto.codiceBando","titolo": "Codice codiceBando", "template": "text", "fields":[] },
+"parere.atto.codiceCig" : {"key":"parere.atto.codiceCig","titolo": "Codice codiceCig", "template": "text", "fields":[] },
+"parere.atto.codiceCup" : {"key":"parere.atto.codiceCup","titolo": "Codice codiceCup", "template": "text", "fields":[] },
+"parere.atto.codiceMir" : {"key":"parere.atto.codiceMir","titolo": "Codice codiceMir", "template": "text", "fields":[] },
+"parere.atto.idDiogene" : {"key":"parere.atto.idDiogene","titolo": "ID Documentale", "template": "text", "fields":[] },
+
+"divider3" : {"key":"divider","titolo": "divider", "template": "divider", "fields":[] },
+
+"parere.atto.tipoparere.atto.descrizione": {"key":"parere.atto.tipoparere.atto.descrizione", "titolo": "TipoAtto", "template": "text", "fields":[] },
+"parere.atto.tipoDeterminazione.descrizione": {"key":"parere.atto.tipoDeterminazione.descrizione", "titolo": "TipoDeterminazione", "template": "text", "fields":[] },
+"parere.atto.tipoIter.descrizione": {"key":"parere.atto.tipoIter.descrizione", "titolo": "TipoIter", "template": "text", "fields":[] },
+"parere.atto.tipoAdempimento.descrizione": {"key":"parere.atto.tipoAdempimento.descrizione", "titolo": "Tipo adempimento ", "template": "text", "fields":[] },
+
+"divider4" : {"key":"divider","titolo": "divider", "template": "divider", "fields":[] },
+
+"parere.atto.profilo.descrizione": {"key":"parere.atto.profilo.descrizione", "titolo": "Profilo descrizione ", "template": "text", "fields":[] },
+
+"parere.atto.materia.descrizione": {"key":"parere.atto.materia.descrizione", "titolo": "Materia descrizione ", "template": "text", "fields":[] },
+"parere.atto.sottoMateria.descrizione": {"key":"parere.atto.sottoMateria.descrizione", "titolo": "SottoMateria descrizione ", "template": "text", "fields":[] },
+"parere.atto.tipoMateria.descrizione": {"key":"parere.atto.tipoMateria.descrizione", "titolo": "TipoMateria descrizione ", "template": "text", "fields":[] }
+	
+}

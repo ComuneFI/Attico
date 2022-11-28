@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    <changeSet author="mazzottada" id="202110290937-001">
+    	<sql endDelimiter="\$\$">
+    		DROP TRIGGER IF EXISTS progr_adoz_dupl_check$$
+
+			create trigger progr_adoz_dupl_check
+			before update on atto
+			for each row
+			begin
+			  declare tipoprogressivo bigint(20);
+			  declare anno integer;
+			  declare existsId bigint(20);
+			  declare errMsg varchar(255);
+			  declare aooid bigint(20);
+			  declare isProgressivoAdozioneAoo bit(1);
+			  declare duplicateAttoCode varchar(30);
+			  if((old.numero_adozione is null or old.numero_adozione = '') and (new.numero_adozione is not null and new.numero_adozione &#60;&#62; '')) then
+			      set @aooid = (case when new.aoo_id is not null then new.aoo_id when old.aoo_id is not null then old.aoo_id else null end);
+				  set @isProgressivoAdozioneAoo = (select tp.progressivo_adozione_aoo from tipoatto tp where id = new.tipoatto_id);
+				  
+				  if(@isProgressivoAdozioneAoo = true and @aooid is null) then
+				     SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Tipo progressivo prevede aoo ma aoo non presente';
+				  end if;
+				  
+				  set @tipoprogressivo = (select tp.tipoprogressivo_id from tipoatto tp where id = new.tipoatto_id);
+				  
+			  	  if(@tipoprogressivo is null) then 
+			  	    SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Tipo progressivo non disponibile';
+			  	  end if;
+				  
+				  set @anno = (case when new.data_numerazione is not null then year(new.data_numerazione) when old.data_numerazione is not null then year(old.data_numerazione) else null end);
+				  if(@anno is null) then
+				    SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Impossibile inserire il numero di adozione senza la data di numerazione';
+				  end if;
+				  
+				  if(@isProgressivoAdozioneAoo is null or @isProgressivoAdozioneAoo = false) then
+				   set @existsId = (select atto.id from atto inner join tipoatto on atto.tipoatto_id = tipoatto.id where atto.data_numerazione is not null and atto.numero_adozione is not null and tipoatto.tipoprogressivo_id = @tipoprogressivo and year(atto.data_numerazione) = @anno and atto.numero_adozione = new.numero_adozione limit 1);
+				  else
+				   set @existsId = (select atto.id from atto inner join tipoatto on atto.tipoatto_id = tipoatto.id where atto.data_numerazione is not null and atto.numero_adozione is not null and tipoatto.tipoprogressivo_id = @tipoprogressivo and year(atto.data_numerazione) = @anno and atto.numero_adozione = new.numero_adozione and atto.aoo_id = @aooid limit 1);
+				  end if;
+				  if @existsId is not null then
+				   set @duplicateAttoCode = (select codice_cifra from atto where id = @existsId);
+				   set @errMsg = concat('Errore salvataggio progressivo ', new.numero_adozione, ' su atto ', new.codice_cifra, ' per anno ', year(new.data_numerazione), ' per tp progr ', CAST(@tipoprogressivo AS char(20)), ' - Duplicato di ', @duplicateAttoCode);
+				   SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = @errMsg;
+				  end if;
+			  end if;
+			end$$
+		</sql>
+    </changeSet>
+</databaseChangeLog>

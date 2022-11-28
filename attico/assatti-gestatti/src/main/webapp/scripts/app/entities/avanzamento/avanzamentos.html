@@ -1,0 +1,65 @@
+<div>
+
+    <h2 translate="cifra2gestattiApp.avanzamento.home.title">Avanzamento</h2>
+
+	<div>
+	    <div class="table-responsive crud-search">
+	        <table class="table table-striped">
+	            <thead>
+	                <tr>
+	                	<th width="30px"></th>
+	                	<!-- <th><a href="javascript:void(0)"><span ng-click="ordinamento('id')" >ID</span><span ng-show="criteria.ordinamento == 'id' && criteria.tipoOrinamento == 'asc'" class="glyphicon glyphicon-sort-by-attributes" aria-hidden="true"></span><span ng-show="criteria.ordinamento == 'id' && criteria.tipoOrinamento == 'desc'" class="glyphicon glyphicon-sort-by-attributes-alt" aria-hidden="true"></span></a></th> -->
+	                    <th><a href="javascript:void(0)"><span ng-click="ordinamento('dataAttivita')" translate="cifra2gestattiApp.avanzamento.dataAttivita">DataAttivita</span><span ng-show="criteria.ordinamento == 'dataAttivita' && criteria.tipoOrinamento == 'asc'" class="glyphicon glyphicon-sort-by-attributes" aria-hidden="true"></span><span ng-show="criteria.ordinamento == 'dataAttivita' && criteria.tipoOrinamento == 'desc'" class="glyphicon glyphicon-sort-by-attributes-alt" aria-hidden="true"></span></a></th>
+	                    <th><a href="javascript:void(0)"><span ng-click="ordinamento('atto.codiceCifra')"  translate="cifra2gestattiApp.avanzamento.Atto">Atto</span><span ng-show="criteria.ordinamento == 'atto.codiceCifra' && criteria.tipoOrinamento == 'asc'" class="glyphicon glyphicon-sort-by-attributes" aria-hidden="true"></span><span ng-show="criteria.ordinamento == 'atto.codiceCifra' && criteria.tipoOrinamento == 'desc'" class="glyphicon glyphicon-sort-by-attributes-alt" aria-hidden="true"></span></a></th>
+	                    <th><a href="javascript:void(0)"><span ng-click="ordinamento('attivita')"  translate="cifra2gestattiApp.avanzamento.Azione">Azione</span><span ng-show="criteria.ordinamento == 'attivita' && criteria.tipoOrinamento == 'asc'" class="glyphicon glyphicon-sort-by-attributes" aria-hidden="true"></span><span ng-show="criteria.ordinamento == 'attivita' && criteria.tipoOrinamento == 'desc'" class="glyphicon glyphicon-sort-by-attributes-alt" aria-hidden="true"></span></a></th>
+	                    <th><a href="javascript:void(0)"><span ng-click="ordinamento('stato')" translate="cifra2gestattiApp.avanzamento.Stato">Stato</span><span ng-show="criteria.ordinamento == 'stato' && criteria.tipoOrinamento == 'asc'" class="glyphicon glyphicon-sort-by-attributes" aria-hidden="true"></span><span ng-show="criteria.ordinamento == 'stato' && criteria.tipoOrinamento == 'desc'" class="glyphicon glyphicon-sort-by-attributes-alt" aria-hidden="true"></span></a></th>
+	                    <th><a href="javascript:void(0)"><span ng-click="ordinamento('lastModifiedBy')"  translate="cifra2gestattiApp.avanzamento.Utente">Utente</span><span ng-show="criteria.ordinamento == 'lastModifiedBy' && criteria.tipoOrinamento == 'asc'" class="glyphicon glyphicon-sort-by-attributes" aria-hidden="true"></span><span ng-show="criteria.ordinamento == 'lastModifiedBy' && criteria.tipoOrinamento == 'desc'" class="glyphicon glyphicon-sort-by-attributes-alt" aria-hidden="true"></span></a></th>
+	                    <th width="30px"></th>
+	                </tr>
+	                <tr>
+	                	<th style="text-align:center;"><button class="btn btn-primary btn-xs" ng-click="loadAll()"><span class="glyphicon glyphicon-search"/> <span translate="global.messages.cerca">Ricerca</span></button> <button class="btn btn-primary btn-xs" ng-click="resetRicerca()"><span translate="global.messages.resetricerca">Reset ricerca</span></button></th>
+	               		<th><input type="text" name="dataAttivita"   ng-model="criteria.dataAttivita" bs-datepicker></th>
+	               		<th><input type="text" name="atto"   ng-model="criteria.atto"></th>
+	               		<th><input class="fixed-width" type="text" name="attivita"   ng-model="criteria.attivita" ></th>
+	               		<th><select class="fixed-width-150" ng-options="item for item in stati | orderBy:'toString()'" name="stato" ng-model="criteria.stato"><option></option></select></th>
+	                	<th><input class="fixed-width" type="text" name="utente"   ng-model="criteria.utente" ></th>
+	                    <th style="text-align:center;"><button class="btn btn-primary btn-xs" ng-click="loadAll()"><span class="glyphicon glyphicon-search"/> <span translate="global.messages.cerca">Ricerca</span></button> <button class="btn btn-primary btn-xs" ng-click="resetRicerca()"><span translate="global.messages.resetricerca">Reset ricerca</span></button></th>
+	                </tr>
+	            </thead>
+	            <tbody>
+	                <tr ng-repeat="avanzamento in avanzamentos">
+	                	<td></td>
+	                    <!-- <td><a ui-sref="avanzamentoDetail({id:avanzamento.id})">{{avanzamento.id}}</a></td> -->
+	                    <td>{{avanzamento.dataAttivita| date:'short'}}</td>
+	                    <td>{{avanzamento.atto.codiceCifra}}<br/>{{avanzamento.atto.oggetto}}</td>
+	                    <td>{{avanzamento.attivita}}</td>
+	                    <td>{{avanzamento.stato}}</td>
+	                    <td>{{avanzamento.createdBy != 'system' ? avanzamento.createdBy : ''}}{{avanzamento.sistemaAccreditato ? avanzamento.sistemaAccreditato.descrizione : ''}}</td>
+	                    
+	                    <td>
+	                    	<button type="submit" has-ruolo="ROLE_SUPPORT_MANAGER"
+	                                ng-click="impersonifica(avanzamento)"
+	                                class="btn btn-success btn-sm btn-block">
+	                            <span class="glyphicon glyphicon-user"></span>&nbsp;<span translate="entity.action.impersonificate"> Impersonifica</span>
+	                        </button>
+	                    </td>
+	                </tr>
+	            </tbody>
+	        </table>
+	        <div ng-if="avanzamentos && avanzamentos.length == 0" class="search-no-result"><h3 translate="global.searchNoResult"></h3></div>
+	    </div>
+        <nav>
+            <ul class="pagination">
+                <li ng-show="links['first']" ng-click="loadPage(links['first'])"><a>&lt;&lt;</a></li>
+                <li ng-show="links['prev']" ng-click="loadPage(links['prev'])"><a>&lt;</a></li>
+                <li ng-show="page > 2" ng-click="loadPage(page - 2)"><a>{{page - 2}}</a></li>
+                <li ng-show="page > 1" ng-click="loadPage(page - 1)"><a>{{page - 1}}</a></li>
+                <li class="active"><a>{{page}}</a></li>
+                <li ng-show="page < links['last']" ng-click="loadPage(page + 1)"><a>{{page + 1}}</a></li>
+                <li ng-show="page < links['last'] - 1" ng-click="loadPage(page + 2)"><a>{{page + 2}}</a></li>
+                <li ng-show="links['next']" ng-click="loadPage(links['next'])"><a>&gt;</a></li>
+                <li ng-show="links['last']" ng-click="loadPage(links['last'])"><a>&gt;&gt;</a></li>
+            </ul>
+        </nav>
+    </div>
+</div>

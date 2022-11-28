@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    <changeSet author="magria" id="202102260923-0001">
+    	<sql>
+			ALTER TABLE documentoinformatico ADD riservato TINYINT(4) DEFAULT 0 NOT NULL;
+		</sql>
+    </changeSet>
+    <changeSet author="magria" id="202102260923-0002">
+    	<sql>
+			update documentoinformatico di, atto a set di.riservato  =  1 where di.atto_id = a.id and a.riservato = 1;  
+		</sql>
+    </changeSet>
+    <changeSet author="mazzottada" id="202102260923-0003">
+    	<sql>
+			update documentoinformatico alleg, atto a set alleg.riservato = true where alleg.atto_id = a.id and (a.riservato is null or a.riservato = false) and (alleg.pubblicabile is null or alleg.pubblicabile = false);
+		</sql>
+    </changeSet>
+    <changeSet author="mazzottada" id="202102260923-0004">
+    	<sql>
+			update documentoinformatico alleg, atto a set alleg.riservato = false where alleg.atto_id = a.id and (a.riservato is null or a.riservato = false) and (alleg.pubblicabile is not null and alleg.pubblicabile = true) and (alleg.omissis is null or alleg.omissis = false);
+		</sql>
+    </changeSet>
+    <changeSet author="mazzottada" id="202102260923-0005">
+    	<sql>
+			update documentoinformatico alleg, atto a set alleg.riservato = true where alleg.atto_id = a.id and (a.riservato is null or a.riservato = false) and (alleg.pubblicabile is not null and alleg.pubblicabile = true) and (alleg.omissis is not null and alleg.omissis = true);
+		</sql>
+    </changeSet>
+</databaseChangeLog>

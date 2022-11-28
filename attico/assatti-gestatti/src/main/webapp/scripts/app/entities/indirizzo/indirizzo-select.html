@@ -1,0 +1,13 @@
+<div id="indirizzo">
+  	<div class="form-group">
+  		<div class="form-group col-md-{{span}}">
+  			<div class="form-group">
+				<label>Indirizzo</label>
+				<select class="form-control" name="indirizzo" ng-model="ngModel" 
+				ng-class="{'entityDisabilitata' : ngModel && ngModel.highlighted}"
+				ng-options="item as item.label for item in includiRef(indirizzi, ngModel, 'label', ngModel) track by item.id">
+				</select>
+			</div>
+  		</div>
+	</div>
+</div>

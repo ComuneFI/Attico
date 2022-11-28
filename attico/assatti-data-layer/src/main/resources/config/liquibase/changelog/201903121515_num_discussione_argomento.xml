@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    
+    <changeSet author="chiriacog" id="201903121515-1">
+    	<sql>
+			ALTER TABLE `attiodg` 
+			ADD COLUMN `numero_discussione` INT(11) NULL AFTER `ordine_odg`,
+			ADD COLUMN `numero_argomento` INT(11) NULL AFTER `numero_discussione`;
+		</sql>
+    </changeSet>
+ 
+</databaseChangeLog>

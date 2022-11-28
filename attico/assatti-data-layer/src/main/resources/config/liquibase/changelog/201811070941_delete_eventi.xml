@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    
+    <changeSet author="magria" id="201811070941-1">
+    	<sql>
+			delete from tipoevento where categoriaEvento_id = (SELECT id FROM categoriaevento where denominazione = 'NOTIFICHE');
+			delete from tipoevento where categoriaEvento_id = (SELECT id FROM categoriaevento where denominazione = 'DIOGENE');
+			delete FROM categoriaevento where denominazione = 'NOTIFICHE';
+			delete FROM categoriaevento where denominazione = 'DIOGENE';
+    	</sql> 
+    </changeSet>
+</databaseChangeLog>

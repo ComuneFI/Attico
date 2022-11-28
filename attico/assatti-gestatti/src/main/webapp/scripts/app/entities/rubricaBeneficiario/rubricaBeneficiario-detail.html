@@ -1,0 +1,271 @@
+
+<div>
+    <h2><span translate="cifra2gestattiApp.rubricaBeneficiario.detail.title">rubricaBeneficiario</span></h2>
+    <h5>Beneficiario {{rubricaBeneficiario.id}}</h5>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th translate="entity.detail.field">Field</th>
+                    <th translate="entity.detail.value">Value</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.rubricaBeneficiario.attivo">Attivo</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{rubricaBeneficiario.attivo === true ? 'Si' : 'No'}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.rubricaBeneficiario.aoo">Ufficio</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{rubricaBeneficiario.aoo ? rubricaBeneficiario.aoo.descrizione + ' ('+ rubricaBeneficiario.aoo.codice + ')' : 'Tutte'}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.rubricaBeneficiario.idAscot">ID Sistema Esterno</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{rubricaBeneficiario.idAscot}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.rubricaBeneficiario.iban">iban</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{rubricaBeneficiario.iban}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.rubricaBeneficiario.tipoSoggetto">Tipo Soggetto</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{rubricaBeneficiario.tipoSoggetto}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.rubricaBeneficiario.cap2">cap2</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{rubricaBeneficiario.cap2}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.rubricaBeneficiario.citta">citta1</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{rubricaBeneficiario.citta1}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.rubricaBeneficiario.citta2">citta2</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{rubricaBeneficiario.citta2}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.rubricaBeneficiario.provincia">provincia1</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{rubricaBeneficiario.provincia1}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.rubricaBeneficiario.provincia2">provincia2</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{rubricaBeneficiario.provincia2}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.rubricaBeneficiario.localita">localita1</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{rubricaBeneficiario.localita1}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.rubricaBeneficiario.localita2">localita2</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{rubricaBeneficiario.localita2}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.rubricaBeneficiario.stato">stato</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{rubricaBeneficiario.stato}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.rubricaBeneficiario.nome">nome</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{rubricaBeneficiario.nome}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.rubricaBeneficiario.cognome">cognome</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{rubricaBeneficiario.cognome}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.rubricaBeneficiario.dataNascita">dataNascita</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{rubricaBeneficiario.dataNascita}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.rubricaBeneficiario.provinciaNascita">provNascita</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{rubricaBeneficiario.provNascita}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.rubricaBeneficiario.comuneNascita">comuneNascita</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{rubricaBeneficiario.comuneNascita}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.rubricaBeneficiario.sesso">sesso</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{rubricaBeneficiario.sesso}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.rubricaBeneficiario.codiceFiscale">codiceFiscale</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{rubricaBeneficiario.codiceFiscale}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.rubricaBeneficiario.codiceFiscaleEstero">codiceFiscaleEstero</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{rubricaBeneficiario.codiceFiscaleEstero}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.rubricaBeneficiario.denominazione">denominazione</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{rubricaBeneficiario.denominazione}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.rubricaBeneficiario.partitaIva">partitaIva</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{rubricaBeneficiario.partitaIva}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.rubricaBeneficiario.partitaIvaEstero">partitaIvaEstero</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{rubricaBeneficiario.partitaIvaEstero}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.rubricaBeneficiario.email">email</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{rubricaBeneficiario.email}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.rubricaBeneficiario.pec">pec</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{rubricaBeneficiario.pec}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.rubricaBeneficiario.indirizzo1">indirizzo1</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{rubricaBeneficiario.indirizzo1}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.rubricaBeneficiario.indirizzo2">indirizzo2</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{rubricaBeneficiario.indirizzo2}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.rubricaBeneficiario.cap">cap</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{rubricaBeneficiario.cap}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.rubricaBeneficiario.quietanzante">quietanzante</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{rubricaBeneficiario.quietanzante}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.rubricaBeneficiario.modalitaPagamento">modalitaPagamento</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{rubricaBeneficiario.modalitaPagamento}}" readonly>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <button type="submit"
+            ui-sref="rubricaBeneficiario"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span translate="entity.action.back"> Back</span>
+    </button>
+</div>

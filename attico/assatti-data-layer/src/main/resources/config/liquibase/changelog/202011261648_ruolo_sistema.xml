@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    <changeSet author="mazzottada" id="202011261648-001">
+    	<sql>
+    		ALTER TABLE ruolo ADD tipo varchar(100) NULL;
+    		update ruolo set tipo = 'SISTEMA' where codice in ('ROLE_OPERATORE_CONSULTAZIONE_ATTI', 'ROLE_SUPERVISORE_CONSULTAZIONE_ATTI');
+    		update ruolo set tipo = 'OPERATIVO' where codice not in ('ROLE_OPERATORE_DELEGA', 'ROLE_OPERATORE_VISTO_MASSIVO', 'ROLE_OPERATORE_FIRMA_MASSIVA', 'ROLE_REFERENTE_TECNICO', 'ROLE_OPERATORE_GESTIONE_UFFICI', 'ROLE_SUPPORT_MANAGER', 'ROLE_RIASSEGNAZIONE_TASK');
+    		update ruolo set tipo = 'PROCESSO' where tipo is null;
+    		ALTER TABLE ruolo MODIFY COLUMN tipo varchar(100) NOT NULL;
+		</sql>
+    </changeSet>
+     <changeSet author="mazzottada" id="202011261648-002">
+    	<sql>
+    		update ruolo set tipo = 'NN';
+    		update ruolo set tipo = 'SISTEMA' where codice in ('ROLE_OPERATORE_CONSULTAZIONE_ATTI', 'ROLE_SUPERVISORE_CONSULTAZIONE_ATTI');
+    		update ruolo set tipo = 'OPERATIVO' where codice in ('ROLE_OPERATORE_DELEGA', 'ROLE_OPERATORE_VISTO_MASSIVO', 'ROLE_OPERATORE_FIRMA_MASSIVA', 'ROLE_REFERENTE_TECNICO', 'ROLE_OPERATORE_GESTIONE_UFFICI', 'ROLE_SUPPORT_MANAGER', 'ROLE_RIASSEGNAZIONE_TASK');
+    		update ruolo set tipo = 'PROCESSO' where tipo = 'NN';
+		</sql>
+    </changeSet>
+</databaseChangeLog>

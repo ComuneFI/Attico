@@ -1,0 +1,218 @@
+<div>
+
+    <h2 translate="cifra2gestattiApp.jobPubblicazione.home.title">Monitoraggio Pubblicazioni</h2>
+		
+		<button class="btn btn-xs btn-danger dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"  ng-click="esportaRicercaPdf()"><span class="fa fa-file-pdf-o"></span> Esporta Ricerca (PDF)</button>
+			<ul class="dropdown-menu" aria-labelledby="dropdownMenu1" style="background-color:#EE8383;color:white;">
+				<li	ng-repeat="modello in modelloHtmls">
+					<a href target="_blank" ng-click="esportaRicercaPdf(modello.id)">
+						<span class="fa fa-file-pdf-o"></span> <span>{{modello.titolo}}</span>
+					</a>
+				</li>
+			</ul>
+			
+    <div class="modal fade" id="saveJobPubblicazioneModal" tabindex="-1" role="dialog" aria-labelledby="myJobPubblicazioneLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form name="editForm" role="form" novalidate ng-submit="save()" show-validation>
+
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                                ng-click="clear()">&times;</button>
+                        <h4 class="modal-title" id="myJobPubblicazioneLabel" translate="cifra2gestattiApp.jobPubblicazione.annulla.title">Annulla</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label translate="cifra2gestattiApp.jobPubblicazione.annulla.motivazione">Motivazione</label>
+                            <!-- <input type="text" class="form-control" name="motivazione"
+                                   ng-model="jobPubblicazione.atto.motivazioneRichiestaAnnullamento" required> -->
+                                   
+                            <textarea class="form-control" rows="3" name="motivazione" 
+                                   ng-model="jobPubblicazione.atto.motivazioneRichiestaAnnullamento"  required></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                        	<label translate="cifra2gestattiApp.jobPubblicazione.annulla.oscuramento">oscuramento</label>
+                        	<input type="checkbox" ng-model="jobPubblicazione.atto.oscuramentoAttoPubblicato" ng-value="jobPubblicazione.atto.oscuramentoAttoPubblicato ? true : false">
+                        </div>
+                    </div>
+                    
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
+                            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+                        </button>
+                        <button type="submit" ng-disabled="editForm.$invalid" class="btn btn-primary">
+                            <span class="glyphicon glyphicon-save"></span>&nbsp;<span translate="entity.action.save">Save</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal fade" id="deleteJobPubblicazioneConfirmation">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form name="deleteForm" ng-submit="confirmDelete(jobPubblicazione.id)">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                                ng-click="clear()">&times;</button>
+                        <h4 class="modal-title" translate="entity.delete.title">Confirm delete operation</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p translate="cifra2gestattiApp.jobPubblicazione.annulla.question" translate-values="{id: '{{jobPubblicazione.id}}'}">Are you sure you want to delete this jobPubblicazione?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
+                            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+                        </button>
+                        <button type="submit" ng-disabled="deleteForm.$invalid" class="btn btn-danger">
+                            <span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span translate="entity.action.delete">Delete</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+	<div>
+	    <div class="table-responsive">
+	        <table class="table table-striped">
+	            <thead>
+	                <tr>
+	                    <th colname="01-codiceCifra" translate="cifra2gestattiApp.jobPubblicazione.codice">Codice Atto</th>
+	                    <th colname="02-numeroAdozione" translate="cifra2gestattiApp.jobPubblicazione.numeroAdozione">Num. Adozione/Num. Atto</th>
+	                    <th colname="03-dataAdozione" translate="cifra2gestattiApp.jobPubblicazione.dataAdozione">Data Adozione Atto</th>
+	                    <th colname="09-oggetto" translate="cifra2gestattiApp.jobPubblicazione.oggetto">Oggetto</th>
+	                    <!--  <th translate="cifra2gestattiApp.jobPubblicazione.statoPubblicazione">Stato Pubblicazione</th>-->
+	                    <!--  <th translate="cifra2gestattiApp.jobPubblicazione.statoProceduraPubblicazione">Stato Procedura Pubblicazione</th>-->
+	                    <!--  <th translate="cifra2gestattiApp.jobPubblicazione.erroriComunicazioneAlbo">Errori Comunicazione Albo</th>-->
+	                    <th colname="05-dataInizio" translate="cifra2gestattiApp.jobPubblicazione.dataInizioPubblicazione">Data Inizio Pubblicazione</th>
+	                    <th colname="06-dataFine" translate="cifra2gestattiApp.jobPubblicazione.dataFinePubblicazione">Data Fine Pubblicazione</th>
+	                    <!--  <th translate="cifra2gestattiApp.jobPubblicazione.statoRelata">Stato Relata</th>-->
+	                    <!--  <th colname="04-dataEsecutivita" ng-show="false">Data Esecutivit&agrave;</th>-->
+	                    <!--  <th colname="07-istruttore" ng-show="false">Istruttore Proposta</th>-->
+	                    <!--  <th colname="08-emanante" ng-show="false">Dirigente Emanante</th>-->
+	                    <th width="30px"></th>
+	                </tr>
+	                <tr>
+						<th><input type="text" ng-model="tempSearch.codiceCifra" style="width:100%"></th>
+						<th><input type="text" ng-model="tempSearch.numeroAdozione" style="width:100%" maxlength="5"></th>
+						<th><div class="form-group">
+									    <div class="input-group" style="position:inherit;">
+									      <input type="text" ng-model="tempSearch.dataAdozioneStart" size="7" onkeydown="return false;" bs-datepicker placeholder="Dal">
+									      <div class="input-group-addon" style="padding:0px !important;width:0px;"><button title="Cancella Data" ng-click="tempSearch.dataAdozioneStart = null;" class="btn btn-xs btn-link"><span class="glyphicon glyphicon-remove"></span></button></div>
+									    </div>
+									</div>
+									<div class="form-group">
+									    <div class="input-group" style="position:inherit;">
+									      <input type="text" ng-model="tempSearch.dataAdozioneEnd" size="7" onkeydown="return false;" bs-datepicker placeholder="Al">
+									      <div class="input-group-addon" style="padding:0px !important;width:0px;"><button title="Cancella Data" ng-click="tempSearch.dataAdozioneEnd = null;" class="btn btn-xs btn-link"><span class="glyphicon glyphicon-remove"></span></button></div>
+									    </div>
+									</div>
+						</th>
+						<th><input type="text" ng-model="tempSearch.oggetto" style="width:100%"></th>
+						<!--  <th><input type="text" ng-model="tempSearch.statoPubblicazione" style="width:100%"></th>-->
+						<!--  <th><input type="text" ng-model="tempSearch.statoProceduraPubblicazione" style="width:100%"></th>-->
+						<!--  <th><si-no-select ng-model="tempSearch.errori" ></si-no-select></th>-->
+						<th><div class="form-group">
+									    <div class="input-group" style="position:inherit;">
+									      <input type="text" ng-model="tempSearch.dataInizioPubblicazioneStart" size="7" onkeydown="return false;" bs-datepicker placeholder="Dal">
+									      <div class="input-group-addon" style="padding:0px !important;width:0px;"><button title="Cancella Data" ng-click="tempSearch.dataInizioPubblicazioneStart = null;" class="btn btn-xs btn-link"><span class="glyphicon glyphicon-remove"></span></button></div>
+									    </div>
+									</div>
+									<div class="form-group">
+									    <div class="input-group" style="position:inherit;">
+									      <input type="text" ng-model="tempSearch.dataInizioPubblicazioneEnd" size="7" onkeydown="return false;" bs-datepicker placeholder="Al">
+									      <div class="input-group-addon" style="padding:0px !important;width:0px;"><button title="Cancella Data" ng-click="tempSearch.dataInizioPubblicazioneEnd = null;" class="btn btn-xs btn-link"><span class="glyphicon glyphicon-remove"></span></button></div>
+									    </div>
+									</div>
+						</th>
+						<th><div class="form-group">
+									    <div class="input-group" style="position:inherit;">
+									      <input type="text" ng-model="tempSearch.dataFinePubblicazioneStart" size="7" onkeydown="return false;" bs-datepicker placeholder="Dal">
+									      <div class="input-group-addon" style="padding:0px !important;width:0px;"><button title="Cancella Data" ng-click="tempSearch.dataFinePubblicazioneStart = null;" class="btn btn-xs btn-link"><span class="glyphicon glyphicon-remove"></span></button></div>
+									    </div>
+									</div>
+									<div class="form-group">
+									    <div class="input-group" style="position:inherit;">
+									      <input type="text" ng-model="tempSearch.dataFinePubblicazioneEnd" size="7" onkeydown="return false;" bs-datepicker placeholder="Al">
+									      <div class="input-group-addon" style="padding:0px !important;width:0px;"><button title="Cancella Data" ng-click="tempSearch.dataFinePubblicazioneEnd = null;" class="btn btn-xs btn-link"><span class="glyphicon glyphicon-remove"></span></button></div>
+									    </div>
+									</div>
+						</th>
+						<!--  <th style="width:25%;" class="limited-width">
+		           			<ui-select ng-model="tempSearch.statoRelata" theme="bootstrap" style='display: inline-block; width:100%;'>
+								<ui-select-match allow-clear="true">{{$select.selected.denominazione}}</ui-select-match>
+								<ui-select-choices repeat="statoRelata in statiRelata | filter: $select.search">
+									<div ng-bind-html="statoRelata.denominazione | highlight: $select.search"></div>
+								</ui-select-choices>
+							</ui-select>
+			           </th>-->
+						
+						<th style="text-align:center;"><div class="form-group"><button class="btn btn-primary btn-xs"
+								ng-click="ricerca()">
+								<span class="glyphicon glyphicon-search" /> <span
+									translate="global.messages.cerca">Ricerca</span>
+							</button>
+							<button class="btn btn-primary btn-xs" ng-click="resetRicerca()">
+								<span translate="global.messages.resetricerca">Reset
+									ricerca</span>
+							</button></div></th>
+					</tr>
+	            </thead>
+	            <tbody>
+	                <tr ng-repeat="jobPubblicazione in jobPubblicaziones">
+	                    <!-- <td></td> -->
+	                    <td>{{jobPubblicazione.atto.codiceCifra}}</td>
+	                    <td>{{jobPubblicazione.atto.numeroAdozione}}</td>
+	                    <td>{{jobPubblicazione.atto.dataAdozione | date:'dd/MM/yyyy'}}</td>
+	                    <td>{{jobPubblicazione.atto.oggetto}}</td>
+	                    <!-- <td>{{jobPubblicazione.atto.statoPubblicazione}}</td>-->
+	                    <!--  <td>{{jobPubblicazione.atto.statoProceduraPubblicazione}}</td>-->
+	                    <!--  <td>{{jobPubblicazione.dettaglioErrore}}</td>-->
+	                    <td>{{jobPubblicazione.atto.inizioPubblicazioneAlbo | date:'dd/MM/yyyy'}}</td>
+	                    <td>{{jobPubblicazione.atto.finePubblicazioneAlbo | date:'dd/MM/yyyy'}}</td>
+	                    <!--  <td ng-if="jobPubblicazione.atto.statoRelata == null"></td>
+	                    <td translate="cifra2gestattiApp.jobPubblicazione.statiRelata.daGenerare" ng-if="jobPubblicazione.atto.statoRelata == 0">daGenerare</td>
+	                    <td translate="cifra2gestattiApp.jobPubblicazione.statiRelata.generata" ng-if="jobPubblicazione.atto.statoRelata == 1">generata</td>
+	                    <td translate="cifra2gestattiApp.jobPubblicazione.statiRelata.firmata" ng-if="jobPubblicazione.atto.statoRelata == 2">firmata</td>-->
+	                    <!--  <td ng-show="false">{{jobPubblicazione.atto.dataEsecutivita | date:'dd/MM/yyyy'}}</td>-->
+	                    <!--  <td ng-show="false">{{jobPubblicazione.atto.createdBy}}</td>-->
+	                    <!--  <td ng-show="false">{{jobPubblicazione.atto.emananteProfilo.utente.nome}}</td>-->
+	                    <!--  <td>
+	                        <button type="submit"
+	                                ui-sref="jobPubblicazioneDetail({id:jobPubblicazione.id})"
+	                                class="btn btn-info btn-sm">
+	                            <span class="glyphicon glyphicon-eye-open"></span>&nbsp;<span translate="entity.action.view"> View</span>
+	                        </button>
+	                       <button class="btn btn-primary" data-toggle="modal" data-target="#annullaJobPubblicazioneModal" ng-click="loadAnnullamento(scheda);" ng-if="!jobPubblicazione.atto.motivazioneRichiestaAnnullamento">
+			                    <span class="glyphicon glyphicon-flash"></span> <span translate="cifra2gestattiApp.jobPubblicazione.annulla.listButton">Annulla</span>
+			                </button>
+			                <button type="submit"
+                                ng-click="showUpdate(jobPubblicazione.id)"
+                                class="btn btn-primary btn-sm" ng-if="!jobPubblicazione.atto.motivazioneRichiestaAnnullamento">
+                            <span class="glyphicon glyphicon-pencil"></span>&nbsp;<span translate="cifra2gestattiApp.jobPubblicazione.annulla.listButton"> Annulla</span>
+                        </button>
+	                    </td>-->
+	                    <td></td>
+	                </tr>
+	            </tbody>
+	        </table>
+	    </div>
+        <nav>
+            <ul class="pagination">
+                <li ng-show="links['first']" ng-click="loadPage(links['first'])"><a>&lt;&lt;</a></li>
+                <li ng-show="links['prev']" ng-click="loadPage(links['prev'])"><a>&lt;</a></li>
+                <li ng-show="page > 2" ng-click="loadPage(page - 2)"><a>{{page - 2}}</a></li>
+                <li ng-show="page > 1" ng-click="loadPage(page - 1)"><a>{{page - 1}}</a></li>
+                <li class="active"><a>{{page}}</a></li>
+                <li ng-show="page < links['last']" ng-click="loadPage(page + 1)"><a>{{page + 1}}</a></li>
+                <li ng-show="page < links['last'] - 1" ng-click="loadPage(page + 2)"><a>{{page + 2}}</a></li>
+                <li ng-show="links['next']" ng-click="loadPage(links['next'])"><a>&gt;</a></li>
+                <li ng-show="links['last']" ng-click="loadPage(links['last'])"><a>&gt;&gt;</a></li>
+            </ul>
+        </nav>
+    </div>
+</div>

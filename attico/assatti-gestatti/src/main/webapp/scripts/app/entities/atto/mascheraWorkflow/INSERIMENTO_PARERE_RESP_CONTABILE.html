@@ -1,0 +1,19 @@
+<div>
+	<div class="form-group col-md-12">
+		<label>Parere</label> *
+		<select ng-init="updateParereRespContabile()" ng-change="updateParereRespContabile()" class="form-control everActive" ng-model="dtoWorkflow.parere.parereSintetico" required>
+			<option ng-repeat="item in listaEsitoPareriRespContabile" ng-value="item.codice"
+					ng-selected="(dtoWorkflow.parere.parereSintetico && item.codice && dtoWorkflow.parere.parereSintetico == item.codice) || (!dtoWorkflow.parere.parereSintetico && !item.codice) ? true : false">{{item.valore}}</option>
+		</select>
+	</div>
+
+	<div class="form-group col-md-12" ng-if="dtoWorkflow.parere.parereSintetico.toLowerCase().indexOf('articolato')>-1">
+		<label>Parere Articolato</label> *
+		<textarea class="form-control" name="personalizzato" ng-model="dtoWorkflow.parere.parerePersonalizzato" maxlength="255" required></textarea>
+	</div>
+	<br/>
+	<br/>
+	<br/>
+	<br/>
+
+</div>

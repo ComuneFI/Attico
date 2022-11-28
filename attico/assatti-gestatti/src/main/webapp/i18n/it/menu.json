@@ -1,0 +1,23 @@
+{
+    "cifra2gestattiApp": {
+        "menu" : {
+            "home": {
+                "title": "Menus",
+                "createLabel": "Crea un nuovo Menu",
+                "createOrEditLabel": "Crea o modifica un Menu"
+            },
+            "delete": {
+                "question": "Sei sicuro di voler cancellare il Menu con ID {{ id }}?"
+            },
+            "detail": {
+                "title": "Menu"
+            },
+            "voce": "Voce",
+            "ordine": "Ordine",
+            "link": "Link",
+            "target": "Target",
+            "funzione": "funzione",
+            "menuPadre": "menuPadre"
+        }
+    }
+}

@@ -1,0 +1,50 @@
+<div ng-cloak>
+
+	<h2>traduci</h2>
+	<div class="well col-md-6">
+		
+		{
+		<div ng-repeat="(key, value) in en">
+			<span class="notranslate" >"{{key}}":</span>
+
+			<span ng-if="!isObject(value)" >"{{value}}",<br/></span>
+			<div ng-if="isObject(value)" >
+				&nbsp;&nbsp;{
+				<div ng-repeat="(key1, value1) in value">
+					<span class="notranslate" >"{{key1}}":</span>
+
+					<span ng-if="!isObject(value1) && !isArray(value1)" >"{{value1}}",<br/></span>
+
+					<div ng-if="isArray(value1)"  >
+						&nbsp;&nbsp;&nbsp;&nbsp;[
+						<div ng-repeat="value2 in value1">
+							&nbsp;&nbsp;&nbsp;&nbsp;"{{value2}}" <span ng-if="!$last" >,</span>
+						</div>
+						&nbsp;&nbsp;&nbsp;&nbsp;],
+					</div>
+
+					<div ng-if="isObject(value1) && !isArray(value1)" >
+					&nbsp;&nbsp;{
+					<div ng-repeat="(key2, value2) in value1">
+						<span class="notranslate" >"{{key2}}":</span>
+						<span ng-if="!isObject(value2) && !isArray(value2)" >"{{value2}}",<br/></span>
+
+					</div>
+					&nbsp;&nbsp;}  <span ng-if="!$last" >,</span><br/>
+					</div>  
+
+
+				</div>
+				&nbsp;&nbsp;}<span ng-if="!$last" >,</span><br/>
+			</div>
+		</div>
+	}
+
+</div>
+
+<div class="well col-md-6">
+ {{en | json}}  
+
+
+</div>
+</div>

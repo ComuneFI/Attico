@@ -1,0 +1,126 @@
+<div>
+
+    <h2 translate="cifra2gestattiApp.sistemaAccreditato.home.title">sistemaAccreditato</h2>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <button class="btn btn-primary" data-toggle="modal" data-target="#saveSistemaAccreditatoModal" ng-click="clear()">
+                    <span class="glyphicon glyphicon-flash"></span> <span translate="cifra2gestattiApp.sistemaAccreditato.home.createLabel">Create a new sistemaAccreditato</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="saveSistemaAccreditatoModal" tabindex="-1" role="dialog" aria-labelledby="mySistemaAccreditatoLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form name="editForm" role="form" novalidate ng-submit="save()" show-validation>
+
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                                ng-click="clear()">&times;</button>
+                        <h4 class="modal-title" id="mySistemaAccreditatoLabel" translate="cifra2gestattiApp.sistemaAccreditato.home.createOrEditLabel">Create or edit a sistemaAccreditato</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label>ID</label>
+                            <input type="text" class="form-control" name="id"
+                                   ng-model="sistemaAccreditato.id" readonly>
+                        </div>
+
+                        <div class="form-group">
+                            <label translate="cifra2gestattiApp.sistemaAccreditato.codice">Codice</label> *
+                            <input type="text" class="form-control" name="codice"
+                                   ng-model="sistemaAccreditato.codice" required>
+
+                            <div ng-show="editForm.codice.$invalid">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label translate="cifra2gestattiApp.sistemaAccreditato.descrizione">Descrizione</label> *
+                            <input type="text" class="form-control" name="descrizione"
+                                   ng-model="sistemaAccreditato.descrizione" required>
+
+                            <div ng-show="editForm.descrizione.$invalid"></div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label translate="cifra2gestattiApp.sistemaAccreditato.enabled">abilitato</label> *
+                            <input type="checkbox" class="form-control" name="abilitato"
+                                   ng-model="sistemaAccreditato.enabled">
+
+                            <div ng-show="editForm.descrizione.$invalid"></div>
+                        </div>
+					
+                    </div>
+                    
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
+                            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+                        </button>
+                        <button type="submit" ng-disabled="editForm.$invalid" class="btn btn-primary">
+                            <span class="glyphicon glyphicon-save"></span>&nbsp;<span translate="entity.action.save">Save</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+	<div>
+	    <div class="table-responsive crud-search">
+	        <table class="table table-striped">
+	            <thead>
+	                <tr>
+	                    <th>ID</th>
+	                    <th translate="cifra2gestattiApp.sistemaAccreditato.codice">Codice</th>
+	                    <th translate="cifra2gestattiApp.sistemaAccreditato.descrizione">Descrizione</th>
+	                    <th translate="cifra2gestattiApp.sistemaAccreditato.enabled">Abilitato</th>
+	                    <th></th>
+	                </tr>
+	                <tr>
+			           <th></th>
+			           <th><input type="text" ng-model="tempSearch.codice"></th>
+			           <th><input type="text" ng-model="tempSearch.descrizione"></th>
+			           <th>
+							<select class="form-control" ng-model="tempSearch.enabled" ng-options="enabled.value as enabled.descrizione for enabled in [{descrizione:'Si', value:true}, {descrizione:'No', value:false}]">
+                        	</select>
+						</th>
+			           <th><button class="btn btn-primary btn-sm" ng-click="ricerca()"><span class="glyphicon glyphicon-search"/> <span translate="global.messages.cerca">Ricerca</span></button> <button class="btn btn-primary btn-sm" ng-click="resetRicerca()"><span translate="global.messages.resetricerca">Reset ricerca</span></button></th>
+			        </tr>
+	            </thead>
+	            <tbody>
+	                <tr ng-repeat="sistemaAccreditato in sistemaAccreditatos">
+	                    <td>{{sistemaAccreditato.id}}</td>
+	                    <td>{{sistemaAccreditato.codice}}</td>
+	                    <td>{{sistemaAccreditato.descrizione}}</td>
+	                    <td>{{sistemaAccreditato.enabled ? 'Si' : 'No'}}</td>
+	                    <td>
+	                        <button type="submit"
+	                                ng-click="showUpdate(sistemaAccreditato)"
+	                                class="btn btn-primary btn-sm">
+	                            <span class="glyphicon glyphicon-pencil"></span>&nbsp;<span translate="entity.action.edit"> Edit</span>
+	                        </button>
+	                    </td>
+	                </tr>
+	            </tbody>
+	        </table>
+	        <div ng-if="sistemaAccreditatos && sistemaAccreditatos.length == 0" class="search-no-result"><h3 translate="global.searchNoResult"></h3></div>
+	    </div>
+        <nav>
+            <ul class="pagination">
+                <li ng-show="links['first']" ng-click="loadPage(links['first'])"><a>&lt;&lt;</a></li>
+                <li ng-show="links['prev']" ng-click="loadPage(links['prev'])"><a>&lt;</a></li>
+                <li ng-show="page > 2" ng-click="loadPage(page - 2)"><a>{{page - 2}}</a></li>
+                <li ng-show="page > 1" ng-click="loadPage(page - 1)"><a>{{page - 1}}</a></li>
+                <li class="active"><a>{{page}}</a></li>
+                <li ng-show="page < links['last']" ng-click="loadPage(page + 1)"><a>{{page + 1}}</a></li>
+                <li ng-show="page < links['last'] - 1" ng-click="loadPage(page + 2)"><a>{{page + 2}}</a></li>
+                <li ng-show="links['next']" ng-click="loadPage(links['next'])"><a>&gt;</a></li>
+                <li ng-show="links['last']" ng-click="loadPage(links['last'])"><a>&gt;&gt;</a></li>
+            </ul>
+        </nav>
+    </div>
+</div>

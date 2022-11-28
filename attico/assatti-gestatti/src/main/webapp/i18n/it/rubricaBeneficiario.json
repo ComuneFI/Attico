@@ -1,0 +1,64 @@
+{
+    "cifra2gestattiApp": {
+        "rubricaBeneficiario" : {
+            "home": {
+                "title": "Rubrica Beneficiari",
+                "createLabel": "Crea un nuovo Beneficiario",
+                "createOrEditLabel": "Creazione / Modifica Beneficiario"
+            },
+            "delete": {
+                "question": "Conferma la disabilitazione del beneficiario {{ name }} {{ surname }}?"
+            },
+            "detail": {
+                "title": "Rubrica Beneficiari"
+            },
+            "filtro":{
+            	"label-stato" : "Stato",
+            	"stato" : {
+            		"disattivati" : "Beneficiari disabilitati",
+            		"attivi" : "Beneficiari attivi",
+            		"entrambi" : "Entrambi"
+            	}
+            },
+            "email":"E-mail",
+            "pec":"PEC",
+            "codiceFiscaleEstero":"Codice Fiscale Estero",
+            "partitaIvaEstero":"Partita IVA Estero",
+            "stato":"Stato",
+        	"idAscot": "ID Sistema Esterno",
+        	"iban":"IBAN",
+        	"tipoSoggetto":"Tipo Soggetto",
+        	"cap2":"CAP 2",
+        	"citta":"Citt\u00E0",
+        	"citta2":"Citt\u00E0 2",
+        	"provincia":"Provincia",
+        	"provincia2":"Provincia 2",
+        	"localita":"Localit\u00E0",
+        	"localita2":"Localit\u00E0 2",
+            "nome": "Nome",
+            "cognome": "Cognome",
+            "comuneNascita": "Comune di Nascita",
+            "provinciaNascita": "Provincia di Nascita",
+            "dataNascita": "Data di Nascita",
+            "sesso": "Sesso",
+            "codiceFiscale": "Codice Fiscale",
+            "denominazione": "Denominazione",
+            "partitaIva": "Partita Iva",
+            "dittaIndividuale": "Ditta Individuale",
+            "indirizzo1": "Indirizzo",
+            "cap": "CAP",
+            "indirizzo2": "Indirizzo 2",
+            "quietanzante": "Quietanzante",
+            "modalitaPagamento": "Modalit\u00E0 di Pagamento",
+            "fatture":"Fatture",
+            "aggiungiFatturaBtn":"Aggiungi Fattura",
+            "rimuoviFatturaBtn":"Rimuovi Fattura",
+            "attivo":"Attivo",
+            "aoo":"Ufficio",
+            "importazione":{
+                 "title":"Importazione Beneficiari da Rubrica",
+                 "btnImport":"Inserisci Beneficiario"
+             }
+        }
+    }
+}

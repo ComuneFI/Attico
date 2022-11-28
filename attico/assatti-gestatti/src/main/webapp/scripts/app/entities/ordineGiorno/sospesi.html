@@ -1,0 +1,68 @@
+<h2 translate="cifra2gestattiApp.ordineGiorno.giacenza.title">Sospesi</h2>
+<br/>
+<!-- h4 translate="cifra2gestattiApp.ordineGiorno.giacenza.selectlabel">Seleziona Atti</h4-->
+
+
+<div class="tab-pane fade in active" id="tasklist">
+	
+	<nav >
+		<ul class="pager" >
+			<li><a  href="#/giacenza/0"><span
+					class="md-subhead"> Giacenza</span></a></li>
+			<li ng-if="checkedButton"><a  ng-click="attiva()"><span
+					class="md-subhead"> Riattiva</span></a></li>
+		</ul>
+	</nav>
+
+	<div>
+		<div class="table-responsive">
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th><input type="checkbox" ng-change="selectAll()"
+							ng-model="allItemsSelected"></th>
+						<th>ID</th>
+						<th>Num. proposta&#92;Codice Attico</th>
+						<th>Oggetto</th>
+						<th>Tipo</th>
+						<th>Data attività</th>
+						<th>Avviato da</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="atto in resultAtti"
+						ng-class="{selected: atto.isChecked}">
+						<td><input type="checkbox" ng-model="atto.isChecked"
+							ng-change="selectEntity()"></td>
+						<td>{{atto.id}}</td>
+						<td>{{atto.codiceCifra}}</td>
+						<td>{{atto.oggetto}}</td>
+						<td>{{atto.tipoAtto.descrizione}}</td>
+						<td></td>
+						<td><a href title="{{taskDesktop.taskBpm.idAssegnatario}}">
+								{{atto.createdBy}} </a></td>
+						<td></td>
+						<td><a href="/#/atto/{{taskDesktop.atto.id}}"
+							class="btn btn-info btn-sm"> <span
+								class="glyphicon glyphicon-eye-open"></span>&nbsp;<span
+								translate="entity.action.view"> View</span>
+						</a></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<nav>
+			<ul class="pager">
+				<li ng-show="links['first']" ng-click="loadPage(links['first'])"><a
+					href="#">&lt;&lt;</a></li>
+				<li ng-show="links['prev']" ng-click="loadPage(links['prev'])"><a
+					href="#">&lt;</a></li>
+				<li ng-show="links['next']" ng-click="loadPage(links['next'])"><a
+					href="#">&gt;</a></li>
+				<li ng-show="links['last']" ng-click="loadPage(links['last'])"><a
+					href="#">&gt;&gt;</a></li>
+			</ul>
+		</nav>
+
+	</div>

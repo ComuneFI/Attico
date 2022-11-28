@@ -1,0 +1,227 @@
+<div>
+
+    <h2 translate="cifra2gestattiApp.indirizzo.home.title">Indirizzo</h2>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <button class="btn btn-primary" data-toggle="modal" data-target="#saveIndirizzoModal" ng-click="clear()">
+                    <span class="glyphicon glyphicon-flash"></span> <span translate="cifra2gestattiApp.indirizzo.home.createLabel">Create a new Indirizzo</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="saveIndirizzoModal" tabindex="-1" role="dialog" aria-labelledby="myIndirizzoLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form name="editForm" role="form" novalidate ng-submit="save()" show-validation>
+
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                                ng-click="clear()">&times;</button>
+                        <h4 class="modal-title" id="myIndirizzoLabel" translate="cifra2gestattiApp.indirizzo.home.createOrEditLabel">Create or edit a Indirizzo</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label>ID</label>
+                            <input type="text" class="form-control" name="id"
+                                   ng-model="indirizzo.id" readonly>
+                        </div>
+
+                        <div class="form-group">
+                            <label translate="cifra2gestattiApp.indirizzo.dug">Dug</label> *
+                            <input required type="text" class="form-control" name="dug"
+                                   ng-model="indirizzo.dug">
+
+                            <div ng-show="editForm.dug.$invalid">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label translate="cifra2gestattiApp.indirizzo.toponimo">Toponimo</label> *
+                            <input required type="text" class="form-control" name="toponimo"
+                                   ng-model="indirizzo.toponimo">
+
+                            <div ng-show="editForm.toponimo.$invalid">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label translate="cifra2gestattiApp.indirizzo.civico">Civico</label>
+                            <input type="text" class="form-control" name="civico"
+                                   ng-model="indirizzo.civico">
+
+                            <div ng-show="editForm.civico.$invalid">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label translate="cifra2gestattiApp.indirizzo.cap">Cap</label> *
+                            <input required type="text" class="form-control" name="cap"
+                                   ng-model="indirizzo.cap">
+
+                            <div ng-show="editForm.cap.$invalid">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label translate="cifra2gestattiApp.indirizzo.comune">Comune</label> *
+                            <input required type="text" class="form-control" name="comune"
+                                   ng-model="indirizzo.comune">
+
+                            <div ng-show="editForm.comune.$invalid">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label translate="cifra2gestattiApp.indirizzo.provincia">Provincia</label> *
+                            <input required type="text" class="form-control" name="provincia"
+                                   ng-model="indirizzo.provincia">
+
+                            <div ng-show="editForm.provincia.$invalid">
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
+                            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+                        </button>
+                        <button type="submit" ng-disabled="editForm.$invalid" class="btn btn-primary">
+                            <span class="glyphicon glyphicon-save"></span>&nbsp;<span translate="entity.action.save">Save</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="deleteIndirizzoConfirmation">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form name="deleteForm" ng-submit="confirmDelete(indirizzo.id)">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                                ng-click="clear()">&times;</button>
+                        <h4 class="modal-title" translate="entity.delete.title">Confirm delete operation</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p translate="cifra2gestattiApp.indirizzo.delete.question" translate-values="{id: '{{indirizzo.id}}'}">Are you sure you want to delete this Indirizzo?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
+                            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+                        </button>
+                        <button type="submit" ng-disabled="deleteForm.$invalid" class="btn btn-danger">
+                            <span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span translate="entity.action.delete">Delete</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row">
+   		<div class="col-md-6 col-md-offset-6 col-sm-12">
+   			<div class="pull-right">
+   				<div class="form-inline">
+   					<div class="form-group">
+			          <label translate="cifra2gestattiApp.indirizzo.filtro.label-stato">Stato</label> 
+			          <ui-select ng-model="tempSearch.stato" theme="bootstrap" style='display: inline-block; min-width: 120px;'>
+						<ui-select-match allow-clear="true">{{$select.selected.denominazione | translate}}</ui-select-match>
+						<ui-select-choices repeat="stato in stati | filter: $select.search">
+							<div ng-bind-html="stato.denominazione | translate | highlight: $select.search"></div>
+						</ui-select-choices>
+					  </ui-select>
+			        </div>
+   				</div>
+   			</div>
+       </div>
+   	</div>
+
+	<div>
+	    <div class="table-responsive crud-search">
+	        <table class="table table-striped">
+	            <thead>
+	                <tr>
+	                	<th width="30px"></th>
+	                    <th>ID</th>
+	                    <th translate="cifra2gestattiApp.indirizzo.dug">Dug</th>
+	                    <th translate="cifra2gestattiApp.indirizzo.toponimo">Toponimo</th>
+	                    <th translate="cifra2gestattiApp.indirizzo.civico">Civico</th>
+	                    <th translate="cifra2gestattiApp.indirizzo.cap">Cap</th>
+	                    <th translate="cifra2gestattiApp.indirizzo.comune">Comune</th>
+	                    <th translate="cifra2gestattiApp.indirizzo.provincia">Provincia</th>
+	                    <th></th>
+	                </tr>
+	                
+	                <tr>
+	                	<th style="text-align:center;"><button class="btn btn-primary btn-xs" ng-click="ricerca()"><span class="glyphicon glyphicon-search"/> <span translate="global.messages.cerca">Ricerca</span></button> <button class="btn btn-primary btn-xs" ng-click="resetRicerca()"><span translate="global.messages.resetricerca">Reset ricerca</span></button></th>
+	                    <th><input type="text" ng-model="tempSearch.idIndirizzo"></th>
+	                    <th><input type="text" ng-model="tempSearch.dug"></th>
+	                    <th><input type="text" ng-model="tempSearch.toponimo"></th>
+	                    <th><input type="text" ng-model="tempSearch.civico"></th>
+	                    <th><input type="text" ng-model="tempSearch.cap"></th>
+	                    <th><input type="text" ng-model="tempSearch.comune"></th>
+	                    <th>
+	                    	<input type="text" ng-model="tempSearch.provincia">
+	                    </th>
+	                    <th><button class="btn btn-primary btn-xs" ng-click="ricerca()"><span class="glyphicon glyphicon-search"/> <span translate="global.messages.cerca">Ricerca</span></button> <button class="btn btn-primary btn-xs" ng-click="resetRicerca()"><span translate="global.messages.resetricerca">Reset ricerca</span></button></th>
+	                </tr>
+	            </thead>
+	            <tbody>
+	                <tr ng-repeat="indirizzo in indirizzos">
+	                    <td></td>
+	                    <td><a ui-sref="indirizzoDetail({id:indirizzo.id})">{{indirizzo.id}}</a></td>
+	                    <td>{{indirizzo.dug}}</td>
+	                    <td>{{indirizzo.toponimo}}</td>
+	                    <td>{{indirizzo.civico}}</td>
+	                    <td>{{indirizzo.cap}}</td>
+	                    <td>{{indirizzo.comune}}</td>
+	                    <td>{{indirizzo.provincia}}</td>
+	                    <td align="center">
+	                        <button type="submit"
+	                                ui-sref="indirizzoDetail({id:indirizzo.id})"
+	                                class="btn btn-info btn-sm">
+	                            <span class="glyphicon glyphicon-eye-open"></span>&nbsp;<span translate="entity.action.view"> View</span>
+	                        </button>
+	                        <button type="submit"
+	                                ng-click="showUpdate(indirizzo.id)"
+	                                class="btn btn-primary btn-sm">
+	                            <span class="glyphicon glyphicon-pencil"></span>&nbsp;<span translate="entity.action.edit"> Edit</span>
+	                        </button>
+					        <button ng-if="indirizzo.attivo" type="submit"
+					           ng-click="disable(indirizzo)"
+					           class="btn btn-warning btn-sm">
+					           <span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span translate="entity.action.disable"> Disable</span>
+					        </button>
+					        <button type="submit"
+	                        		ng-if="!indirizzo.attivo"
+	                                ng-click="enable(indirizzo)"
+	                                class="btn btn-success btn-sm">
+	                            <span class="glyphicon glyphicon-ok-circle"></span>&nbsp;<span translate="entity.action.enable"> Enable</span>
+	                        </button>
+	                        <!-- <button type="submit"
+	                                ng-click="delete(indirizzo.id)"
+	                                class="btn btn-danger btn-sm">
+	                            <span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span translate="entity.action.delete"> Delete</span>
+	                        </button>
+	                        -->
+	                    </td>
+	                </tr>
+	            </tbody>
+	        </table>
+	        <div ng-if="indirizzos && indirizzos.length == 0" class="search-no-result"><h3 translate="global.searchNoResult"></h3></div>
+	    </div>
+        <nav>
+            <ul class="pagination">
+                <li ng-show="links['first']" ng-click="loadPage(links['first'])"><a>&lt;&lt;</a></li>
+                <li ng-show="links['prev']" ng-click="loadPage(links['prev'])"><a>&lt;</a></li>
+                <li ng-show="page > 2" ng-click="loadPage(page - 2)"><a>{{page - 2}}</a></li>
+                <li ng-show="page > 1" ng-click="loadPage(page - 1)"><a>{{page - 1}}</a></li>
+                <li class="active"><a>{{page}}</a></li>
+                <li ng-show="page < links['last']" ng-click="loadPage(page + 1)"><a>{{page + 1}}</a></li>
+                <li ng-show="page < links['last'] - 1" ng-click="loadPage(page + 2)"><a>{{page + 2}}</a></li>
+                <li ng-show="links['next']" ng-click="loadPage(links['next'])"><a>&gt;</a></li>
+                <li ng-show="links['last']" ng-click="loadPage(links['last'])"><a>&gt;&gt;</a></li>
+            </ul>
+        </nav>
+    </div>
+</div>

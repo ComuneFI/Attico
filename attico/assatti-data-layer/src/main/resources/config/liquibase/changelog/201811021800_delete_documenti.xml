@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    
+    <changeSet author="chiriacog" id="201811021800-1">
+    	<sql>
+			DELETE FROM modellohtml where tipodocumento_id = (SELECT id FROM tipodocumento where codice = 'MOZIONE_RISOLUZIONE_ODG');
+			DELETE FROM modellohtml where tipodocumento_id = (SELECT id FROM tipodocumento where codice = 'PROPOSTA_MOZIONE_RISOLUZIONE_ODG');
+			DELETE FROM configurazione_riversamento where tipodocumento_id = (SELECT id FROM tipodocumento where codice = 'MOZIONE_RISOLUZIONE_ODG');
+			DELETE FROM configurazione_riversamento where tipodocumento_id = (SELECT id FROM tipodocumento where codice = 'PROPOSTA_MOZIONE_RISOLUZIONE_ODG');
+			DELETE FROM documentopdf where tipo_documento_id = (SELECT id FROM tipodocumento where codice = 'MOZIONE_RISOLUZIONE_ODG');
+			DELETE FROM documentopdf where tipo_documento_id = (SELECT id FROM tipodocumento where codice = 'PROPOSTA_MOZIONE_RISOLUZIONE_ODG');
+			DELETE FROM tipodocumento where codice = 'MOZIONE_RISOLUZIONE_ODG';
+			DELETE FROM tipodocumento where codice = 'PROPOSTA_MOZIONE_RISOLUZIONE_ODG';
+			DELETE FROM tipodocumentoserie where codice = 'MOZIONE_RISOLUZIONE_ODG';
+			DELETE FROM tipodocumentoserie where codice = 'PROPOSTA_MOZIONE_RISOLUZIONE_ODG';
+    	</sql> 
+    </changeSet>
+</databaseChangeLog>

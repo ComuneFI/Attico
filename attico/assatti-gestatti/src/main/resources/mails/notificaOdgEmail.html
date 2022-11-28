@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title th:text="${notifica.oggetto}">Titolo</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    </head>
+    <body>
+    	<b><p th:text="${notifica.oggetto}">
+           Titolo
+        </p>
+        </b>
+        <!-- <p th:text="#{email.notificaOdG.destinatario(${tipoDestinatario}, ${destinatario})}">
+           Destinatario
+        </p>
+         -->
+        <p th:text="#{email.notificaOdG.corpo}">
+            In allegato.
+        </p>
+        <p>
+            <span th:text="#{email.notificaOdG.footer}">Footer </span>
+        </p>
+    </body>
+</html>

@@ -1,0 +1,91 @@
+<div>
+
+ 
+	 <aoo-info ng-model="aoo" ></aoo-info>
+	<div class="row">
+
+		<div class="col-sm-12">
+
+
+ 
+			<div ng-if="!qualificaProfessionaleEdit.edit"  class="form-group ">
+				<div    ui-tree="options" >
+
+
+					<ol ui-tree-nodes ng-model="qualificaProfessionales" data-type="qualificaprofessionale" data-nodrag   >
+						
+
+						<li ng-repeat="qualificaProfessionale in qualificaProfessionales" ui-tree-node  >
+
+							<div ui-tree-handle class="tree-node tree-node-content" >
+
+								<label ng-if="!tipoMateria.edit">{{qualificaProfessionale.denominazione}}</label>
+
+						
+							<div class="pull-right" ng-if="!qualificaProfessionale.edit && qualificaProfessionale.aoo.id === aoo.id" >
+								<a class="pull-right btn btn-danger btn-sm"  ng-click="edit(qualificaProfessionale)"  >Modifica Qualifica professionale <span
+									class="glyphicon glyphicon-edit"></span></a>
+
+
+								</div>
+							</div>
+							</li>
+
+									<li>
+										<div   class="tree-node tree-node-content" >
+											<label>
+												<a class="pull-left btn btn-primary btn-sm"    ng-click="addQualificaProfessionale()"   >Aggiungi Qualifica professionale  <span
+													class="glyphicon glyphicon-plus"></span></a>
+												</label>
+											</div>
+										</li>
+
+
+									</ol>
+								</div>
+							</div>
+
+
+
+								<form  ng-if="qualificaProfessionaleEdit.edit" name="editForm" role="form" novalidate ng-submit="salvaQualificaProfessionale(qualificaProfessionaleEdit)" 
+								show-validation>
+
+							        <div class="form-group">
+			                            <label translate="cifra2gestattiApp.qualificaProfessionale.denominazione">Denominazione</label>
+			                            <input type="text" class="form-control" name="denominazione"
+			                                   ng-model="qualificaProfessionaleEdit.denominazione">
+
+			                            <div ng-show="editForm.denominazione.$invalid">
+			                            </div>
+			                        </div>
+
+			                        <aoo-select ng-model="qualificaProfessionaleEdit.aoo" lista-aoo="aoos" new-entity="!qualificaProfessionaleEdit.id>0"></aoo-select>
+
+
+
+							 
+
+
+								<button type="button" class="btn btn-default"  ng-click="cancelEdit(qualificaProfessionaleEdit)">
+									<span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+								</button>
+
+								<button type="submit" ng-disabled="editForm.$invalid" class="btn btn-primary">
+									<span class="glyphicon glyphicon-save"></span>&nbsp;<span translate="entity.action.save">Save</span>
+								</button>
+
+
+							</form>
+
+
+						</div>
+
+
+					</div>
+
+
+
+
+
+
+				</div>

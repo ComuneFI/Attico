@@ -1,0 +1,20 @@
+{
+    "cifra2gestattiApp": {
+        "modelloSezione" : {
+            "home": {
+                "title": "ModelloSeziones",
+                "createLabel": "Create a new ModelloSezione",
+                "createOrEditLabel": "Create or edit a ModelloSezione"
+            },
+            "delete": {
+                "question": "Are you sure you want to delete ModelloSezione {{ id }}?"
+            },
+            "detail": {
+                "title": "ModelloSezione"
+            },
+            "titolo": "Titolo",
+            "html2": "Html2",
+            "Aoo": "Ufficio"
+        }
+    }
+}

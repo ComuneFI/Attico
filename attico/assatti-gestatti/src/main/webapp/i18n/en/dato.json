@@ -1,0 +1,23 @@
+{
+    "cifra2gestattiApp": {
+        "dato" : {
+            "home": {
+                "title": "Datos",
+                "createLabel": "Create a new Dato",
+                "createOrEditLabel": "Create or edit a Dato"
+            },
+            "delete": {
+                "question": "Are you sure you want to delete Dato {{ id }}?"
+            },
+            "detail": {
+                "title": "Dato"
+            },
+            "etichetta": "Etichetta",
+            "multivalore": "Multivalore",
+            "stile": "Stile",
+            "valore_legame": "Valore Legame",
+            "dato_datosup_fk": "Dato Superiore",
+            "dato_tipdat_fk": "Tipo Dato"
+        }
+    }
+}

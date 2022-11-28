@@ -1,0 +1,34 @@
+{
+    "cifra2gestattiApp": {
+        "qualificaProfessionale" : {
+            "home": {
+                "title": "Qualifiche Professionali",
+                "createLabel": "Crea una nuova Qualifica Professionale",
+                "createOrEditLabel": "Crea o modifica una Qualifica Professionale"
+            },
+            "delete": {
+                "question": "Sei sicuro di voler eliminare la Qualifica Professionale {{ id }}?"
+            },
+            "detail": {
+                "title": "Qualifica Professionale"
+            },
+            "filtro":{
+            	"label-stato" : "Stato",
+            	"stato" : {
+            		"disattivate" : "Qualifiche Professionali disabilitate",
+            		"attive" : "Qualifiche Professionali attive",
+            		"entrambe" : "Entrambe"
+            	}
+            },
+            "denominazione": "Denominazione",
+            "ruolo": "Ruolo",
+            "profilo": "Profilo",
+            "stato":"Stato",
+            "messages": {
+	            "error": {
+	                "operationNotPermitted": "Non \u00E8 possibile effettuare l\u0027operazione in quanto l\u0027elemento \u00E8 incluso in uno o pi\u00F9 atti."
+	            }
+	        }
+        }
+    }
+}

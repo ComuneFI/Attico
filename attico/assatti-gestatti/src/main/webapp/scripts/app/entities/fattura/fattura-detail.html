@@ -1,0 +1,54 @@
+
+<div>
+    <h2><span translate="cifra2gestattiApp.fattura.detail.title">Fattura</span> {{fattura.id}}</h2>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th translate="entity.detail.field">Field</th>
+                    <th translate="entity.detail.value">Value</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.fattura.numeroRegistro">NumeroRegistro</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{fattura.numeroRegistro}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.fattura.note">Note</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{fattura.note}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.fattura.atto">atto</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{fattura.atto.id}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.fattura.RubricaDestinatarioEsterno">RubricaDestinatarioEsterno</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{fattura.RubricaDestinatarioEsterno.id}}" readonly>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <button type="submit"
+            ui-sref="fattura"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span translate="entity.action.back"> Back</span>
+    </button>
+</div>

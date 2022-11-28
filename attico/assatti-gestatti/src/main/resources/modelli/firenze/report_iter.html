@@ -1,0 +1,54 @@
+<div>	<p><title>Report Iter</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></p>
+	<p><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></p>
+	<p style="text-align: center; "><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><span style="font-size: 24px;">REPORT ITER [[${atto.numeroAdozione!=null &amp;&amp; atto.dataAdozione!=null ? (atto.tipoAtto.codice + '/' + #dates.format(atto.dataAdozione, 'yyyy') + '/' + atto.numeroAdozione) : atto.codiceCifra}]]</span></p>
+	<p style="font-size:16px;">	</p>
+<p style="font-size:16px;"><span><br></span></p>
+<p style="font-size:16px;"><span>Istruttoria effettuata da</span><br>	<span><b>Istruttore: </b>[[${atto.profilo.utente.nome}]] [[${atto.profilo.utente.cognome}]]</span><br>	<span><b>AOO: </b></span><span>[[${atto.profilo.aoo.codice}]] - [[${atto.profilo.aoo.descrizione}]]</span><br><span><b>Data: </b>[[${data}]] ore [[${ora}]]</span></p>
+	<p style="text-align: left;"><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><span style="font-size: 20px;">Lista task automatici</span></p>
+	<div th:each="categoria,iterator : ${categorieEvento}">				<table width="100%">
+						<tbody>
+<tr>
+<th style="border-bottom: 1px solid #000000; border-top: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000;" colspan="3" align="left"><span style="font-size: 18px;">[[${categoria.denominazione}]]</span></th>
+</tr>
+						<tr th:if="${#lists.size(eventiMap.get(categoria.id)) >
+ 0}">							<th style="border-left: 1px solid #000000; text-align: left;"><span>Data e ora evento</span></th>
+	                							<th style="text-align: left;"><span>Descrizione evento</span></th>
+							<th style="border-right: 1px solid #000000; text-align: left;"><span></span></th>
+						</tr>
+												 <tr th:each="evento : ${eventiMap.get(categoria.id)}">
+							<td style="border-left: 1px solid #000000; text-align: left;">[[${evento.dataCreazione != null ? #dates.format(evento.dataCreazione, 'dd-MM-yyyy HH:mm') : ''}]]</td>
+							<td style="text-align: left;">[[${evento.tipoEvento!=null ? evento.tipoEvento.descrizione : ''}]]</td>
+	                							<td style="border-right: 1px solid #000000; text-align: left;">[[${evento.infoAggiuntive != null ? evento.infoAggiuntive : ''}]]</td>
+	                						</tr>
+						<tr th:if="${#lists.size(eventiMap.get(categoria.id)) >
+ 0}">							<td style="border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000; text-align: left;" colspan="3"></td>
+<td>						</td>
+</tr>
+						<tr th:if="${#lists.size(eventiMap.get(categoria.id)) == 0}">
+							<td style="border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000; text-align: left;" colspan="3" width="100%">Nessun evento registrato.</td>
+<td>						</td>
+</tr>
+				</tbody>
+</table>
+				<span th:if="${iterator.index < #lists.size(categorieEvento) - 1}"><br></span></div>
+</div>
+<div style="margin-top:0.2in;"><div th:each="categoria,iterator : ${categorieEvento}">	</div>
+	<div><p style="text-align: left;"><span style="font-size: 20px;">Lista task utente</span></p>
+		<table width="100%">
+			<thead>				<tr>
+					<th style="vertical-align: text-top; border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000;" width="45%"><span>Data Ultima Azione</span></th>
+	                					<th style="vertical-align: text-top; border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000;" width="5%"><span>Esecutore</span></th>
+					<th style="vertical-align: text-top; border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000;" width="45%"><span>Azione Effettuata</span></th>
+				</tr>
+			</thead>
+			<tbody>
+				 <tr th:each="avanzamento : ${avanzamenti}">
+					<td style="vertical-align: text-top; border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000;" width="45%">[[${avanzamento.dataAttivita!=null ? #dates.format(avanzamento.dataAttivita, 'dd-MM-yyyy HH:mm') : ''}]]</td>
+					<td style="vertical-align: text-top; border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000;" width="5%">[[${avanzamento.createdBy != 'system' ? avanzamento.createdBy : 'Sistema esterno'}]][[${avanzamento.sistemaAccreditato != null &amp;&amp; avanzamento.sistemaAccreditato != ''  ? ' (' + avanzamento.sistemaAccreditato.descrizione + ')' : ''}]]</td>
+	             	<td style="vertical-align: text-top; border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000;" width="45%">						<span th:each="attivita, it : ${avanzamento.listaAttivita}">						&gt;&gt; [[${attivita.data != null ? #dates.format(attivita.data, 'dd-MM-yyyy HH:mm') : ''}]] [[${attivita.nome != null ? attivita.nome : ''}]]						<span th:if="${it.index < #lists.size(avanzamento.listaAttivita) - 1}"><br><br></span>						</span>					</td>
+           				</tr>
+			</tbody>
+		</table>
+	</div>
+<div></div>
+</div>

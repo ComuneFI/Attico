@@ -1,0 +1,242 @@
+<div>
+	<br>
+	<div class="row">
+		<div class="col-xs-12">
+			<label translate="cifra2gestattiApp.atto.assegnazioneIncarichi">Assegnazione Incarichi</label>
+			<span data-toggle="tooltip"
+				title="<b>GUIDA</b><br/>Questa sezione permette di definire gli incaricati per specifici operazioni da effettuare sull'Atto.<br />"
+				data-html="true" ng-init="initTooltip()">
+				<i class="fa fa-question" ></i>
+			</span>
+		</div>
+	</div>
+	
+	<hr>
+		
+	<div ng-repeat="(incaricoIndex, incarico) in incarichi">
+		<input type="hidden" ng-model="incarico.idAtto"  />
+		<input type="hidden" ng-model="incarico.idConfigurazioneTask" />
+		<div class="row" >
+			<div class="form-group col-xs-4 highlight">
+				<label>{{incarico.dettaglio.configurazioneTaskDto.nome}}<span ng-if="incarico.dettaglio.configurazioneTaskDto.obbligatoria"> *</span></label>
+			</div>
+			<div class="col-xs-offset-5 col-xs-3">
+				<div class="form-group text-right">
+					<button ng-if="incarico.dettaglio.configurazioneTaskDto.tipoConfigurazioneTaskId==configurationParams.tipo_conf_task_profilo_id && incarico.dettaglio.configurazioneTaskDto.multipla" type="button" class="sectionSottoscrittore btn btn-default everActive" ng-click="aggiungiProfiloIncarico(incarico)"  ><i class="fa fa-user-plus"></i> <span translate="cifra2gestattiApp.atto.aggiungiProfilo">Aggiungi Profilo</span></button>
+					<button ng-if="incarico.dettaglio.configurazioneTaskDto.tipoConfigurazioneTaskId==configurationParams.tipo_conf_task_ufficio_id && incarico.dettaglio.configurazioneTaskDto.multipla" type="button" class="sectionSottoscrittore btn btn-default everActive" ng-click="aggiungiUfficioIncarico(incarico)"  ><i class="fa fa-user-plus"></i> <span translate="cifra2gestattiApp.atto.aggiungiUfficio">Aggiungi Ufficio</span></button>
+				</div>
+			</div>
+		</div>
+		
+		<div ui-tree="treeOptions" ng-if="incarico.dettaglio.configurazioneTaskDto.tipoConfigurazioneTaskId==configurationParams.tipo_conf_task_profilo_id" 
+			class="ng-scope angular-ui-tree-node" data-drag-enabled="true" class="ng-scope angular-ui-tree">
+			
+			<input type="text" style="display: none;" ng-model="incarichi[incaricoIndex].runValidate"
+			 ng-init="validateIncarichi(incarico.listConfigurazioneIncaricoProfiloDto, incaricoIndex, configurationParams.tipo_conf_task_profilo_id)"
+			 ng-if="incarichi[incaricoIndex].runValidate">
+			 
+			<ol class="list-group ng-pristine ng-untouched ng-valid ng-scope angular-ui-tree-nodes" ng-model="incarico.listConfigurazioneIncaricoProfiloDto" ui-tree-nodes="" aria-invalid="false">
+				<li ng-repeat="configurazioneIncaricoProfiloDto in incarico.listConfigurazioneIncaricoProfiloDto" ui-tree-node collapsed="false">
+					<div ui-tree-handle="" class="tree-node tree-node-content row ng-scope angular-ui-tree-handle">
+						<div class="form-inline" ng-class="{'alert alert-danger' : sottoscrittore.fake}">
+							<i class="fa fa-bars"></i> 
+							<div data-nodrag="" class="form-group">
+									<label translate="cifra2gestattiApp.atto.profiloIncaricato" class="ng-scope">Profilo Incaricato</label> <span ng-if="incarico.dettaglio.configurazioneTaskDto.obbligatoria"> *</span> &nbsp;
+									<ui-select ng-model="configurazioneIncaricoProfiloDto.idProfilo"  theme="bootstrap"
+										ng-init="setQualificheProfilo(incaricoIndex, $index, configurazioneIncaricoProfiloDto.idProfilo, false); 
+											setProfiloDefault(configurazioneIncaricoProfiloDto, $parent.incarico.dettaglio.listProfilo, $parent.incarico.dettaglio.configurazioneTaskDto.obbligatoria, incaricoIndex, $index); 
+											validateIncarichi(incarico.listConfigurazioneIncaricoProfiloDto, incaricoIndex, configurationParams.tipo_conf_task_profilo_id)" 
+										ng-change="setQualificheProfilo(incaricoIndex, $index, configurazioneIncaricoProfiloDto.idProfilo, true);" 
+										style="font-family: arial; font-weight: normal;" class="sectionSottoscrittore ui-prof-incarico everActive" >
+			                           	<ui-select-match allow-clear="true" placeholder="Seleziona profilo">
+			                           	<div ng-class="{'entityDisabilitata' : configurazioneIncaricoProfiloDto && configurazioneIncaricoProfiloDto.profilo && configurazioneIncaricoProfiloDto.idProfilo == configurazioneIncaricoProfiloDto.profilo.id && configurazioneIncaricoProfiloDto.profilo.highlighted}">
+			                           		<div title="{{($select.selected.utente.nome +' '+ $select.selected.utente.cognome + ' (' + $select.selected.descrizione + ')') + ' - ' + $select.selected.aoo.descrizione}}">
+			                           		<span ng-bind-html="($select.selected.utente.nome +' '+ $select.selected.utente.cognome + ' (' + $select.selected.descrizione + ')')"></span>
+			                           		<br />
+			                           		<span style="max-width: 300px; display: inline-block;"
+			                           		 ng-bind-html="$select.selected.aoo.descrizione"></span>
+			                           		 </div>
+			                           	</div></ui-select-match>
+			                             <ui-select-choices repeat="profilo.id as profilo in includiRef(incarico.dettaglio.listProfilo, configurazioneIncaricoProfiloDto.profilo, 'utente.cognome', configurazioneIncaricoProfiloDto.profilo) | filter: $select.search track by profilo.id">
+			                               	<div ng-bind-html="(profilo.utente.nome +' '+ profilo.utente.cognome + ' (' + profilo.descrizione + ')') | highlight: $select.search"></div>
+			                               	<div ng-bind-html="(profilo.aoo.descrizione) | highlight: $select.search"></div>
+			                           	</ui-select-choices>
+		                        	</ui-select>
+									&nbsp;&nbsp;&nbsp;
+							</div>
+							<div data-nodrag="" class="form-group ng-scope">
+								<label translate="cifra2gestattiApp.atto.qualifica" class="ng-scope">Qualifica</label><span ng-if="incarico.dettaglio.configurazioneTaskDto.obbligatoria || configurazioneIncaricoProfiloDto.idProfilo"> *</span> &nbsp;
+								<select ng-change="validateIncarichi(incarico.listConfigurazioneIncaricoProfiloDto, incaricoIndex, configurationParams.tipo_conf_task_profilo_id)" style="font-family: arial; font-weight: normal;" 
+								class="sectionSottoscrittore form-control ng-pristine ng-untouched ng-valid everActive" ng-model="configurazioneIncaricoProfiloDto.qualificaProfessionaleDto" 
+								ng-class="{'entityDisabilitata' : configurazioneIncaricoProfiloDto && configurazioneIncaricoProfiloDto.qualificaProfessionaleDto && configurazioneIncaricoProfiloDto.qualificaProfessionaleDto.highlighted}"
+								ng-options="qualifica as qualifica.denominazione for qualifica in includiRef(configurazioneIncaricoProfiloDto.qualifiche, configurazioneIncaricoProfiloDto.qualificaProfessionaleDto, 'denominazione', configurazioneIncaricoProfiloDto.qualificaProfessionaleDto, !configurazioneIncaricoProfiloDto.idProfilo || !configurazioneIncaricoProfiloDto.profilo || !configurazioneIncaricoProfiloDto.profilo.id || configurazioneIncaricoProfiloDto.profilo.id != configurazioneIncaricoProfiloDto.idProfilo) track by qualifica.id" aria-hidden="false" aria-invalid="false">
+									<option value=""></option>
+								</select>
+								&nbsp;&nbsp;&nbsp;
+							</div>
+							<div data-nodrag="" class="form-group" ng-if="incarico.dettaglio.configurazioneTaskDto.impostaScadenza">
+								<label translate="cifra2gestattiApp.atto.scadenza" class="ng-scope">Scadenza</label> &nbsp;
+								<input ng-model="configurazioneIncaricoProfiloDto.giorniScadenza" class="everActive" ng-pattern="/^[0-9]{1,3}$/" type="text" class="form-control"> <span ng-show="!editForm.$valid" style="background: #ffcbcb; color: #1e1212;">Inserire valore numerico. Massimo tre cifre</span>
+							</div>
+							<div data-nodrag="" class="pull-right form-group">
+								<button type="button" class="sectionSottoscrittore btn btn-danger btn-sm ng-scope everActive" ng-click="rimuoviProfiloIncarico(incaricoIndex, $index); validateIncarichi(incarico.listConfigurazioneIncaricoProfiloDto, incaricoIndex, configurationParams.tipo_conf_task_profilo_id)" data-type="success" data-title="Elimina incaricato" bs-tooltip=""> <i class="fa fa-minus"></i></button>
+							</div>
+						</div>	
+					</div>
+				</li>
+			</ol>
+		</div>
+		<div ui-tree="treeOptions" ng-if="incarico.dettaglio.configurazioneTaskDto.tipoConfigurazioneTaskId==configurationParams.tipo_conf_task_ufficio_id" data-drag-enabled="true" class="ng-scope angular-ui-tree">
+			<ol class="list-group ng-pristine ng-untouched ng-valid ng-scope angular-ui-tree-nodes" ng-model="incarico.listConfigurazioneIncaricoAooDto" ui-tree-nodes="" aria-invalid="false">
+				<li ng-repeat="configurazioneIncaricoAooDto in incarico.listConfigurazioneIncaricoAooDto" ui-tree-node class="ng-scope angular-ui-tree-node" collapsed="false">
+					<div ui-tree-handle="" class="tree-node tree-node-content row ng-scope angular-ui-tree-handle">
+						<div class="form-inline" ng-class="{'alert alert-danger' : sottoscrittore.fake}">
+							<i class="fa fa-bars"></i> 
+							<div data-nodrag="" class="form-group">
+									<label translate="cifra2gestattiApp.atto.ufficioIncaricato" class="ng-scope">Ufficio Incaricato</label><span ng-if="incarico.dettaglio.configurazioneTaskDto.obbligatoria"> *</span> &nbsp;
+									<select ng-init="setUfficioDefault(configurazioneIncaricoAooDto, $parent.incarico.dettaglio.listAoo,$parent.incarico.dettaglio.configurazioneTaskDto.obbligatoria); validateIncarichi(incarico.listConfigurazioneIncaricoAooDto, incaricoIndex, configurationParams.tipo_conf_task_ufficio_id)" 
+										ng-change="validateIncarichi(incarico.listConfigurazioneIncaricoAooDto, incaricoIndex, configurationParams.tipo_conf_task_ufficio_id)" 
+										style="font-family: arial; font-weight: normal;" class="sectionSottoscrittore form-control everActive" 
+										ng-model="configurazioneIncaricoAooDto.idAoo" 
+										ng-options="ufficio.id as ufficio.descrizione for ufficio in incarico.dettaglio.listAoo" />
+									&nbsp;&nbsp;&nbsp;
+							</div>
+							<div data-nodrag="" class="form-group" ng-if="incarico.dettaglio.configurazioneTaskDto.dataManuale">
+								<label translate="cifra2gestattiApp.atto.dataManuale">Data Manuale</label>*
+								<div class="form-group">
+									<div class="input-group" style="position:inherit;">
+										<input type="text" size="10" class="everActive" ng-model="configurazioneIncaricoAooDto.dataManuale" data-date-type="date" onkeydown="return false;" bs-datepicker>
+										<div class="input-group-addon" style="padding:0px !important;width:0px;"><button title="Cancella Data" ng-click="configurazioneIncaricoAooDto.dataManuale = null;" class="btn btn-xs btn-link everActive"><span class="glyphicon glyphicon-remove"></span></button></div>
+										<span ng-show="!editForm.$valid || (!configurazioneIncaricoAooDto.dataManuale
+											&& incarico.dettaglio.configurazioneTaskDto.dataManuale && configurazioneIncaricoAooDto.idAoo)"
+											  style="background: #ffcbcb; color: #1e1212;">Inserire una data.</span>
+									</div>
+								</div>
+							</div>
+							<div data-nodrag="" class="form-group" ng-if="incarico.dettaglio.configurazioneTaskDto.impostaScadenza">
+								<label translate="cifra2gestattiApp.atto.scadenza" class="ng-scope">Scadenza</label> &nbsp; 
+								<input ng-model="configurazioneIncaricoAooDto.giorniScadenza" class="everActive"
+									   ng-pattern="/^[0-9]{1,3}$/" type="text" class="form-control" maxlength="3">
+								<span ng-show="!editForm.$valid || (!configurazioneIncaricoAooDto.giorniScadenza
+											&& incarico.dettaglio.configurazioneTaskDto.scadenzaObbligatoria && configurazioneIncaricoAooDto.idAoo)"
+									  style="background: #ffcbcb; color: #1e1212;">Inserire un valore numerico.</span>
+							</div>
+							<div data-nodrag="" class="pull-right form-group">
+								<button type="button" class="sectionSottoscrittore btn btn-danger btn-sm ng-scope everActive" ng-click="rimuoviUfficioIncarico(incaricoIndex, $index); validateIncarichi(incarico.listConfigurazioneIncaricoAooDto, incaricoIndex, configurationParams.tipo_conf_task_ufficio_id)" data-type="success" data-title="Elimina incaricato" bs-tooltip=""> <i class="fa fa-minus"></i></button>
+							</div>
+						</div>	
+					</div>
+				</li>
+			</ol>
+		</div>
+		<div class="alert alert-danger" ng-show="!incarico.isValid && incarico.dettaglio.configurazioneTaskDto.tipoConfigurazioneTaskId==configurationParams.tipo_conf_task_profilo_id" translate="cifra2gestattiApp.atto.profiliDuplicati">Profili/qualifiche duplicati.</div>
+		<div class="alert alert-danger" ng-show="!incarico.isValid && incarico.dettaglio.configurazioneTaskDto.tipoConfigurazioneTaskId==configurationParams.tipo_conf_task_ufficio_id" translate="cifra2gestattiApp.atto.ufficiDuplicati">Uffici duplicati.</div>
+		<hr />
+	</div>
+		
+	<div ng-repeat="incaricoAssegnato in incarichiAssegnati">
+		<div class="row" >
+			<div class="form-group col-xs-12 highlight">
+				<label>{{incaricoAssegnato.configurazioneTaskNome}}</label>
+			</div>
+		</div>
+		<div ng-if="incaricoAssegnato.listConfigurazioneIncaricoProfiloDto.length==0 && incaricoAssegnato.listConfigurazioneIncaricoAooDto.length==0" class="row">
+			<div class="form-group col-xs-2 col-xs-offset-1">
+				<label translate="cifra2gestattiApp.atto.incaricati">Incaricati</label>
+			</div>
+			<div class="form-group col-xs-9">
+				<div class="row" >
+					<div class="form-group col-xs-12" style="font-style: italic;">
+						Non previsti
+					</div>
+				</div>
+			</div>
+		</div>
+		<div ng-if="incaricoAssegnato.listConfigurazioneIncaricoAooDto.length>0" class="row">
+			<div class="form-group col-xs-2 col-xs-offset-1">
+				<label translate="cifra2gestattiApp.atto.ufficiIncaricati">Uffici incaricati</label>
+			</div>
+			<div class="form-group col-xs-9">
+				<div class="row" >
+					<div ng-repeat="ufficioIncaricato in incaricoAssegnato.listConfigurazioneIncaricoAooDto" class="form-group col-xs-12">
+						{{ufficioIncaricato.descrizioneAoo}} 
+						<span ng-if="!ufficioIncaricato.dataManuale"> - Inviato il {{incaricoAssegnato.dataCreazione  | date:'dd/MM/yyyy'}} </span>
+						<span ng-if="ufficioIncaricato.dataManuale"> - Data Richiesta Effettiva: {{ufficioIncaricato.dataManuale  | date:'dd/MM/yyyy'}} </span>
+						<span ng-if="ufficioIncaricato.giorniScadenza && ufficioIncaricato.giorniScadenza > 0"> - Scadenza: {{ufficioIncaricato.giorniScadenza}} gg </span>
+						<span ng-if="ufficioIncaricato.dataScadenza && ufficioIncaricato.dataScadenza.length > 0"> (entro il {{ufficioIncaricato.dataScadenza}})</span>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div ng-if="incaricoAssegnato.listConfigurazioneIncaricoProfiloDto.length>0" class="row">
+			<div class="form-group col-xs-2 col-xs-offset-1">
+				<label translate="cifra2gestattiApp.atto.profiliIncaricati">Profili incaricati</label>
+			</div>
+			<div class="form-group col-xs-9">
+				<div class="row" >
+					<div ng-repeat="profiloIncaricato in incaricoAssegnato.listConfigurazioneIncaricoProfiloDto" class="form-group col-xs-12">
+						{{profiloIncaricato.utenteNome}} {{profiloIncaricato.utenteCognome}} ({{profiloIncaricato.descrizioneProfilo}}) - {{profiloIncaricato.qualificaProfessionaleDto.denominazione}}
+					</div>
+				</div>
+			</div>
+		</div>
+		<hr>
+	</div>
+	<div ng-if="pareriSottoscrittori.length > 0" class="table-responsive">
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th><span>Incaricato</span></th>
+					<!-- Nascosto: in caso di task preso da Coda, la qualifica non risulta presente -->
+					<!-- <th><span>Qualifica</span></th>  -->
+					<th><span>Data Ultima Modifica</span></th>
+					<th><span>Tipologia</span></th>
+					<th><span>Stato</span></th>
+					<th><span>Data Parere</span></th>
+					<th><span>Data Scadenza</span></th>
+					<th><span>Esito Parere</span></th>
+					<th><span>Note</span></th>
+					<th><span>Allegati</span></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="item in pareriSottoscrittori  | orderBy : 'data'">
+					<td>{{item.utente}}<br>({{item.aoo}}){{item.perContodiUtente ? ' per conto di ' + item.perContodiUtente : (item.perContoDiAoo ? ' per conto di ' + item.perContoDiAoo : '')}}</td>
+					<!-- Nascosto: in caso di task preso da Coda, la qualifica non risulta presente -->
+					<!-- <td>{{item.qualifica}}</td>  -->
+					<td>{{item.data | date:'dd/MM/yyyy HH:mm'}}</td>
+					<td>{{item.codTipologia && item.codTipologia== 'parere_quartiere_revisori' ? (item.parereSintetico ? '':'Richiesta '):'' }}{{item.tipologia}}</td>
+					<td>
+						<span ng-if="item.annullato">Annullato</span>
+						<span ng-if="!item.annullato">Valido</span>
+					</td>
+					<td>{{item.dataParere | date:'dd/MM/yyyy'}}</td>
+					<td>{{item.dataScadenza | date:'dd/MM/yyyy'}}</td>
+
+					<!-- Esito Parere --><td ng-if="!item.parereSintetico || (!item.parereSintetico.toLowerCase().includes('articolato') && !item.parereSintetico.toLowerCase().includes('personalizzato'))">
+						{{item.codTipologia && item.parereSintetico ? getEsitoParereLeggibile(item.parereSintetico) : ''}}
+					</td>
+					<!-- Esito Parere -->
+					<td ng-if="item.parereSintetico && (item.parereSintetico.toLowerCase().includes('articolato'))">
+						<span data-toggle="tooltip"
+							  ng-attr-title="{{item.parerePersonalizzato}}"
+							  data-html="true" ng-init="initTooltip()">
+							{{(item.codTipologia && item.parereSintetico) ? getEsitoParereLeggibile(item.parereSintetico) : item.parerePersonalizzato}}</span>
+					</td>
+					<td ng-if="item.parereSintetico && (item.parereSintetico.toLowerCase().includes('personalizzato'))">
+						<span data-toggle="tooltip"
+							  ng-attr-title="{{item.parerePersonalizzato}}"
+							  data-html="true" ng-init="initTooltip()">
+							{{item.parerePersonalizzato}}</span>
+					</td>
+					<!-- Note -->
+					<td ng-if="!(item.parereSintetico && (item.parereSintetico.toLowerCase().includes('articolato')))">{{item.motivazione}}</td>
+					<td ng-if="item.parereSintetico && (item.parereSintetico.toLowerCase().includes('articolato'))">{{item.parerePersonalizzato}}</td>
+					<td><a ng-repeat="allegato in item.allegati"  target="_blank" href="api/attos/{{atto.id}}/allegato/{{allegato.id}}?access_token={{access_token}}" title="{{allegato.titolo?allegato.titolo:allegato.file.nomeFile}}"><i class="fa fa-paperclip"></i>
+					</a></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	
+</div>

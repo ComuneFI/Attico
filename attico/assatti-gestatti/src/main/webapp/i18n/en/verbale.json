@@ -1,0 +1,20 @@
+{
+    "cifra2gestattiApp": {
+        "verbale" : {
+            "home": {
+                "title": "Verbales",
+                "createLabel": "Create a new Verbale",
+                "createOrEditLabel": "Create or edit a Verbale"
+            },
+            "delete": {
+                "question": "Are you sure you want to delete Verbale {{ id }}?"
+            },
+            "detail": {
+                "title": "Verbale"
+            },
+            "organoDeliberante": "OrganoDeliberante",
+            "idDiogene": "IdDiogene",
+            "SedutaGiunta": "SedutaGiunta"
+        }
+    }
+}

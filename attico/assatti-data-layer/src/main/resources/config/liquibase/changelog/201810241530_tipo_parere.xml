@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    <changeSet author="chiriacog" id="201810241530-1">
+    	<sql>
+			CREATE TABLE `tipo_azione` (
+			  `codice` VARCHAR(45) NOT NULL,
+			  `descrizione` VARCHAR(255) NULL,
+			  PRIMARY KEY (`codice`));
+		</sql>
+    </changeSet>
+    <changeSet author="chiriacog" id="201810241530-2">
+    	<sql>
+    		ALTER TABLE `parere` DROP COLUMN `tipo_parere`;
+    		DELETE FROM `parere`;
+    	</sql>
+    </changeSet>
+    <changeSet author="chiriacog" id="201810241530-3">
+    	<sql>
+    	ALTER TABLE `parere` 
+		ADD COLUMN `tipo_azione` VARCHAR(45) NOT NULL AFTER `id`,
+		ADD INDEX `fk_tipo_azione_idx` (`tipo_azione` ASC);
+		ALTER TABLE `parere` 
+		ADD CONSTRAINT `fk_tipo_azione`
+		  FOREIGN KEY (`tipo_azione`)
+		  REFERENCES `tipo_azione` (`codice`)
+		  ON DELETE NO ACTION
+		  ON UPDATE NO ACTION;
+    	</sql>
+    </changeSet>
+</databaseChangeLog>

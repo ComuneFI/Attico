@@ -1,0 +1,185 @@
+<div ng-if="!showCercaAtto" ng-include="'scripts/app/entities/atto/formprincipale/atto-formprincipale.html'" ></div>
+<div ng-if="showCercaAtto" ng-include="'scripts/app/entities/atto/atto-cerca.html'" ></div>
+
+<div class="modal fade" id="exitFormConfirmation">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form name="exitForm" ng-submit="exitFormConfirmation()">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="clear()">&times;</button>
+                    <h4 class="modal-title">Conferma uscita</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Confermando l'uscita perderai i dati non salvati!</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default everActive" data-dismiss="modal" ng-click="dismissModal()"  >
+                        <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+                    </button>
+                    <button type="submit" class="btn btn-danger everActive">
+                        <span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span>Esci</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="alertAllegatoMatrix">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form name="exitForm" ng-submit="exitFormConfirmation()">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Attenzione</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                    	Per questo allegato, sono stati selezionati valori di pubblicazione (verso sistemi esterni, quali Albo on Line e Rete Civica) e riservatezza (in ambito ricerche interne sistema Attico) non consentiti.<br/>
+                    	<b>Se l'allegato &#232; di TIPO INTEGRANTE, sono consentiti solo i seguenti casi d'uso:</b>
+                    	<ul>
+                    		<li>Pubblicabile= SI - Omissis= SI - Riservato=SI</li>
+                    		<li>Pubblicabile= SI - Omissis= SI - Riservato=NO</li>
+                    		<li>Pubblicabile= SI - Omissis= NO - Riservato=NO</li>
+                    		<li>Pubblicabile= NO - Omissis= NO - Riservato=SI</li>
+                    		<li>Pubblicabile= NO - Omissis= NO - Riservato=NO</li>
+                    	</ul>
+                    	<b>LEGENDA</b><br/>
+                    	<b>Se "Pubblicabile=SI"</b>, sar&#224; visibile su sistemi esterni quali Albo on Line e Rete Civica: nel caso in cui sia stata associata una versione omissis dell'allegato, sar&#224; questa ad essere visualizzata,<br/>
+                    	<b>Riguardo la propriet&#224; "Riservato":</b>
+                    	<ul>
+                    		<li>se Riservato=SI, nelle ricerche in Attico, per i profili utente non autorizzati, sar&#224; visibile esclusivamente la versione omissis dell'allegato, qualora essa sia stata inserita;</li>
+                    		<li>se Riservato=NO, nelle ricerche in Attico l'allegato sar&#224; visibile per qualunque tipo di profilo utente</li>
+                    	</ul>
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default everActive" data-dismiss="modal">
+                        OK
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="deleteAooSottoscrittoreAttoConfirmation">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form name="deleteForm" ng-submit="confirmDeleteAooSottoscrittore(aooSottoscrittoreAtto.id,atto.id)">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                            ng-click="clear()">&times;</button>
+                    <h4 class="modal-title" translate="entity.delete.title">Confirm delete operation</h4>
+                </div>
+                <div class="modal-body">
+                	
+                	<p translate="cifra2gestattiApp.sottoscrittoreAtto.delete.questionaoo" translate-values="{id: '{{aooSottoscrittoreAtto.codice + '-' + aooSottoscrittoreAtto.descrizione}}'}">Are you sure you want to delete this SottoscrittoreAtto?</p>
+                    
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal"  >
+                        <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+                    </button>
+                    <button type="submit" ng-disabled="deleteForm.$invalid" class="btn btn-danger">
+                        <span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span translate="entity.action.delete">Delete</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="deleteAooSottoscrittoreAttoNegato">
+    <div class="modal-dialog">
+        <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                            ng-click="clear()">&times;</button>
+                    <h4 class="modal-title" translate="entity.delete.title">Confirm delete operation</h4>
+                </div>
+                <div class="modal-body">
+                	
+                	<p translate="cifra2gestattiApp.sottoscrittoreAtto.delete.aoo.negato" translate-values="{id: '{{aooSottoscrittoreAtto.codice + '-' + aooSottoscrittoreAtto.descrizione}}'}">Impossibile cancellare l'Ufficio, sono presenti degli Uffici figli</p>
+                    
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal"  >
+                        <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+                    </button>
+                </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="deleteSottoscrittoreAttoNegato">
+    <div class="modal-dialog">
+        <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                            ng-click="clear()">&times;</button>
+                    <h4 class="modal-title" translate="entity.delete.title">Confirm delete operation</h4>
+                </div>
+                <div class="modal-body">
+                	
+                	<p translate="cifra2gestattiApp.sottoscrittoreAtto.delete.negato" >Impossibile cancellare la il sottoscrittore, sono presenti degli Uffici figli</p>
+                    
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal"  >
+                        <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+                    </button>
+                </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="deleteAllegatoConfirmation" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form name="deleteForm" ng-submit="confirmDeleteAllegato(allegatoDelete.id)">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                            ng-click="clear()">&times;</button>
+                    <h4 class="modal-title" translate="entity.delete.title">Confirm delete operation</h4>
+                </div>
+                <div class="modal-body">
+                    <p ng-if="allegatoDelete" translate="cifra2gestattiApp.documentoInformatico.delete.question" translate-values="{nomeFile: purificaTestoPerJs(allegatoDelete.nomeFile)}">Are you sure you want to delete this Allegato?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">
+                        <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+                    </button>
+                    <button type="submit" ng-disabled="deleteForm.$invalid" class="btn btn-danger">
+                        <span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span translate="entity.action.delete">Delete</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="rubricaBeneficiariModal">
+  <div class="modal-dialog">
+      <div class="modal-content">
+      		  <form ng-submit="importaRubricaBeneficiario(atto)">
+	              <div class="modal-header">
+	                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+	                  <h4 class="modal-title" translate="cifra2gestattiApp.rubricaBeneficiario.importazione.title"></h4>
+	              </div>
+	             <div class="modal-body">
+	                  <rubrica-beneficiario-importazione ng-model="rubricaBeneficiarioToImport"></rubrica-beneficiario-importazione>
+	       		</div>
+	             <div class="modal-footer">
+	                 <button type="button" class="btn btn-default" data-dismiss="modal"  >
+	                     <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+	                 </button>
+	                 <button type="submit" ng-disabled="!rubricaBeneficiarioToImport.id" class="btn btn-default">
+	                     <span class="glyphicon glyphicon-import"></span>&nbsp;<span translate="cifra2gestattiApp.rubricaBeneficiario.importazione.btnImport">Inserisci Beneficiario</span>
+	                 </button>
+	             </div>
+             </form>
+        </div>
+    </div>
+</div>
+

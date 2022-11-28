@@ -1,0 +1,132 @@
+
+<div>
+    <h2><span translate="cifra2gestattiApp.aoo.detail.title">Ufficio</span> {{aoo.id}}</h2>
+
+    <aoo-info ng-model="aoo" ></aoo-info>
+
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th translate="entity.detail.field">Field</th>
+                    <th translate="entity.detail.value">Value</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.aoo.codice">Codice</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{aoo.codice}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.aoo.descrizione">Descrizione</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{aoo.descrizione}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.aoo.telefono">Telefono</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{aoo.telefono}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.aoo.fax">Fax</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{aoo.fax}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.aoo.email">Email</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{aoo.email}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.aoo.pec">Pec</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{aoo.pec}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.aoo.identitavisiva">Identitavisiva</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{aoo.identitavisiva}}" readonly>
+                    </td>
+                </tr>
+                
+                
+                <tr>
+                    <td colspan="2">
+                    <validita-form ng-model="aoo.validita" readonly></validita-form>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.aoo.profiloResponsabile">profiloResponsabile</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{aoo.profiloResponsabile.id}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.aoo.assessorato">Assessorato</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{aoo.assessorato.id}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.aoo.indirizzo">indirizzo</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{aoo.indirizzo.id}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.aoo.tipoAoo">tipoAoo</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{aoo.tipoAoo.descrizione}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.aoo.specializzazione">specializzazione</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{aoo.specializzazione}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.aoo.aooPadre">tipoAoo</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{aoo.aooPadre.descrizione}}" readonly>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    
+</div>

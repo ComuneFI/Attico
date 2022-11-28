@@ -1,0 +1,23 @@
+{
+    "cifra2gestattiApp": {
+        "ordineGiorno" : {
+            "home": {
+                "title": "OrdineGiornos",
+                "createLabel": "Create a new OrdineGiorno",
+                "createOrEditLabel": "Create or edit a OrdineGiorno"
+            },
+            "delete": {
+                "question": "Are you sure you want to delete OrdineGiorno {{ id }}?"
+            },
+            "detail": {
+                "title": "OrdineGiorno"
+            },
+            "numeroOdg": "NumeroOdg",
+            "protocollo": "Protocollo",
+            "dataPubblicazioneSito": "DataPubblicazioneSito",
+            "idDiogene": "IdDiogene",
+            "SedutaGiunta": "SedutaGiunta",
+            "TipoOdg": "TipoOdg"
+        }
+    }
+}

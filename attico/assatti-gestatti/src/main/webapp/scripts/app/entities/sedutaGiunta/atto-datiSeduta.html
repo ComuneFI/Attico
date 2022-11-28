@@ -1,0 +1,130 @@
+<div class="form-group">
+	<div class="form-group col-sm-4">
+		<label translate="cifra2gestattiApp.sedutaGiunta.numeroOdg">Numero</label>
+		<input class="form-control" name="numeroOdg" ng-model="sedutaGiunta.numero" readonly>
+	</div>
+	<div class="form-group col-sm-4">
+		<label translate="cifra2gestattiApp.sedutaGiunta.luogo">Luogo</label>
+		<input type="text" disabled="disabled" class="form-control" name="luogo" ng-model="sedutaGiunta.luogo">
+	</div>
+	<div class="form-group col-sm-4">
+		<label translate="cifra2gestattiApp.sedutaGiunta.protocollo">Numero Protocollo</label>
+		<input type="text" disabled="disabled" class="form-control" name="protocollo" ng-model="sedutaGiunta.protocollo">
+	</div>
+</div>
+
+<hr>
+
+<div class="form-group">
+	<div class="form-group col-sm-6">
+		<label translate="cifra2gestattiApp.sedutaGiunta.dataOraInizioLavori">Data e ora - Convocazione</label>	
+		<input class="form-control" name="primaConvocazioneInizio"
+		       ng-model="sedutaGiunta.primaConvocazioneInizio"
+		       ng-model-options="{ updateOn: 'blur' }"
+		       placeholder="gg/mm/aaaa, --:--"
+		       disabled="disabled"
+		       autocomplete="off"
+		       moment-picker
+		       size="17"
+		       maxlength="17">
+	</div>
+	<div class="form-group col-sm-6" >
+		<label translate="cifra2gestattiApp.sedutaGiunta.tipoSeduta">TipoSeduta</label>
+		<select disabled="disabled" ng-model="sedutaGiunta.tipoSeduta" class="form-control" ng-options="item.valore as item.label for item in [{valore:1,label:'Ordinaria'},{valore:2,label:'Straordinaria'}]">
+		</select>
+	</div>
+	<div style="clear:both"></div>
+</div>
+<div class="form-group" ng-if="(sedutaGiunta.fase == sedutaConstants.fasiSeduta.PREDISPOSTA || sedutaGiunta.fase == sedutaConstants.fasiSeduta.CONCLUSA)">
+
+	<div class="form-group col-sm-6">
+		<label translate="cifra2gestattiApp.sedutaGiunta.dataOraInizioLavoriEffettiva">Data e ora - Inizio lavori Effettiva</label>
+					
+		<input class="form-control" name="inizioLavoriEffettiva" id="dtInizioLavoriEffettiva"
+			ng-model="sedutaGiunta.inizioLavoriEffettiva"
+			ng-model-options="{ updateOn: 'blur' }"
+			placeholder="gg/mm/aaaa, --:--"
+			disabled="disabled"
+			moment-picker
+			size="17"
+			maxlength="17">
+	</div>
+	<div class="form-group col-sm-6">
+		<label translate="cifra2gestattiApp.sedutaGiunta.dataOraFineLavori">Data e ora - Fine lavori Effettiva</label>
+					
+		<input class="form-control" name="primaConvocazioneFine" id="dtPrimaConvocazioneFine"
+			ng-model="sedutaGiunta.primaConvocazioneFine"
+			ng-model-options="{ updateOn: 'blur' }"
+			placeholder="gg/mm/aaaa, --:--"
+			disabled="disabled"
+			moment-picker
+			autocomplete="off"
+			size="17"
+			maxlength="17">
+	</div>
+</div>
+
+<hr>
+
+
+<div class="form-group">
+	<div class="form-group col-sm-6" >
+		<label translate="cifra2gestattiApp.sedutaGiunta.presidente">presidente</label>
+		<input type="text" disabled="disabled" class="form-control"
+			value="{{sedutaGiunta.presidente.descrizione}} - {{sedutaGiunta.presidente.utente.cognome}} {{sedutaGiunta.presidente.utente.nome}}">
+	</div>
+	
+	<div class="form-group col-sm-6" >
+		<label translate="cifra2gestattiApp.sedutaGiunta.stato">stato</label>
+		<input type="text" disabled="disabled" class="form-control" value="{{sedutaGiunta.stato}}">
+	</div>
+	<div style="clear:both"></div>
+</div>	
+
+<h4>Riepilogo informazioni Atto in Seduta</h4>
+<table class="table table-responsive">
+	<thead>
+		<tr>
+			<th>Num. proposta&#92;Codice Attico</th>
+    		<th>Oggetto</th>
+    		<th ng-show="sedutaGiunta.organo == 'G'">Assessore&bsol;i Proponente&bsol;i</th>
+    		<th>Stato</th>
+    		<th>N.Adozione/<br>N.Atto di Consiglio</th>
+    		<th>Data adozione</th>
+    		<th>Esito</th>
+    		<th>Assenti</th>
+    		<th>Presidente</th>
+    		<th>Segretario</th>
+    		<th></th>
+    </thead>
+	<tbody style="display:table-row-group;">
+		<tr>
+			<td >{{attoOdgSel.atto.codiceCifra}}</td>
+      		<td title="{{attoOdgSel.atto.oggetto}}">{{visualizzaOggetto(attoOdgSel.atto.oggetto)}}</td>
+      		<td ng-if="sedutaGiunta.organo == 'G'">{{attoOdgSel.atto.assessoreProponente}}</td>
+      		<td>{{attoOdgSel.atto.stato}}</td>
+      		<td>
+      			{{attoOdgSel.atto.numeroAdozione ? attoOdgSel.atto.numeroAdozione:''}}</td>
+      		<td>
+      			{{attoOdgSel.atto.dataAdozione ? (attoOdgSel.atto.dataAdozione | date:'dd-MM-yyyy') :''}}</td>
+      		<td>
+      			{{getEsitoLabel(attoOdgSel.esito)}}</td>
+      		<td>
+      		<ul style="padding-left: 1em;list-style-position: outside;">
+      			<li ng-repeat="assente in attoOdgSel.assenti track by $index">{{assente}}</li>
+      		</ul>
+      		</td>
+      		<td>{{attoOdgSel.presidente}}</td>
+      		<td>{{attoOdgSel.segretario}}</td>
+      		<td>
+				<a ng-if="taskBpm && taskBpm.idAssegnatario && isOperatoreResoconto && attoOdgSel.esito && !attoOdgSel.atto.existsProvvedimento && profiloattivo.utente.username == taskBpm.idAssegnatario.substring(0, taskBpm.idAssegnatario.indexOf('_'))" class="pull-right btn btn-primary btn-xs" ng-click="apriResoconto(attoOdgSel,sedutaGiunta)">
+					<div><span>Modifica Votazioni<span></div>
+				</a>
+			</td>
+      	</tr>
+	</tbody>
+</table>
+
+
+<!-- Include dettaglio seduta per i modali -->
+<div ng-include="'scripts/app/entities/sedutaGiunta/sedutaGiunta-detail.html'" ></div>

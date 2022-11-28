@@ -1,0 +1,113 @@
+<div>
+	<div class="row">
+		<div class="col-md-12 form-group">
+			<label>Risposta e/o Note</label>
+			<textarea class="form-control" name="parere" ng-model="dtoWorkflow.parere.parere"></textarea>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-12 form-group">
+			<label>Relatore *</label>
+		     <ui-select ng-model="dtoWorkflow.parere.profiloRelatore" theme="bootstrap" required>
+		        	<ui-select-match placeholder="Seleziona Componente Giunta">{{$select.selected.utente.cognome}} {{$select.selected.utente.nome}} ({{$select.selected.descrizione}})</ui-select-match>
+	         		<ui-select-choices repeat="componenteGiunta in profilosComponentiGiunta | orderBy: componenteGiunta.descrizione | filter: $select.search track by componenteGiunta.id" >
+	         			<div ng-bind-html="componenteGiunta.utente.nome +' '+ componenteGiunta.utente.cognome + ' (' + componenteGiunta.descrizione + ')' | highlight: $select.search"></div>
+	    			</ui-select-choices>
+		 	</ui-select>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="form-group col-md-6">
+			<i class="fa fa-calendar"></i> <label>Stato Risposta</label>
+			<select ng-model="dtoWorkflow.parere.statoRisposta" class="form-control"
+					ng-options="itemsr.codice as itemsr.descrizione for itemsr in statiRispostaCodes"></select>
+		</div>
+		<div class="form-group col-md-6">
+			<i class="fa fa-calendar"></i> <label>Data Risposta</label>
+			<input type="text" class="form-control everActive" name="data" 
+				ng-model="dtoWorkflow.parere.data" bs-datepicker>
+		</div>
+	</div>
+	
+	<div class="row">
+		<div class="form-group col-md-6">
+			<i class="fa fa-calendar"></i> <label>Termini Presentazione</label> *
+			<select ng-model="dtoWorkflow.parere.terminiPresentazione" class="form-control"
+					ng-init="updateDataScadenzaRisposta()" ng-change="updateDataScadenzaRisposta()"
+					ng-options="itemtp.codice as itemtp.label for itemtp in terminiRispostaCodes" required></select>
+		</div>
+		<div class="form-group col-md-6">
+			<i class="fa fa-calendar"></i> <label>Data Scadenza</label> *
+			<input  type="text" class="form-control everActive" name="dataScadenza"
+				value="{{dtoWorkflow.parere.dataScadenza | date:'dd/MM/yyyy'}}" readonly required>
+		</div>
+	</div>
+	
+	<div class="row" ng-if="!dtoWorkflow.parere.id">
+		<div class="form-group col-md-6" >
+			<label>Azione:</label>
+			<button type="button" ng-click="preparaInserimentoAllegatiParere(dtoWorkflow.parere)" ng-disabled="mascheraWorkflow.$invalid || taskLoading"  class="form-control btn btn-primary">
+				<span class="glyphicon glyphicon-paperclip"></span>&nbsp;Aggiungi Allegati
+			</button>
+		</div>
+	</div>
+	
+	<div class="row">
+		<div class="form-group col-md-12" ng-if="dtoWorkflow.parere.id">
+			<label>Allegati parere</label>
+	
+			<div ngf-drop ngf-select ngf-multiple="true"
+				ngf-change="fileDroppedParere($files, $event, $rejectedFiles,dtoWorkflow.parere)"
+				class="drop-box input-group everActive" ngf-drag-over-class="dragover"
+				ngf-max-size="ngfMaxSize"> <!-- accept="application/*" > -->
+				<h5 data-toggle="tooltip" title="Inserire file di tipo: .doc, .docx, .odt, .pdf, .rtf" ng-init="initTooltip()">	<i class="fa fa-upload" ></i> Trascina qui gli allegati parere
+					<i class="fa fa-question" ></i>
+					<br/><b>{{'cifra2gestattiApp.atto.warnDatiSensibiliAllegati' | translate}}</b>
+				</h5>
+			</div>
+			<div class="progress">
+				<div class="progress-bar progress-bar-success progress-bar-striped everActive"
+					role="progressbar" aria-valuenow="{{progressPercentage}}"
+					aria-valuemin="0" aria-valuemax="100"
+					style="width: {{progressPercentage}}">
+					<span class="sr-only">{{progressPercentage}}% Complete
+						(success)</span>
+				</div>
+			</div>
+			<div ui-tree="allegatiOptions" data-drag-enabled="!solaLettura">
+				<ol class="list-group" ui-tree-nodes
+					ng-model="dtoWorkflow.parere.allegati" data-type="allegato">
+	
+					<li ng-repeat="allegato in dtoWorkflow.parere.allegati" ui-tree-node>
+	
+						<div ui-tree-handle class="tree-node tree-node-content row">
+	
+							<div class="col-md-1">
+								<i data-drag class="fa fa-bars"></i>
+							</div>
+							
+							<label flex data-nodrag class="col-md-10">
+								<a target="_blank" class="word-wrap"
+								href="api/pareres/allegato/{{allegato.id}}?access_token={{access_token}}">{{allegato.file.nomeFile}}
+									({{allegato.file.createdBy}})</a>
+	
+							</label>
+	
+							<div data-nodrag class="pull-right col-md-1">
+								<button type="button" class="btn btn-danger btn-sm everActive"
+									ng-click="deleteAllegatoParere(dtoWorkflow.parere.allegati,$index)"
+									data-type="success" data-title="Elimina allegato parere"
+									bs-tooltip>
+									<i class="fa fa-minus"></i>
+								</button>
+							</div>
+	
+						</div>
+					</li>
+				</ol>
+			</div>
+	
+		</div>
+	</div>
+</div>

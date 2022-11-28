@@ -1,0 +1,17 @@
+<div>
+	<div class="form-group">
+			<label>Relatore *</label>
+		     <ui-select ng-model="dtoWorkflow.parere.profiloRelatore" theme="bootstrap" required>
+		        	<ui-select-match placeholder="Seleziona Componente Giunta">{{$select.selected.utente.cognome}} {{$select.selected.utente.nome}} ({{$select.selected.descrizione}})</ui-select-match>
+	         		<ui-select-choices repeat="componenteGiunta in profilosComponentiGiunta | orderBy: componenteGiunta.descrizione | filter: $select.search track by componenteGiunta.id" >
+	         			<div ng-bind-html="componenteGiunta.utente.nome +' '+ componenteGiunta.utente.cognome + ' (' + componenteGiunta.descrizione + ')' | highlight: $select.search"></div>
+	    			</ui-select-choices>
+		 	</ui-select>
+		</div>
+		
+		
+		<div class="form-group">
+			<label>Note</label>
+			<textarea class="form-control" name="motivazione" ng-model="dtoWorkflow.parere.parere" maxlength="500"></textarea>
+		</div>
+</div>

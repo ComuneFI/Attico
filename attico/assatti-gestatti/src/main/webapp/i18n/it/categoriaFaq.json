@@ -1,0 +1,19 @@
+{
+    "cifra2gestattiApp": {
+        "categoriaFaq" : {
+            "home": {
+                "title": "Categoria FAQ",
+                "createLabel": "Crea una nuova Categoria Faq",
+                "createOrEditLabel": "Crea o modifica una Categoria Faq"
+            },
+            "delete": {
+                "question": "Siete sicuri di voler cancellare la Categoria Faq {{ id }}?"
+            },
+            "detail": {
+                "title": "Categoria Faq"
+            },
+            
+            "descrizione": "Categoria"
+        }
+    }
+}

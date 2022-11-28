@@ -1,0 +1,582 @@
+<!doctype html>
+<html class="no-js" ng-app="cifra2gestattiApp">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta http-equiv="Cache-control" content="no-cache, no-store, must-revalidate">
+		<meta http-equiv="Pragma" content="no-cache">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width">
+        <link rel="apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png">
+        <link rel="apple-touch-icon" sizes="60x60" href="/apple-icon-60x60.png">
+        <link rel="apple-touch-icon" sizes="72x72" href="/apple-icon-72x72.png">
+        <link rel="apple-touch-icon" sizes="76x76" href="/apple-icon-76x76.png">
+        <link rel="apple-touch-icon" sizes="114x114" href="/apple-icon-114x114.png">
+        <link rel="apple-touch-icon" sizes="120x120" href="/apple-icon-120x120.png">
+        <link rel="apple-touch-icon" sizes="144x144" href="/apple-icon-144x144.png">
+        <link rel="apple-touch-icon" sizes="152x152" href="/apple-icon-152x152.png">
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-icon-180x180.png">
+        <link rel="icon" type="image/png" sizes="192x192"  href="/android-icon-192x192.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+        <link rel="manifest" href="/manifest.json">
+        <meta name="msapplication-TileColor" content="#ffffff">
+        <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+        <meta name="theme-color" content="#ffffff">
+
+        <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+        <!-- build:css assets/styles/vendor.css -->
+        <!-- bower:css -->
+        <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css?cacheBuster=${timestamp}" />
+        <link rel="stylesheet" href="bower_components/angular-ui-tree/dist/angular-ui-tree.min.css?cacheBuster=${timestamp}" />
+        <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.css?cacheBuster=${timestamp}" />
+        <link rel="stylesheet" href="bower_components/angular-ui-grid/ui-grid.css?cacheBuster=${timestamp}" />
+        <link rel="stylesheet" href="bower_components/angular-ui-select/dist/select.css?cacheBuster=${timestamp}" />
+        <link rel="stylesheet" href="bower_components/select2/select2.css?cacheBuster=${timestamp}" />
+        <link rel="stylesheet" href="bower_components/select2-bootstrap-css/select2-bootstrap.css?cacheBuster=${timestamp}" />
+        <link rel="stylesheet" href="bower_components/angular-bootstrap-colorpicker/css/colorpicker.css?cacheBuster=${timestamp}" />
+        <link rel="stylesheet" href="bower_components/ngtoast/dist/ngToast.css?cacheBuster=${timestamp}" />
+        <link rel="stylesheet" href="bower_components/summernote/dist/summernote.css?cacheBuster=${timestamp}" />
+        <link rel="stylesheet" href="bower_components/angular-material/angular-material.css?cacheBuster=${timestamp}" />
+        <!-- endbower -->
+        <!-- endbuild -->
+        <!-- build:css assets/styles/main.css -->
+        <link rel="stylesheet" href="scripts/components/directive/expression-builder/css/expression-builder.css?cacheBuster=${timestamp}">
+        
+        <link rel="stylesheet" href="assets/styles/main.css?cacheBuster=${timestamp}">
+        <link rel="stylesheet" ng-href="assets/styles/custom{{ SITE_CSS }}.css?cacheBuster=${timestamp}">
+        
+        <link rel="stylesheet" href="assets/styles/chat.css?cacheBuster=${timestamp}">
+        <!-- endbuild -->
+        
+         <link href="assets/plugins/angular-moment-picker/angular-moment-picker.min.css?cacheBuster=${timestamp}" rel="stylesheet">
+    </head>
+    <body>
+        <!--[if lt IE 9]>
+            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+       <!--  <div ng-show="{{ENV === 'dev'}}" class="development" ng-cloak=""></div> -->
+        
+
+        <div ui-view="navbar" ng-cloak=""></div>
+        <div ui-view="navigatore" ng-cloak=""></div>
+
+        <toast></toast> 
+        <screen-loader></screen-loader>
+       
+        <div class="container-fluid" ui-view="content"></div>
+        
+		<div class="footer" ng-include="'scripts/components/footer/footer.html'" scope="" onload="-1"></div> 
+            
+        <div ui-view="notifiche" ng-cloak=""></div>
+        <!-- Google Analytics: uncomment and change UA-XXXXX-X to be your site's ID.
+        <script>
+            (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
+            function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
+            e=o.createElement(i);r=o.getElementsByTagName(i)[0];
+            e.src='//www.google-analytics.com/analytics.js';
+            r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
+            ga('create','UA-XXXXX-X');ga('send','pageview');
+        </script>-->
+
+        <!-- build:js scripts/vendor.js -->
+        <!-- bower:js -->
+        <script src="bower_components/jquery/dist/jquery.js?cacheBuster=${timestamp}"></script>
+        <script src="bower_components/angular/angular.js?cacheBuster=${timestamp}"></script>
+        <script src="bower_components/modernizr/modernizr.js?cacheBuster=${timestamp}"></script>
+        <script src="bower_components/stomp-websocket/lib/stomp.min.js?cacheBuster=${timestamp}"></script>
+        <script src="bower_components/sockjs-client/dist/sockjs.js?cacheBuster=${timestamp}"></script>
+        <script src="bower_components/bootstrap/dist/js/bootstrap.js?cacheBuster=${timestamp}"></script>
+        <script src="bower_components/json3/lib/json3.js?cacheBuster=${timestamp}"></script>
+        <script src="bower_components/angular-ui-router/release/angular-ui-router.js?cacheBuster=${timestamp}"></script>
+        <script src="bower_components/angular-resource/angular-resource.js?cacheBuster=${timestamp}"></script>
+        <script src="bower_components/angular-cookies/angular-cookies.js?cacheBuster=${timestamp}"></script>
+        <script src="bower_components/angular-sanitize/angular-sanitize.js?cacheBuster=${timestamp}"></script>
+        <script src="bower_components/angular-translate/angular-translate.js?cacheBuster=${timestamp}"></script>
+        <script src="bower_components/angular-translate-storage-cookie/angular-translate-storage-cookie.js?cacheBuster=${timestamp}"></script>
+        <script src="bower_components/angular-translate-loader-partial/angular-translate-loader-partial.js?cacheBuster=${timestamp}"></script>
+        <script src="bower_components/angular-dynamic-locale/src/tmhDynamicLocale.js?cacheBuster=${timestamp}"></script>
+        <script src="bower_components/angular-local-storage/dist/angular-local-storage.js?cacheBuster=${timestamp}"></script>
+        <script src="bower_components/angular-cache-buster/angular-cache-buster.js?cacheBuster=${timestamp}"></script>
+        <script src="bower_components/ngInfiniteScroll/build/ng-infinite-scroll.js?cacheBuster=${timestamp}"></script>
+        <script src="bower_components/angular-ui-tree/dist/angular-ui-tree.js?cacheBuster=${timestamp}"></script>
+        <script src="bower_components/angular-ui-tree/dist/angular-ui-tree.min.js?cacheBuster=${timestamp}"></script>
+        <script src="bower_components/angular-strap/dist/angular-strap.js?cacheBuster=${timestamp}"></script>
+        <script src="bower_components/angular-strap/dist/angular-strap.tpl.js?cacheBuster=${timestamp}"></script>
+        <script src="bower_components/angular-animate/angular-animate.js?cacheBuster=${timestamp}"></script>
+        <script src="bower_components/angular-touch/angular-touch.js?cacheBuster=${timestamp}"></script>
+        <script src="bower_components/angular-ui-grid/ui-grid.js?cacheBuster=${timestamp}"></script>
+        <script src="bower_components/angular-ui-select/dist/select.js?cacheBuster=${timestamp}"></script>
+        <script src="bower_components/select2/select2.js?cacheBuster=${timestamp}"></script>
+        <script src="bower_components/angular-bootstrap-colorpicker/js/bootstrap-colorpicker-module.js?cacheBuster=${timestamp}"></script>
+        <script src="bower_components/ng-file-upload/ng-file-upload.js?cacheBuster=${timestamp}"></script>
+        <script src="bower_components/angular-filereader/angular-filereader.min.js?cacheBuster=${timestamp}"></script>
+        <script src="bower_components/checklist-model/checklist-model.js?cacheBuster=${timestamp}"></script>
+        <script src="bower_components/angular-ckeditor/angular-ckeditor.js?cacheBuster=${timestamp}"></script>
+        <script src="bower_components/ngtoast/dist/ngToast.js?cacheBuster=${timestamp}"></script>
+        <script src="bower_components/summernote/dist/summernote.js?cacheBuster=${timestamp}"></script>
+        <script src="bower_components/angular-summernote/dist/angular-summernote.js?cacheBuster=${timestamp}"></script>
+        <script src="bower_components/angular-aria/angular-aria.js?cacheBuster=${timestamp}"></script>
+        <script src="bower_components/angular-material/angular-material.js?cacheBuster=${timestamp}"></script>
+        <script src="bower_components/moment/moment.js?cacheBuster=${timestamp}"></script>
+        <script src="bower_components/moment/locale/it.js?cacheBuster=${timestamp}"></script>
+        <script src="bower_components/angular-moment/angular-moment.js?cacheBuster=${timestamp}"></script>
+        <script src="bower_components/downloadjs/download.js?cacheBuster=${timestamp}"></script>
+        <script src="bower_components/angular-input-masks/angular-input-masks-standalone.min.js?cacheBuster=${timestamp}"></script>
+        <script src="bower_components/angular-screen-loader/angular-screen-loader.js?cacheBuster=${timestamp}"></script>
+        <!-- endbower -->
+        <!-- endbuild -->
+
+
+        <!-- build:js({.tmp,src/main/webapp}) scripts/app.js -->
+        <script src="bower_components/angular-i18n/angular-locale_it-it.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/components/directive/expression-builder/js/expression-builder.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/app.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/app.constants.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/components/auth/auth.service.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/components/auth/profilo.account.service.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/components/auth/principal.service.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/components/auth/authority.directive.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/components/auth/services/account.service.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/components/auth/services/activate.service.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/components/auth/services/password.service.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/components/auth/services/register.service.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/components/configuration/configuration-params.service.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/components/entities/toggle/toggle.service.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/components/diogene/diogene.service.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/components/form/form.directive.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/components/form/validita-form.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/components/form/pager.directive.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/components/form/pagination.directive.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/components/ldap/ldap.service.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/components/language/language.service.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/components/language/language.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/components/admin/audits.service.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/components/admin/logs.service.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/components/admin/configuration.service.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/components/admin/monitoring.service.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/components/navbar/navbar.directive.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/components/navbar/navbar.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/components/user/user.service.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/components/util/truncate.filter.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/components/util/boolean.filter.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/components/util/stringutil.service.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/components/util/base64.service.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/components/util/aes.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/components/util/CryptoJSCipher.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/components/util/dateserver.service.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/components/util/angularjs-crypto.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/components/util/parse-links.service.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/components/util/entity.attodetail.filter.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/account/account.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/account/activate/activate.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/account/activate/activate.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/account/login/login.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/account/login/login.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/account/login/loginsso.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/account/logout/logout.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/account/logout/logout.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/account/password/password.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/account/password/password.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/account/password/password.directive.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/account/register/register.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/account/register/register.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/account/import/import.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/account/import/import.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/account/settings/settings.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/account/settings/settings.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/account/reset/finish/reset.finish.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/account/reset/finish/reset.finish.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/account/reset/request/reset.request.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/account/reset/request/reset.request.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/admin/admin.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/admin/audits/audits.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/admin/audits/audits.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/admin/configuration/configuration.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/admin/configuration/configuration.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/admin/docs/docs.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/admin/health/health.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/admin/health/health.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/admin/logs/logs.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/admin/logs/logs.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/admin/metrics/metrics.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/admin/metrics/metrics.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/entity.constants.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/entity.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/error/error.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/main/main.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/main/main.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/components/auth/provider/auth.oauth2.service.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/admin/tracker/tracker.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/admin/tracker/tracker.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/components/tracker/tracker.service.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/tipoAtto/tipoAtto.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/tipoAtto/tipoAtto.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/tipoAtto/tipoAtto-detail.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/components/entities/tipoAtto/tipoAtto.service.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/sistemaAccreditato/sistemaAccreditato.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/sistemaAccreditato/sistemaAccreditato.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/components/entities/sistemaAccreditato/sistemaAccreditato.service.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/tipoAoo/tipoAoo.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/tipoAoo/tipoAoo.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/tipoAoo/tipoAoo-detail.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/components/entities/tipoAoo/tipoAoo.service.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/tipoDocumentoSerie/tipoDocumentoSerie.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/tipoDocumentoSerie/tipoDocumentoSerie.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/tipoDocumentoSerie/tipoDocumentoSerie-detail.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/components/entities/tipoDocumentoSerie/tipoDocumentoSerie.service.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/indirizzo/indirizzo.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/indirizzo/indirizzo.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/indirizzo/indirizzo-detail.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/components/entities/indirizzo/indirizzo.service.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/ruolo/ruolo.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/ruolo/ruolo.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/ruolo/ruolo-detail.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/components/entities/ruolo/ruolo.service.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/components/entities/instantMessage/instantMessage.service.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/utente/utente.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/utente/utente.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/utente/utente-detail.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/components/entities/utente/utente.service.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/profilo/profilo.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/profilo/profilo.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/profilo/profilo-detail.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/components/entities/profilo/profilo.service.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/aoo/aoo.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/aoo/aoo.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/aoo/aoo-detail.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/components/entities/aoo/aoo.service.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/ufficio/ufficio.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/ufficio/ufficio.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/ufficio/ufficio-detail.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/components/entities/ufficio/ufficio.service.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/qualificaProfessionale/qualificaProfessionale.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/qualificaProfessionale/qualificaProfessionale.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/qualificaProfessionale/qualificaProfessionale-detail.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/components/entities/qualificaProfessionale/qualificaProfessionale.service.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/tipoMateria/tipoMateria.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/tipoMateria/tipoMateria.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/tipoMateria/tipoMateria-detail.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/components/entities/tipoMateria/tipoMateria.service.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/materia/materia.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/materia/materia.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/materia/materia-detail.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/components/entities/materia/materia.service.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/sottoMateria/sottoMateria.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/sottoMateria/sottoMateria.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/sottoMateria/sottoMateria-detail.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/components/entities/sottoMateria/sottoMateria.service.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/tipoIter/tipoIter.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/tipoIter/tipoIter.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/tipoIter/tipoIter-detail.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/components/entities/tipoIter/tipoIter.service.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/classificazione/classificazione.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/classificazione/classificazione.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/classificazione/classificazione-detail.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/components/entities/classificazione/classificazione.service.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/gruppoRuolo/gruppoRuolo.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/gruppoRuolo/gruppoRuolo.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/gruppoRuolo/gruppoRuolo-detail.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/components/entities/gruppoRuolo/gruppoRuolo.service.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/components/entities/menu/menu.service.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/components/navigatore/navigatore.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/components/navigatore/navigatore.service.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/components/extra/extra.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/components/entities/sezione/sezione.service.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/components/entities/campo/campo.service.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/guest/notelegali/notelegali.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/guest/privacy/privacy.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/guest/credits/credits.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/guest/copyright/copyright.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/guest/altrisiti/altrisiti.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/selezionaprofilo/selezionaprofilo.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/selezionaprofilo/selezionaprofilo.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/tipoAdempimento/tipoAdempimento.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/tipoAdempimento/tipoAdempimento.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/tipoAdempimento/tipoAdempimento-detail.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/components/entities/tipoAdempimento/tipoAdempimento.service.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/tipoProgressivo/tipoProgressivo.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/tipoProgressivo/tipoProgressivo.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/tipoProgressivo/tipoProgressivo-detail.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/components/entities/tipoProgressivo/tipoProgressivo.service.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/argomentoOdg/argomentoOdg.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/argomentoOdg/argomentoOdg.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/argomentoOdg/argomentoOdg-detail.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/components/entities/argomentoOdg/argomentoOdg.service.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/sedutaGiunta/sedutaGiunta.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/sedutaGiunta/sedutaGiunta.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/sedutaGiunta/sedutaGiunta-detail.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/sedutaGiunta/sedutaGiuntaConsolidati-detail.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/components/entities/sedutaGiunta/sedutaGiunta.service.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/progressivoProposta/progressivoProposta.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/progressivoProposta/progressivoProposta.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/progressivoProposta/progressivoProposta-detail.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/components/entities/progressivoProposta/progressivoProposta.service.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/monitoraggioAccesso/monitoraggioAccesso.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/monitoraggioAccesso/monitoraggioAccesso.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/components/entities/monitoraggioAccesso/monitoraggioAccesso.service.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/progressivoAdozione/progressivoAdozione.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/progressivoAdozione/progressivoAdozione.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/progressivoAdozione/progressivoAdozione-detail.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/components/entities/progressivoAdozione/progressivoAdozione.service.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/tipoOdg/tipoOdg.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/tipoOdg/tipoOdg.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/tipoOdg/tipoOdg-detail.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/components/entities/tipoOdg/tipoOdg.service.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/tipoDocumento/tipoDocumento.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/tipoDocumento/tipoDocumento.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/tipoDocumento/tipoDocumento-detail.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/components/entities/tipoDocumento/tipoDocumento.service.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/atto/atto.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/atto/atto.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/atto/atto.groupedsearch.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/atto/atto.ricerca.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/atto/atto.revocato.controller.js?cacheBuster=${timestamp}"></script>
+       <script src="scripts/app/entities/atto/attobase-detail.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/atto/atto-detail.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/components/entities/atto/atto.service.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/components/entities/report/report.service.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/atto/ricercaStorica/storicoatto.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/atto/ricercaStorica/ricercastorica.controller.js?cacheBuster=${timestamp}"></script>
+		<script src="scripts/app/entities/atto/ricercaStorica/storicoattodir-detail.controller.js?cacheBuster=${timestamp}"></script>
+		<script src="scripts/app/entities/atto/ricercaStorica/storicoattogiunta-detail.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/components/entities/storicoAtto/storicoatto.service.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/destinatarioInterno/destinatarioInterno.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/components/entities/tipoDestinatario/tipoDestinatario.service.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/rubricaDestinatarioEsterno/rubricaDestinatarioEsterno.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/rubricaDestinatarioEsterno/rubricaDestinatarioEsterno.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/rubricaDestinatarioEsterno/rubricaDestinatarioEsterno-detail.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/components/entities/rubricaDestinatarioEsterno/rubricaDestinatarioEsterno.service.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/esitoPareri/esitoPareri.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/esitoPareri/esitoPareri.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/esitoPareri/esitoPareri-detail.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/components/entities/esitoPareri/esitoPareri.service.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/jobPubblicazione/jobPubblicazione.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/jobPubblicazione/jobPubblicazione.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/jobPubblicazione/jobPubblicazione-detail.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/components/entities/jobPubblicazione/jobPubblicazione.service.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/jobTrasparenza/jobTrasparenza.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/jobTrasparenza/jobTrasparenza.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/jobTrasparenza/jobTrasparenza-detail.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/components/entities/jobTrasparenza/jobTrasparenza.service.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/rubricaBeneficiario/rubricaBeneficiario.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/rubricaBeneficiario/rubricaBeneficiario.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/rubricaBeneficiario/rubricaBeneficiario-detail.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/components/entities/rubricaBeneficiario/rubricaBeneficiario.service.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/schedulerChecking/schedulerChecking.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/schedulerChecking/schedulerChecking.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/components/entities/schedulerchecking/schedulerchecking.service.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/fattura/fattura.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/fattura/fattura.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/fattura/fattura-detail.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/components/entities/fattura/fattura.service.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/sottoscrittoreAtto/sottoscrittoreAtto.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/sottoscrittoreAtto/sottoscrittoreAtto.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/sottoscrittoreAtto/sottoscrittoreAtto-detail.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/components/entities/sottoscrittoreAtto/sottoscrittoreAtto.service.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/parere/parere.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/parere/parere.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/parere/parere-detail.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/components/entities/parere/parere.service.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/verbale/verbale.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/verbale/verbale.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/verbale/verbale-detail.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/components/entities/verbale/verbale.service.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/lettera/lettera.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/lettera/lettera.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/lettera/lettera-detail.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/components/entities/lettera/lettera.service.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/configurazioneRiversamento/configurazioneRiversamento.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/configurazioneRiversamento/configurazioneRiversamento.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/components/entities/configurazioneRiversamento/configurazioneRiversamento.service.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/configurazioneTask/configurazioneTask.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/configurazioneTask/configurazioneTask.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/components/entities/configurazioneTask/configurazioneTask.service.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/resoconto/resoconto.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/resoconto/resoconto.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/resoconto/resoconto-detail.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/components/entities/resoconto/resoconto.service.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/file/file.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/file/file.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/file/file-detail.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/components/entities/file/file.service.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/documentoInformatico/documentoInformatico.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/documentoInformatico/documentoInformatico.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/documentoInformatico/documentoInformatico-detail.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/components/entities/documentoInformatico/documentoInformatico.service.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/ordineGiorno/ordineGiorno.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/ordineGiorno/ordineGiorno.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/ordineGiorno/ordineGiorno-detail.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/ordineGiorno/giacenza.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/components/entities/ordineGiorno/ordineGiorno.service.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/avanzamento/avanzamento.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/avanzamento/avanzamento.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/avanzamento/avanzamento-detail.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/components/entities/avanzamento/avanzamento.service.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/components/entities/movimento/movimento.service.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/components/entities/lavorazione/lavorazione.service.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/modelloHtml/modelloHtml.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/modelloHtml/modelloHtml.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/modelloHtml/modelloHtml-detail.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/components/entities/modelloHtml/modelloHtml.service.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/versioneComposizioneConsiglio/versioneComposizioneConsiglio.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/versioneComposizioneConsiglio/versioneComposizioneConsiglio.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/versioneComposizioneConsiglio/versioneComposizioneConsiglio-detail.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/components/entities/versioneComposizioneConsiglio/versioneComposizioneConsiglio.service.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/versioneComposizioneGiunta/versioneComposizioneGiunta.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/versioneComposizioneGiunta/versioneComposizioneGiunta.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/versioneComposizioneGiunta/versioneComposizioneGiunta-detail.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/components/entities/versioneComposizioneGiunta/versioneComposizioneGiunta.service.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/components/convert/convert.service.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/modelloCampo/modelloCampo.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/modelloCampo/modelloCampo.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/modelloCampo/modelloCampo-detail.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/components/entities/modelloCampo/modelloCampo.service.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/components/ckeditor_4.16.0/ckeditor.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/components/summernote/plugin/summernote-ext-gestatti.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/components/summernote/plugin/summernote-ext-specialchar.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/statoRichiestaHD/statoRichiestaHD.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/statoRichiestaHD/statoRichiestaHD.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/statoRichiestaHD/statoRichiestaHD-detail.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/components/entities/statoRichiestaHD/statoRichiestaHD.service.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/msg/msg.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/msg/msg.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/msg/msg-user.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/msg/msg-detail.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/components/entities/msg/msg.service.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/categoriaMsg/categoriaMsg.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/categoriaMsg/categoriaMsg.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/categoriaMsg/categoriaMsg-detail.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/components/entities/categoriaMsg/categoriaMsg.service.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/tipoRichiestaHD/tipoRichiestaHD.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/tipoRichiestaHD/tipoRichiestaHD.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/tipoRichiestaHD/tipoRichiestaHD-detail.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/components/entities/tipoRichiestaHD/tipoRichiestaHD.service.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/categoriaFaq/categoriaFaq.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/categoriaFaq/categoriaFaq.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/categoriaFaq/categoriaFaq-detail.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/components/entities/categoriaFaq/categoriaFaq.service.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/components/entities/categoriaFaq/categoriaFaqPublic.service.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/news/news.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/news/news.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/news/newsreport.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/news/news-detail.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/components/entities/news/news.service.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/diogeneReport/diogeneReport.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/diogeneReport/diogeneReport.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/components/entities/diogeneReport/diogeneReport.service.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/faq/faq.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/faq/faq.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/components/entities/faq/faq.service.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/components/entities/faq/faqPublic.service.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/richiestaHD/richiestaHD.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/richiestaHD/richiestaHD.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/richiestaHD/richiestaHD-user.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/richiestaHD/richiestaDirigente.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/richiestaHD/richiestaDirigente-detail.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/richiestaHD/richiestaHD-detail.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/components/entities/richiestaHD/richiestaHD.service.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/messaggio/messaggio.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/messaggio/messaggio.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/components/entities/messaggio/messaggio.service.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/tipoDeterminazione/tipoDeterminazione.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/tipoDeterminazione/tipoDeterminazione.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/tipoDeterminazione/tipoDeterminazione-detail.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/components/entities/tipoDeterminazione/tipoDeterminazione.service.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/main/traduci.controller.js?cacheBuster=${timestamp}"></script>
+       <script src="scripts/app/entities/ambitoDl33/ambitoDl33.js?cacheBuster=${timestamp}"></script>
+       <script src="scripts/app/entities/ambitoDl33/ambitoDl33.controller.js?cacheBuster=${timestamp}"></script>
+       <script src="scripts/app/entities/ambitoDl33/ambitoDl33-detail.controller.js?cacheBuster=${timestamp}"></script>
+       <script src="scripts/components/entities/ambitoDl33/ambitoDl33.service.js?cacheBuster=${timestamp}"></script>
+       <script src="scripts/app/entities/materiaDl33/materiaDl33.js?cacheBuster=${timestamp}"></script>
+       <script src="scripts/app/entities/materiaDl33/materiaDl33.controller.js?cacheBuster=${timestamp}"></script>
+       <script src="scripts/app/entities/materiaDl33/materiaDl33-detail.controller.js?cacheBuster=${timestamp}"></script>
+       <script src="scripts/components/entities/materiaDl33/materiaDl33.service.js?cacheBuster=${timestamp}"></script>
+       <script src="scripts/components/timeauth/timeauth.service.js?cacheBuster=${timestamp}"></script>
+       <script src="scripts/components/timeauth/timeauth.controller.js?cacheBuster=${timestamp}"></script>      
+       <script src="scripts/app/entities/macro_cat_obbligo_dl33/macro_cat_obbligo_dl33.js?cacheBuster=${timestamp}"></script>
+       <script src="scripts/app/entities/macro_cat_obbligo_dl33/macro_cat_obbligo_dl33.controller.js?cacheBuster=${timestamp}"></script>
+       <script src="scripts/app/entities/macro_cat_obbligo_dl33/macro_cat_obbligo_dl33-detail.controller.js?cacheBuster=${timestamp}"></script>
+       <script src="scripts/components/entities/macro_cat_obbligo_dl33/macro_cat_obbligo_dl33.service.js?cacheBuster=${timestamp}"></script>
+       <script src="scripts/app/entities/cat_obbligo_DL33/cat_obbligo_DL33.js?cacheBuster=${timestamp}"></script>
+       <script src="scripts/app/entities/cat_obbligo_DL33/cat_obbligo_DL33.controller.js?cacheBuster=${timestamp}"></script>
+       <script src="scripts/app/entities/cat_obbligo_DL33/cat_obbligo_DL33-detail.controller.js?cacheBuster=${timestamp}"></script>
+       <script src="scripts/components/entities/cat_obbligo_DL33/cat_obbligo_DL33.service.js?cacheBuster=${timestamp}"></script>
+       <script src="scripts/app/entities/scheda/scheda.js?cacheBuster=${timestamp}"></script>
+       <script src="scripts/app/entities/scheda/scheda.controller.js?cacheBuster=${timestamp}"></script>
+       <script src="scripts/app/entities/scheda/scheda-detail.controller.js?cacheBuster=${timestamp}"></script>
+       <script src="scripts/components/entities/scheda/scheda.service.js?cacheBuster=${timestamp}"></script>
+       <script src="scripts/app/entities/schedaDato/schedaDato.js?cacheBuster=${timestamp}"></script>
+       <script src="scripts/app/entities/schedaDato/schedaDato.controller.js?cacheBuster=${timestamp}"></script>
+       <script src="scripts/app/entities/schedaDato/schedaDato-detail.controller.js?cacheBuster=${timestamp}"></script>
+       <script src="scripts/components/entities/schedaDato/schedaDato.service.js?cacheBuster=${timestamp}"></script>
+       <script src="scripts/app/entities/obbligo_DL33/obbligo_DL33.js?cacheBuster=${timestamp}"></script>
+       <script src="scripts/app/entities/obbligo_DL33/obbligo_DL33.controller.js?cacheBuster=${timestamp}"></script>
+       <script src="scripts/app/entities/obbligo_DL33/obbligo_DL33-detail.controller.js?cacheBuster=${timestamp}"></script>
+       <script src="scripts/components/entities/obbligo_DL33/obbligo_DL33.service.js?cacheBuster=${timestamp}"></script>
+       <script src="scripts/app/entities/dato/dato.js?cacheBuster=${timestamp}"></script>
+       <script src="scripts/app/entities/dato/dato.controller.js?cacheBuster=${timestamp}"></script>
+       <script src="scripts/app/entities/dato/dato-detail.controller.js?cacheBuster=${timestamp}"></script>
+       <script src="scripts/components/entities/dato/dato.service.js?cacheBuster=${timestamp}"></script>
+       <script src="scripts/components/timeauth/timeauth.service.js?cacheBuster=${timestamp}"></script>
+       <script src="scripts/components/timeauth/timeauth.controller.js?cacheBuster=${timestamp}"></script>
+       <script src="scripts/app/entities/reportRuntime/reportRuntime.js?cacheBuster=${timestamp}"></script>
+       <script src="scripts/app/entities/reportRuntime/reportRuntime.controller.js?cacheBuster=${timestamp}"></script>
+       <script src="scripts/app/entities/reportRuntime/reportRuntime-detail.controller.js?cacheBuster=${timestamp}"></script>
+       <script src="scripts/components/entities/reportRuntime/reportRuntime.service.js?cacheBuster=${timestamp}"></script>
+       <script src="scripts/app/entities/taskDesktop/taskDesktop.js?cacheBuster=${timestamp}"></script>
+       <script src="scripts/app/entities/taskDesktop/taskDesktop.controller.js?cacheBuster=${timestamp}"></script>
+       <script src="scripts/components/entities/taskDesktop/taskDesktop.service.js?cacheBuster=${timestamp}"></script>
+       <script src="scripts/app/entities/assessorato/assessorato.js?cacheBuster=${timestamp}"></script>
+       <script src="scripts/app/entities/assessorato/assessorato.controller.js?cacheBuster=${timestamp}"></script>
+       <script src="scripts/app/entities/assessorato/assessorato-detail.controller.js?cacheBuster=${timestamp}"></script>
+       <script src="scripts/components/entities/assessorato/assessorato.service.js?cacheBuster=${timestamp}"></script>
+       <script src="scripts/app/guest/help/help.js?cacheBuster=${timestamp}"></script>
+       <script src="scripts/app/guest/help-faq/help-faq.js?cacheBuster=${timestamp}"></script>
+       <script src="scripts/app/guest/help-faq/help-faq.controller.js?cacheBuster=${timestamp}"></script>
+       <script src="scripts/components/notifiche/notifiche.controller.js?cacheBuster=${timestamp}"></script>
+       <script src="scripts/components/entities/beneficiario/beneficiario.service.js?cacheBuster=${timestamp}"></script>
+       <script src="scripts/components/entities/esito/esito.service.js?cacheBuster=${timestamp}"></script>
+       <script src="scripts/components/entities/categoriaEvento/categoriaEvento.service.js?cacheBuster=${timestamp}"></script>
+       <script src="scripts/app/entities/smsReport/smsReport.js?cacheBuster=${timestamp}"></script>
+       <script src="scripts/app/entities/smsReport/smsReport.controller.js?cacheBuster=${timestamp}"></script>
+       <script src="scripts/app/entities/smsReport/smsReport-detail.controller.js?cacheBuster=${timestamp}"></script>
+       <script src="scripts/components/entities/sms/sms.service.js?cacheBuster=${timestamp}"></script>
+       <script src="scripts/app/entities/delega/delega.js?cacheBuster=${timestamp}"></script>
+       <script src="scripts/app/entities/delega/delega.controller.js?cacheBuster=${timestamp}"></script>
+       <script src="scripts/components/entities/delega/delega.service.js?cacheBuster=${timestamp}"></script>
+       <script src="scripts/app/entities/delegaTask/delegaTask.js?cacheBuster=${timestamp}"></script>
+       <script src="scripts/app/entities/delegaTask/delegaTask.controller.js?cacheBuster=${timestamp}"></script>
+       <script src="scripts/components/entities/delegaTask/delegaTask.service.js?cacheBuster=${timestamp}"></script>
+       <script src="scripts/components/entities/tipoProgressivo/tipoProgressivo.service.js?cacheBuster=${timestamp}"></script>
+       
+       <script src="scripts/app/entities/composizioneGiunta/composizioneGiunta.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/composizioneGiunta/composizioneGiunta.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/composizioneGiunta/composizioneGiunta-detail.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/components/entities/composizioneGiunta/composizioneGiunta.service.js?cacheBuster=${timestamp}"></script>
+        
+        
+        <script src="scripts/app/entities/composizioneConsiglio/composizioneConsiglio.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/composizioneConsiglio/composizioneConsiglio.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/app/entities/composizioneConsiglio/composizioneConsiglio-detail.controller.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/components/entities/composizioneConsiglio/composizioneConsiglio.service.js?cacheBuster=${timestamp}"></script>
+        <script src="scripts/components/entities/tipoFinanziamento/tipoFinanziamento.service.js?cacheBuster=${timestamp}"></script>
+       <!-- ATTICO: pareri Commissioni Consigliari, Quartieri, Revisori -->
+       <script src="scripts/app/entities/pareri_comm_cons/parericommcons.js?cacheBuster=${timestamp}"></script>
+       <script src="scripts/app/entities/pareri_comm_cons/parericommcons.controller.js?cacheBuster=${timestamp}"></script>
+       <script src="scripts/app/entities/pareri_quart_rev/pareriquartrev.js?cacheBuster=${timestamp}"></script>
+       <script src="scripts/app/entities/pareri_quart_rev/pareriquartrev.controller.js?cacheBuster=${timestamp}"></script>
+        
+       <script src="scripts/components/entities/configurazioneIncarico/configurazioneIncarico.service.js?cacheBuster=${timestamp}"></script>
+       
+       <!-- Impersonifica -->
+       <script src="scripts/app/entities/impersonifica/impersonifica.js?cacheBuster=${timestamp}"></script>
+       <script src="scripts/app/entities/impersonifica/impersonifica.controller.js?cacheBuster=${timestamp}"></script>
+        
+       <!-- endbuild -->
+       
+       <script src="assets/plugins/angular-moment-picker/angular-moment-picker.min.js?cacheBuster=${timestamp}"></script>
+</body>
+</html>

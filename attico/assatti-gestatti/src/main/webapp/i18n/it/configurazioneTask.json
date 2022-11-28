@@ -1,0 +1,37 @@
+{
+    "cifra2gestattiApp": {
+        "configurazioneTask" : {
+            "home": {
+                "title": "Configurazione Task",
+                "createLabel": "Crea Configurazione Task",
+                "modifyLabel": "Modifica Configurazione Task",
+                "viewLabel": "Visualizza Configurazione Task"
+            },
+            "detail": {
+                "title": "Configurazione Task"
+            },
+            "messages": {
+	            "error": {
+	                "operationNotPermitted": "Non \u00E8 possibile effettuare l\u0027operazione."
+	            },
+	            "noAooSelected": "Nessun Ufficio selezionato",
+	            "noRuoloSelected": "Nessun Ruolo selezionato"
+	        },
+            "codice": "Codice",
+            "nome": "Nome",
+            "obbligatoria": "Obbligatoria",
+            "multipla": "Multipla",
+            "proponente": "Ufficio Proponente",
+            "ufficioCorrente": "Ufficio Corrente",
+			"ufficiLivelloSuperiore": "Uffici Livello Superiore",
+            "tipoConfigurazioneTask": "Tipo Configurazione",
+            "uffici": "Uffici",
+            "ruoli": "Ruoli",
+            "impostaScadenza": "Imposta Scadenza",
+            "scadenzaObbl": "Scadenza Obbligatoria",
+            "dataManuale": "Data Manuale",
+            "stessaDirezioneProponente": "Stessa Direzione Uff. Proponente",
+            "processVarName":"Nome Variabile Processo"
+        }
+    }
+}

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    
+    <changeSet author="chiriacog" id="201811071600-1">
+    	<sql>
+    	UPDATE `esito` SET `tipiatto`='DG,DC,DIG,DIC,INT,VERB,DPC,ODG,RIS,MZ,COM' WHERE `id`='rinviato';
+		UPDATE `esito` SET `tipiatto`='INT,QT,ODG,RIS,MZ,COM' WHERE `id`='ritirato';
+		DELETE FROM `esito` WHERE `id`='trattato';
+		
+		UPDATE `esito` SET `tipiatto`='DG,DC,DIG,DIC,ODG,RIS,MZ,DPC' WHERE `id`='respinto';
+		UPDATE `esito` SET `tipiatto`='DG,DC,ODG,RIS,MZ' WHERE `id`='respinto_emendato';
+
+		UPDATE `esito` SET `label`='Approvata', `tipiatto`='DG,DC,DIG,DIC,ODG,RIS,MZ,DPC' WHERE `id`='adottato';
+		UPDATE `esito` SET `label`='Approvata Emendata', `tipiatto`='DC,DIC,ODG,RIS,MZ,DPC' WHERE `id`='adottato_emendato';
+		INSERT INTO `esito` (`id`, `label`, `tipiatto`) VALUES ('approvato_modifiche', 'Approvata con Modifiche', 'DG,DIG');
+    	</sql>
+    </changeSet>  
+</databaseChangeLog>

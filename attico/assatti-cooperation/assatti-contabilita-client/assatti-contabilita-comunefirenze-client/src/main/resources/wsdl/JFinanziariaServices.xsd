@@ -1,0 +1,687 @@
+<?xml version="1.0" encoding="UTF-8"?><xs:schema xmlns:tns="http://infor.arezzo.it/jente/jfinanziaria/services" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://infor.arezzo.it/jente/jfinanziaria/services" version="1.0">
+
+  <xs:element name="gestioneProposte" type="tns:gestioneProposte"></xs:element>
+
+  <xs:element name="gestioneProposteResponse" type="tns:gestioneProposteResponse"></xs:element>
+
+  <xs:element name="richiestaCancellazioneBozzaOAtto">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="chiaveBozzaOAtto" type="tns:chiaveBozzaOAtto" minOccurs="0"></xs:element>
+        <xs:element name="cancellaProvvedimento" type="xs:string" minOccurs="0"></xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="richiestaElencoLiquidazioni">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="chiaveBozzaOAtto" type="tns:chiaveBozzaOAtto" minOccurs="0"></xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="richiestaElencoMovimenti">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="chiaveBozzaOAtto" type="tns:chiaveBozzaOAtto" minOccurs="0"></xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="richiestaEsisteBozzaOAtto">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="chiaveBozzaOAtto" type="tns:chiaveBozzaOAtto" minOccurs="0"></xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="richiestaInserimentoBozzaOAtto">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="bozzaOAtto" type="tns:bozzaOAtto" minOccurs="0"></xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="richiestaLiquidato">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="cig" type="xs:string" minOccurs="0"></xs:element>
+        <xs:element name="esercizio" type="xs:string" minOccurs="0"></xs:element>
+        <xs:element name="daData" type="xs:anySimpleType" minOccurs="0"></xs:element>
+        <xs:element name="aData" type="xs:anySimpleType" minOccurs="0"></xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="richiestaModificaBozzaOAtto">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="bozzaOAttoModificato" type="tns:bozzaOAtto" minOccurs="0"></xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="richiestaTrasformazioneAttoInBozza">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="attoInBozza" type="tns:attoInBozza" minOccurs="0"></xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="richiestaTrasformazioneBozzaInAtto">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="bozzaInAtto" type="tns:bozzaInAtto" minOccurs="0"></xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="rispostaCancellazioneBozzaOAtto">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="tns:rispostaGenerica">
+          <xs:sequence></xs:sequence>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="rispostaElencoLiquidazioni">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="tns:rispostaGenerica">
+          <xs:sequence>
+            <xs:element maxOccurs="unbounded" name="liquidazione" type="tns:FNLiquidazioniStampaVelocity"></xs:element>
+          </xs:sequence>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="rispostaElencoMovimenti">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="tns:rispostaGenerica">
+          <xs:sequence>
+            <xs:element maxOccurs="unbounded" name="movimento" type="tns:movimento"></xs:element>
+          </xs:sequence>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="rispostaEsisteBozzaOAtto">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="tns:rispostaGenerica">
+          <xs:sequence>
+            <xs:element name="esiste" type="xs:boolean" minOccurs="0"></xs:element>
+          </xs:sequence>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="rispostaInserimentoBozzaOAtto">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="tns:rispostaGenerica">
+          <xs:sequence></xs:sequence>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="rispostaLiquidato">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="tns:rispostaGenerica">
+          <xs:sequence>
+            <xs:element name="importo" type="xs:decimal" minOccurs="0"></xs:element>
+          </xs:sequence>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="rispostaModificaBozzaOAtto">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="tns:rispostaGenerica">
+          <xs:sequence></xs:sequence>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="rispostaTrasformazioneAttoInBozza">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="tns:rispostaGenerica">
+          <xs:sequence></xs:sequence>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="rispostaTrasformazioneBozzaInAtto">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="tns:rispostaGenerica">
+          <xs:sequence></xs:sequence>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:complexType name="gestioneProposte">
+    <xs:sequence>
+      <xs:element name="richiesta" type="tns:richiestaGestioneProposte" minOccurs="0"></xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="richiestaGestioneProposte">
+    <xs:complexContent>
+      <xs:extension base="tns:richiestaGenerica">
+        <xs:sequence>
+          <xs:element name="richiestaInserimentoBozzaOAtto" minOccurs="0">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="bozzaOAtto" type="tns:bozzaOAtto" minOccurs="0"></xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="richiestaModificaBozzaOAtto" minOccurs="0">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="bozzaOAttoModificato" type="tns:bozzaOAtto" minOccurs="0"></xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="richiestaCancellazioneBozzaOAtto" minOccurs="0">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="chiaveBozzaOAtto" type="tns:chiaveBozzaOAtto" minOccurs="0"></xs:element>
+                <xs:element name="cancellaProvvedimento" type="xs:string" minOccurs="0"></xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="richiestaTrasformazioneBozzaInAtto" minOccurs="0">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="bozzaInAtto" type="tns:bozzaInAtto" minOccurs="0"></xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="richiestaTrasformazioneAttoInBozza" minOccurs="0">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="attoInBozza" type="tns:attoInBozza" minOccurs="0"></xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="richiestaElencoMovimenti" minOccurs="0">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="chiaveBozzaOAtto" type="tns:chiaveBozzaOAtto" minOccurs="0"></xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="richiestaEsisteBozzaOAtto" minOccurs="0">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="chiaveBozzaOAtto" type="tns:chiaveBozzaOAtto" minOccurs="0"></xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="richiestaElencoLiquidazioni" minOccurs="0">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="chiaveBozzaOAtto" type="tns:chiaveBozzaOAtto" minOccurs="0"></xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="richiestaLiquidato" minOccurs="0">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="cig" type="xs:string" minOccurs="0"></xs:element>
+                <xs:element name="esercizio" type="xs:string" minOccurs="0"></xs:element>
+                <xs:element name="daData" type="xs:anySimpleType" minOccurs="0"></xs:element>
+                <xs:element name="aData" type="xs:anySimpleType" minOccurs="0"></xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="richiestaGenerica">
+    <xs:sequence>
+      <xs:element name="userName" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="tipo" type="xs:string" minOccurs="0"></xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="bozzaOAtto">
+    <xs:sequence>
+      <xs:element name="bozzaOAtto" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="organoSettore" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="anno" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="numero" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="data" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="dataEsecutivita" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="tipoEsecutivita" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="importo" type="xs:double" minOccurs="0"></xs:element>
+      <xs:element name="oggetto" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="validoVariazioni" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="validoImpegni" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="validoAccertamenti" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="validoLiquidazioni" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="validoAssegnazioni" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="responsabileProcedimento" type="xs:string" minOccurs="0"></xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="chiaveBozzaOAtto">
+    <xs:sequence>
+      <xs:element name="bozzaOAtto" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="organoSettore" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="anno" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="numero" type="xs:string" minOccurs="0"></xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="bozzaInAtto">
+    <xs:sequence>
+      <xs:element name="organoSettoreBozza" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="annoBozza" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="numeroBozza" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="organoSettoreAtto" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="annoAtto" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="numeroAtto" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="dataAtto" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="dataEsecutivita" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="tipoEsecutivita" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="importo" type="xs:double" minOccurs="0"></xs:element>
+      <xs:element name="oggetto" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="validoVariazioni" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="validoImpegni" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="validoAccertamenti" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="validoLiquidazioni" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="validoAssegnazioni" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="responsabileProcedimento" type="xs:string" minOccurs="0"></xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="attoInBozza">
+    <xs:sequence>
+      <xs:element name="organoSettoreAtto" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="annoAtto" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="numeroAtto" type="xs:string" minOccurs="0"></xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="gestioneProposteResponse">
+    <xs:sequence>
+      <xs:element name="return" type="tns:rispostaGestioneProposte" minOccurs="0"></xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="rispostaGestioneProposte">
+    <xs:complexContent>
+      <xs:extension base="tns:rispostaGenerica">
+        <xs:sequence>
+          <xs:element name="rispostaInserimentoBozzaOAtto" minOccurs="0">
+            <xs:complexType>
+              <xs:complexContent>
+                <xs:extension base="tns:rispostaGenerica">
+                  <xs:sequence></xs:sequence>
+                </xs:extension>
+              </xs:complexContent>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="rispostaModificaBozzaOAtto" minOccurs="0">
+            <xs:complexType>
+              <xs:complexContent>
+                <xs:extension base="tns:rispostaGenerica">
+                  <xs:sequence></xs:sequence>
+                </xs:extension>
+              </xs:complexContent>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="rispostaCancellazioneBozzaOAtto" minOccurs="0">
+            <xs:complexType>
+              <xs:complexContent>
+                <xs:extension base="tns:rispostaGenerica">
+                  <xs:sequence></xs:sequence>
+                </xs:extension>
+              </xs:complexContent>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="rispostaTrasformazioneBozzaInAtto" minOccurs="0">
+            <xs:complexType>
+              <xs:complexContent>
+                <xs:extension base="tns:rispostaGenerica">
+                  <xs:sequence></xs:sequence>
+                </xs:extension>
+              </xs:complexContent>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="rispostaTrasformazioneAttoInBozza" minOccurs="0">
+            <xs:complexType>
+              <xs:complexContent>
+                <xs:extension base="tns:rispostaGenerica">
+                  <xs:sequence></xs:sequence>
+                </xs:extension>
+              </xs:complexContent>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="rispostaElencoMovimenti" minOccurs="0">
+            <xs:complexType>
+              <xs:complexContent>
+                <xs:extension base="tns:rispostaGenerica">
+                  <xs:sequence>
+                    <xs:element maxOccurs="unbounded" name="movimento" type="tns:movimento"></xs:element>
+                  </xs:sequence>
+                </xs:extension>
+              </xs:complexContent>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="rispostaEsisteBozzaOAtto" minOccurs="0">
+            <xs:complexType>
+              <xs:complexContent>
+                <xs:extension base="tns:rispostaGenerica">
+                  <xs:sequence>
+                    <xs:element name="esiste" type="xs:boolean" minOccurs="0"></xs:element>
+                  </xs:sequence>
+                </xs:extension>
+              </xs:complexContent>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="rispostaElencoLiquidazioni" minOccurs="0">
+            <xs:complexType>
+              <xs:complexContent>
+                <xs:extension base="tns:rispostaGenerica">
+                  <xs:sequence>
+                    <xs:element maxOccurs="unbounded" name="liquidazione" type="tns:FNLiquidazioniStampaVelocity"></xs:element>
+                  </xs:sequence>
+                </xs:extension>
+              </xs:complexContent>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="rispostaLiquidato" minOccurs="0">
+            <xs:complexType>
+              <xs:complexContent>
+                <xs:extension base="tns:rispostaGenerica">
+                  <xs:sequence>
+                    <xs:element name="importo" type="xs:decimal" minOccurs="0"></xs:element>
+                  </xs:sequence>
+                </xs:extension>
+              </xs:complexContent>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="rispostaGenerica">
+    <xs:sequence>
+      <xs:element name="tipo" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="ok" type="xs:boolean" minOccurs="0"></xs:element>
+      <xs:element name="code" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="message" type="xs:string" minOccurs="0"></xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="movimento">
+    <xs:sequence>
+      <xs:element name="movImpAcce" type="tns:impAcce" minOccurs="0"></xs:element>
+      <xs:element name="liquidazione" type="tns:liquidazione" minOccurs="0"></xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="impAcce">
+    <xs:sequence>
+      <xs:element name="archivio" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="tipoMovimento" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="esercizio" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="eu" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="capitolo" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="articolo" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="descCapitolo" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="annoImpacc" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="numeroImpacc" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="subImpacc" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="descImpacc" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="importoImpacc" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="liquidatoImpacc" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="ordinatoImpacc" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="oggetto" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="annoFinanziamento" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="respProc" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="descRespProc" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="tipologiaMovimento" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="importo" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="codiceObiettivo" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="descObiettivo" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="causaleObiettivo" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="descCausaleObiettivo" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="voceEconomica" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="descVoceEconomica" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="centroCosto" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="descCentroCosto" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="codDebBen" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="descCodDebBen" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="naturaCoge" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="descNaturaCoge" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="codiceCup" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="codiceCig" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="cespite" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="descCespite" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="codFondo" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="descFondo" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="codTipoFinanz" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="descTipoFinanz" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="siope" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="descSiope" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="mutuo" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="descMutuo" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="perfezionamento" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="descPerfezionamento" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="vincolo" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="descVincolo" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="programma" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="descProgramma" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="progetto" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="descProgetto" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="codMeccanografico" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="codArmonizzato" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="codLibroIva" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="descLibroIva" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="pianoFinanziario" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="pianoFinanziarioDesc" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="missioneCapitolo" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="ProgrammaMissioneCapitolo" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="attributi" type="tns:attributi" minOccurs="0"></xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="attributi">
+    <xs:sequence>
+      <xs:element name="attributo01" type="tns:attributo" minOccurs="0"></xs:element>
+      <xs:element name="attributo02" type="tns:attributo" minOccurs="0"></xs:element>
+      <xs:element name="attributo03" type="tns:attributo" minOccurs="0"></xs:element>
+      <xs:element name="attributo04" type="tns:attributo" minOccurs="0"></xs:element>
+      <xs:element name="attributo05" type="tns:attributo" minOccurs="0"></xs:element>
+      <xs:element name="attributo06" type="tns:attributo" minOccurs="0"></xs:element>
+      <xs:element name="attributo07" type="tns:attributo" minOccurs="0"></xs:element>
+      <xs:element name="attributo08" type="tns:attributo" minOccurs="0"></xs:element>
+      <xs:element name="attributo09" type="tns:attributo" minOccurs="0"></xs:element>
+      <xs:element name="attributo10" type="tns:attributo" minOccurs="0"></xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="attributo">
+    <xs:sequence>
+      <xs:element name="codice" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="descrizione" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="valoreCodice" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="valoreDescrizione" type="xs:string" minOccurs="0"></xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="liquidazione">
+    <xs:sequence>
+      <xs:element name="anno" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="numero" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="data" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="oggetto" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="importo" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element maxOccurs="unbounded" name="documento" type="tns:documento"></xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="documento">
+    <xs:sequence>
+      <xs:element name="id" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="soggettoCod" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="soggettoNome" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="anno" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="numero" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="tipo" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="data" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="oggetto" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="importo" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="impegno" type="tns:impegnoDoc" minOccurs="0"></xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="impegnoDoc">
+    <xs:sequence>
+      <xs:element name="anno" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="numero" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="sub" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="oggetto" type="xs:string" minOccurs="0"></xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="FNLiquidazioniStampaVelocity">
+    <xs:sequence>
+      <xs:element name="id" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="idLiquidazione" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="annoLiq" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="numeroLiq" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="dataLiq" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="esercizio" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="codRproc" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="descRProc" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="nomeRProc" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="nomeRProc2" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="dirigente" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="tipoAttoLiq" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="organoAttoLiq" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="annoAttoLiq" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="numeroAttoLiq" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="dataAttoLiq" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="dataEsecAttoLiq" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="descLiquidazione" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="totaleLiq" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="totaleImponibileLiq" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="totaleRitenutaLiq" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="numeroElenco" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="numeroRighe" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element maxOccurs="unbounded" name="listaCapitoli" type="tns:FNLiquidazioniRigaCapit"></xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="FNLiquidazioniRigaCapit">
+    <xs:sequence>
+      <xs:element name="capitolo" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="articolo" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="descr" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="meccanografico" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="importoTotaleCapitolo" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="assestatoCapit" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element maxOccurs="unbounded" name="listaImpegni" type="tns:FNLiquidazioniRigaImp"></xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="FNLiquidazioniRigaImp">
+    <xs:sequence>
+      <xs:element name="anno" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="numero" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="sub" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="impFormattato" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="descr" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="tipoProvImp" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="organoProvImp" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="annoProvImp" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="numeroProvImp" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="dataProvImp" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="dataEsecProvImp" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="importoTotaleImpegno" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="importoDisponibileImp" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="ImportoAssestatoImp" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="dataEsecAttoImpegno" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="codiceCUP" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="codiceCIG" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="codiceCGU" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element maxOccurs="unbounded" name="listaSogg" type="tns:FNLiquidazioniRigaSogg"></xs:element>
+      <xs:element name="campoLibero1" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="campoLibero2" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="campoLibero3" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="fondo" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="tipoFinanziamento" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="pianoFinanziario" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="descPianoFinanziario" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="cdc" type="xs:string" minOccurs="0"></xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="FNLiquidazioniRigaSogg">
+    <xs:sequence>
+      <xs:element name="soggetto" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="descr" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="codiceFisc" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="pIva" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="modoPaga" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="importoTotSogg" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="notePagamento" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element maxOccurs="unbounded" name="listaDocumenti" type="tns:FNLiquidazioniRigaDoc"></xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="FNLiquidazioniRigaDoc">
+    <xs:sequence>
+      <xs:element name="annoDoc" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="numeroDoc" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="tipoDoc" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="descrTipoDoc" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="dataDoc" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="oggetto" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="importo" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="dataRegistrDoc" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="dataScadDoc" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="importoTotaleDoc" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="numeroRata" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="tipoAttoLiq" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="organoAttoLiq" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="annoAttoLiq" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="numeroAttoLiq" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="dataAttoLiq" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="dataEsecAttoLiq" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="numeroRegistrazione" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="ritenute" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="codiceCig" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="codiceCup" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="cdc" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="cdcRiga" type="xs:string" minOccurs="0"></xs:element>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>

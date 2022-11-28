@@ -1,0 +1,341 @@
+<div>
+	<div class="form-group ">
+		<label>Allegati</label>
+		<span data-toggle="tooltip"
+			title="<b>GUIDA</b><br/>Come Allegati, &egrave; possibile inserire files del seguente tipo: bmp doc docx gif jpg jp2 odg odp ods odt ots ott pdf txt png ppt pptx mpp ps rtf tar tiff wav xls xlsx xml zip eml csv.<br>Non &egrave; possibile inserire files di tipo zip che contengano altri zip.<br>&Egrave; obbligatorio specificare tutte le propriet&agrave; dell'Allegato cliccando sul tasto <strong>Visualizza/Modifica</strong>."
+			data-html="true" ng-init="initTooltip()">
+			<i class="fa fa-question" ></i>
+		</span>
+	</div>
+	<div class="form-group" ng-if="!allegatoEdit.edit" >
+		<div id="areaAllegati" class="" ng-if="!(scenariDisabilitazione.indexOf('TuttoNonModificabile') !== -1 || scenariDisabilitazione.indexOf('DatiPubblicazioneModificabili') !== -1 || scenariDisabilitazione.indexOf('PostPubblicazioneTrasparenza') !== -1)">
+			<div ngf-drop ngf-select  ngf-multiple="true" 
+				ngf-change="fileDropped($files, $event, $rejectedFiles)"
+				class="drop-box input-group" 
+				ngf-drag-over-class="dragover" 
+				ngf-max-size="ngfMaxSize">
+				<h5 data-toggle="tooltip" title="File compatibili per allegati generici: bmp doc docx gif jpg jp2 odg odp ods odt ots ott pdf txt png ppt pptx mpp ps rtf tar tiff wav xls xlsx xml zip eml csv. <br>File compatibili per allegati <b>Parte Integrante</b>: doc, docx, odt, pdf, rtf.<br><strong>ATTENZIONE:</strong> Non si possono caricare file .zip contenenti file di tipo zip."
+					data-html="true" ng-init="initTooltip()"> <i class="fa fa-upload" ></i> Trascina gli allegati qui
+					<i class="fa fa-question" ></i>
+					<br/><b>{{'cifra2gestattiApp.atto.warnDatiSensibiliAllegati' | translate}}</b>
+				</h5>
+			</div>
+			<div class="progress" >
+			  <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" 
+			  aria-valuenow="{{progressPercentage}}" aria-valuemin="0" aria-valuemax="100" style="width: {{progressPercentage}}%">
+			    <span class="sr-only">{{progressPercentage}}% Complete (success)</span>
+			  </div>
+			</div>
+		</div>
+		
+		<!--<div ui-tree="allegatiOptions" data-drag-enabled="" >
+			<button ng-if="!solaLettura || scenariDisabilitazione.indexOf('PostPubblicazioneTrasparenza') !== -1" class="btn btn-danger btn-sm everActive" data-toggle="tooltip" bs-tooltip data-html="true" data-placement="top"
+										ng-click="modificaAllegatiMassivamente()"
+										translate="cifra2gestattiApp.atto.editProprietaAllegati">
+			</button>
+		</div>-->
+		<div ui-tree="allegatiOptions" data-drag-enabled="!solaLettura || scenariDisabilitazione.indexOf('PostPubblicazioneTrasparenza') !== -1">
+			<ol class="list-group" ui-tree-nodes ng-model="atto.allegati" data-type="allegato" >
+
+				<li ng-repeat="allegato in atto.allegati" ui-tree-node>
+					<div ui-tree-handle class="tree-node tree-node-content" ng-class="{'attachment-item-error':allegato.$invalid}">
+						<div class="form-group row"  ng-if="!allegato.edit">
+							<div class="col-md-6 wordBreak">
+								<label flex>
+									<span data-drag class="fa fa-bars"></span> 
+									{{allegato.titolo}}-{{allegato.oggetto}}
+									<br/>
+									<a ng-if="atto.fullAccess || ( (!allegato.fileomissis || !allegato.fileomissis.id || allegato.fileomissis.id<=0) && (allegato.pubblicabile && allegato.pubblicabile === true) )" data-nodrag target="_blank" href="api/attos/{{atto.id}}/allegato/{{allegato.id}}?access_token={{access_token}}"  >{{allegato.file.nomeFile}} {{allegato.file.createdBy != 'system' ? '(' + allegato.file.createdBy + ')' : ''}}</a>
+									<span ng-if="!allegato.pubblicabile && !(atto.fullAccess || ( (!allegato.fileomissis || !allegato.fileomissis.id || allegato.fileomissis.id<=0) && (allegato.pubblicabile && allegato.pubblicabile === true) ))" data-nodrag><b class="small" style="color: black;">{{allegato && allegato.tipoAllegato && allegato.tipoAllegato.codice ? (allegato.tipoAllegato.codice == 'GENERICO' ? '(GENERICO)' : '(RISERVATO)') : ''}}</b></span>
+									<br/>
+					 				<a ng-if="allegato.fileomissis.id >0" data-nodrag target="_blank" href="api/attos/{{atto.id}}/allegato/{{allegato.id}}/omissis?access_token={{access_token}}"  >File Con Omissis: {{allegato.fileomissis.nomeFile}} ({{allegato.fileomissis.createdBy}})</a>
+									<span ng-if="atto.riservato == true && allegato.pubblicabile && allegato.pubblicabile === true" style="color:red;">L'atto risulta riservato per cui l'allegato non deve risultare pubblicabile.</span>
+									<span ng-if="!allegato.pubblicabile && allegato.pubblicabile === false && allegato.tipoAllegato.codice != AllegatoConstants.tipoAllegato.GENERICO" style="color:red;"> RISERVATO </span>
+									<span ng-if="allegato.tipoAllegato.codice == AllegatoConstants.tipoAllegato.GENERICO" style="color:red;"> GENERICO </span>
+								</label>
+							</div>
+							<div class="col-md-6" align="right">
+								<span ng-if="!solaLettura" data-toggle="tooltip" bs-tooltip data-html="true" data-placement="top" data-title="{{'cifra2gestattiApp.atto.guida.plsEdit' | translate}}">
+									<i class="fa fa-question" ></i>
+								</span>
+								<button ng-if="!solaLettura || scenariDisabilitazione.indexOf('PostPubblicazioneTrasparenza') !== -1" class="btn btn-danger btn-sm everActive" data-toggle="tooltip" bs-tooltip data-html="true" data-placement="top" data-title="{{'cifra2gestattiApp.atto.guida.plsEdit' | translate}}"
+									ng-click="modificaAllegato(allegato)"
+									translate="cifra2gestattiApp.atto.editAllegato">
+								</button>
+								
+								<button ng-if="solaLettura && !(scenariDisabilitazione.indexOf('PostPubblicazioneTrasparenza') !== -1)" class="btn btn-danger btn-sm everActive" data-toggle="tooltip" bs-tooltip data-html="true" data-placement="top" data-title="{{'cifra2gestattiApp.atto.guida.plsEdit' | translate}}"
+									ng-click="modificaAllegato(allegato)"
+									translate="cifra2gestattiApp.atto.viewAllegato">
+								</button>
+	
+								<button ng-if="allegato.id > 0 && !solaLettura && taskBpm && taskBpm.idAssegnatario && (!scenariDisabilitazione || scenariDisabilitazione.indexOf('DatiPubblicazioneModificabili') < 0)" type="button" class="btn btn-danger btn-sm everActive" ng-click="deleteAllegato(allegato)" 
+									data-type="success" data-title="Elimina allegato" bs-tooltip> <i class="fa fa-minus"></i></button>
+							</div>
+						</div>
+					</div>
+				</li>
+			</ol>
+		</div>
+	</div>
+
+
+	<div class="form-group"  ng-if="allegatoEdit.edit" >
+		<div class="form-group  col-sm-5">
+			<label translate="cifra2gestattiApp.documentoInformatico.titolo">Titolo</label> * <label translate="cifra2gestattiApp.documentoInformatico.titoloAvviso">avviso</label>
+			<input type="text" class="form-control everActive" name="titolo"
+			placeholder="Titolo"  ng-model="allegatoEdit.titolo" ng-disabled="solaLettura" required  maxlength="255">
+		</div>
+
+		<div class="form-group col-sm-5">
+			<label translate="cifra2gestattiApp.documentoInformatico.oggetto">Oggetto</label>
+			<input type="text" class="form-control everActive" name="oggetto" ng-disabled="solaLettura" placeholder="Oggetto"  ng-model="allegatoEdit.oggetto"  maxlength="255">
+		</div> 
+
+		<div class="form-group col-sm-2">
+			<label translate="cifra2gestattiApp.documentoInformatico.tipoAllegato">tipoAllegato</label> *
+			<span data-toggle="tooltip"
+				title="<b>GUIDA</b><br/>Selezionare la tipologia di allegato."
+				data-html="true" ng-init="initTooltip()">
+				<i class="fa fa-question" ></i>
+			</span>
+			<select
+				ng-model="allegatoEdit.tipoAllegato.codice"
+				ng-change="selectAllegatoMatrixChanged(allegatoEdit, 'tipoAllegato');"
+				ng-options="item.valore as item.label for item in [{valore:'GENERICO',label:'Generico'},{valore:'PARTE_INTEGRANTE',label:'Parte Integrante'}]"				
+				ng-disabled="solaLettura || (scenariDisabilitazione && scenariDisabilitazione.indexOf('DatiPubblicazioneModificabili') > -1)"
+				required
+				class="form-control everActive">
+			</select>
+		</div>
+		
+		
+		<div class="form-group col-sm-6" ng-if="allegatoEdit.tipoAllegato!=null && allegatoEdit.tipoAllegato.codice != AllegatoConstants.tipoAllegato.GENERICO">
+			<label translate="cifra2gestattiApp.documentoInformatico.numeroProtocollo">Identificativo di Protocollo</label>
+			<input type="text" class="form-control" name="numeroProtocollo" placeholder="Identificativo di Protocollo"  maxlength="50"
+				ng-model="allegatoEdit.numeroProtocollo"
+				ng-disabled="solaLettura">
+		</div>
+
+		<div class="form-group col-sm-6" ng-if="allegatoEdit.tipoAllegato!=null && allegatoEdit.tipoAllegato.codice != AllegatoConstants.tipoAllegato.GENERICO">
+			<label translate="cifra2gestattiApp.documentoInformatico.dataProtocollo">Data Protocollo</label>
+			<div class="input-group" style="position:inherit;">
+				<input type="text"
+					size="100"
+					class="form-control"
+					ng-model="allegatoEdit.dataProtocollo"
+					ng-disabled="solaLettura"
+					onkeydown="return false;" 
+					name="dataProtocollo" 
+					data-date-type="date" 
+					bs-datepicker> 
+				<div class="input-group-addon" style="padding:0px !important;width:0px;" ng-hide="solaLettura">
+					<span title="Cancella Data" onclick="return false;" ng-click="allegatoEdit.dataProtocollo = null;" style="padding:5px;" class="pull-right glyphicon glyphicon-remove"></span>
+				</div>
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="form-group col-sm-4">
+				<label translate="cifra2gestattiApp.documentoInformatico.pubblicabile">Pubblicabile</label> *
+				<span data-toggle="tooltip"
+					title="<b>GUIDA</b><br/>Se l'allegato � <strong>Parte Integrante</strong> impostare a <strong>Si</strong> nel caso in cui l'allegato � da pubblicare altrimenti impostare a <strong>No</strong>."
+					data-html="true" ng-init="initTooltip()">
+					<i class="fa fa-question" ></i>
+				</span>
+				<span ng-if="atto.riservato && atto.riservato === true && allegatoEdit.pubblicabile && allegatoEdit.pubblicabile === true" style="color:red;" class="ng-scope">Attenzione: L'atto risulta riservato per cui l'allegato non deve risultare pubblicabile.</span>
+				<select ng-model="allegatoEdit.pubblicabile" ng-change="selectAllegatoMatrixChanged(allegatoEdit, 'pubblicabile');" class="form-control everActive"     
+					ng-options="item.valore as item.label for item in [{valore:true,label:'SI'},{valore:false,label:'NO'}]"
+					ng-disabled="((!taskBpm || !taskBpm.idAssegnatario) && (!scenariDisabilitazione || scenariDisabilitazione.indexOf('PostPubblicazioneTrasparenza') < 0)) || (allegatoEdit.tipoAllegato.codice == AllegatoConstants.tipoAllegato.GENERICO || (solaLettura && ((scenariDisabilitazione.indexOf('PostPubblicazioneTrasparenza') < 0) && scenariDisabilitazione.indexOf('DatiPubblicazioneModificabili') < 0)))" ng-required="!(solaLettura || atto.riservato)">
+				</select>
+			</div>  
+			<div class="form-group col-sm-4">
+				<label translate="cifra2gestattiApp.documentoInformatico.omissis">omissis</label> *
+				<span data-toggle="tooltip"
+					title="<b>GUIDA</b><br/>Se l'allegato � <strong>Parte Integrante</strong> ed � <strong>Pubblicabile</strong> impostare a <strong>Si</strong> nel caso in cui sia da pubblicare la versione dell'allegato con omissis o impostare a <strong>No</strong> nel caso in cui l'allegato sia da pubblicare integralmente."
+					data-html="true" ng-init="initTooltip()">
+					<i class="fa fa-question" ></i>
+				</span>
+				<select ng-model="allegatoEdit.omissis" class="form-control"
+					ng-change="selectAllegatoMatrixChanged(allegatoEdit, 'omissis');"
+					ng-options="item.valore as item.label for item in [{valore:true,label:'SI'},{valore:false,label:'NO'}]"
+					ng-disabled="!taskBpm || !taskBpm.idAssegnatario || solaLettura || !allegatoEdit.pubblicabile || (scenariDisabilitazione && scenariDisabilitazione.indexOf('DatiPubblicazioneModificabili') > -1)" required>
+				</select>
+			</div>
+			<div class="form-group col-sm-4">
+				<label translate="cifra2gestattiApp.documentoInformatico.note">Annotazioni</label>
+				<span data-toggle="tooltip"
+					title="<b>GUIDA</b><br/>Le annotazioni inserite vengono riportate nel frontespizione della proposta, sezione allegati."
+					data-html="true" ng-init="initTooltip()">
+					<i class="fa fa-question" ></i>
+				</span>
+				<input type="text" class="form-control" name="note"
+			placeholder="Annotazioni" ng-model="allegatoEdit.note" ng-disabled="solaLettura" maxlength="255">
+			</div>
+		</div>
+		<div class="form-group col-sm-12" ng-if="allegatoEdit.omissis && taskBpm && taskBpm.idAssegnatario && !solaLettura && allegatoEdit.pubblicabile && (!scenariDisabilitazione || scenariDisabilitazione.indexOf('DatiPubblicazioneModificabili') < 0)" >
+			<label translate="cifra2gestattiApp.documentoInformatico.fileomissis">Fileomissis</label>
+			<div ngf-drop ngf-select  ngf-multiple="false"
+				ngf-change="fileOmissisDropped($files, $event, $rejectedFiles)"
+				class="drop-box input-group" 
+				ngf-drag-over-class="dragover" 
+				ngf-max-size="ngfMaxSize"
+				ngf-accept="'{{generaEstensioniAccettateAllegatiNgf()}}'">
+				<h5 data-toggle="tooltip" title="File compatibili per allegati parte integrante: doc, docx, odt, pdf, rtf" ng-init="initTooltip()">	<i class="fa fa-upload" ></i> Trascina qui file omissis
+					<i class="fa fa-upload" ></i>
+					<br/><b>{{'cifra2gestattiApp.atto.warnDatiSensibiliAllegati' | translate}}</b>
+				</h5>
+			</div>
+			
+			<div class="progress" >
+				<div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" 
+					aria-valuenow="{{progressPercentage}}" aria-valuemin="0" aria-valuemax="100" style="width: {{progressOmissisPercentage}}%">
+				    <span class="sr-only">{{progressOmissisPercentage}}% Complete (success)</span>
+				</div>
+			</div>
+		</div>
+
+
+		<div class="form-group col-sm-12" ng-if="atto.fullAccess || ( (!allegatoEdit.fileomissis || !allegatoEdit.fileomissis.id || allegatoEdit.fileomissis.id<=0) && (allegatoEdit.pubblicabile && allegatoEdit.pubblicabile === true) )">
+			<label><i class="fa fa-globe" ></i> File	</label>
+			<a ng-if="allegatoEdit.file.id >0"  target="_blank" href="api/attos/{{atto.id}}/allegato/{{allegatoEdit.id}}?access_token={{access_token}}"  >
+		 		{{allegatoEdit.file.nomeFile}} ({{allegatoEdit.file.createdBy}})
+		 	</a>
+		</div> 
+		<div class="form-group col-sm-12" ng-if="!(atto.fullAccess || ( (!allegatoEdit.fileomissis || !allegatoEdit.fileomissis.id || allegatoEdit.fileomissis.id<=0) && (allegatoEdit.pubblicabile && allegatoEdit.pubblicabile === true) ))">
+			<label><i class="fa fa-globe" ></i> File	</label>
+			<span ng-if="allegatoEdit.file.id >0"  target="_blank" href="api/attos/{{atto.id}}/allegato/{{allegatoEdit.id}}?access_token={{access_token}}"  >
+		 		{{allegatoEdit.file.nomeFile}} ({{allegatoEdit.file.createdBy}})<b ng-if="allegato.pubblicabile"> RISERVATO</b>
+		 	</span>
+		</div>
+
+		<div class="form-group col-sm-12"  ng-if="allegatoEdit.omissis">
+			<label><i class="fa fa-lock" ></i> File Omissis</label>
+			<a ng-if="allegatoEdit.fileomissis.id >0"  target="_blank" href="api/attos/{{atto.id}}/allegato/{{allegatoEdit.id}}/omissis?access_token={{access_token}}"  >
+				{{allegatoEdit.fileomissis.nomeFile}} ({{allegatoEdit.fileomissis.createdBy}})
+			</a>
+
+			<button ng-if="!solaLettura && allegatoEdit.fileomissis.id >0 && (!scenariDisabilitazione || scenariDisabilitazione.indexOf('DatiPubblicazioneModificabili') < 0)" type="button" class="btn btn-danger btn-sm everActive" ng-click="deleteAllegatoOmissis(allegatoEdit)" data-type="success" data-title="Elimina allegato omissis" bs-tooltip="">
+				<i class="fa fa-minus"></i>
+			</button>
+		</div>
+
+		<div class="form-group col-sm-12"  >
+			<button type="button" class="btn btn-default btn-sm everActive" ng-click="allegatoAnnullaEdit(allegatoEdit)"  >
+				<span class="glyphicon glyphicon-list"></span>&nbsp;<span >Torna alla lista degli allegati senza salvare</span>
+			</button>
+
+			<!-- <button type="button" class="btn btn-default btn-sm"  ng-click="salvaAllegato(allegatoEdit)" ng-disabled="solaLettura || verificaCampiObbligatoriAllegato(allegatoEdit)">
+				<span class="glyphicon glyphicon-save  "></span>&nbsp;<span >Salva ed esci</span>
+			</button>
+			-->
+		</div>
+	</div>
+	
+	<div class="modal fade" id="helpOmissis" tabindex="-1"
+		role="dialog" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title"
+						translate="cifra2gestattiApp.aoo.profiloResponsabile">Profilo
+						Responsabile</h4>
+				</div>
+				<div class="modal-body">
+					SI : Allegare il documento con omissis<br/>
+					NO : Non � richiesto alcun documento con omissis
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="modal fade" id="modificaAllegatiConfirmation" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <span>Imposta gli attributi per n. {{fileDroppati.length}} allegati</span>
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                            ng-click="clear()">&times;</button>
+                    <h4 class="modal-title" translate="entity.delete.title">Confirm delete operation</h4>
+                </div>
+				<div class="form-group col-sm-6">
+					<label translate="cifra2gestattiApp.documentoInformatico.tipoAllegato">tipoAllegato</label> *
+						<span data-toggle="tooltip" title="<b>GUIDA</b><br/>Selezionare la tipologia di allegato." data-html="true" ng-init="initTooltip()">
+							<i class="fa fa-question" ></i>
+						</span>
+						<select	ng-model="tipoAllegatoMassivo.codice"
+							ng-change="checkPubblicabileMassiva();"
+							ng-options="item.valore as item.label for item in [{valore:'GENERICO',label:'Generico'},{valore:'PARTE_INTEGRANTE',label:'Parte Integrante'}]"				
+							ng-disabled="solaLettura"
+							required class="form-control">
+						</select>
+				</div>
+
+                <div class="form-group col-sm-6">
+						<label translate="cifra2gestattiApp.documentoInformatico.pubblicabile">Pubblicabile</label> *
+							<span data-toggle="tooltip" 	title="<b>GUIDA</b><br/>Se l'allegato � <strong>Parte Integrante</strong> impostare a <strong>Si</strong> nel caso in cui l'allegato � da pubblicare altrimenti impostare a <strong>No</strong>." data-html="true" ng-init="initTooltip()">
+								<i class="fa fa-question" ></i>
+							</span>
+						<select ng-model="pubblicabileMassivo.codice" class="form-control" required
+							ng-options="item.valore as item.label for item in [{valore:'n',label:''},{valore:true,label:'SI'},{valore:false,label:'NO'}]"
+							ng-disabled="tipoAllegatoMassivo.codice == AllegatoConstants.tipoAllegato.GENERICO || solaLettura || atto.riservato ">
+						</select>
+				</div>
+				<div class="form-group col-sm-12">
+				<br>
+					<span><b>ATTENZIONE! Confermando l'operazione si imposteranno le proprieta' degli allegati con i valori selezionati. Tuttavia e' necessario salvare l'atto per rendere effettive le modifiche</b></span>
+				<br>
+				</div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">
+                        <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+                    </button>
+                    <button type="submit" ng-click="confirmModificaAllegatiMassivamente()" class="btn btn-danger">
+                        <span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span translate="entity.action.impostaPerTuttiAllegati">impostaPerTuttiAllegati</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div ng-if="pareriSottoscrittori.length > 0" class="table-responsive">
+<label>Pareri</label>
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th><span>Inserito Da</span></th>
+					<th><span>Data Inserimento</span></th>
+					<th><span>Tipologia Parere</span></th>
+					<th><span>Data Parere</span></th>
+					<th><span>Esito Parere</span></th>
+					<!-- <th><span>Motivazione</span></th> -->
+					<th><span>File Allegato</span></th>
+					<th><span>Pubblicabile</span></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="item in pareriSottoscrittori  | orderBy : 'data'" ng-if="item.allegati && item.allegati.length > 0">
+					<td>{{item.utente}}<br>({{item.aoo}})</td>
+					<td>{{item.data | date:'dd/MM/yyyy HH:mm'}}</td>
+					<td>{{item.tipologia}}</td>
+
+					<td>{{item.dataParere | date:'dd/MM/yyyy'}}</td>
+					<td>{{item.parerePersonalizzato ? item.parerePersonalizzato : item.codTipologia && item.parereSintetico ? getEsitoParereLeggibile(item.parereSintetico) : ''}}</td>
+
+					<!-- <td>{{item.motivazione}}</td> -->
+					<td nowrap>
+						<a ng-repeat="allegato in item.allegati" ng-if="allegato.pubblicabile || atto.fullAccess"  target="_blank" href="api/attos/{{atto.id}}/allegato/{{allegato.id}}?access_token={{access_token}}" title="{{allegato.file.nomeFile}}">{{allegato.file.nomeFile}}<br></a>
+						<span ng-repeat="allegato in item.allegati" ng-if="!(allegato.pubblicabile || atto.fullAccess)" title="{{allegato.file.nomeFile}} - RISERVATO">{{allegato.file.nomeFile}} - <b>RISERVATO</b><br></span>
+					</td>
+					<td align="center"><span ng-repeat="allegato in item.allegati" ng-if="atto.riservato || ((!scenariDisabilitazione || scenariDisabilitazione.indexOf('PostPubblicazioneTrasparenza') < 0) && solaLettura)">
+					{{allegato.pubblicabile?"SI":"NO"}}<br></span><span ng-repeat="allegato in item.allegati" ng-if="!(atto.riservato || ((!scenariDisabilitazione || scenariDisabilitazione.indexOf('PostPubblicazioneTrasparenza') < 0) && solaLettura)) ">
+					<select ng-model="allegato.pubblicabile" class="form-control" required
+							ng-options="item.valore as item.label for item in [{valore:true,label:'SI'},{valore:false,label:'NO'}]"
+							>
+						</select><br></span>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	
+</div>

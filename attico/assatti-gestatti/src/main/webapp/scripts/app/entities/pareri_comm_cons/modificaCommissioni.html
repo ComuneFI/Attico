@@ -1,0 +1,85 @@
+
+<div class="row">
+	<div class="form-group col-sm-12">
+		<label>Num. proposta&#92;Codice Attico : </label> {{attoSel.codiceCifra}}<br>
+		<label>Oggetto : </label> {{attoSel.oggetto}}
+	</div>
+</div>
+
+
+
+<div class="row">
+	<div class="form-group col-sm-12">
+		<label translate="cifra2gestattiApp.commissioniCons.gestionePareri.listCommissioni">listCommissioni</label>*
+		<ui-select ng-model="aggiungiCommissioneSel.value" theme="bootstrap" ng-disabled="!attoSel.editCommissioniEnable" ng-change="inizializzaDataEffettivaRichiesta()">
+			<ui-select-match allow-clear="true">{{$select.selected.descrizione}}</ui-select-match>
+			<ui-select-choices repeat="item in listCommissioniCons | filter: $select.search track by $index">
+				<div ng-bind-html="item.descrizione | highlight: $select.search"></div>
+			</ui-select-choices>
+		</ui-select>
+	</div>
+</div>
+<div class="row">
+	<div class="form-group col-md-4">
+		<label>Data Effettiva Richiesta*</label>
+		<input type="text" ng-model="aggiungiCommissioneSel.dataManuale" data-date-type="date" onkeydown="return false;" bs-datepicker required>
+	</div>
+	<div class="form-group col-md-4">
+		<label>Giorni Scadenza*</label>
+		<input type="text" size="10" maxlength="3" style="width:100%" class="everActive" ng-model="aggiungiCommissioneSel.ggScadenzaNew" ng-disabled="!attoSel.editCommissioniEnable"><br/>
+		<span ng-show="aggiungiCommissioneSel.ggScadenzaNew && !isNumber(aggiungiCommissioneSel.ggScadenzaNew)" style="background: #ffcbcb; color: #1e1212;">Inserire valore numerico. Massimo tre cifre</span>
+	</div>
+	<div class="form-group col-md-4"><br/>
+		<button ng-click="aggiungiCommissione()" ng-disabled="!aggiungiCommissioneSel.value || !aggiungiCommissioneSel.ggScadenzaNew
+		|| !isNumber(aggiungiCommissioneSel.ggScadenzaNew) || !attoSel.editCommissioniEnable || !aggiungiCommissioneSel.dataManuale" class="btn btn-primary btn-sm">
+           <span class="glyphicon glyphicon-pencil"></span>&nbsp;
+           <span translate="cifra2gestattiApp.commissioniCons.gestionePareri.aggiungi"> Edit</span>
+       </button>
+	</div>
+</div>
+
+
+<div class="table-responsive crud-search">
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th width="20%">Denominazione</th>
+				<th width="10%">Data Richiesta Eff.</th>
+				<th width="10%">Scadenza</th>
+				<th width="10%">Data Scadenza</th>
+				<th width="10%">Data Parere</th>
+				<th width="30%">Parere</th>
+				<th width="30%">Azioni</th>
+		</thead>
+		<tbody>
+			<tr ng-repeat="commissione in commissioniSel">
+				<td width="20%">{{commissione.descrizioneAoo}}</td>
+				<td width="10%">{{commissione.dataManuale | date:'dd/MM/yyyy'}}</td>
+				<td width="10%"><span ng-if="commissione.giorniScadenza">{{commissione.giorniScadenza}} gg.</span></td>
+				<td width="10%">{{commissione.dataManuale && commissione.giorniScadenza!=null?(addDays(commissione.dataManuale,commissione.giorniScadenza) | date:'dd-MM-yyyy'):''}}</td>
+				<td width="10%">{{commissione.dataParere | date:'dd-MM-yyyy'}}</td>
+				<td width="30%">{{getParereLeggibileByIdAooCommissione(commissione.idAoo)}}</td>
+				<td width="30%" align="center">
+					<button ng-if="parereAssente(commissione.idAoo)" ng-click="aggiungiParere(commissione)" class="btn btn-primary btn-sm btn-block">
+			           <span class="glyphicon glyphicon-plus"></span>&nbsp;<span translate="cifra2gestattiApp.commissioniCons.gestionePareri.insertParere"> insertParere</span>
+			       </button>
+					<button ng-disabled="!attoSel.editCommissioniEnable" ng-if="!hasParereSintetico(commissione.idAoo)" ng-click="confermaElimina(commissione)" class="btn btn-primary btn-sm btn-block">
+			           <span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span translate="cifra2gestattiApp.commissioniCons.gestionePareri.eliminaCommissione"> Delete</span>
+			       </button><br/>
+			       <!-- 
+			       <button ng-if="parereAssente(commissione.idAoo)" ng-click="confermaNonEspresso(commissione)" class="btn btn-primary btn-sm btn-block">
+			           <span class="glyphicon glyphicon-play"></span>&nbsp;<span translate="cifra2gestattiApp.commissioniCons.gestionePareri.nonEspresso"> nonEspresso</span>
+			       </button><br/>
+			        -->
+			       <button  ng-click="modificaScadenza(commissione)" class="btn btn-primary btn-sm btn-block">
+			           <span class="glyphicon glyphicon-calendar"></span>&nbsp;<span translate="cifra2gestattiApp.commissioniCons.gestionePareri.modifica"> Edit</span>
+			       </button>
+			       <button ng-if="!parereAssente(commissione.idAoo)" ng-click="manageParere(commissione)" class="btn btn-primary btn-sm btn-block">
+			           <span class="glyphicon glyphicon-edit"></span>&nbsp;
+			           <span translate="cifra2gestattiApp.commissioniCons.gestionePareri.viewEditParere"> viewEditParere</span>
+			       </button>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>

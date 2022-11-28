@@ -1,0 +1,445 @@
+<div   ngf-no-file-drop class="label label-danger">File Drag/Drop non supportato per questo browser. Browser supprtati Chrome, Firefox, Opera, Safari, Internet Explorer ultima versione.</div>
+	    
+
+<form name="editForm" role="form" showvalidate  scenario >
+
+<div class="col-xs-12 cifra-tab-container"   >
+		<div class="col-xs-12 col-sm-3 cifra-tab-menu md-whiteframe-z3"> 
+			
+			<div class="list-group" ng-repeat="sezione in attoDirigenzialeSezioni" ng-if="isSezioneVisibile(sezione)">
+				<div class="list-group-item" ng-if="(!attoDirigenzialeSezioni[$index].abilitato) && ($index == sectionInitIndex || atto.id > 0)">
+					<i class="{{sezione.icon}}"></i>
+					{{sezione.title}}
+				</div>
+				
+				<a href ng-click="loadSection($index)" class="list-group-item" ng-class="{'active': sezione.activeCss, 'error': sezione.error, 'sezioneLoading':taskLoading }" ng-if="(!taskLoading && (attoDirigenzialeSezioni[$index].abilitato) && ($index == sectionInitIndex || atto.id > 0))"
+					aria-controls="{{sezione.target}}"   >
+					
+					<i class="{{sezione.icon}}"></i>
+					<span >
+					{{sezione.title}}  </span>
+					</a>
+				<a href class="list-group-item" ng-class="{'active': sezione.activeCss, 'error': sezione.error}" ng-if="(taskLoading && (attoDirigenzialeSezioni[$index].abilitato) && ($index == sectionInitIndex || atto.id > 0))"
+					aria-controls="{{sezione.target}}"   >
+					
+					<i class="{{sezione.icon}}"></i>
+					
+					<span>
+					{{sezione.title}}
+					</span>
+					
+					</a>
+					
+				</div>
+				 
+		</div>
+	
+	<img ng-show="onSpinner==true || _onSpinner==true" src='assets/images/spinner.gif'>
+	
+	<div ng-show="!onSpinner && !_onSpinner" class="col-xs-12 col-sm-9 cifra-tab">
+	  	
+	<nav ng-include="'scripts/app/entities/atto/formprincipale/atto-azioniutente.html'"  ></nav>
+ 
+			<div class="messaggioRestituzione voffset3 bordered-span" ng-if="atto.highLightedInfo">
+				{{configurationParams && configurationParams.avanzamento_warning_types && configurationParams.avanzamento_warning_types[atto.highLightedInfo.split('#_#')[0]] ? configurationParams.avanzamento_warning_types[atto.highLightedInfo.split('#_#')[0]] + ':' : ''}} {{atto.highLightedInfo.split('#_#')[1]}}
+			</div>
+
+			<div class="cifra-tab-content active"    ng-if="sezioneCorrente.target === 'datiIdentificativi' && isSezioneVisibile(sezioneCorrente)" ng-include="'scripts/app/entities/atto/sezioniatto/atto-datiidentificativi.html'" disable-form-by-stato="atto.avanzamento" ></div>
+			<div class="cifra-tab-content active"    ng-if="sezioneCorrente.target === 'datiIdentificativiConsiglio' && isSezioneVisibile(sezioneCorrente)" ng-include="'scripts/app/entities/atto/sezioniatto/atto-datiidentificativi-consiglio.html'" disable-form-by-stato="atto.avanzamento" ></div>
+			<div class="cifra-tab-content active"    ng-if="sezioneCorrente.target === 'datiIdentificativiVerbale' && isSezioneVisibile(sezioneCorrente)" ng-include="'scripts/app/entities/atto/sezioniatto/atto-datiidentificativi-verbale.html'" disable-form-by-stato="atto.avanzamento" ></div>
+
+			<div class="cifra-tab-content active"    ng-if="sezioneCorrente.target === 'assegnazioneIncarichi' && isSezioneVisibile(sezioneCorrente)" ng-include="'scripts/app/entities/atto/sezioniatto/atto-assegnazioneincarichi.html'" disable-form-by-stato="atto.avanzamento" ></div>
+			<div class="cifra-tab-content active"    ng-if="sezioneCorrente.target === 'sottoscrizioni' && isSezioneVisibile(sezioneCorrente)" ng-include="'scripts/app/entities/atto/sezioniatto/atto-sottoscrizioni.html'" disable-form-by-stato="atto.avanzamento"></div>
+
+			<div class="cifra-tab-content active"    ng-if="sezioneCorrente.target === 'risposta' && isSezioneVisibile(sezioneCorrente)" ng-include="'scripts/app/entities/atto/sezioniatto/atto-risposta.html'" disable-form-by-stato="atto.avanzamento">	</div>
+
+			<div class="cifra-tab-content active"    ng-if="sezioneCorrente.target === 'riferimentiNormativi' && isSezioneVisibile(sezioneCorrente)" ng-include="'scripts/app/entities/atto/sezioniatto/atto-riferimentinormativi.html'" disable-form-by-stato="atto.avanzamento"></div>
+			<div class="cifra-tab-content active"    ng-if="sezioneCorrente.target === 'trasparenza' && isSezioneVisibile(sezioneCorrente)" ng-include="'scripts/app/entities/atto/sezioniatto/atto-trasparenza.html'" disable-form-by-stato="atto.avanzamento"></div>
+
+			<div class="cifra-tab-content active"    ng-if="sezioneCorrente.target === 'preambolo' && isSezioneVisibile(sezioneCorrente)"  ng-include="'scripts/app/entities/atto/sezioniatto/atto-preambolo.html'" disable-form-by-stato="atto.avanzamento">			</div>
+
+			<div class="cifra-tab-content active"    ng-if="sezioneCorrente.target === 'motivazione' && isSezioneVisibile(sezioneCorrente)" ng-include="'scripts/app/entities/atto/sezioniatto/atto-motivazione.html'"  disable-form-by-stato="atto.avanzamento"></div>
+
+			<div class="cifra-tab-content active"     ng-if="sezioneCorrente.target === 'dispositivo' && isSezioneVisibile(sezioneCorrente)" ng-include="'scripts/app/entities/atto/sezioniatto/atto-dispositivo.html'" disable-form-by-stato="atto.avanzamento"></div>
+
+			<div class="cifra-tab-content active"     ng-if="sezioneCorrente.target === 'domanda' && isSezioneVisibile(sezioneCorrente)" ng-include="'scripts/app/entities/atto/sezioniatto/atto-domanda.html'" disable-form-by-stato="atto.avanzamento"></div>
+
+			<div class="cifra-tab-content active"   ng-if="sezioneCorrente.target === 'note' && isSezioneVisibile(sezioneCorrente)" ng-include="'scripts/app/entities/atto/sezioniatto/atto-note.html'" disable-form-by-stato="atto.avanzamento"></div>
+
+			<div class="cifra-tab-content active"     ng-if="sezioneCorrente.target === 'garanzieRiservatezza' && isSezioneVisibile(sezioneCorrente)" ng-include="'scripts/app/entities/atto/sezioniatto/atto-garanzieriservatezza.html'" disable-form-by-stato="atto.avanzamento"></div>
+
+
+			<div class="cifra-tab-content active"     ng-if="sezioneCorrente.target === 'dichiarazioni' && isSezioneVisibile(sezioneCorrente)" ng-include="'scripts/app/entities/atto/sezioniatto/atto-dichiarazioni.html'" disable-form-by-stato="atto.avanzamento"></div>
+
+			
+			<div class="cifra-tab-content active"    ng-if="sezioneCorrente.target === 'schede' && isSezioneVisibile(sezioneCorrente)" ng-include="'scripts/app/entities/atto/sezioniatto/atto-beneficiari.html'" disable-form-by-stato="atto.avanzamento">	</div>
+			
+
+			<div class="cifra-tab-content active"   ng-if="sezioneCorrente.target === 'allegati' && isSezioneVisibile(sezioneCorrente)" ng-include="'scripts/app/entities/atto/sezioniatto/atto-allegati.html'" disable-form-by-stato="atto.avanzamento">		</div>
+
+    		<div class="cifra-tab-content active"    ng-if="sezioneCorrente.target === 'divulgazione' && isSezioneVisibile(sezioneCorrente)" ng-include="'scripts/app/entities/atto/sezioniatto/atto-divulgazione.html'" disable-form-by-stato="atto.avanzamento"></div>
+		
+	 		<div class="cifra-tab-content active"    ng-if="sezioneCorrente.target === 'divulgazioneSemplificata' && isSezioneVisibile(sezioneCorrente)" ng-include="'scripts/app/entities/atto/sezioniatto/atto-divulgazioneconsiglio.html'" disable-form-by-stato="atto.avanzamento"></div>
+
+		<div class="cifra-tab-content active"    ng-if="sezioneCorrente.target === 'notifica' && isSezioneVisibile(sezioneCorrente)" ng-include="'scripts/app/entities/atto/sezioniatto/atto-notifica.html'" disable-form-by-stato="atto.avanzamento"></div>
+		
+		
+		<div class="cifra-tab-content active"    ng-if="sezioneCorrente.target === 'archivio' && isSezioneVisibile(sezioneCorrente)" ng-include="'scripts/app/entities/atto/sezioniatto/atto-archivio.html'" disable-form-by-stato="atto.avanzamento"></div>
+
+		<div class="cifra-tab-content active"    ng-if="sezioneCorrente.target === 'sistemiRegionali' && isSezioneVisibile(sezioneCorrente)" ng-include="'scripts/app/entities/atto/sezioniatto/atto-sistemiregionali.html'" disable-form-by-stato="atto.avanzamento">		</div>
+
+
+		<div class="cifra-tab-content active"       ng-if="sezioneCorrente.target === 'documentiPdf' && isSezioneVisibile(sezioneCorrente)" ng-include="'scripts/app/entities/atto/sezioniatto/atto-documenti.html'" disable-form-by-stato="atto.avanzamento">	</div>
+		
+		<div class="cifra-tab-content active"       ng-if="sezioneCorrente.target === 'documentiPdfConsiglio' && isSezioneVisibile(sezioneCorrente)" ng-include="'scripts/app/entities/atto/sezioniatto/atto-documenti-consiglio.html'" disable-form-by-stato="atto.avanzamento">	</div>
+	
+		<div class="cifra-tab-content active"       ng-if="sezioneCorrente.target === 'parere' && isSezioneVisibile(sezioneCorrente)" ng-include="'scripts/app/entities/atto/sezioniatto/atto-parere.html'" disable-form-by-stato="atto.avanzamento"></div>
+
+		<div class="cifra-tab-content active"    ng-if="sezioneCorrente.target === 'listaTask' && isSezioneVisibile(sezioneCorrente)"  ng-include="'scripts/app/entities/atto/sezioniatto/atto-listatask.html'" ></div>
+
+		<div class="cifra-tab-content active"    ng-if="sezioneCorrente.target === 'eventiAtto' && isSezioneVisibile(sezioneCorrente)"  ng-include="'scripts/app/entities/atto/sezioniatto/atto-eventi.html'" ></div>
+	
+		<div class="cifra-tab-content active"    ng-if="sezioneCorrente.target === 'dettagliAtto' && isSezioneVisibile(sezioneCorrente)"  ng-include="'scripts/app/entities/atto/sezioniatto/atto-dettagli.html'" ></div>
+	
+		<div class="cifra-tab-content active"    ng-if="sezioneCorrente.target === 'seduteAtto' && isSezioneVisibile(sezioneCorrente)"  ng-include="'scripts/app/entities/atto/sezioniatto/atto-sedute.html'" ></div>
+		
+		<nav ng-include="'scripts/app/entities/atto/formprincipale/atto-azioniutente.html'"  ></nav>
+ 
+
+	</div>
+
+ 
+ 
+	</div>
+</form>
+
+
+<div ng-if="(atto.id > 0) && atto.tipoDeterminazione && (atto.tipoDeterminazione.descrizione.toLowerCase() != 'ordinario')" class="modal fade" id="ricercaAttoRevocato" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" style="width:'auto';height:'auto';max-height:'100%'">
+            <ricerca-atto-form ng-model="atto"></ricerca-atto-form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="fatturaBeneficiarioModal" tabindex="-1" role="dialog" aria-hidden="true" aria-labelledby="fatturaModalTitleLabel">
+		<div class="modal-dialog">
+	            <div class="modal-content">
+					<form name="fatturaForm" show-validation novalidate>
+						<div class="modal-header">
+	                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+	                                ng-click="fattura = {}">&times;</button>
+	                       <h4 class="modal-title" id="fatturaModalTitleLabel" translate="cifra2gestattiApp.beneficiario.fattura.title">Fattura</h4>
+	                    </div>
+	                    <div class="modal-body">
+							<fattura-form ng-model="fattura"></fattura-form>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default" data-dismiss="modal">
+						        <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+						    </button>
+						    <button type="button" ng-click="saveFattura()" ng-disabled="fatturaForm.$invalid" class="btn btn-primary">
+						        <span class="glyphicon glyphicon-save"></span>&nbsp;<span translate="entity.action.save">Save</span>
+						    </button>
+					    </div>
+				    </form>
+	    		</div>
+	    </div>
+	</div>
+
+<div class="modal fade" id="saveRubricaDestinatarioEsternoModal" tabindex="-1" role="dialog" aria-labelledby="myRubricaDestinatarioEsternoLabel"
+	         aria-hidden="true">
+	        <div class="modal-dialog">
+	            <div class="modal-content">
+	                <form name="editFormRubrica" role="form" novalidate ng-submit="salvaRubricaDestinatarioEsterno( rubricaDestinatarioEsterno )" show-validation>
+	
+	                    <div class="modal-header">
+	                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+	                                ng-click="clear()">&times;</button>
+	                        <h4 class="modal-title" id="myRubricaDestinatarioEsternoLabel" translate="cifra2gestattiApp.rubricaDestinatarioEsterno.home.createOrEditLabel">Create or edit a RubricaDestinatarioEsterno</h4>
+	                    </div>
+	                    <div class="modal-body">
+	
+	                       <rubrica-destinatario-esterno-form ng-model="rubricaDestinatarioEsterno"  lista-aoo="aoos" disabled-aoo="true" hide-aoo="true" ></rubrica-destinatario-esterno-form>
+							<div align="center" class="alert alert-danger" ng-if="checkEsistenzaRDE == true" translate="cifra2gestattiApp.rubricaDestinatarioEsterno.alreadyExists"></div>
+	                    </div>
+	                    <div class="modal-footer">
+
+
+	                        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
+	                            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+	                        </button>
+	                        <button type="submit" ng-disabled="editFormRubrica.$invalid" class="btn btn-primary">
+	                            <span class="glyphicon glyphicon-save"></span>&nbsp;<span translate="entity.action.save">Save</span>
+	                        </button>
+	                    </div>
+	                </form>
+	            </div>
+	        </div>
+	    </div>
+
+
+
+<div class="modal fade" id="mascheraWorkflowAtto" tabindex="-1" role="dialog" 
+	        aria-labelledby="mascheraWorkflowLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <form name="mascheraWorkflow" role="form" novalidate  show-validation>
+                <div class="modal-header">
+                    <button type="button" class="close everActive" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="mascheraWorkflowLabel" >{{decisioneCorrente.descrizione}}</h4>
+                </div>
+
+                <div class="modal-body">
+					<div ng-if="decisioneCorrente.codiceAzioneUtente" ng-include="'scripts/app/entities/atto/mascheraWorkflow/' + decisioneCorrente.codiceAzioneUtente + '.html'"  >
+						
+					</div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default everActive" data-dismiss="modal">
+                        Chiudi
+                    </button>
+
+                    <button type="button" ng-disabled="mascheraWorkflow.$invalid || taskLoading" class="btn btn-primary everActive" ng-click="salva(indexSezioneCorrente,decisioneCorrente)" > 
+                    	<span ng-if="uploadok == true" class="glyphicon glyphicon-refresh glyphicon-refresh-animate" style="margin-right:10px;"></span>Conferma {{decisioneCorrente.descrizione}}
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="actionFormConfirmation" tabindex="-1" role="dialog" 
+	        aria-labelledby="actionFormConfirmationLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <form name="actionFormConfirmation" role="form" novalidate  show-validation>
+                <div class="modal-header">
+                    <button type="button" class="close everActive" data-dismiss="modal" aria-hidden="true"
+                            ng-click="clear()">&times;</button>
+                    <h4 class="modal-title">Richiesta conferma</h4>
+                </div>
+
+                <div class="modal-body">
+                	<p ng-if="messaggioPerStep!=null">{{messaggioPerStep}}</p>
+                	
+					 <p>Confermi di voler eseguire la seguente operazione: {{decisioneCorrente.descrizione}}?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default everActive" data-dismiss="modal" ng-click="dismissModal()"  >
+                        <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+                    </button>
+
+                    <button type="button" ng-click="taskLoading=true;salva(indexSezioneCorrente,decisioneCorrente)" class="btn btn-danger everActive">
+                        <span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span>Conferma</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="warningFileType" tabindex="-1" role="dialog" 
+	        aria-labelledby="warningFileLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+                   
+           <div class="modal-header">
+               <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                       ng-click="clear()">&times;</button>
+               <h4 class="modal-title" id="warningFileLabel" >Formato non supportato</h4>
+           </div>
+
+           <div class="modal-body">
+				Il formato del file allegato non è supportato per includerlo come parte integrante dell'Atto.
+				Le estensioni accettate sono:
+				<ul>
+					<li ng-repeat="estensioneAccettata in estensioniAccettate">
+						{{ estensioneAccettata }}<span ng-if="!$last">;</span><span ng-if="$last">.</span>
+					</li>
+				</ul>
+           </div>
+           <div class="modal-footer">
+               <button type="button" class="btn btn-default everActive" data-dismiss="modal" ng-click="$('#warningFileType').modal('hide');">
+                   Chiudi
+               </button>
+           </div>
+
+        </div>
+    </div>
+</div>
+
+<div ng-if="sezioneCorrente.target === 'archivio' && isSezioneVisibile(sezioneCorrente)" class="modal fade" id="creaFascicoloModal" tabindex="-1" role="dialog" aria-labelledby="myFascicoloLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        	<nuovo-fascicolo-form></nuovo-fascicolo-form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="deleteAllegatoConfirmation" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form name="deleteForm" ng-submit="confirmDeleteAllegato(allegatoDelete.id)">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                            ng-click="clear()">&times;</button>
+                    <h4 class="modal-title" translate="entity.delete.title">Confirm delete operation</h4>
+                </div>
+                <div class="modal-body">
+                    <p ng-if="allegatoDelete" translate="cifra2gestattiApp.documentoInformatico.delete.question" translate-values="{nomeFile: purificaTestoPerJs(allegatoDelete.nomeFile)}">Are you sure you want to delete this Allegato?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">
+                        <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+                    </button>
+                    <button type="submit" ng-disabled="deleteForm.$invalid" class="btn btn-danger">
+                        <span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span translate="entity.action.delete">Delete</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="cercaModelloCampoConfirmation">
+  <div class="modal-dialog">
+      <div class="modal-content">
+          <form name="modelloCampoForm" ng-submit="loadPageModelloCampo(1, tipoModelloCampo)">
+              <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                          ng-click="clear()">&times;</button>
+                  <h4 class="modal-title" translate="cifra2gestattiApp.atto.cercaModelloCampo">Cerca</h4>
+              </div>
+              <div class="modal-body">
+                          <div class="form-group">
+                              <label translate="cifra2gestattiApp.modelloCampo.codice">Codice</label>
+                              <input type="text" class="form-control" name="codice"
+                                     ng-model="modelloCampoCriteria.codice" >
+
+                          </div>
+                          <div class="form-group">
+                              <label translate="cifra2gestattiApp.modelloCampo.titolo">Titolo</label>
+                              <input type="text" class="form-control" name="titolo"
+                                     ng-model="modelloCampoCriteria.titolo">
+
+                          </div>
+
+	<div>
+	    <div class="table-responsive">
+	        <table class="table table-striped">
+	            <thead>
+	                <tr>
+	                    <th translate="cifra2gestattiApp.modelloCampo.codice">Codice</th>
+	                    <th translate="cifra2gestattiApp.modelloCampo.titolo">Titolo</th>
+	                    <th translate="cifra2gestattiApp.modelloCampo.createdDate">createdDate</th>
+	                    <th translate="cifra2gestattiApp.modelloCampo.Profilo">profilo</th>
+	               <th></th>
+	
+	                </tr>
+	            </thead>
+	            <tbody>
+	                <tr ng-repeat="modelloCampo in modelloCampos">
+	                    <td>{{modelloCampo.codice}}</td>
+	                    <td>{{modelloCampo.titolo}}</td>
+	                    <td>{{modelloCampo.createdDate| date:'dd-MM-yyyy HH:mm'}}</td>
+	                    <td>
+	                    	<span ng-if="modelloCampo.profilo">{{modelloCampo.profilo.utente.nome}} {{modelloCampo.profilo.utente.cognome}}</span>
+	                    	<span ng-if="!modelloCampo.profilo">Tutti</span>
+						</td>
+	                    
+	                       <td><button class="btn btn-info pull-right"  ng-click="selezionaModelloCampo(modelloCampo)"  ><i class="fa fa-start" ></i>Seleziona</button></td>
+	                </tr>
+	            </tbody>
+	        </table>
+	    </div>
+        <nav ng-if="totalModelloCampos">
+            <ul class="pagination">
+                <li ng-if="totalModelloCampos"><a>Risultati trovati: {{totalModelloCampos}}</a></li>
+                <li ng-show="modelloCampoLinks['first']" ng-click="loadPageModelloCampo(modelloCampoLinks['first'], tipoModelloCampo)"><a>&lt;&lt;</a></li>
+                <li ng-show="modelloCampoLinks['prev']" ng-click="loadPageModelloCampo(modelloCampoLinks['prev'], tipoModelloCampo)"><a>&lt;</a></li>
+                <li ng-show="pageModelloCampo > 2" ng-click="loadPageModelloCampo(pageModelloCampo - 2, tipoModelloCampo)"><a>{{pageModelloCampo - 2}}</a></li>
+                <li ng-show="pageModelloCampo > 1" ng-click="loadPageModelloCampo(pageModelloCampo - 1, tipoModelloCampo)"><a>{{pageModelloCampo - 1}}</a></li>
+                <li class="active"><a>{{pageModelloCampo ? pageModelloCampo : 1}}</a></li>
+                <li ng-show="pageModelloCampo < modelloCampoLinks['last']" ng-click="loadPageModelloCampo(pageModelloCampo + 1, tipoModelloCampo)"><a>{{pageModelloCampo + 1}}</a></li>
+                <li ng-show="pageModelloCampo < modelloCampoLinks['last'] - 1" ng-click="loadPageModelloCampo(pageModelloCampo + 2, tipoModelloCampo)"><a>{{pageModelloCampo + 2}}</a></li>
+                <li ng-show="modelloCampoLinks['next']" ng-click="loadPageModelloCampo(modelloCampoLinks['next'], tipoModelloCampo)"><a>&gt;</a></li>
+                <li ng-show="modelloCampoLinks['last']" ng-click="loadPageModelloCampo(modelloCampoLinks['last'], tipoModelloCampo)"><a>&gt;&gt;</a></li>
+            </ul>
+        </nav>
+    </div>
+
+
+                 </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal"  >
+                        <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+                    </button>
+                    <button type="submit" class="btn btn-default">
+                        <span class="fa fa-search"></span>&nbsp;<span translate="cifra2gestattiApp.atto.cercaModelloCampo">Cerca</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="salvaModelloCampoConfirmation">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form name="modelloCampoForm" ng-submit="confirmSalvaModelloCampo(modelloCampo)">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                            ng-click="clear()">&times;</button>
+                    <h4 class="modal-title" translate="cifra2gestattiApp.atto.salvaModelloCampo">Salva come modello</h4>
+                </div>
+                <div class="modal-body">
+                      <div class="form-group">
+                       <label translate="cifra2gestattiApp.modelloCampo.titolo">Titolo</label> *
+                       <input type="text" class="form-control everActive" name="titolo"
+                              ng-model="modelloCampo.titolo" required>
+                     </div>   
+                     <div class="form-group">
+                         <label translate="cifra2gestattiApp.modelloCampo.codice">Codice</label>
+                         <input type="text" class="form-control everActive" name="codice"
+                                ng-model="modelloCampo.codice" required>
+                     </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default everActive" data-dismiss="modal"  >
+                        <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+                    </button>
+                    <button type="submit" ng-disabled="!modelloCampo.codice || !modelloCampo.titolo" class="btn btn-info">
+                        <span class="fa fa-star"></span>&nbsp;<span translate="cifra2gestattiApp.atto.salvaModelloCampo">Salva</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="disabilitaAttoCongiuntoModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form name="modelloCampoForm" ng-submit="confirmSalvaModelloCampo(modelloCampo)">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                            ng-click="clear()">&times;</button>
+                    <h4 class="modal-title">Atto Congiunto</h4>
+                </div>
+                <div class="modal-body">
+                      <div class="form-group">
+                       <p>Attenzione: Prima di poter impostare l'atto congiunto a NO occorre eliminare tutti i sottoscrittori appartenenti ad Aoo diverse dalla proponente.</p>
+                     </div>   
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal"  >
+                        <span>OK</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

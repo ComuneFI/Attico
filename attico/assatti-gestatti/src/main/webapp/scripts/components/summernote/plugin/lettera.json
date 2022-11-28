@@ -1,0 +1,13 @@
+{
+	"lettera.tipoLettera" : {"key":"lettera.tipoLettera", "titolo": "Tipo Lettera", "template": "text", "fields":[] },
+	"lettera.idDiogene" : {"key":"lettera.idDiogene", "titolo": "Id Documentale", "template": "text", "fields":[] },
+	"lettera.testo" : {"key":"lettera.testo", "titolo": "Testo", "template": "text", "fields":[] },
+	
+	"lettera.data" : {"key":"lettera.data", "titolo": "Data ", "template": "text", "fields":[] },
+	"lettera.dataPubblicazioneSito" : {"key":"lettera.dataPubblicazioneSito", "titolo": "Data Pubblicazione Sito", "template": "text", "fields":[] }
+}
+
+
+
+
+

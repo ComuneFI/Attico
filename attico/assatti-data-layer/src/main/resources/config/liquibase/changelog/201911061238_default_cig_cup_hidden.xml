@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    <changeSet author="mazzottada" id="201911061238-1">
+    	<sql>
+    		update tipoatto set ricerca_colonne_nascoste = (if (ricerca_colonne_nascoste is null or length(ricerca_colonne_nascoste) = 0, 'CIG|CUP', CONCAT(ricerca_colonne_nascoste, '|CIG|CUP'))) where CODICE &lt;&gt; 'DD';
+    	</sql>
+    </changeSet>
+</databaseChangeLog>

@@ -1,0 +1,22 @@
+{
+    "cifra2gestattiApp": {
+        "resoconto" : {
+            "home": {
+                "title": "Resocontos",
+                "createLabel": "Create a new Resoconto",
+                "createOrEditLabel": "Create or edit a Resoconto"
+            },
+            "delete": {
+                "question": "Are you sure you want to delete Resoconto {{ id }}?"
+            },
+            "detail": {
+                "title": "Resoconto"
+            },
+            "organoDeliberante": "OrganoDeliberante",
+            "tipo": "Tipo",
+            "idDiogene": "IdDiogene",
+            "dataPubblicazioneSito": "DataPubblicazioneSito",
+            "SedutaGiunta": "SedutaGiunta"
+        }
+    }
+}

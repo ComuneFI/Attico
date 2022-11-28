@@ -1,0 +1,12 @@
+<div>
+	<div id="attoPreamboloEdit" class="form-group" class="col-md-4">
+		
+		<div>
+			<summernote required ng-model="atto.preambolo.testo" config="summernoteOptions"></summernote>
+		</div>
+	</div>
+
+	<div id="attoPreamboloButtons" class="import-formcontrol">
+		<ng-include src="'scripts/app/entities/atto/import-formcontrol.html'" ng-init="codeSezImport='preambolo'"></ng-include>
+	</div>
+</div>

@@ -1,0 +1,98 @@
+<div>
+	<div class="form-group">
+		<label translate="cifra2gestattiApp.atto.ufficio">ufficio</label>
+		<select
+			ng-if="!solaLettura" class="form-control" name="ufficio" ng-model="atto.ufficio"
+			ng-options="ufficio as ufficio.descrizione for ufficio in ufficios track by ufficio.id">
+		</select>
+		<input ng-if="solaLettura" type="text" class="form-control" value="{{atto.ufficio.descrizione}}" />
+	</div>
+
+	<!-- <tipo-materia-form-group tipomaterias="tipomaterias" ng-model="atto"></tipo-materia-form-group> -->
+	<div>
+
+		<!--{{tipomaterias}} {{ngModel}}-->
+		<div class="form-group">
+			<label translate="cifra2gestattiApp.atto.tipoMateria">tipoMateria</label><label ng-if="solaLettura">:&nbsp;</label>
+			<span data-toggle="tooltip"
+				title="<b>GUIDA</b><br/>Indicare obbligatoriamente il Tipo Materia e, nell’ordine, la Materia e la Sottomateria , se prevedono valori associati.<br />"
+				data-html="true" ng-init="initTooltip()">
+				<i class="fa fa-question" ></i>
+			</span>
+			<select ng-if="!solaLettura" class="form-control" name="tipoMateria"
+				ng-model="atto.tipoMateria.id"
+				ng-change="atto.materia = null; atto.sottoMateria = null; sottoMateriaReq=null; materiaReq = !isEmpty(tipomaterias[atto.tipoMateria.id].materie)"
+				ng-options="item.id as item.descrizione for item in sortObject(tipomaterias) | orderBy:'descrizione'"
+				required>
+			</select>
+			<input ng-if="solaLettura" type="text" class="form-control" value="{{atto.tipoMateria.descrizione}}" />
+		</div>
+
+		<!-- {{ngModel.tipoMateria.materie}} -->
+		<div class="form-group">
+			<label ng-if="!materiaReq" translate="cifra2gestattiApp.atto.materiaNotRequired">materia</label>
+			<label ng-if="materiaReq" translate="cifra2gestattiApp.atto.materia">materia</label>
+			<span data-toggle="tooltip"
+				title="<b>GUIDA</b><br/>Indicare obbligatoriamente il Tipo Materia e, nell’ordine, la Materia e la Sottomateria , se prevedono valori associati.<br />"
+				data-html="true" ng-init="initTooltip()">
+				<i class="fa fa-question" ></i>
+			</span>
+			<select
+				ng-if="!solaLettura" class="form-control" name="materia" ng-model="atto.materia.id"
+				ng-required="verificaMateria()"
+				ng-change="atto.sottoMateria = null; sottoMateriaReq = !isEmpty(tipomaterias[atto.tipoMateria.id].materie[atto.materia.id].sottoMaterie)"
+				ng-options="materia.id as materia.descrizione for materia in sortObject(tipomaterias[atto.tipoMateria.id].materie) | orderBy:'descrizione'">
+			</select>
+			<input ng-if="solaLettura" type="text" class="form-control" value="{{atto.materia.descrizione}}" />
+		</div>
+
+		<!-- {{tipomaterias[ngModel.tipoMateria.id].materie}} -->
+		<div class="form-group">
+			<label ng-if="!sottoMateriaReq" translate="cifra2gestattiApp.atto.sottoMateriaNotRequired">sottoMateria</label>
+			<label ng-if="sottoMateriaReq" translate="cifra2gestattiApp.atto.sottoMateria">sottoMateria</label>
+			<span data-toggle="tooltip"
+				title="<b>GUIDA</b><br/>Indicare obbligatoriamente il Tipo Materia e, nell’ordine, la Materia e la Sottomateria , se prevedono valori associati.<br />"
+				data-html="true" ng-init="initTooltip()">
+				<i class="fa fa-question" ></i>
+			</span>
+			<select ng-if="!solaLettura" class="form-control" name="sottoMateria"
+				ng-model="atto.sottoMateria.id"
+				ng-required="verificaSottoMateria() "
+				ng-options="sottoMateria.id as sottoMateria.descrizione for sottoMateria in sortObject(tipomaterias[atto.tipoMateria.id].materie[atto.materia.id].sottoMaterie) | orderBy:'descrizione'">
+			</select>
+			<input ng-if="solaLettura" type="text" class="form-control" value="{{atto.sottoMateria.descrizione}}" />
+		</div>
+		<!-- {{tipomaterias[ngModel.tipoMateria.id].materie[ngModel.materia.id].sottoMaterie}} -->
+	</div>
+
+
+	<div class="form-group">
+		<label translate="cifra2gestattiApp.atto.riservato">Riservato</label>
+		<span ng-if="showErrAllPubblicabile" style="color: red;">Controllare la
+				sezione degli allegati in quanto sono stati inseriti allegati pubblicabili nonostante l'atto sia riservato.</span>
+		<span data-toggle="tooltip"
+			title="<b>GUIDA</b><br/>Impostare a <strong>Si</strong> se l’Atto non deve essere pubblicato.<br>Impostare a <strong>No</strong> se l’Atto è da pubblicare.<br />"
+			data-html="true" ng-init="initTooltip()">
+			<i class="fa fa-question" ></i>
+		</span>
+		<select ng-model="atto.riservato" class="form-control" required
+			ng-change="setCampiObbligatoriSez2()"
+			ng-options="item.valore as item.label for item in [{valore:true,label:'SI'},{valore:false,label:'NO'}]">
+		</select>
+	</div>
+	<div class="form-group">
+		<label translate="cifra2gestattiApp.atto.pubblicazioneIntegrale">PubblicazioneIntegrale</label>
+		<span data-toggle="tooltip"
+			title="<b>GUIDA</b><br/>Impostare a <strong>Si</strong> se l’Atto deve essere pubblicato integralmente.<br>Impostare a <strong>No</strong> se l’Atto deve essere pubblicato nella versione con omissis.<br />"
+			data-html="true" ng-init="initTooltip()">
+			<i class="fa fa-question" ></i>
+		</span>
+		
+		<select ng-model="atto.pubblicazioneIntegrale" class="form-control"
+			ng-required="!atto.riservato" ng-disabled="atto.riservato == true"
+			ng-options="item.valore as item.label for item in [{valore:true,label:'SI'},{valore:false,label:'NO'}]"
+			ng-change="verificaAllegatiRiservato()">
+		</select>
+		<!-- <input ng-if="atto.riservato == false" type="text" ng-model="atto.pubblicazioneIntegrale" value="null"  class="form-control"  disabled/> -->
+	</div>
+</div>

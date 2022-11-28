@@ -1,0 +1,31 @@
+{
+    "cifra2gestattiApp": {
+        "delegaTask" : {
+            "home": {
+                "title": "Lista Deleghe per Singola Lavorazione",
+                "createLabel": "Crea nuova Delega",
+                "editLabel": "Modifica Delega",
+                "createOrEditLabel": "Crea o Modifica una Delega"
+            },
+            "delete": {
+                 "question": "Sei sicuro di voler rimuovere la delega {{ id }}?"
+            },
+            "detail": {
+                "title": "Delega"
+            },
+            "delegante": "Delegante",
+            "delegato": "Delegato",
+            "atto":"Atto",
+            "lavorazione":"Lavorazione",
+            "lavorazioneDelegata":"Lavorazione Delegata",
+            "codiceCifra":"Codice Atto",
+            "oggetto":"Oggetto",
+            "tipoAtto":"Tipo Atto",
+            "assegnatario":"In Carico A",
+            "tipo":"Tipologia di delega",
+            "tipoOneTaskOnly":"Singolo Task",
+            "tipoFullIter":"Intero Iter",
+            "guida":"<b>GUIDA</b><br/><ol><li>Selezionare il profilo sul quale si necessita inserire la delega \u0028Delegante\u0029;</li><li>Ricercare e selezionare tra i task assegnati al delegato quello che si intende delegare;</li><li>Scegliere il profilo delegato tra quelli proposti e confermare l\u0027inserimento della delega.</li></ol>"
+        }
+    }
+}

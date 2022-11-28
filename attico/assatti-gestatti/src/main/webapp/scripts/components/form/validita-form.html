@@ -1,0 +1,28 @@
+<div class="form-group" >
+<!--  	<div class="form-group col-md-6" >
+ 		<i class="fa fa-calendar"></i><label translate="cifra2gestattiApp.aoo.validodal">Validodal</label>
+ 		<input type="text" class="form-control"  class="form-control" name="validodal" ng-disabled="ngDisabled"
+ 		data-max-date="{{ngModel.validoal}}" 
+ 		ng-model="ngModel.validodal" bs-datepicker>
+ 	</div>
+
+ 	<div class="form-group col-md-6">
+ 		<i class="fa fa-calendar"></i><label translate="cifra2gestattiApp.aoo.validoal">Validoal</label>
+ 		<input type="text" class="form-control"  class="form-control" name="validoal" ng-disabled="ngDisabled"
+ 		data-min-date="{{ngModel.validodal}}" 
+ 		ng-model="ngModel.validoal" bs-datepicker>
+ 	</div> -->
+
+ 	<div class="form-group col-md-6" >
+ 		<i class="fa fa-calendar"></i>&nbsp;<label translate="global.messages.validodal">Validodal</label>
+ 		<input type="text" class="form-control"  class="form-control" name="validodal" ng-disabled="true"
+ 		value="{{ ngModel.validodal| date:dd-MM-yyyy}}" >
+ 	</div>
+
+ 	<div class="form-group col-md-6">
+ 		<i class="fa fa-calendar"></i>&nbsp;<label translate="global.messages.validoal">Validoal</label>
+ 		<input type="text" class="form-control"  class="form-control" name="validoal" ng-disabled="true"
+ 		value="{{ ngModel.validoal| date:dd-MM-yyyy}}" >
+ 	</div>
+
+</div>

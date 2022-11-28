@@ -1,0 +1,18 @@
+{
+    "cifra2gestattiApp": {
+        "tipoIter" : {
+            "home": {
+                "title": "TipoIters",
+                "createLabel": "Create a new TipoIter",
+                "createOrEditLabel": "Create or edit a TipoIter"
+            },
+            "delete": {
+                "question": "Are you sure you want to delete TipoIter {{ id }}?"
+            },
+            "detail": {
+                "title": "TipoIter"
+            },
+            "descrizione": "Descrizione"
+        }
+    }
+}

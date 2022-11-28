@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    <changeSet author="magria" id="202103081800-0001">
+    	<sql>
+			INSERT INTO tipologia_ricerca (id,code,descrizione) VALUES (3,'POST_SEDUTA_GIUNTA','Ricerca Atti Giunta In Corso Post Seduta');
+			INSERT INTO tipologia_ricerca (id,code,descrizione) VALUES (4,'POST_SEDUTA_CONSIGLIO','Ricerca Atti Consiglio In Corso Post Seduta');
+			INSERT INTO task_per_ricerca (id,tipoatto_id,key_code,descrizione,type_code) VALUES (13,4,'coordinamento_testo_giunta','Coordinamento testo','TASK');
+			INSERT INTO task_per_ricerca (id,tipoatto_id,key_code,descrizione,type_code) VALUES (14,4,'UserTask_06njlhn','Visto Segretario seduta','TASK');
+			INSERT INTO task_per_ricerca (id,tipoatto_id,key_code,descrizione,type_code) VALUES (15,4,'UserTask_0u5rxyj','Genera Atto','TASK');
+			INSERT INTO task_per_ricerca (id,tipoatto_id,key_code,descrizione,type_code) VALUES (16,4,'Task_1fmeihz','Firma Presidente seduta','TASK');
+			INSERT INTO task_per_ricerca (id,tipoatto_id,key_code,descrizione,type_code) VALUES (17,4,'Task_1fj0rat','Firma Segretario seduta','TASK');
+			INSERT INTO task_per_ricerca (id,tipoatto_id,key_code,descrizione,type_code) VALUES (18,4,'Task_1fvjyom','Pubblica atto','TASK');
+			INSERT INTO tipologia_ricerca_task (tip_ricerca_id,task_id) VALUES (3,13);
+			INSERT INTO tipologia_ricerca_task (tip_ricerca_id,task_id) VALUES (3,14);
+			INSERT INTO tipologia_ricerca_task (tip_ricerca_id,task_id) VALUES (3,15);
+			INSERT INTO tipologia_ricerca_task (tip_ricerca_id,task_id) VALUES (3,16);
+			INSERT INTO tipologia_ricerca_task (tip_ricerca_id,task_id) VALUES (3,17);
+			INSERT INTO tipologia_ricerca_task (tip_ricerca_id,task_id) VALUES (3,18);
+		</sql>
+    </changeSet>
+</databaseChangeLog>

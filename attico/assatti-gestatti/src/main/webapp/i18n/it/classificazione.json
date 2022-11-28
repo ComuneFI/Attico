@@ -1,0 +1,26 @@
+{
+    "cifra2gestattiApp": {
+        "classificazione" : {
+            "home": {
+                "title": "Classificazione",
+                "createLabel": "Crea una Classificazione",
+                "createOrEditLabel": "Crea o modifica una Classificazione"
+            },
+            "delete": {
+                "question": "Sei sicuro di voler eliminare la classificazione?"
+            },
+            "detail": {
+                "title": "Classificazione"
+            },
+            "idTitolario": "Id Titolario",
+            "idVoceTitolario": "Id Voce Titolario",
+            "titolario": "Titolario",
+            "voceTitolario": "Voce Titolario",
+            "validoDal": "Valida dal",
+            "validoAl": "Valida al",
+            "tipoAtto": "Tipo Atto",
+            "aoo": "Ufficio",
+            "tipoDocumentoSerie": "Tipo Documento Serie"
+        }
+    }
+}

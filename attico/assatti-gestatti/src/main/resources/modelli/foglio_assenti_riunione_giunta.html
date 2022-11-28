@@ -1,0 +1,82 @@
+<p><br></p>
+
+<p><br></p>
+
+<p><br></p>
+
+<p><br></p>
+
+<p style="text-align: center;"><span style="font-weight: bold;font-family: Helvetica;font-size: 18px;">Seduta di Giunta Ordinaria del <span th:if="${sedutaGiunta.secondaConvocazioneInizio != null}">[[${sedutaGiunta.secondaConvocazioneInizio.toString("dd/MM/yyyy")}]]</span><span th:if="${sedutaGiunta.secondaConvocazioneInizio == null &amp;&amp; sedutaGiunta.primaConvocazioneInizio != null}">[[${sedutaGiunta.primaConvocazioneInizio.toString("dd/MM/yyyy")}]]</span></span><b style="font-weight: bold;font-family: Helvetica;font-size: 18px;"><br><br>Delibere adottate dal n. <span th:if="${rilevazioneAssenzaDto.progressivoDiInizio != null}">[[${rilevazioneAssenzaDto.progressivoDiInizio}]]</span>  al n. <span th:if="${rilevazioneAssenzaDto.progressivoDiFine != null}">[[${rilevazioneAssenzaDto.progressivoDiFine}]]</span></b></p>
+
+<div style="margin-top:20px; margin-left:5px; text-align: left;"><div style="font-family: Helvetica; font-size: 28px; line-height: 28px; text-align: center;"><span style="font-size: 18px;">Rilevazione assenza Assessori durante la riunione di Giunta:</span><br></div>
+
+</div>
+
+<p></p>
+
+<p style="text-align: center;font-family: Helvetica; font-size: 18px; font-weight: bold;" th:if="${rilevazioneAssenzaDto.righeAssenti == null || rilevazioneAssenzaDto.righeAssenti.size() <= 0}">
+Nessun Assente
+</p>
+
+<table width="100%" style="border: 1px solid black !important;" th:if="${rilevazioneAssenzaDto.righeAssenti != null && rilevazioneAssenzaDto.righeAssenti.size() > 0}">
+
+	<tbody>
+
+<tr style="border: 1px solid black !important; background-color:#99ccff;">
+
+<th style="text-align: center; border: 1px solid black !important;"><span style="font-family: Helvetica; font-size: 14px;">DAL N.</span></th>
+
+<th style="text-align: center; border: 1px solid black !important;"><span style="font-family: Helvetica; font-size: 14px;">AL N.</span></th>
+
+<th style="text-align: center; border: 1px solid black !important;"><span style="font-family: Helvetica; font-size: 14px;">ASSENTI</span></th>
+
+</tr>
+
+<tr th:each="item: ${rilevazioneAssenzaDto.righeAssenti}" style="border: 1px solid black !important;">
+
+			<td style="font-size: 12px; line-height: 18px; font-weight: bold; padding: 5px; text-align: center; border: 1px solid black !important;" width="15%" valign="top"><p style="margin: 0px;"><span style="font-family: Helvetica; font-size: 14px;">[[${item.numeroDal}]]</span></p>
+
+<span style="font-size: 14px;"></span></td>
+
+			<td style="font-size: 12px; line-height: 18px; font-weight: bold; padding: 5px; text-align: center; border: 1px solid black !important;" width="15%" valign="top"><p style="margin: 0px;"><span style="font-family: Helvetica; font-size: 14px;">[[${item.numeroAl}]]</span></p>
+
+<span style="font-size: 14px;"></span></td>
+
+			<td style="font-size: 12px; line-height: 18px; font-weight: bold; padding: 5px; border: 1px solid black !important;" width="70%" valign="top"><p style="margin:0px;"><span style="font-family: Helvetica; font-size: 14px;">[[${item.assenti}]]</span></p>
+
+<span style="font-size: 14px;"></span></td>
+
+		</tr>
+
+</tbody>
+
+</table>
+
+&nbsp;
+<table style="page-break-inside:avoid;" width="100%">
+	<tbody>
+		<tr th:each="item: ${sedutaGiunta.sottoscrittoriresoconto}">
+			<td style="font-family: Helvetica; font-size: 12px; line-height: 18px; padding: 5px;" width="50%" valign="top">
+			</td>
+			<td style="font-family: Helvetica; font-size: 12px; line-height: 18px; padding: 5px;" width="50%" valign="top" align="center">
+				<br>
+				<p>
+					<span>
+						<span th:if="${item.qualificaProfessionale != null}" style="font-size: 14px;">[[${item.qualificaProfessionale.denominazione}]]</span><br>
+					</span>
+				</p>
+				<span style="font-size: 14px;"></span>
+				<p>	
+					<span>
+						<span th:if="${item.profilo.utente.nome != null}" style="font-size: 14px;">[[${item.profilo.utente.nome}]]</span>
+						<span style="font-size: 14px;"></span>
+						<span th:if="${item.profilo.utente.cognome != null}" style="font-size: 14px;">[[${item.profilo.utente.cognome}]]</span>
+					</span>
+				</p>
+			</td>
+		</tr>
+	</tbody>
+</table>
+
+<br><br>      
+<p style="text-align: justify;" valign="bottom"><span style="font-size: 12px;">Documento informatico firmato digitalmente ai sensi del Testo Unico D.P.R. 28 dicembre 2000, n. 445 e del D.Lgs 7 marzo 2005, n. 82 e norme collegate che sostituisce il testo cartaceo e la firma autografa.</span></p>

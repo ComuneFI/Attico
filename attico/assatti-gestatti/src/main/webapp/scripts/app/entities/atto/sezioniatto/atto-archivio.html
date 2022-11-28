@@ -1,0 +1,98 @@
+<div class="modal fade" id="loginRupModal" tabindex="-1" role="dialog" aria-labelledby="myFascicoloLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        	<ng-form name="loginRupForm" role="form" novalidate show-validation>
+			  <div class="modal-header">
+			  	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			    <h4 class="modal-title">Login RUP</h4>
+			  </div>
+			  <div class="modal-body">
+			  	<div class="form-group">
+					<label>User</label> *
+					<input type="text" class="form-control" name="nome" ng-model="login.rupUser">
+				</div>
+				<div class="form-group">
+					<label>Password</label> *
+					<input type="password" class="form-control" name="nome" ng-model="login.rupPassword">
+				</div>
+			  </div>
+			  <div class="modal-footer">
+	          	<button type="button" class="btn btn-default" data-dismiss="modal">
+	    	        <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+			    </button>
+			    <button type="submit" ng-disabled="!login.rupUser || login.rupUser == '' || !login.rupPassword || login.rupPassword == '' " class="btn btn-primary" ng-click="loginRup(login)">
+			        Accedi
+			    </button>
+			  </div>
+			</ng-form>
+        </div>
+    </div>
+</div>
+
+<div>
+			
+	<div class="form-group">
+		<br>			
+		<label>Identificativo Fascicolo</label>
+		<input type="text" class="form-control" ng-model="atto.fascicoloDiogeneSelection" ng-disabled="true">
+		<br>			
+		<button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#loginRupModal">Ricerca / Crea Fascicolo</button>
+
+		<button ng-if="diogeneConnection == true" type="button" class="btn btn-warning btn-sm" ng-click="atto.fascicoloDiogeneSelection = null; atto.fascicoloDiogene = null">Cancella</button>
+		
+	</div>
+	
+	<div ng-show="waitDiogeneConnection == true">
+		<img src='assets/images/spinner.gif'>
+		Attesa connessione Documentale...
+		<br>
+	</div>
+	<div ng-show="waitDiogeneConnection == false">
+		<br>
+		<br>
+	</div>
+	<div ng-if="diogeneConnection == false">
+		Connessione fallita o credenziali non valide.
+		<br>
+	</div>
+	
+	<div ng-if="diogeneConnection == true">
+	
+		<div class="form-group">
+			<label>Fascicoli recenti</label>
+            <select class="form-control" name="recenti" ng-change="selezionaPreferito(preferito)" ng-model="preferito" ng-options="preferito as 'id: ' + preferito.idFascicolo  + ' - denominazione: ' +  preferito.nomeAggregato for preferito in diogenePreferiti">
+            </select>
+		</div>
+
+		<ol class="breadcrumb">
+			<li><a href="javascript:void(0)" ng-click="sfogliaDefault()"><h4>Fascicoli</h4></a></li>
+			<li ng-if="!$last" ng-repeat="item in historyFascicoli"><a href="javascript:void(0)" ng-click="contenutoFascicolo(item)">{{item.nomeAggregato}}{{item.nome}}</a></li>
+			<li ng-if="fascicolo">{{fascicolo.nomeAggregato}}{{fascicolo.nome}}</li>
+		</ol>
+				
+		<div class="table-responsive" ng-if="aggregati">
+			<table class="table table-striped">
+				<tbody>			
+					<tr ng-show="aggregati.length" ng-repeat="item in aggregati">
+						<td>
+							{{item.nomeAggregato}}{{item.nome}}
+						</td>
+						<td style="text-align:right">
+							<button type="button" class="btn btn-info btn-sm" ng-click="contenutoFascicolo(item)">Sfoglia</button>
+							<button ng-show="selezionaAggregato" type="button" class="btn btn-success btn-sm" ng-click="selezionaFascicolo(item)">Seleziona</button>
+						</td>
+					</tr>
+					<tr ng-show="!aggregati.length">
+						<td colspan="2">Nessun fascicolo</td>
+					</tr>
+					<tr ng-show="creaAggregato">
+						<td colspan="2" style="text-align:right">
+							<button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#creaFascicoloModal" ng-click="initNuovoFascicolo(fascicolo.idAggregato)">Crea nuovo fascicolo</button>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>  	
+	</div>
+	
+</div>

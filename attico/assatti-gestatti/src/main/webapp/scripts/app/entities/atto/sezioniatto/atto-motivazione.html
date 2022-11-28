@@ -1,0 +1,10 @@
+<div>
+	<div id="attoMotivazioneEdit" class="form-group">
+		<div>
+			<summernote required ng-model="atto.motivazione.testo"  config="summernoteOptions"></summernote>
+		</div>
+	</div>
+	<div id="attoMotivazioneButtons" class="import-formcontrol">
+		<ng-include src="'scripts/app/entities/atto/import-formcontrol.html'" ng-init="codeSezImport='motivazione'" ></ng-include>
+	</div>
+</div>

@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    <changeSet author="mazzottada" id="202010021118-001">
+    	<sql>
+    		 INSERT INTO tipodocumento
+			(descrizione, codice, riversamento_tipoatto, dms_content_type)
+			VALUES('Deliberazione di Consiglio Completa', 'DELIBERA_CONSIGLIO_COMPLETA', 0, 'atc:DeliberaType');
+		</sql>
+    </changeSet>
+    <changeSet author="mazzottada" id="202010021118-002">
+    	<sql>
+    		INSERT INTO configurazione_riversamento
+			(tipodocumentoserie_id, validodal,  tipodocumento_id, aoo_id)
+			VALUES((select id from tipodocumentoserie where codice = 'DELIBERA_CONSIGLIO' and enable = 1 limit 1), now(), (select id from tipodocumento where codice = 'DELIBERA_CONSIGLIO_COMPLETA'),  0);
+		</sql>
+    </changeSet>
+    
+     <changeSet author="mazzottada" id="202010021118-003">
+    	<sql>
+    		 INSERT INTO tipodocumento
+			(descrizione, codice, riversamento_tipoatto, dms_content_type)
+			VALUES('Deliberazione di Giunta Completa', 'DELIBERA_GIUNTA_COMPLETA', 0, 'atc:DeliberaType');
+		</sql>
+    </changeSet>
+    <changeSet author="mazzottada" id="202010021118-004">
+    	<sql>
+    		INSERT INTO configurazione_riversamento
+			(tipodocumentoserie_id, validodal,  tipodocumento_id, aoo_id)
+			VALUES((select id from tipodocumentoserie where codice = 'DELIBERA_GIUNTA' and enable = 1 limit 1), now(), (select id from tipodocumento where codice = 'DELIBERA_GIUNTA_COMPLETA'),  0);
+		</sql>
+    </changeSet>
+    
+     <changeSet author="mazzottada" id="202010021118-005">
+    	<sql>
+    		 INSERT INTO tipodocumento
+			(descrizione, codice, riversamento_tipoatto)
+			VALUES('Parere regolarità tecnica Deliberazione di Consiglio', 'PARERE_REG_TECNICA_DC', 0);
+		</sql>
+    </changeSet>
+    <changeSet author="mazzottada" id="202010021118-006">
+    	<sql>
+    		INSERT INTO configurazione_riversamento
+			(tipodocumentoserie_id, validodal,  tipodocumento_id, aoo_id)
+			VALUES((select id from tipodocumentoserie where codice = 'PROPOSTE_DELIBERA_CONSIGLIO' and enable = 1 limit 1), now(), (select id from tipodocumento where codice = 'PARERE_REG_TECNICA_DC'),  0);
+		</sql>
+    </changeSet>
+    
+    <changeSet author="mazzottada" id="202010021118-007">
+    	<sql>
+    		 INSERT INTO tipodocumento
+			(descrizione, codice, riversamento_tipoatto)
+			VALUES('Parere regolarità tecnica Deliberazione di Giunta', 'PARERE_REG_TECNICA_DG', 0);
+		</sql>
+    </changeSet>
+    <changeSet author="mazzottada" id="202010021118-008">
+    	<sql>
+    		INSERT INTO configurazione_riversamento
+			(tipodocumentoserie_id, validodal,  tipodocumento_id, aoo_id)
+			VALUES((select id from tipodocumentoserie where codice = 'PROPOSTE_DELIBERA_GIUNTA' and enable = 1 limit 1), now(), (select id from tipodocumento where codice = 'PARERE_REG_TECNICA_DG'),  0);
+		</sql>
+    </changeSet>
+    
+    <changeSet author="mazzottada" id="202010021118-009">
+    	<sql>
+    		 INSERT INTO tipodocumento
+			(descrizione, codice, riversamento_tipoatto)
+			VALUES('Parere regolarità tecnica Deliberazione per il Consiglio', 'PARERE_REG_TECNICA_DPC', 0);
+		</sql>
+    </changeSet>
+    <changeSet author="mazzottada" id="202010021118-010">
+    	<sql>
+    		INSERT INTO configurazione_riversamento
+			(tipodocumentoserie_id, validodal,  tipodocumento_id, aoo_id)
+			VALUES((select id from tipodocumentoserie where codice = 'PROPOSTE_DELIBERA_PER_CONSIGLIO' and enable = 1 limit 1), now(), (select id from tipodocumento where codice = 'PARERE_REG_TECNICA_DPC'),  0);
+		</sql>
+    </changeSet>
+    <changeSet author="mazzottada" id="202010021118-011">
+    	<sql>
+    		ALTER TABLE tipodocumento ADD specifica_filename varchar(255) NULL;
+		</sql>
+    </changeSet>
+    <changeSet author="mazzottada" id="202010021118-013">
+    	<sql>
+    		update tipodocumento set specifica_filename = 'Proposta_Deliberazione_di_Consiglio-$datiatto_PARERE_REG_TECNICA' where codice = 'PARERE_REG_TECNICA_DC';
+    		update tipodocumento set specifica_filename = 'Proposta_Deliberazione_per_il_Consiglio-$datiatto_PARERE_REG_TECNICA' where codice = 'PARERE_REG_TECNICA_DPC';
+    		update tipodocumento set specifica_filename = 'Proposta_Deliberazione_di_Giunta-$datiatto_PARERE_REG_TECNICA' where codice = 'PARERE_REG_TECNICA_DG';
+		</sql>
+    </changeSet>
+    
+    
+    <changeSet author="mazzottada" id="202010021118-014">
+    	<sql>
+    		 INSERT INTO tipodocumento
+			(descrizione, codice, specifica_filename, riversamento_tipoatto)
+			VALUES('Parere regolarità contabile Deliberazione di Consiglio', 'PARERE_REG_CONTABILE_DC', 'Proposta_Deliberazione_di_Consiglio-$datiatto_PARERE_REG_CONTABILE', 0);
+		</sql>
+    </changeSet>
+    <changeSet author="mazzottada" id="202010021118-015">
+    	<sql>
+    		INSERT INTO configurazione_riversamento
+			(tipodocumentoserie_id, validodal,  tipodocumento_id, aoo_id)
+			VALUES((select id from tipodocumentoserie where codice = 'PROPOSTE_DELIBERA_CONSIGLIO' and enable = 1 limit 1), now(), (select id from tipodocumento where codice = 'PARERE_REG_CONTABILE_DC'),  0);
+		</sql>
+    </changeSet>
+    
+    <changeSet author="mazzottada" id="202010021118-016">
+    	<sql>
+    		 INSERT INTO tipodocumento
+			(descrizione, codice, specifica_filename, riversamento_tipoatto)
+			VALUES('Parere regolarità contabile Deliberazione per il Consiglio', 'PARERE_REG_CONTABILE_DPC', 'Proposta_Deliberazione_per_il_Consiglio-$datiatto_PARERE_REG_CONTABILE', 0);
+		</sql>
+    </changeSet>
+    <changeSet author="mazzottada" id="202010021118-017">
+    	<sql>
+    		INSERT INTO configurazione_riversamento
+			(tipodocumentoserie_id, validodal,  tipodocumento_id, aoo_id)
+			VALUES((select id from tipodocumentoserie where codice = 'PROPOSTE_DELIBERA_PER_CONSIGLIO' and enable = 1 limit 1), now(), (select id from tipodocumento where codice = 'PARERE_REG_CONTABILE_DPC'),  0);
+		</sql>
+    </changeSet>
+    
+    <changeSet author="mazzottada" id="202010021118-018">
+    	<sql>
+    		 INSERT INTO tipodocumento
+			(descrizione, codice, specifica_filename, riversamento_tipoatto)
+			VALUES('Parere regolarità contabile Deliberazione di Giunta', 'PARERE_REG_CONTABILE_DG', 'Proposta_Deliberazione_di_Giunta-$datiatto_PARERE_REG_CONTABILE', 0);
+		</sql>
+    </changeSet>
+    <changeSet author="mazzottada" id="202010021118-019">
+    	<sql>
+    		INSERT INTO configurazione_riversamento
+			(tipodocumentoserie_id, validodal,  tipodocumento_id, aoo_id)
+			VALUES((select id from tipodocumentoserie where codice = 'PROPOSTE_DELIBERA_GIUNTA' and enable = 1 limit 1), now(), (select id from tipodocumento where codice = 'PARERE_REG_CONTABILE_DG'),  0);
+		</sql>
+    </changeSet>
+    
+    <changeSet author="mazzottada" id="202010021118-020">
+    	<sql>
+    		INSERT INTO `tipo_azione` (`codice`, `descrizione`) VALUES ('regolarita_tecnica', 'Regolarità tecnica');
+    		INSERT INTO `tipo_azione` (`codice`, `descrizione`) VALUES ('regolarita_contabile', 'Regolarità contabile');
+		</sql>
+    </changeSet>
+    <changeSet author="mazzottada" id="202010021118-021">
+    	<sql>
+    		update tipodocumento set dms_content_type = 'atc:AllegatoType' where codice like 'PARERE_REG_CONTABILE_%' or codice like 'PARERE_REG_TECNICA_%' or codice like '%_COMPLETA';
+    		update tipodocumento set dms_content_type = 'atc:AllegatoType' where codice like 'PROPOSTA_%' and dms_content_type is null;
+		</sql>
+    </changeSet>
+    
+</databaseChangeLog>

@@ -1,0 +1,24 @@
+{
+    "cifra2gestattiApp": {
+        "diogeneReport" : {
+            "home": {
+                "title": "Report Documentale",
+                "createLabel": "Create a new DiogeneReport",
+                "createOrEditLabel": "Create or edit a DiogeneReport"
+            },
+            "delete": {
+                "question": "Are you sure you want to delete DiogeneReport {{ id }}?"
+            },
+            "detail": {
+                "title": "DiogeneReport"
+            },
+            "data": "Data",
+            "destinazione": "Destinazione",
+            "nomeDocumento": "Nome documento",
+            "tipoDocumento": "Tipo documento serie",
+            "stato": "Stato",
+            "errore": "Errore",
+            "documento": "Documento"
+        }
+    }
+}

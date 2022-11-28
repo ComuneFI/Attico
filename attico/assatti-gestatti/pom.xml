@@ -1,0 +1,327 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+   
+    <artifactId>assatti-gestatti</artifactId>
+    <parent>
+		<groupId>it.linksmt.assatti</groupId>
+		<artifactId>assatti</artifactId>
+		<version>1.0</version>
+	</parent>
+    
+    <properties>
+        <spring-security.version>4.0.0.RELEASE</spring-security.version>
+        <usertype-core.version>4.0.0.GA</usertype-core.version>
+        
+        <dropwizard-metrics.version>3.1.2</dropwizard-metrics.version>
+        <metrics-spring.version>3.0.4</metrics-spring.version>
+        
+	    <timestamp>${maven.build.timestamp}</timestamp>
+	    <maven.build.timestamp.format>yyyyMMddHHmmss</maven.build.timestamp.format>
+    </properties>
+    
+    <packaging>war</packaging>
+    
+    <dependencies>
+		<dependency>
+		    <groupId>org.apache.logging.log4j</groupId>
+		    <artifactId>log4j-core</artifactId>
+		    <version>${log4j2.version}</version>
+		</dependency>
+
+		<dependency>
+		    <groupId>org.apache.logging.log4j</groupId>
+		    <artifactId>log4j-api</artifactId>
+		    <version>${log4j2.version}</version>
+		</dependency>
+		
+		<!-- SPRING BOOT -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-actuator</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-autoconfigure</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-loader-tools</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-jersey</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-logging</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-mail</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <exclusions>
+                <exclusion>
+                    <artifactId>spring-boot-starter-tomcat</artifactId>
+                    <groupId>org.springframework.boot</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-websocket</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-ws</artifactId>
+        </dependency>
+        <dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		
+    
+    	<!-- DIPENDENZE EREDITATE -->
+    	<dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context-support</artifactId>
+        </dependency>
+
+        
+        <!-- DIPENDENZE SPECIFICHE DEL MODULO -->
+        <dependency>
+      	  <artifactId>assatti-service-layer</artifactId>
+      	  <groupId>it.linksmt.assatti</groupId>
+      	  <version>${assatti.version}</version>
+		</dependency>
+		<dependency>
+      	  <artifactId>assatti-sso-comunefirenze</artifactId>
+      	  <groupId>it.linksmt.assatti</groupId>
+      	  <version>${assatti.version}</version>
+		</dependency>
+        
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-messaging</artifactId>
+            <version>${spring-security.version}</version>
+        </dependency>
+        
+        <!-- Fix problema di sovrapposizione librerie NekoHTML -->
+        <dependency>
+            <groupId>xml-apis</groupId>
+			<artifactId>xml-apis</artifactId>
+			<version>1.4.01</version>
+		</dependency>
+        
+        
+        <!-- UTILITY -->
+        <dependency>
+            <groupId>com.thoughtworks.xstream</groupId>
+            <artifactId>xstream</artifactId>
+            <version>1.4.4</version>
+        </dependency>
+        
+        
+        <!-- METRICS -->
+        <dependency>
+            <groupId>com.ryantenney.metrics</groupId>
+            <artifactId>metrics-spring</artifactId>
+            <version>${metrics-spring.version}</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>metrics-annotation</artifactId>
+                    <groupId>com.codahale.metrics</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>metrics-core</artifactId>
+                    <groupId>com.codahale.metrics</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>metrics-healthchecks</artifactId>
+                    <groupId>com.codahale.metrics</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+		<dependency>
+            <groupId>io.dropwizard.metrics</groupId>
+            <artifactId>metrics-annotation</artifactId>
+            <version>${dropwizard-metrics.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.dropwizard.metrics</groupId>
+            <artifactId>metrics-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.dropwizard.metrics</groupId>
+            <artifactId>metrics-graphite</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.dropwizard.metrics</groupId>
+            <artifactId>metrics-healthchecks</artifactId>
+            <version>${dropwizard-metrics.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.dropwizard.metrics</groupId>
+            <artifactId>metrics-json</artifactId>
+            <version>${dropwizard-metrics.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.dropwizard.metrics</groupId>
+            <artifactId>metrics-jvm</artifactId>
+            <version>${dropwizard-metrics.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.dropwizard.metrics</groupId>
+            <artifactId>metrics-servlet</artifactId>
+            <version>${dropwizard-metrics.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.dropwizard.metrics</groupId>
+            <artifactId>metrics-servlets</artifactId>
+            <exclusions>
+                <exclusion>
+                    <artifactId>metrics-healthchecks</artifactId>
+                    <groupId>io.dropwizard.metrics</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+        	<groupId>it.linksmt.assatti</groupId>
+        	<artifactId>assatti-pubblicazione-albo-comunefirenze-client</artifactId>
+        	<version>1.0</version>
+        </dependency>
+        <dependency>
+        	<groupId>it.linksmt.assatti</groupId>
+        	<artifactId>assatti-recuperoinfo-albo-comunefirenze-client</artifactId>
+        	<version>1.0</version>
+        </dependency>
+        <dependency>
+        	<groupId>it.linksmt.assatti</groupId>
+        	<artifactId>assatti-pubblicazione-trasparenza-default-client</artifactId>
+        	<version>1.0</version>
+        </dependency>
+        <dependency>
+        	<groupId>it.linksmt.assatti</groupId>
+        	<artifactId>assatti-contabilita-comunefirenze-client</artifactId>
+        	<version>1.0</version>
+        </dependency>
+        <dependency>
+        	<groupId>it.linksmt.assatti</groupId>
+        	<artifactId>assatti-dms-comunefirenze-converter</artifactId>
+        	<version>1.0</version>
+        </dependency>
+        <dependency>
+		    <groupId>org.apache.commons</groupId>
+		    <artifactId>commons-crypto</artifactId>
+		    <version>1.0.0</version>
+		</dependency>
+    </dependencies>
+    <profiles>
+    
+	    <profile>
+			<id>default</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+		</profile>
+		<profile>
+			<id>custom</id>
+			<activation>
+				<property>
+					<name>comune</name>
+				</property>
+			</activation>
+			<properties>
+				<environment>${comune}</environment>
+			</properties>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-war-plugin</artifactId>
+						<configuration>
+							<webResources>
+								<resource>
+					            	<filtering>true</filtering>
+					                <directory>environments/${environment}/webapp</directory>
+					                <includes>
+					                    <include>**/index.html</include>
+					                </includes>
+					            </resource>
+								<resource><!-- this is relative to the pom.xml directory -->
+									<directory>${basedir}/environments/${environment}/webapp</directory>
+								</resource>
+								<resource>
+									<directory>${basedir}/environments/${environment}/resources</directory>
+									<targetPath>WEB-INF/classes</targetPath>
+								</resource>
+							</webResources>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+
+    <build>
+        <resources>
+            <resource>
+                <filtering>true</filtering>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>**/*.xml</include>
+                    <include>**/*.properties</include>
+                </includes>
+            </resource>
+            <resource>
+                <filtering>false</filtering>
+                <directory>src/main/resources</directory>
+                <excludes>
+                    <exclude>**/*.xml</exclude>
+                    <exclude>**/*.properties</exclude>
+                </excludes>
+            </resource>
+        </resources>
+        <finalName>ROOT</finalName>
+        
+        <plugins>
+          <plugin>
+	        <groupId>org.apache.maven.plugins</groupId>
+	        <artifactId>maven-war-plugin</artifactId>
+	        <version>2.3</version>
+	        <configuration>
+	          <failOnMissingWebXml>false</failOnMissingWebXml>
+	        </configuration>
+	      </plugin>
+        </plugins>
+        
+    </build>
+        
+    
+</project>

@@ -1,0 +1,31 @@
+{
+    "cifra2gestattiApp": {
+        "avanzamento" : {
+            "home": {
+                "title": "Storico Lavorazioni",
+                "createLabel": "Crea un nuovo Avanzamento",
+                "createOrEditLabel": "Crea o modifica un Avanzamento"
+            },
+            "delete": {
+                "question": "Sei sicuro di voler cancellare Avanzamento con ID {{ id }}?"
+            },
+            "detail": {
+                "title": "Avanzamento"
+            },
+            "dataAttivita": "DataAttivita",
+            "note": "Note",
+            "Atto": "Atto",
+            "Stato": "Stato",
+            "Azione": "Azione",
+            "Profilo": "Profilo",
+            "Resoconto": "Resoconto",
+            "Lettera": "Lettera",
+            "Parere": "Parere",
+            "Verbale": "Verbale",
+            "OrdineGiorno": "OrdineGiorno",
+            "Lavorazione": "Lavorazione",
+            "Attivita": "Attivita",
+            "Utente": "Utente"
+        }
+    }
+}

@@ -1,0 +1,23 @@
+{
+    "cifra2gestattiApp": {
+        "faq" : {
+            "home": {
+                "title": "FAQs",
+                "createLabel": "Crea una nuova Faq",
+                "createOrEditLabel": "Crea o modifica una Faq"
+            },
+            "delete": {
+                "question": "Siete sicuri di voler cancellare la Faq {{ id }}?"
+            },
+            "detail": {
+                "title": "Faq"
+            },
+            
+            "domanda": "Domanda",
+            "risposta": "Risposta",
+            "categoria": "Categoria",
+            "aoo": "Ufficio",
+            "pubblica": "Pubblica"
+        }
+    }
+}

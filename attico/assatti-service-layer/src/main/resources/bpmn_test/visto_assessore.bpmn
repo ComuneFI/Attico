@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_1y2yzt7" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="1.14.0">
+  <bpmn:collaboration id="Collaboration_036lgbc">
+    <bpmn:participant id="Participant_18qdcyl" name="assessore" processRef="visto_assessore_test" />
+    <bpmn:participant id="Participant_07fs123" name="Istruttoria e Verifiche" processRef="Process_1xkf6hu" />
+    <bpmn:participant id="Participant_1s02o46" name="Ragioneria" processRef="Process_0nwkpq9" />
+    <bpmn:participant id="Participant_08d45bp" name="segreteria_giunta" processRef="Process_1h1dwrc" />
+    <bpmn:messageFlow id="MessageFlow_125wepo" name="Richiesta Visto Assessore" sourceRef="Participant_07fs123" targetRef="StartEvent_03fm3pp" />
+    <bpmn:messageFlow id="MessageFlow_1x8yvzt" name="Visto Assessore Ok" sourceRef="SendTask_0cjkbtu" targetRef="Participant_08d45bp" />
+    <bpmn:messageFlow id="MessageFlow_0it3u1f" sourceRef="Participant_1s02o46" targetRef="BoundaryEvent_13jml3x" />
+  </bpmn:collaboration>
+  <bpmn:process id="visto_assessore_test" name="Processo di Test per Visto Assessore" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_03fm3pp">
+      <bpmn:extensionElements>
+        <camunda:executionListener event="end">
+          <camunda:script scriptFormat="groovy">import java.util.ArrayList
+
+ArrayList lstAssessori = new ArrayList();
+lstAssessori.add("assessore1")
+lstAssessori.add("assessore2")
+
+execution.setVariable("LISTA_ASSESSORI", lstAssessori)</camunda:script>
+        </camunda:executionListener>
+      </bpmn:extensionElements>
+      <bpmn:outgoing>SequenceFlow_1asfsls</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_1bk9uf8" messageRef="Message_0wye4a7" />
+    </bpmn:startEvent>
+    <bpmn:userTask id="UserTask_1f9moni" name="Visto Assessore">
+      <bpmn:incoming>SequenceFlow_1asfsls</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1g1rqlg</bpmn:outgoing>
+      <bpmn:multiInstanceLoopCharacteristics isSequential="true" camunda:collection="LISTA_ASSESSORI" camunda:elementVariable="ASSESSORE_VISTO" />
+    </bpmn:userTask>
+    <bpmn:sendTask id="SendTask_0cjkbtu" name="Visto Ok" camunda:class="it.linksmt.assatti.testbpmn.sendtask.SendVistoAssessoreOk">
+      <bpmn:incoming>SequenceFlow_1g1rqlg</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1l7nkg3</bpmn:outgoing>
+    </bpmn:sendTask>
+    <bpmn:sequenceFlow id="SequenceFlow_1l7nkg3" sourceRef="SendTask_0cjkbtu" targetRef="EndEvent_0ex23h1" />
+    <bpmn:sequenceFlow id="SequenceFlow_1g1rqlg" sourceRef="UserTask_1f9moni" targetRef="SendTask_0cjkbtu" />
+    <bpmn:sequenceFlow id="SequenceFlow_1asfsls" sourceRef="StartEvent_03fm3pp" targetRef="UserTask_1f9moni" />
+    <bpmn:endEvent id="EndEvent_0zjpadb" name="Esito Non Conforme Ragioneria">
+      <bpmn:incoming>SequenceFlow_1tjhkn8</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_1tjhkn8" sourceRef="BoundaryEvent_13jml3x" targetRef="EndEvent_0zjpadb" />
+    <bpmn:endEvent id="EndEvent_0ex23h1">
+      <bpmn:incoming>SequenceFlow_1l7nkg3</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:boundaryEvent id="BoundaryEvent_13jml3x" attachedToRef="UserTask_1f9moni">
+      <bpmn:extensionElements>
+        <camunda:executionListener event="start">
+          <camunda:script scriptFormat="groovy">println('TEST RICEZIONE: PROPOSTA_NON_CONFORME_ASSESSORE')
+</camunda:script>
+        </camunda:executionListener>
+      </bpmn:extensionElements>
+      <bpmn:outgoing>SequenceFlow_1tjhkn8</bpmn:outgoing>
+      <bpmn:messageEventDefinition messageRef="Message_0pp291w" />
+    </bpmn:boundaryEvent>
+  </bpmn:process>
+  <bpmn:process id="Process_1xkf6hu" isExecutable="false" />
+  <bpmn:process id="Process_0nwkpq9" isExecutable="false" />
+  <bpmn:process id="Process_1h1dwrc" isExecutable="false" />
+  <bpmn:message id="Message_0wye4a7" name="RICHIESTA_VISTO_ASSESSORE" />
+  <bpmn:message id="Message_0pp291w" name="PROPOSTA_NON_CONFORME_ASSESSORE" />
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_036lgbc">
+      <bpmndi:BPMNShape id="Participant_18qdcyl_di" bpmnElement="Participant_18qdcyl">
+        <dc:Bounds x="246" y="441" width="479" height="323" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="StartEvent_03fm3pp_di" bpmnElement="StartEvent_03fm3pp">
+        <dc:Bounds x="302" y="521" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="275" y="559" width="0" height="13" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="UserTask_1f9moni_di" bpmnElement="UserTask_1f9moni">
+        <dc:Bounds x="403" y="499" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="SendTask_0cjkbtu_di" bpmnElement="SendTask_0cjkbtu">
+        <dc:Bounds x="403" y="634" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_0ex23h1_di" bpmnElement="EndEvent_0ex23h1">
+        <dc:Bounds x="571" y="656" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="499" y="695" width="90" height="13" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1l7nkg3_di" bpmnElement="SequenceFlow_1l7nkg3">
+        <di:waypoint x="503" y="674" />
+        <di:waypoint x="571" y="674" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="492" y="652.5" width="90" height="13" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1g1rqlg_di" bpmnElement="SequenceFlow_1g1rqlg">
+        <di:waypoint x="453" y="579" />
+        <di:waypoint x="453" y="634" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="423" y="600.5" width="0" height="13" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1asfsls_di" bpmnElement="SequenceFlow_1asfsls">
+        <di:waypoint x="338" y="539" />
+        <di:waypoint x="403" y="539" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="326.5" y="518" width="0" height="13" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Participant_07fs123_di" bpmnElement="Participant_07fs123">
+        <dc:Bounds x="246" y="1" width="477" height="129" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="MessageFlow_125wepo_di" bpmnElement="MessageFlow_125wepo">
+        <di:waypoint x="318" y="130" />
+        <di:waypoint x="318" y="521" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="233" y="191" width="74" height="25" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Participant_1s02o46_di" bpmnElement="Participant_1s02o46">
+        <dc:Bounds x="389" y="209" width="334" height="126" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Participant_08d45bp_di" bpmnElement="Participant_08d45bp">
+        <dc:Bounds x="246" y="824" width="479" height="121" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="MessageFlow_1x8yvzt_di" bpmnElement="MessageFlow_1x8yvzt">
+        <di:waypoint x="453" y="714" />
+        <di:waypoint x="453" y="824" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="361" y="780" width="81" height="25" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="EndEvent_0zjpadb_di" bpmnElement="EndEvent_0zjpadb">
+        <dc:Bounds x="571" y="498" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="562" y="537" width="54" height="37" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1tjhkn8_di" bpmnElement="SequenceFlow_1tjhkn8">
+        <di:waypoint x="521" y="516" />
+        <di:waypoint x="571" y="516" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="546" y="494.5" width="0" height="13" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="BoundaryEvent_0zj0bxp_di" bpmnElement="BoundaryEvent_13jml3x">
+        <dc:Bounds x="485" y="498" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="503" y="537" width="0" height="13" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="MessageFlow_0it3u1f_di" bpmnElement="MessageFlow_0it3u1f">
+        <di:waypoint x="503" y="335" />
+        <di:waypoint x="503" y="498" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="518" y="410" width="0" height="13" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

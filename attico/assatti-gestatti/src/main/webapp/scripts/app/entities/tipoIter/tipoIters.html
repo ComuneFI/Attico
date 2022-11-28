@@ -1,0 +1,173 @@
+<div>
+
+    <h2 translate="cifra2gestattiApp.tipoIter.home.title">TipoIter</h2>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <button class="btn btn-primary" data-toggle="modal" data-target="#saveTipoIterModal" ng-click="clear()">
+                    <span class="glyphicon glyphicon-flash"></span> <span translate="cifra2gestattiApp.tipoIter.home.createLabel">Create a new TipoIter</span>
+                </button>
+            </div>
+        </div>
+    </div>
+ 
+    <div class="modal fade" id="saveTipoIterModal" tabindex="-1" role="dialog" aria-labelledby="myTipoIterLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form name="editForm" role="form" novalidate ng-submit="save()" show-validation>
+
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                                ng-click="clear()">&times;</button>
+                        <h4 class="modal-title" id="myTipoIterLabel" translate="cifra2gestattiApp.tipoIter.home.createOrEditLabel">Create or edit a TipoIter</h4>
+                    </div>
+                    <div class="modal-body">
+                        
+                        
+                        <div class="form-group">
+                            <label translate="cifra2gestattiApp.tipoIter.codice">Codice</label> *
+                            <input type="text" class="form-control" name="codice"
+                                   ng-model="tipoIter.codice" required>
+
+                            <div ng-show="editForm.codice.$invalid">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label translate="cifra2gestattiApp.tipoIter.descrizione">Descrizione</label> *
+                            <input type="text" class="form-control" name="descrizione"
+                                   ng-model="tipoIter.descrizione" required>
+
+                            <div ng-show="editForm.descrizione.$invalid">
+                            </div>
+                        </div>
+
+
+    					
+
+                    <div class="form-group">
+                        <label translate="cifra2gestattiApp.tipoIter.tipoAtto">tipoAtto</label> *
+                        <select class="form-control" name="tipoAtto" ng-model="tipoIter.tipoAtto.id" ng-options="tipoAtto.id as tipoAtto.descrizione for tipoAtto in    tipoAttos" required>
+                        </select>
+                    <div ng-show="editForm.tipoAtto.$invalid">  </div>
+                </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
+                            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+                        </button>
+                        <button type="submit" ng-disabled="editForm.$invalid" class="btn btn-primary">
+                            <span class="glyphicon glyphicon-save"></span>&nbsp;<span translate="entity.action.save">Save</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="deleteTipoIterConfirmation">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form name="deleteForm" ng-submit="confirmDelete(tipoIter.id)">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                                ng-click="clear()">&times;</button>
+                        <h4 class="modal-title" translate="entity.delete.title">Confirm delete operation</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p translate="cifra2gestattiApp.tipoIter.delete.question" translate-values="{id: '{{tipoIter.id}}'}">Are you sure you want to delete this TipoIter?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
+                            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+                        </button>
+                        <button type="submit" ng-disabled="deleteForm.$invalid" class="btn btn-danger">
+                            <span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span translate="entity.action.delete">Delete</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="deleteTipoIterDeletingError">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                 <div class="modal-header">
+                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                             ng-click="clear()">&times;</button>
+                     <h4 class="modal-title">Errore nella cancellazione</h4>
+                 </div>
+                 <div class="modal-body">
+                     <p>Il tipo di iter selezionato non pu&#242; essere eliminato in quanto risulta referenziato da altre entit&#224; del sistema.</p>
+                     <label class="btn btn-xs btn-primary" ng-click="showDetailErroreCancellazione = !showDetailErroreCancellazione">Visualizza/Nascondi Dettagli Errore</label>
+                     <p ng-show="showDetailErroreCancellazione">{{erroreCancellazione}}</p>
+                 </div>
+                 <div class="modal-footer">
+                     <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
+                         <span>OK</span>
+                     </button>
+                 </div>
+            </div>
+        </div>
+    </div>
+
+	<div>
+	    <div class="table-responsive crud-search">
+	        <table class="table table-striped">
+	            <thead>
+	                <tr>
+	                    <th>ID</th>
+	                    <th translate="cifra2gestattiApp.tipoIter.codice">Codice</th>
+	                    <th translate="cifra2gestattiApp.tipoIter.descrizione">Descrizione</th>
+	                    <th></th>
+	                </tr>
+	                <tr>
+			           <th></th>
+			           <th><input type="text" ng-model="tempSearch.codice"></th>
+			           <th><input type="text" ng-model="tempSearch.descrizione"></th>
+			           <th><button class="btn btn-primary btn-sm" ng-click="ricerca()"><span class="glyphicon glyphicon-search"/> <span translate="global.messages.cerca">Ricerca</span></button> <button class="btn btn-primary btn-sm" ng-click="resetRicerca()"><span translate="global.messages.resetricerca">Reset ricerca</span></button></th>
+			        </tr>
+	            </thead>
+	            <tbody>
+	                <tr ng-repeat="tipoIter in tipoIters">
+	                    <td><a ui-sref="tipoIterDetail({id:tipoIter.id})">{{tipoIter.id}}</a></td>
+	                    <td>{{tipoIter.codice}}</td>
+	                    <td>{{tipoIter.descrizione}}</td>
+	                    <td>
+	                        <button type="submit"
+	                                ui-sref="tipoIterDetail({id:tipoIter.id})"
+	                                class="btn btn-info btn-sm">
+	                            <span class="glyphicon glyphicon-eye-open"></span>&nbsp;<span translate="entity.action.view"> View</span>
+	                        </button>
+	                        <button type="submit"
+	                                ng-click="showUpdate(tipoIter.id)"
+	                                class="btn btn-primary btn-sm">
+	                            <span class="glyphicon glyphicon-pencil"></span>&nbsp;<span translate="entity.action.edit"> Edit</span>
+	                        </button>
+	                        <button type="submit"
+	                                ng-click="delete(tipoIter.id)"
+	                                class="btn btn-danger btn-sm">
+	                            <span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span translate="entity.action.delete"> Delete</span>
+	                        </button>
+	                    </td>
+	                </tr>
+	            </tbody>
+	        </table>
+	    </div>
+        <nav>
+            <ul class="pagination">
+                <li ng-show="links['first']" ng-click="loadPage(links['first'])"><a>&lt;&lt;</a></li>
+                <li ng-show="links['prev']" ng-click="loadPage(links['prev'])"><a>&lt;</a></li>
+                <li ng-show="page > 2" ng-click="loadPage(page - 2)"><a>{{page - 2}}</a></li>
+                <li ng-show="page > 1" ng-click="loadPage(page - 1)"><a>{{page - 1}}</a></li>
+                <li class="active"><a>{{page}}</a></li>
+                <li ng-show="page < links['last']" ng-click="loadPage(page + 1)"><a>{{page + 1}}</a></li>
+                <li ng-show="page < links['last'] - 1" ng-click="loadPage(page + 2)"><a>{{page + 2}}</a></li>
+                <li ng-show="links['next']" ng-click="loadPage(links['next'])"><a>&gt;</a></li>
+                <li ng-show="links['last']" ng-click="loadPage(links['last'])"><a>&gt;&gt;</a></li>
+            </ul>
+        </nav>
+    </div>
+</div>

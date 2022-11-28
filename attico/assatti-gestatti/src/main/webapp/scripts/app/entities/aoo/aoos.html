@@ -1,0 +1,433 @@
+<div>
+    <div class="" ng-show="searchable">
+        <div class="form-group pull-left">
+            <button class="btn btn-primary btn-xs" ng-click="ricerca()"><span class="glyphicon glyphicon-search" /> <span translate="global.messages.cerca">Ricerca</span></button>
+            <button class="btn btn-primary btn-xs" ng-click="resetRicerca()" style="margin-right: 20px;"><span translate="global.messages.resetricerca">Reset ricerca</span></button>
+        </div>
+        <div class="form-group pull-left col-md-offset-1">
+            <label for="descrizione"><span translate="cifra2gestattiApp.aoo.descrizione">Descrizione</span>
+                <span data-toggle="tooltip" bs-tooltip data-html="true" data-placement="top" data-title="{{'cifra2gestattiApp.aoo.guida.aooRicerca' | translate}}">
+				<i class="fa fa-question" ></i>
+			</span></label>
+            <input type="text" name='descrizione' class="form-control" ng-model="criteriaAoo.descrizione" style='display: inline-block; width: auto;'>
+        </div>
+        <div class="form-group pull-left">
+            <label for="tipologia"><span translate="cifra2gestattiApp.aoo.tipoAoo">Tipologia</span></label>
+            <ui-select ng-model="criteriaAoo.tipologia" theme="bootstrap" style='display: inline-block;min-width: 120px;'>
+                <ui-select-match allow-clear="true">{{$select.selected.descrizione}}</ui-select-match>
+                <ui-select-choices repeat="tipo in tipoAoos | filter: $select.search">
+                    <div ng-bind-html="tipo.descrizione | highlight: $select.search"></div>
+                </ui-select-choices>
+            </ui-select>
+        </div>
+        <!-- <div class="form-group pull-left">
+            <label for="assessorato"><span translate="cifra2gestattiApp.aoo.assessorato">Assessorato</span></label>
+            <ui-select ng-model="criteriaAoo.assessorato" theme="bootstrap" style='display: inline-block;min-width: 120px;'>
+                <ui-select-match allow-clear="true">{{$select.selected.denominazione}}</ui-select-match>
+                <ui-select-choices repeat="ass in assessoratos | filter: $select.search">
+                    <div ng-bind-html="ass.denominazione | highlight: $select.search"></div>
+                </ui-select-choices>
+            </ui-select>
+        </div> -->
+        <div class="form-group pull-left">
+            <label for="stato"><span translate="cifra2gestattiApp.aoo.filtro.label-stato">Stato</span></label>
+            <ui-select ng-model="criteriaAoo.stato" theme="bootstrap" style='display: inline-block;min-width: 120px;'>
+                <ui-select-match allow-clear="true">{{$select.selected.denominazione | translate}}</ui-select-match>
+                <ui-select-choices repeat="stato in stati | filter: $select.search">
+                    <div ng-bind-html="stato.denominazione | translate | highlight: $select.search"></div>
+                </ui-select-choices>
+            </ui-select>
+        </div>
+        <div class="form-group col-md-offset-1 pull-left">
+            <button style="margin-left: 20px;" class="btn btn-primary btn-xs" ng-click="ricerca()"><span class="glyphicon glyphicon-search" /> <span translate="global.messages.cerca">Ricerca</span></button>
+            <button class="btn btn-primary btn-xs" ng-click="resetRicerca()"><span translate="global.messages.resetricerca">Reset ricerca</span></button>
+        </div>
+    </div>
+    <script type="text/ng-template" id="aoo_renderer.html">
+        <div ui-tree-handle class="tree-node tree-node-content">
+            <a ng-if="!aooCurrent.edit" data-nodrag class="btn btn-success btn-xs" ng-if="aoo.sottoAoo && aoo.sottoAoo.length > 0" ng-click="toggle(this)" ng-show="showButton"><span
+                class="glyphicon" ng-class="{'glyphicon-chevron-right': collapsed,'glyphicon-chevron-down': !collapsed}" ></span></a>
+            <i ng-if="!aooCurrent.edit" class="fa fa-arrows" data-drag-enabled></i>
+            <label data-nodrag ng-if="!aoo.edit"><span ng-if="aoo.uo">(UO) </span>
+                <!--<span ng-if="!aoo.uo">(Ufficio) </span>-->{{aoo.codice}} - {{aoo.descrizione}} <span ng-if="aoo.profiloResponsabile"> - {{aoo.profiloResponsabile.descrizione}} ({{aoo.profiloResponsabile.utente.cognome}} {{aoo.profiloResponsabile.utente.nome}})</span> &nbsp;
+                <span style="color:red;" ng-if="!aoo.profiloResponsabile" translate="cifra2gestattiApp.aoo.profiloResponsabileNonDefinito" data-html="true" data-placement="right" data-title='<p style="text-align:left">Risoluzione del problema: <br/>- cliccare il tasto "Modifica ufficio" relativo all' Ufficio senza responsabile; <br/>- selezionare un valore per il "Profilo responsabile".</p>' bs-tooltip > - Nessun responsabile definito</span>
+            </label>
+            <div data-nodrag class="pull-right" ng-if="!aooCurrent.edit">
+                <!--
+   <div class="dropdown">
+      <button class="btn btn-default btn-sm dropdown-toggle" type="button" id="dropdownMenu{{aoo.id}}" data-toggle="dropdown" aria-expanded="true">
+        Funzioni
+        <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu{{aoo.id}}">
+       <li role="presentation">
+
+
+          <a  role="menuitem" tabindex="-1"   href="#/aoo/{{aoo.id}}/associaTipoMateria" ><span class="fa fa-tag fa-fw"></span>
+                        &#xA0;<span translate="global.menu.entities.tipoMateria">TipoMateria</span></a>
+      </li>
+      <li role="presentation">
+        <a  role="menuitem" tabindex="-1"    href="#/aoo/{{aoo.id}}/associaUfficio"><span class="fa fa-map-marker fa-fw"></span>
+                        &#xA0;<span translate="global.menu.entities.ufficio">ufficio</span></a>
+    </li>
+    <li role="presentation">
+        <a role="menuitem" tabindex="-1"     href="#/aoo/{{aoo.id}}/associaGruppoRuolo"><span class="fa fa-group fa-fw"></span>
+                        &#xA0;<span translate="global.menu.entities.gruppoRuolo">GruppoRuolo</span> </a>
+    </li>
+    <li role="presentation">
+        <a role="menuitem" tabindex="-1"    href="#/aoo/{{aoo.id}}/associaProfilo"><span class="fa fa-user fa-fw"></span>
+                        &#xA0;<span translate="global.menu.entities.profilo">profilo</span></a>
+    </li>
+    <li role="presentation">
+        <a role="menuitem" tabindex="-1"    href="#/aoo/{{aoo.id}}/associaRubricaDestinatarioEsterno"><span class="fa fa-whatsapp fa-fw"></span>
+                        &#xA0;<span translate="global.menu.entities.rubricaDestinatarioEsterno">rubricaDestinatarioEsterno</span>   </a>
+    </li>
+</ul>
+-->
+                <a class=" btn btn-primary btn-sm" ng-click="edit(aoo)">Modifica <span
+    class="glyphicon glyphicon-edit"></span></a>
+    			<button type="button" ng-if="aoo.aooPadre.id > 0" ng-click="spostaARadice(aoo.id)" class=" btn btn-success btn-sm">
+                    <span class="glyphicon glyphicon-arrow-up"></span>&nbsp;<span translate="cifra2gestattiApp.aoo.spostaARadice.azione"> Sposta a Radice</span>
+                </button>
+                <button type="button" ng-if="aoo.id > 0" ng-show="aoo.validita.validoal == null" ng-click="disabilita(aoo.id)" class=" btn btn-warning btn-sm">
+                    <span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span translate="entity.action.disable"> Disabilita</span>
+                </button>
+                <button type="button" ng-if="aoo.id > 0" ng-show="aoo.validita.validoal != null" ng-click="abilita(aoo.id)" class=" btn btn-success btn-sm">
+                    <span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span translate="entity.action.enable"> Abilita</span>
+                </button>
+            </div>
+        </div>
+</div>
+<ol ui-tree-nodes data-type="aoo-drop" ng-model="aoo.sottoAoo" ng-class="{hidden: collapsed}" ng-show="showButton">
+    <li ng-repeat="aoo in aoo.sottoAoo" ui-tree-node data-collapsed="true" ng-include="'aoo_renderer.html'" data-type="aoo-drag">
+    </li>
+    <li ng-show="showButton">
+        <div class="tree-node tree-node-content">
+            <label>
+                <!--<a class="pull-left btn btn-primary btn-sm"    ng-click="addSottoAoo(aoo)"  ng-if="!aooCurrent.edit" >Aggiungi sotto aoo  <span
+                    class="glyphicon glyphicon-plus"></span></a> -->
+                <a class="pull-left btn btn-primary btn-sm" ng-click="addSottoUo(aoo)" ng-if="!aooCurrent.edit">Aggiungi sotto uo  <span
+                    class="glyphicon glyphicon-plus"></span></a>
+            </label>
+        </div>
+    </li>
+</ol>
+</script>
+<div class="row">
+    <div class="col-sm-12">
+        <div class="form-group " ng-if="!aooCurrent.edit">
+            <div ui-tree="options" data-drag-enabled="!aooCurrent.edit">
+                <ol data-type="aoo-drag" ui-tree-nodes ng-model="aoos">
+                    <li ng-repeat="aoo in aoos" ui-tree-node data-collapsed="true" ng-include="'aoo_renderer.html'" data-type="aoo-drag"></li>
+                    <li ng-show="showButton">
+                        <div class="tree-node tree-node-content">
+                            <label>
+                                <a class="pull-left btn btn-primary btn-sm" ng-click="addAoo( )" ng-if="!aooCurrent.edit">Aggiungi aoo  <span
+                            class="glyphicon glyphicon-plus"></span></a>
+                            </label>
+                        </div>
+                    </li>
+                </ol>
+                <div ng-if="aoos && aoos.length == 0" class="search-no-result">
+                    <h3 translate="global.searchNoResult"></h3></div>
+            </div>
+        </div>
+        <form data-nodrag ng-if="aooCurrent.edit" name="editForm" role="form" novalidate ng-submit="codiceAlertAndSave(aooCurrent)" show-validation>
+            <div class="row">
+                <div class="form-group col-md-12">
+                    <label translate="cifra2gestattiApp.aoo.descrizione">Descrizione </label> * <span ng-if="aoo.uo">(UO) </span><span ng-if="!aoo.uo">(AOO)</span>
+                    <input type="text" class="form-control" name="descrizione" ng-model="aooCurrent.descrizione" required>
+                    <div ng-show="editForm.descrizione.$invalid"></div>
+                </div>
+            </div>    
+           	<div class="row">
+                <div class="form-group col-md-4">
+                    <label translate="cifra2gestattiApp.aoo.codice">Codice</label> *
+                    <input type="text" class="form-control" name="codice" ng-disabled="aooCurrent.id" ng-model="aooCurrent.codice" ng-change="checkCodiceExists(aooCurrent.id, aooCurrent.codice)" required>
+                </div>
+                <div class="form-group col-md-4">
+                    <label translate="cifra2gestattiApp.aoo.tipoAoo">tipoUfficio</label>
+                    <select class="form-control" name="tipoAoo" ng-model="aooCurrent.tipoAoo.id" ng-options="tipoAoo.id as tipoAoo.descrizione for tipoAoo in tipoaoos">
+                    </select>
+                </div>
+                <div class="form-group col-md-4">
+                    <label translate="cifra2gestattiApp.aoo.specializzazione">specializzazione</label>
+                    <select class="form-control" name="tipoAoo" ng-model="aooCurrent.specializzazione" ng-options="specializzazione.codice as specializzazione.descrizione for specializzazione in specializzazioniAoo">
+                    </select>
+                </div>
+            </div>
+                <!-- NON USATO IN ATTICO -->
+                <!-- 
+                    <div class="form-group col-md-4">
+                        <label translate="cifra2gestattiApp.aoo.identitavisiva">Identitavisiva</label>
+                        <div class="input-group" colorpicker="hex" colorpicker-with-input="true" colorpicker-position="right" colorpicker-closed ng-model="aooCurrent.identitavisiva">
+                            <input type="text" class="form-control" name="identitavisiva" ng-model="aooCurrent.identitavisiva" />
+                            <span class="input-group-addon" style="background-color:{{aooCurrent.identitavisiva}};"><i class="fa fa-eyedropper"></i></span>
+                        </div>
+                        <div ng-show="editForm.identitavisiva.$invalid">
+                        </div>
+                    </div>
+                 -->
+            <div class="row">    
+               <div class="form-group col-md-6">
+                   <label translate="cifra2gestattiApp.aoo.aooPadre">aooPadre</label>
+                   <input type="text" class="form-control" name="aooPadre" ng-model="aooCurrent.aooPadre.descrizione" ng-disabled="true" />
+               </div>
+               
+               <div class="form-group col-md-6">
+                    <label translate="cifra2gestattiApp.aoo.profiloResponsabile">profiloResponsabile</label>
+                    <span data-toggle="tooltip" bs-tooltip data-html="true" data-placement="right" data-title="{{'cifra2gestattiApp.aoo.guida.nessunResponsabile' | translate}}" ng-if="!aooCurrent.id || (!profilos || (profilos && profilos.length == 0))">
+                       <i class="fa fa-question" ></i>
+                    </span>
+                    <span data-toggle="tooltip" bs-tooltip data-html="true" data-placement="right" data-title="{{'cifra2gestattiApp.aoo.guida.responsabiliPresenti' | translate}}" ng-if="aooCurrent.id && profilos && profilos.length > 0">
+                    	<i class="fa fa-question" ></i>
+                    </span>
+                    <select class="form-control" ng-disabled="!aooCurrent.id" name="profiloResponsabile" ng-model="aooCurrent.profiloResponsabile"
+                    ng-class="{'entityDisabilitata' : aooCurrent.profiloResponsabile && aooCurrent.profiloResponsabile.highlighted}"
+					ng-options="profilo as profilo.descrizione for profilo in includiRef(profilos, aooCurrent.profiloResponsabile, 'descrizione', aooCurrent.profiloResponsabile) track by profilo.id">
+                    </select>
+                    <label> I profili sono un sotto insieme dei profili assegnati alla aoo corrente.</label>
+               </div>
+            </div>
+                
+         <!-- <div ng-if="aooCurrent.aooPadre" class="form-group col-md-6 ">
+              <label translate="cifra2gestattiApp.aoo.assessorato">Assessorato</label>
+              <ui-select ng-model="aooCurrent.hasAssessorati[0]" theme="bootstrap">
+              	<ui-select-match>{{$select.selected.denominazione}}</ui-select-match>
+                <ui-select-choices repeat="assessorato in assessoratos | filter: $select.search">
+                	{{assessorato.denominazione}}
+                </ui-select-choices>
+              </ui-select>
+          </div> -->
+                    <!-- <div ng-if="!aooCurrent.aooPadre" class="form-group col-md-6 "> -->
+        <!-- 
+                    <div class="form-group col-md-6 ">
+                        <label>Assessorati associati</label>
+                        <ui-select multiple ng-model="aooCurrent.hasAssessorati" theme="bootstrap">
+                            <ui-select-match placeholder="Selezione assessorati ">{{$item.denominazione}}</ui-select-match>
+                            <ui-select-choices repeat="assessorato in assessoratos | filter: $select.search">
+                                <div ng-bind-html="assessorato.denominazione | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+                    <div style="clear: both;"></div>
+                </div>
+                
+            </div>
+       -->                
+            
+            <!-- <div class="col-sm-2">
+
+        <div class="form-group">
+          <label translate="cifra2gestattiApp.aoo.logo">Logo</label>
+          <div ngf-drop ngf-select   ngf-change="upload($files)"  class="drop-box input-group" 
+          ngf-drag-over-class="dragover" ngf-multiple="false" ngf-allow-dir="false"
+          accept="image/*" ngf-max-size="ngfMaxSize"> Metti qui il logo
+
+          <div class="form-group">
+            <a href class="thumbnail">
+               <img src="{{aooCurrent.logo}}"   > 
+           </a>
+       </div>
+
+   </div>
+
+   <div ngf-no-file-drop>File Drag/Drop non supportato per questo browser</div>
+
+
+   <div ng-show="editForm.logo.$invalid">
+   </div>
+    -->
+    
+    <div class="row">
+    	<validita-form ng-model="aooCurrent.validita"></validita-form>
+    </div>
+
+		<div class="row">
+			<indirizzo-select span="12" ng-model="aooCurrent.indirizzo"></indirizzo-select>
+	    </div>
+		<div class="row">
+		  <div class="form-group col-md-12">
+		    <button type="button" class="form-control btn btn-primary" data-toggle="collapse" data-target="#Contatti" aria-expanded="true" aria-controls="Contatti">
+		        <label>Contatti</label>
+		    </button>
+		  </div>
+		</div>
+	    <div id="Contatti" class="collapse">
+	        <div class="form-group col-md-6">
+	            <label translate="cifra2gestattiApp.aoo.telefono">Telefono</label>
+	            <input type="text" class="form-control" name="telefono" ng-model="aooCurrent.telefono">
+	            <div ng-show="editForm.telefono.$invalid">
+	            </div>
+	        </div>
+	        <div class="form-group col-md-6">
+	            <label translate="cifra2gestattiApp.aoo.fax">Fax</label>
+	            <input type="text" class="form-control" name="fax" ng-model="aooCurrent.fax">
+	            <div ng-show="editForm.fax.$invalid">
+	            </div>
+	        </div>
+	        <div class="form-group col-md-6">
+	            <label translate="cifra2gestattiApp.aoo.email">Email</label>
+	            <input type="text" class="form-control" name="email" ng-model="aooCurrent.email">
+	            <div ng-show="editForm.email.$invalid">
+	            </div>
+	        </div>
+	        <div class="form-group col-md-6">
+	            <label translate="cifra2gestattiApp.aoo.pec">Pec</label>
+	            <input type="text" class="form-control" name="pec" ng-model="aooCurrent.pec">
+	            <div ng-show="editForm.pec.$invalid">
+	            </div>
+	        </div>
+	    </div>
+
+		<hr>
+		<button type="button" class="btn btn-default" ng-click="cancelEdit(aooCurrent)">
+		    <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+		</button>
+		<button type="submit" ng-disabled="editForm.$invalid" class="btn btn-primary">
+		    <span class="glyphicon glyphicon-save"></span>&nbsp;<span translate="entity.action.save">Save</span>
+		</button>
+	</form>
+</div>
+<!-- <div class="col-sm-6">
+    <pre class="code">{{ aoos | json }}</pre>
+</div>
+-->
+
+</div>
+<div class="modal fade" id="spostaARadiceAooConfirmation">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form name="deleteForm" ng-submit="confirmSpostaARadice(aoo.id)">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="clear()">&times;</button>
+                    <h4 class="modal-title" translate="entity.delete.title">Confirm delete operation</h4>
+                </div>
+                <div class="modal-body">
+                    <p translate="cifra2gestattiApp.aoo.spostaARadice.question" translate-values="{id: '{{aoo.codice}}'}">Are you sure you want to move this Aoo?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="refresh()">
+                        <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+                    </button>
+                    <button type="submit" ng-disabled="deleteForm.$invalid" class="btn btn-danger">
+                        <span class="glyphicon glyphicon-arrow-up"></span>&nbsp;<span translate="cifra2gestattiApp.aoo.spostaARadice.azione">Sposta a primo livello</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="disabilitaAooConfirmation">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form name="deleteForm" ng-submit="confirmDisabilita(aoo.id)">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="clear()">&times;</button>
+                    <h4 class="modal-title" translate="entity.delete.title">Confirm delete operation</h4>
+                </div>
+                <div class="modal-body">
+                    <p translate="cifra2gestattiApp.aoo.delete.question" translate-values="{id: '{{aoo.codice}}'}">Are you sure you want to delete this Aoo?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="refresh()">
+                        <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+                    </button>
+                    <button type="submit" ng-disabled="deleteForm.$invalid" class="btn btn-danger">
+                        <span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span translate="entity.action.disable">Disable</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="abilitaAooConfirmation">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form name="deleteForm" ng-submit="confirmAbilita(aoo.id)">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="clear()">&times;</button>
+                    <h4 class="modal-title" translate="entity.attiva.title">Confirm enable operation</h4>
+                </div>
+                <div class="modal-body">
+                    <p translate="cifra2gestattiApp.aoo.enable.question" translate-values="{id: '{{aoo.codice}}'}">Are you sure you want to enable this Aoo?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="refresh()">
+                        <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+                    </button>
+                    <button type="submit" ng-disabled="deleteForm.$invalid" class="btn btn-success">
+                        <span class="glyphicon glyphicon-ok-circle"></span>&nbsp;<span translate="entity.action.enable">Enable</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="codiceAlertAndSaveModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form name="codiceAlertAndSaveForm" ng-submit="save(aooCurrent)">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="clear()">&times;</button>
+                    <h4 class="modal-title" translate="cifra2gestattiApp.aoo.codiceDuplicato.modalTitle">Confirm enable operation</h4>
+                </div>
+                <div class="modal-body">
+                    <p translate="cifra2gestattiApp.aoo.codiceDuplicato.alertMessage"></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">
+                        <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+                    </button>
+                    <button type="submit" class="btn btn-success">
+                        <span class="glyphicon glyphicon-ok-circle"></span>&nbsp;<span translate="cifra2gestattiApp.aoo.codiceDuplicato.forcedSave">save</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="warnAbilitazioneCodice">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form name="warnAbilitazioneCodice">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="clear()">&times;</button>
+                    <h4 class="modal-title" translate="cifra2gestattiApp.aoo.codiceDuplicato.modalTitle">Confirm enable operation</h4>
+                </div>
+                <div class="modal-body">
+                    <p translate="cifra2gestattiApp.aoo.codiceDuplicato.warnAbilitazione"></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">
+                        <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="warnDisabilitazioneAoo">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form name="warnAbilitazioneCodice">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="clear()">&times;</button>
+                    <h4 class="modal-title" translate="entity.delete.title">Confirm enable operation</h4>
+                </div>
+                <div class="modal-body">
+                    <p translate="cifra2gestattiApp.aoo.warnDisabilitazione"></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">
+                        <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+</div>

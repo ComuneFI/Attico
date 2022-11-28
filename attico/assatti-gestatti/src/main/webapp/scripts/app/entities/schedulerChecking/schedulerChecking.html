@@ -1,0 +1,70 @@
+<div>
+
+    <h2>Scheduler Management Server {{hostName}}</h2>
+
+	<!-- <button class="btn btn-info" ng-click="nuovo()">Nuovo Scheduler</button> -->
+	<div style="margin-top:20px;" ng-show="viewNuovo">
+		<div class="row">
+			<div class="col-xs-3">
+				Nome Scheduler
+			</div>
+			<div class="col-xs-3">
+				Server
+			</div>
+			<div class="col-xs-1">
+				Abilitato
+			</div>
+			<div class="col-xs-5">
+			</div>
+		</div>  
+		<div style="margin-bottom:20px;" class="row">
+			<div class="col-xs-3">
+				<input ng-model="nuovoScheduler.schedulerName" type="text">
+			</div>
+			<div class="col-xs-3">
+				<input ng-model="nuovoScheduler.hostName" type="text">
+			</div>
+			<div class="col-xs-1">
+				<input ng-model="nuovoScheduler.enabled" type="checkbox">
+			</div>
+			<div class="col-xs-5">
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-7" align="center">
+				<button ng-disabled="!nuovoScheduler.schedulerName || !nuovoScheduler.hostName" class="btn btn-primary" ng-click="salva(nuovoScheduler)">Inserisci</button> <button class="btn btn-default" ng-click="viewNuovo=false;">Annulla</button>
+			</div>
+			<div class="col-xs-5">
+			</div>
+		</div>
+		<hr>
+	</div> 
+    
+    <div class="table-responsive crud-search">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Nome Scheduler</th>
+                    <th>Server</th>
+                    <th>Data e Ora Esecuzione</th>
+                    <th>Abilitato</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="scheduler in lista">
+                    <td>{{scheduler.schedulerName}}</td>
+                    <td>{{scheduler.hostName}}</td>
+                    <td>
+                    	<div ng-if="scheduler.schedulerName == 'annullamento'">
+                    	<input type="text" size="3" onkeydown="return false;" data-max-view="1" data-date-type="date" data-date-format="dd/MM" bs-datepicker ng-model="scheduler.executionTime"><input type="text" size="3" onkeydown="return false;" data-minute-step="1" data-time-type="date" bs-timepicker ng-model="scheduler.executionTime"> <button ng-click="salva(scheduler)"><span title="Aggiorna Data" class="fa fa-clock-o"></span></button>
+                    	</div>
+                    </td>
+                    <td><input type="checkbox" ng-change="salva(scheduler)" ng-model="scheduler.enabled"></td>
+                    <td title="Elimina configurazione"><span style="font-color:red;" ng-click="delete(scheduler.id)" class="glyphicon glyphicon-trash"></span></td>
+                </tr>
+            </tbody>
+        </table>
+        <div ng-if="lista && lista.length == 0" class="search-no-result"><h3 translate="global.searchNoResult"></h3></div>
+    </div>
+</div>

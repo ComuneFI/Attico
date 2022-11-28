@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    
+    <changeSet author="mancos" id="201810251230-1">
+    	<sql>
+    		INSERT INTO `sezione` (`descrizione`, `codice`) VALUES ('Domanda', 'domanda');
+    	</sql> 
+    </changeSet>
+    <changeSet author="mancos" id="201810251230-2">
+    	<sql>
+    		INSERT INTO `sezione_tipoatto` (`tipoatto_id`, `sezione_id`, `visibile`) VALUES (1, 26, 0);
+			INSERT INTO `sezione_tipoatto` (`tipoatto_id`, `sezione_id`, `visibile`) VALUES (2, 26, 0);
+			INSERT INTO `sezione_tipoatto` (`tipoatto_id`, `sezione_id`, `visibile`) VALUES (3, 26, 0);
+			INSERT INTO `sezione_tipoatto` (`tipoatto_id`, `sezione_id`, `visibile`) VALUES (4, 26, 0);
+			INSERT INTO `sezione_tipoatto` (`tipoatto_id`, `sezione_id`, `visibile`) VALUES (5, 26, 0);
+			INSERT INTO `sezione_tipoatto` (`tipoatto_id`, `sezione_id`, `visibile`) VALUES (7, 26, 0);
+			INSERT INTO `sezione_tipoatto` (`tipoatto_id`, `sezione_id`, `visibile`) VALUES (8, 26, 0);
+			INSERT INTO `sezione_tipoatto` (`tipoatto_id`, `sezione_id`, `visibile`) VALUES (9, 26, 0);
+			INSERT INTO `sezione_tipoatto` (`tipoatto_id`, `sezione_id`, `visibile`) VALUES (10, 26, 0);
+			INSERT INTO `sezione_tipoatto` (`tipoatto_id`, `sezione_id`, `visibile`) VALUES (11, 26, 0);
+			INSERT INTO `sezione_tipoatto` (`tipoatto_id`, `sezione_id`, `visibile`) VALUES (12, 26, 0);
+			INSERT INTO `sezione_tipoatto` (`tipoatto_id`, `sezione_id`, `visibile`) VALUES (13, 26, 0);
+			INSERT INTO `sezione_tipoatto` (`tipoatto_id`, `sezione_id`, `visibile`) VALUES (14, 26, 0);
+			INSERT INTO `sezione_tipoatto` (`tipoatto_id`, `sezione_id`, `visibile`) VALUES (15, 26, 0);
+			INSERT INTO `sezione_tipoatto` (`tipoatto_id`, `sezione_id`, `visibile`) VALUES (16, 26, 0);
+			INSERT INTO `sezione_tipoatto` (`tipoatto_id`, `sezione_id`, `visibile`) VALUES (17, 26, 0);
+			INSERT INTO `sezione_tipoatto` (`tipoatto_id`, `sezione_id`, `visibile`) VALUES (19, 26, 0);
+    	</sql>
+    </changeSet>  
+</databaseChangeLog>

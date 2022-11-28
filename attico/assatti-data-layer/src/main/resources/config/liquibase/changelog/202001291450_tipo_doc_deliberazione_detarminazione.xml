@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    
+    <changeSet author="mazzottada" id="202001291450-1">
+    	<sql>
+			UPDATE tipodocumento SET descrizione= replace(descrizione, 'Determina ', 'Determinazione ') where descrizione like '%determina %';
+			UPDATE tipodocumento SET descrizione= replace(descrizione, 'Delibera ', 'Deliberazione ') where descrizione like '%delibera %';
+			UPDATE tipodocumento SET descrizione= replace(descrizione, 'determina ', 'determinazione ') where descrizione like '%determina %';
+			UPDATE tipodocumento SET descrizione= replace(descrizione, 'delibera ', 'deliberazione ') where descrizione like '%delibera %';
+    	</sql>
+    </changeSet>
+    
+    <changeSet author="mazzottada" id="202001291450-2">
+    	<sql>
+			UPDATE modellohtml SET titolo = replace(titolo, 'Determina ', 'Determinazione ') where titolo like '%determina %';
+			UPDATE modellohtml SET titolo= replace(titolo, 'Delibera ', 'Deliberazione ') where titolo like '%delibera %';
+			UPDATE modellohtml SET titolo= replace(titolo, 'DELIBERA ', 'DELIBERAZIONE ') where titolo like '%delibera %';
+			UPDATE modellohtml SET titolo= replace(titolo, 'determina ', 'determinazione ') where titolo like '%determina %';
+			UPDATE modellohtml SET titolo= replace(titolo, 'DETERMINA ', 'DETERMINAZIONE ') where titolo like '%determina %';
+			UPDATE modellohtml SET titolo= replace(titolo, 'delibera ', 'deliberazione ') where titolo like '%delibera %';
+    	</sql>
+    </changeSet>
+    
+</databaseChangeLog>

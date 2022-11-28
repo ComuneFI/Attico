@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    
+    <changeSet author="mazzottada" id="201906280923-01">
+    	<sql>
+    		INSERT INTO gestatti.ruolo (codice, descrizione, haqualifica, enabled) VALUES('ROLE_REFERENTE_TECNICO', 'Referente Tecnico', 0, true);
+    		INSERT INTO gestatti.ruolo (codice, descrizione, haqualifica, enabled) VALUES('ROLE_OPERATORE_GESTIONE_UFFICI', 'Operatore Gestione Uffici', 0, true);
+    	</sql>
+    </changeSet>
+    <changeSet author="mazzottada" id="201906280923-02">
+    	<sql>
+    		ALTER TABLE modellocampo ADD aoo_id bigint(20) NULL;
+			ALTER TABLE modellocampo ADD propagazione_aoo tinyint(4) NULL;
+    	</sql>
+    </changeSet>
+    <changeSet author="mazzottada" id="201906280923-03">
+    	<sql>
+    		update modellocampo set aoo_id = (select aoo_id from profilo where id = modellocampo.profilo_id), propagazione_aoo = false where profilo_id is not null;
+    	</sql>
+    </changeSet>
+    <changeSet author="mazzottada" id="201906280923-04">
+    	<sql>
+    		ALTER TABLE modellocampo ADD CONSTRAINT modellocampo_aoo_fk FOREIGN KEY (aoo_id) REFERENCES aoo(id);
+    	</sql>
+    </changeSet>
+</databaseChangeLog>

@@ -1,0 +1,73 @@
+
+<div>
+    <h2><span translate="cifra2gestattiApp.dato.detail.title">Dato</span> {{dato.id}}</h2>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th translate="entity.detail.field">Field</th>
+                    <th translate="entity.detail.value">Value</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.dato.etichetta">Etichetta</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{dato.etichetta}}" readonly>
+                    </td>
+                </tr>
+                
+                <!-- 
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.dato.multivalore">Multivalore</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{dato.multivalore}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.dato.stile">Stile</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{dato.stile}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.dato.valore_legame">Valore_legame</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{dato.valore_legame}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.dato.dato_datosup_fk">dato_datosup_fk</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{dato.dato_datosup_fk.etichetta}}" readonly>
+                    </td>
+                </tr>
+                 -->
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.dato.dato_tipdat_fk">dato_tipdat_fk</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{dato.tipoDato}}" readonly>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <button type="submit"
+            ui-sref="dato"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span translate="entity.action.back"> Back</span>
+    </button>
+</div>

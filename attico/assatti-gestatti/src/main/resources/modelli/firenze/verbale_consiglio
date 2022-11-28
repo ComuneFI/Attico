@@ -1,0 +1,65 @@
+<p></p>
+<div style="margin-top:20px;"><p style="text-align: center; "><span style="font-style: italic; font-family: &quot;Times New Roman&quot;; font-size: 36px; color: rgb(255, 0, 0);">Comune di Firenze</span><br><br><span style="font-family: &quot;Times New Roman&quot;; font-size: 16px; color: rgb(0, 0, 0); text-decoration: underline;">VERBALE DELLA SEDUTA DEL CONSIGLIO COMUNALE</span></p>
+</div>
+<br><br><div style="font-family: Helvetica; font-size: 12px; line-height: 18px; text-align: justify;" th:utext="${verbale.narrativa.testo}">+${verbale.narrativa}</div>
+<br><br><p></p>
+<p style="page-break-before:always; border-bottom:1px dashed #000;"></p>
+<div>	<th:block th:each="item: ${attiOdg}"><table class="table table-bordered atti-table" style="th.container >
+ div width: 100%;height: 100%;overflow:hidden;}th.container {height: 5px;}">		<colgroup><col width="320">		<col width="320">		<col width="300">		<col width="210">		</colgroup><thead>			<tr>
+			<th style="border: 1px solid #000000;"><div>N. Atto</div>
+</th>
+			<th style="border: 1px solid #000000;"><div>N. Adozione/<br>N. Atto di Consiglio</div>
+</th>
+			<th style="border: 1px solid #000000;"><div>Esito</div>
+</th>
+           			</tr>
+		</thead>
+ 		<tbody>
+				<tr>
+			<td style="border: 1px solid #000000;"><div th:if="${item.atto.codiceCifra != null}">[[${item.atto.codiceCifra}]]</div>
+</td>
+			<td style="border: 1px solid #000000;"><div th:if="${item.atto.numeroAdozione != null}">[[${item.atto.numeroAdozione}]]</div>
+</td>
+									<td style="border: 1px solid #000000;" th:each="esito: ${esiti}" th:if="${esito.id} == ${item.atto.esito}"><div>[[${esito.label}]]</div>
+</td>
+		</tr>
+<tr>
+<td colspan="3" style="border: 1px solid #000000;"><span th:if="${item.atto.tipoAtto.descrizione != null}">[[${item.atto.tipoAtto.descrizione}]]</span>:<span th:if="${item.atto.oggetto != null}">[[${item.atto.oggetto}]]</span></td>
+</tr>
+		</tbody>
+<thead>			<tr>
+			<th style="border: 1px solid #000000;"><div>Presidente Fine Seduta</div>
+</th>
+			<th style="border: 1px solid #000000;"><div>Segretario Fine Seduta</div>
+</th>
+			<th style="border: 1px solid #000000;"><div>Votazione Segreta</div>
+</th>
+			           			</tr>
+		</thead>
+			<tbody>
+<tr>
+			<td style="border: 1px solid #000000;"><div> <span th:each="componente: ${item.componenti}" th:if="${componente.isPresidenteFine == true}">[[${componente.profilo.utente.nome}]] [[${componente.profilo.utente.cognome}]]</span></div>
+</td>
+			<td style="border: 1px solid #000000;"><div> <span th:each="componente: ${item.componenti}" th:if="${componente.isSegretarioFine == true}">[[${componente.profilo.utente.nome}]] [[${componente.profilo.utente.cognome}]]</span></div>
+</td>
+			<td style="border: 1px solid #000000;"><div><span th:if="${item.votazioneSegreta == true}">SI</span><span th:if="${item.votazioneSegreta == false}">NO</span></div>
+</td>
+		</tr>
+</tbody>
+<thead>			<tr>
+<th style="border: 1px solid #000000;" colspan="3"><div>Partecipanti e Voto</div>
+</th>
+</tr>
+		</thead>
+	<tbody>
+<tr>
+<td colspan="3" style="border: 1px solid #000000;"><div th:each="componente: ${item.componenti}" th:if="${componente.presente!=null &amp;&amp; componente.presente == true &amp;&amp; (componente.isSegretarioInizio==null || componente.isSegretarioInizio == false) &amp;&amp; (componente.isSegretarioFine == null || componente.isSegretarioFine == false)}" style="font-size: 12pt; margin: 0 3pt;">            		[[${componente.profilo.utente.nome}]] [[${componente.profilo.utente.cognome}]]    [[${componente.votazione != null &amp;&amp; votazioneLabels != null &amp;&amp; votazioneLabels.containsKey(componente.votazione) ? votazioneLabels.get(componente.votazione) : ''}]]        	</div>
+<div th:each="componente: ${item.componenti}" th:if="${(item.votazioneSegreta == false &amp;&amp; (componente.presente == null || componente.presente == false) &amp;&amp; (componente.isSegretarioInizio == null || componente.isSegretarioInizio == false) &amp;&amp; (componente.isSegretarioFine == null || componente.isSegretarioFine == false))}" style="font-size: 12pt; margin: 0 3pt;">            		[[${componente.profilo.utente.nome}]] [[${componente.profilo.utente.cognome}]]     ASSENTE       	</div>
+</td>
+</tr>
+		</tbody>
+	</table>
+	<br></th:block>
+	<br></div>
+ <p></p>
+<style type="text/css">		@page { margin: 2cm }		p { margin-bottom: 0.25cm; direction: ltr; color: #000000; orphans: 2; widows: 2 }		p.western { font-family: "Times New Roman", serif; font-size: 12pt; so-language: it-IT }		p.cjk { font-family: "Times New Roman", serif; font-size: 12pt }		p.ctl { font-family: "Times New Roman", serif; font-size: 12pt; so-language: ar-SA }	</style>

@@ -1,0 +1,1348 @@
+<div ng-if="!sedutaAttoId">
+	<form name="editForm" role="form" showvalidate >
+		<div class="col-xs-12 cifra-tab-container"   >
+			<div class="col-xs-12 col-sm-2 cifra-tab-menu md-whiteframe-z3">
+				<div class="list-group" ng-repeat="sezione in sedutaSezioni">
+
+					<div class="list-group-item" ng-if="(!sedutaSezioni[$index].abilitato) && ($index == 0 || sedutaGiunta.id > 0)">
+						<i class="{{sezione.icon}}"></i>
+						{{sezione.title}}
+					</div>
+
+					<a  href ng-click="loadSection($index)" class="list-group-item" ng-class="{'active':sezione.activeCss,'error':sezione{{$index}} || firmare(sezione) }"
+						ng-if="(sedutaSezioni[$index].abilitato) && ($index == 0 || sedutaGiunta.id > 0)"
+						aria-controls="{{sezione.target}}">
+
+						<i class="{{sezione.icon}}"></i>
+						{{sezione.title}}
+					</a>
+
+				</div>
+			</div>
+
+			<img ng-show="onSpinner==true || _onSpinner==true" src='assets/images/spinner.gif'>
+
+			<div ng-show="!onSpinner && !_onSpinner" class="col-xs-12 col-sm-10 cifra-tab">
+				<br>
+				<div class="row">
+					<div class="col-sm-4 col-sm-offset-4 text-center"><span class="bordered-span md-subhead">{{sedutaGiunta.stato}}</span>
+						<br /><br /><a ui-sref="taskDesktop" class="btn btn-xs btn-primary"><span class="glyphicon glyphicon-menu-left"></span>Torna alla Scrivania</a></span>
+					</div>
+					<nav class="col-sm-12" ng-include="'scripts/app/entities/sedutaGiunta/sedutaGiunta-funzioni.html'"  ></nav>
+				</div>
+				<div class="row">
+					<!-- <nav class="col-sm-12" style="margin-top: 10px;" ng-include="'scripts/app/entities/sedutaGiunta/sedutaGiunta-funzioni-resoconto.html'"  ></nav> -->
+				</div>
+				<div class="cifra-tab-content active"    ng-if="sezioneCorrente.target === 'datiIdentificativi'" ng-include="'scripts/app/entities/sedutaGiunta/sezioni/seduta-datiidentificativi.html'" ></div>
+				<div class="cifra-tab-content active"    ng-if="sezioneCorrente.target === 'datiOdgBase'" ng-include="'scripts/app/entities/sedutaGiunta/sezioni/seduta-datiodgbase.html'" ></div>
+
+				<div class="cifra-tab-content active"    ng-if="sezioneCorrente.target === 'datiOdgSuppletivo'" ng-include="'scripts/app/entities/sedutaGiunta/sezioni/seduta-datiodgsuppletivo.html'" ></div>
+				<div class="cifra-tab-content active"    ng-if="sezioneCorrente.target === 'datiOdgFuoriSacco'" ng-include="'scripts/app/entities/sedutaGiunta/sezioni/seduta-datiodgfuorisacco.html'" ></div>
+
+				<div class="cifra-tab-content active"    ng-if="sezioneCorrente.target === 'datiRubrica'" ng-include="'scripts/app/entities/sedutaGiunta/sezioni/seduta-datirubrica.html'" ></div>
+				<div class="cifra-tab-content active"    ng-if="sezioneCorrente.target === 'documentiPdf'" ng-include="'scripts/app/entities/sedutaGiunta/sezioni/seduta-documentipdf.html'" ></div>
+
+				<div class="cifra-tab-content active"    ng-if="sezioneCorrente.target === 'verbale'" ng-include="'scripts/app/entities/sedutaGiunta/sezioni/seduta-verbale.html'" ></div>
+
+				<div class="cifra-tab-content active"    ng-if="sezioneCorrente.target === 'resoconto'" ng-include="'scripts/app/entities/sedutaGiunta/sezioni/seduta-docresoconto.html'" ></div>
+
+				<!-- <nav ng-include="'scripts/app/entities/sedutaGiunta/sedutaGiunta-funzioni-resoconto.html'"  ></nav> -->
+				<nav ng-include="'scripts/app/entities/sedutaGiunta/sedutaGiunta-funzioni.html'"  ></nav>
+			</div>
+
+		</div>
+	</form>
+</div>
+<div class="modal fade" id="formConfirmation" style="z-index: 9999">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form name="confirmForm" ng-submit="saveResoconto()">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="clear()">&times;</button>
+                    <h4 class="modal-title">Conferma dati esito seduta</h4>
+                </div>
+                <div class="modal-body" ng-if="!resoconto.modificaComponenti">
+                    <p ng-show="getEsitoObj(resoconto.esito).registraVotazione">ATTENZIONE! Prima di registrare l'esito, avete verificato la correttezza di tutti i dati inseriti?
+                    </p>
+                    <p ng-hide="getEsitoObj(resoconto.esito).registraVotazione">Attenzione! &Egrave; stato impostato l'esito "{{getEsitoLabel(resoconto.esito)}}": &egrave; corretto?
+              		</p>
+                </div>
+                <div class="modal-body" ng-if="resoconto.modificaComponenti && sedutaGiunta.organo == 'G'">
+                    <p ng-show="getEsitoObj(resoconto.esito).registraVotazione">ATTENZIONE!!! Avete verificato che i dati relativi alla Seduta (Presidente, Segretario, Presenze, Votazioni, etc) siano stati compilati correttamente? Poiche',<b>cliccando sul pulsante 'Conferma', l'atto procedera' alla fase successiva e NON SARA' PIU' POSSIBILE MODIFICARLI.</b>
+<br>Pertanto, siete sicuri di voler confermare la registrazione dell'esito?
+                    </p>
+                    <p ng-hide="getEsitoObj(resoconto.esito).registraVotazione">Attenzione! &Egrave; stato impostato l'esito "{{getEsitoLabel(resoconto.esito)}}": &egrave; corretto?
+                   </p>
+                </div>
+                <div class="modal-body" ng-if="resoconto.modificaComponenti && sedutaGiunta.organo == 'C'">
+                    <p ng-show="getEsitoObj(resoconto.esito).registraVotazione">ATTENZIONE!!! Avete verificato che i dati relativi alla Seduta (Presidente, Segretario, Presenze, Votazioni, etc) siano stati compilati correttamente? Poiche',<b>cliccando sul pulsante 'Conferma', l'atto procedera' alla fase successiva e NON SARA' PIU' POSSIBILE MODIFICARLI NE' SARA' PIU' POSSIBILE INSERIRE EVENTUALI PARERI DI COMMISSIONE CONSILIARE, CONSIGLIO DI QUARTIERE o REVISORI CONTABILI (se tali pareri sono previsti per la tipologia dell'atto in oggetto).</b>
+<br>Pertanto, siete sicuri di voler confermare la registrazione dell'esito?
+                    </p>
+                    <p ng-hide="getEsitoObj(resoconto.esito).registraVotazione">Attenzione! &Egrave; stato impostato l'esito "{{getEsitoLabel(resoconto.esito)}}": &egrave; corretto?
+                    Vi preghiamo di verificare poiche', <b>cliccando su "Conferma", l'atto proceder&agrave; alla fase successiva e NON SARA' PiU' POSSIBILE MODIFICARLO.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="dismissModal()"  >
+                        <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+                    </button>
+                    <button type="submit" class="btn btn-danger">
+                        <span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span>Conferma</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="mascheraWorkflow" tabindex="-1" role="dialog"
+	        aria-labelledby="mascheraWorkflowLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <form name="mascheraWorkflow" role="form" novalidate  show-validation>
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                            ng-click="clear()">&times;</button>
+                    <h4 class="modal-title" id="mascheraWorkflowLabel" >{{decisioneCorrente.descrizione}}</h4>
+                </div>
+
+                <div class="modal-body">
+					<div ng-if="!emptyMascheraWorkflow && decisioneCorrente.codice" ng-include="'scripts/app/entities/sedutaGiunta/sezioni/' + decisioneCorrente.codice + '.html'"  >
+
+					</div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">
+                        Chiudi
+                    </button>
+
+                    <button type="button" ng-disabled="mascheraWorkflow.$invalid" class="btn btn-primary" ng-click="salvaDecisione(indexSezioneCorrente,decisioneCorrente)" >
+                    	<span ng-show="uploadok == true" class="glyphicon glyphicon-refresh glyphicon-refresh-animate" style="margin-right:10px;"></span>Conferma {{decisioneCorrente.descrizione}}
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="confermaFineLavori" tabindex="-1" role="dialog"
+	        aria-labelledby="confermaFineLavoriLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        	<form name="confermaFineLavori" role="form" novalidate show-validation>
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="confermaFineLavoriLabel" >Conferma Fine Lavori</h4>
+                </div>
+                <div class="modal-body">
+                  <h4>
+                	<span style="font-weight: bold;">Attenzione!</span> Se &egrave; stato valorizzato il campo &quot;Data Ora - Fine Lavori&quot;,<br/>
+                	al click sul pulsante &quot;Conferma&quot;, <span style="font-weight: bold;">non sar&agrave; pi&ugrave; possibile modificare tale campo,
+                	n&egrave; inserire eventuali OdG\OdL Suppletivi o Fuori Sacco</span> e la seduta passer&agrave; alla fase di
+                	<span style="font-weight: bold;">Indicazione degli atti trattati</span>.
+                  </h4>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="taskLoading = false;">
+                        Chiudi
+                    </button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="save()" >
+                    	<span style="margin-right:10px;"></span>Conferma
+                    </button>
+                </div>
+        	</form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="resocontoAtto">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form name="resocontoForm" ng-submit="confermaResoconto()" scenario>
+                <div class="modal-header">
+                    <button type="button" class="close everActive" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" title="{{resoconto.labelTitle}}"><span translate="cifra2gestattiApp.sedutaGiunta.resoconto.label">Resoconto</span><span>{{resoconto.labelTitleShort}}</span></h4>
+                </div>
+                <div class="modal-body">
+                	<div class="row">
+	                	 <div class="form-group">
+							<div class="form-group col-sm-6" >
+								<label translate="cifra2gestattiApp.sedutaGiunta.resoconto.esito">Esito</label> *
+								<select class="form-control esito-select-control" required
+									ng-model="resoconto.esito" ng-options="item.id as item.label for item in esiti"
+									ng-disabled="resoconto.modificaComponenti" ng-init="resetResoconto(); checkVisResoconto();" ng-change="resetResoconto(); checkVisResoconto();">
+
+								</select>
+							</div>
+							<div style="clear:both"></div>
+						</div>
+                	</div>
+                	<div ng-if="visibilitaPresenza || visibilitaVotazione" class="row">
+	                	 <div class="form-group">
+	                	 	<div ng-show="resoconto.esito && dettResocontoVisibile" class="col-sm-12" >
+	                	 		<div ng-if="visibilitaPresenza" class="row">
+									<label class="col-sm-3">Presenti: <span class="badge" style="background-color: #3c763d;">{{resoconto.votazioneSegreta ? resoconto.voto.segreto.presenti : resoconto.voto.palese.presenti}}</span>
+										<span class="badge" style="background-color: #a94442;" ng-if="resoconto.votazioneIE">{{resoconto.voto.immediataEseguibilita.presenti}}</span>
+									</label>
+									<label class="col-sm-3">Assenti: <span class="badge" style="background-color: #3c763d;">{{resoconto.votazioneSegreta ? resoconto.voto.segreto.assenti : resoconto.voto.palese.assenti}}</span>
+										<span class="badge" style="background-color: #a94442;" ng-if="resoconto.votazioneIE">{{resoconto.voto.immediataEseguibilita.assenti}}</span>
+									</label>
+								</div>
+								<div ng-if="visibilitaVotazione" class="row">
+									<label class="col-sm-3">Favorevoli: <span class="badge" style="background-color: #3c763d;">{{resoconto.votazioneSegreta ? resoconto.voto.segreto.favorevoli : resoconto.voto.palese.favorevoli}}</span>
+										<span class="badge" style="background-color: #a94442;" ng-if="resoconto.votazioneIE">{{resoconto.voto.immediataEseguibilita.favorevoli}}</span>
+									</label>
+									<label class="col-sm-3">Contrari: <span class="badge" style="background-color: #3c763d;">{{resoconto.votazioneSegreta ? resoconto.voto.segreto.contrari : resoconto.voto.palese.contrari}}</span>
+										<span class="badge" style="background-color: #a94442;" ng-if="resoconto.votazioneIE">{{resoconto.voto.immediataEseguibilita.contrari}}</span>
+									</label>
+									<label class="col-sm-3">Astenuti: <span class="badge" style="background-color: #3c763d;">{{resoconto.votazioneSegreta ? resoconto.voto.segreto.astenuti : resoconto.voto.palese.astenuti}}</span>
+									 	<span class="badge" style="background-color: #a94442;" ng-if="resoconto.votazioneIE">{{resoconto.voto.immediataEseguibilita.astenuti}}</span>
+									</label>
+									<label class="col-sm-3">Presenti non votanti: <span class="badge" style="background-color: #3c763d;">{{resoconto.votazioneSegreta ? resoconto.voto.segreto.presentiNonVotanti : resoconto.voto.palese.presentiNonVotanti}}</span>
+										<span class="badge" style="background-color: #a94442;" ng-if="resoconto.votazioneIE">{{resoconto.voto.immediataEseguibilita.presentiNonVotanti}}</span>
+									</label>
+								</div>
+							</div>
+							<div style="clear:both"></div>
+	                	 </div>
+	               	</div>
+                	<div ng-if="resoconto.esito && dettResocontoVisibile">
+                		<ul class="nav nav-tabs">
+						  <li ng-click="switchInfo(0)" ng-class="infoTab==0 ? 'active' : ''" ><a style="font-weight: bold;">Gestione Seduta</a></li>
+						  <li ng-if="visibilitaPresenza || visibilitaVotazione" ng-click="switchInfo(1)" ng-class="infoTab==1 ? 'active' : ''" ><a style="font-weight: bold;"><span style="color: #3c763d;">{{setTabLabel()}}</span></a></li>
+						  <li ng-if="resoconto.votazioneIE" ng-click="switchInfo(2)" ng-class="infoTab==2 ? 'active' : ''" ><a style="font-weight: bold;"><span style="color: #a94442;">Seduta Immed. Eseguibilit&agrave;</span></a></li>
+						  <li ng-if="resoconto.votazioneIE" ng-click="switchInfo(3)" ng-class="infoTab==3 ? 'active' : ''" ><a style="font-weight: bold;"><span style="color: #a94442;">Votazioni Immed. Eseguibilit&agrave;</span></a></li>
+						</ul>
+	                	<div class="tab-content clearfix">
+	                		<div ng-if="infoTab==0" ng-class="infoTab==0 ? 'tab-pane active' : 'tab-pane'">
+	                			<div class="form-group">
+									<div class="row">
+										<div class="form-group col-sm-12" ng-if="viewImmediataEseguibilita">
+											<label translate="cifra2gestattiApp.atto.ie">ie</label>
+											<si-no-select class="everActive" disallowclear="true" ng-model="resoconto.ie"
+														  class="form-control"  ng-disabled="resoconto.modificaComponenti"></si-no-select>
+										</div>
+										<div class="form-group col-sm-3" >
+											<label translate="cifra2gestattiApp.sedutaGiunta.dataOraDiscussione">Data e ora Discussione</label> *
+											<!-- <input type="datetime-local" class="form-control" name="dataDiscussione" ng-model="resoconto.dataDiscussione"  min="{{minDataChiusura | date:'yyyy-MM-ddTHH:mm'}}" max="{{sedutaGiunta.primaConvocazioneFine | date:'yyyy-MM-ddTHH:mm'}}" ng-model-options="{timezone: 'Europe/Berlin'}" required> -->
+											<!-- <div style="color:red" ng-if="resocontoForm.dataDiscussione.$error.min !== undefined || resocontoForm.dataDiscussione.$error.max !== undefined">La data ora della discussione deve essere compresa tra la data ora Inizio Lavori e la data ora Fine Lavori</div> -->
+
+
+											<input class="form-control" name="dataDiscussione"
+											       ng-model="resoconto.dataDiscussione"
+											       format="DD/MM/YYYY"
+											       maxView="hour"
+											       ng-model-options="{ updateOn: 'blur' }"
+											       placeholder="gg/mm/aaaa"
+											       ng-disabled="resoconto.modificaComponenti"
+											       moment-picker
+											       size="10"
+											       maxlength="10"
+											       required>
+											<input type="hidden" ng-required="!resoconto.dataDiscussione || !resoconto.dataDiscussione._isAMomentObject" ng-model="dataDiscussioneValidation">
+											<!-- <input type="text" class="pubblicazione form-control" name="dataDiscussione"
+												ng-model="resoconto.dataDiscussione" size="7" onkeydown="return false;"
+												bs-datepicker placeholder="dd/MM/yyyy" required="required"> -->
+
+											<!-- <input ng-change="setPublicationEndDate(); checkWarnDatePubblicazione()" class="pubblicazione form-control" type="text" ng-init="setTodayDate()"
+												ng-required="!atto.riservato && false" ng-disabled="atto.riservato == true" ng-model="atto.inizioPubblicazioneAlbo"
+												size="7" onkeydown="return false;" bs-datepicker data-min-date="today" placeholder="dd/MM/yyyy"> -->
+
+											<div style="color:red" ng-if="verifyDataChiusura(resoconto.dataDiscussione)">La data ora della discussione deve essere compresa tra la data ora Inizio Lavori e la data ora Fine Lavori</div>
+											<!-- <div style="color:red" ng-if="resocontoForm.dataDiscussione.$error.min !== undefined || resocontoForm.dataDiscussione.$error.max !== undefined">La data ora della discussione deve essere compresa tra la data ora Inizio Lavori e la data ora Fine Lavori</div> -->
+
+											<!-- <tt>resoconto.dataDiscussione = {{resoconto.dataDiscussione | date: 'yyyy-MM-dd':'Europe/Berlin'}}</tt><br/>
+											<tt>minDataChiusura = {{minDataChiusura | date:'yyyy-MM-dd':'Europe/Berlin'}}</tt><br/>
+											<tt>maxDataChiusura = {{sedutaGiunta.primaConvocazioneFine | date:'yyyy-MM-dd':'Europe/Berlin'}}</tt><br/>
+											<tt>resocontoForm.dataDiscussione.$error = {{resocontoForm.dataDiscussione.$error}}</tt><br/> -->
+
+										</div>
+
+										<div ng-class="ammetteImmediataEseguibilita ? 'form-group col-sm-3' : 'form-group col-sm-6'">
+											<label translate="cifra2gestattiApp.sedutaGiunta.sedutaConvocata">Seduta convocata da</label>
+											<input type="text" class="form-control" ng-disabled="resoconto.modificaComponenti"
+												ng-model="resoconto.sedutaConvocata" />
+										</div>
+										<div ng-if="ammetteImmediataEseguibilita" class="form-group col-sm-3" ng-if="sedutaGiunta.organo == 'C'">
+											<label translate="cifra2gestattiApp.sedutaGiunta.immediataEseguibilita">Immediata esecutività</label>
+											<input type="checkbox" class="form-control" ng-disabled="resoconto.modificaComponenti"
+												ng-model="resoconto.votazioneIE">
+										</div>
+									</div>
+									<div class="row">
+										<div class="form-group col-sm-6">
+											<label translate="cifra2gestattiApp.sedutaGiunta.attoPresentato">Atto presentato in seduta da</label>
+											<input type="text" class="form-control" ng-disabled="resoconto.modificaComponenti"
+												ng-model="resoconto.attoPresentato" />
+										</div>
+										<div class="form-group col-sm-3" >
+											<label translate="cifra2gestattiApp.sedutaGiunta.resoconto.isAttoModificato">Atto modificato in seduta</label> *
+											<select ng-model="resoconto.isAttoModificatoInGiunta" class="form-control"
+												ng-disabled="resoconto.modificaComponenti"
+												ng-options="item.id as item.label for item in lovSiNo" required="required">
+											</select>
+										</div>
+
+									</div>
+									<!--<div class="row">
+										<div class="form-group col-sm-6" >
+											<label translate="cifra2gestattiApp.sedutaGiunta.resoconto.presidenteInizio">presidente inizio</label> *
+											<ui-select ng-init="setQualificheProfilo('presidenteInizio',resoconto.presidenteInizio.profilo.id, false)"
+												ng-change="setQualificheProfilo('presidenteInizio',resoconto.presidenteInizio.profilo.id, true)"
+												ng-disabled="isSolaLetturaResoconto()" ng-model="resoconto.presidenteInizio.profilo"
+												theme="bootstrap" title="Ricerca presidente" required="required">
+
+								          		<ui-select-match placeholder="Cerca profili..">{{$select.selected.descrizione}} - {{$select.selected.utente.cognome}} {{$select.selected.utente.nome}} </ui-select-match>
+								            	<ui-select-choices repeat="profilo in profilosPresidente | filter: $select.search">
+								            		<div ng-bind-html="profilo.descrizione | highlight: $select.search"></div>
+								                	<small>
+								                		Ufficio: <span ng-bind-html="profilo.aoo.descrizione| highlight: $select.search"  ></span>
+														Utente: <span ng-bind-html="profilo.utente.cognome +' '+ profilo.utente.nome| highlight: $select.search"  ></span>
+													</small>
+												</ui-select-choices>
+											</ui-select>
+										</div>
+										<div class="form-group col-sm-6" >
+											<label translate="cifra2gestattiApp.sedutaGiunta.resoconto.qualifica">qualifica</label> *
+											<select style="font-family: arial; font-weight: normal;"
+												ng-model="resoconto.presidenteInizio.qualifica" class="form-control ng-pristine ng-untouched ng-valid"
+												ng-options="qualifica as qualifica.denominazione for qualifica in qualifiche.presidenteInizio track by qualifica.id"
+												aria-hidden="false" aria-invalid="false" required="required">
+												<option value=""></option>
+											</select>
+										</div>
+									</div>-->
+									<div class="row">
+										<div class="form-group col-sm-6" >
+											<label translate="cifra2gestattiApp.sedutaGiunta.resoconto.presidenteFine">presidente fine</label> *
+											<ui-select ng-init="setQualificheProfilo('presidenteFine',resoconto.presidenteFine.profilo.id, false)"
+												ng-change="setQualificheProfilo('presidenteFine',resoconto.presidenteFine.profilo.id, true)"
+												ng-disabled="isSolaLetturaResoconto()" ng-model="resoconto.presidenteFine.profilo"
+												theme="bootstrap" title="Ricerca presidente" required="required">
+
+								          		<ui-select-match placeholder="Cerca profili..">{{$select.selected.descrizione}} - {{$select.selected.utente.cognome}} {{$select.selected.utente.nome}} </ui-select-match>
+								            	<ui-select-choices repeat="profilo in profilosPresidente | filter: $select.search">
+								            		<div ng-bind-html="profilo.descrizione | highlight: $select.search"></div>
+								                	<small>
+								                		Ufficio: <span ng-bind-html="profilo.aoo.descrizione| highlight: $select.search"  ></span>
+														Utente: <span ng-bind-html="profilo.utente.cognome +' '+ profilo.utente.nome| highlight: $select.search"  ></span>
+													</small>
+												</ui-select-choices>
+											</ui-select>
+										</div>
+										<div class="form-group col-sm-6" >
+											<label translate="cifra2gestattiApp.sedutaGiunta.resoconto.qualifica">qualifica</label> *
+											<select style="font-family: arial; font-weight: normal;" ng-disabled="isSolaLetturaResoconto()"
+												ng-model="resoconto.presidenteFine.qualifica" class="form-control ng-pristine ng-untouched ng-valid"
+												ng-options="qualifica as qualifica.denominazione for qualifica in qualifiche.presidenteFine track by qualifica.id"
+												aria-hidden="false" aria-invalid="false" required="required">
+												<option value=""></option>
+											</select>
+										</div>
+									</div>
+									<!--<div class="row">
+										<div class="form-group col-sm-6" >
+											<label translate="cifra2gestattiApp.sedutaGiunta.resoconto.segretarioInizio">segretario inizio</label> *
+											<ui-select ng-init="setQualificheProfilo('segretarioInizio',resoconto.segretarioInizio.profilo.id, false)"
+												ng-change="setQualificheProfilo('segretarioInizio',resoconto.segretarioInizio.profilo.id, true)"
+												ng-disabled="isSolaLetturaResoconto()" ng-model="resoconto.segretarioInizio.profilo"
+												theme="bootstrap" title="Ricerca segretario" required="required">
+
+												<ui-select-match placeholder="Cerca profili..">{{$select.selected.descrizione}} - {{$select.selected.utente.cognome}} {{$select.selected.utente.nome}}</ui-select-match>
+								           		<ui-select-choices repeat="profilo in profilos | filter: $select.search">
+													<div ng-bind-html="profilo.descrizione | highlight: $select.search"></div>
+													<small>
+								                      	Ufficio: <span ng-bind-html="profilo.aoo.descrizione| highlight: $select.search"  ></span>
+								                        Utente: <span ng-bind-html="profilo.utente.cognome +' '+ profilo.utente.nome| highlight: $select.search"  ></span>
+													</small>
+												</ui-select-choices>
+											</ui-select>
+										</div>
+										<div class="form-group col-sm-6" >
+											<label translate="cifra2gestattiApp.sedutaGiunta.resoconto.qualifica">qualifica</label> *
+											<select style="font-family: arial; font-weight: normal;"
+												ng-model="resoconto.segretarioInizio.qualifica" class="form-control ng-pristine ng-untouched ng-valid"
+												ng-options="qualifica as qualifica.denominazione for qualifica in qualifiche.segretarioInizio track by qualifica.id"
+												aria-hidden="false" aria-invalid="false" required="required">
+												<option value=""></option>
+											</select>
+										</div>
+									</div>-->
+									<div class="row">
+										<div class="form-group col-sm-6" >
+											<label translate="cifra2gestattiApp.sedutaGiunta.resoconto.segretarioFine">segretario fine</label> *
+											<ui-select ng-init="setQualificheProfilo('segretarioFine',resoconto.segretarioFine.profilo.id, false)"
+												ng-change="setQualificheProfilo('segretarioFine',resoconto.segretarioFine.profilo.id, true)"
+												ng-disabled="isSolaLetturaResoconto()" ng-model="resoconto.segretarioFine.profilo" theme="bootstrap" title="Ricerca segretario" required="required">
+												<ui-select-match placeholder="Cerca profili..">{{$select.selected.descrizione}} - {{$select.selected.utente.cognome}} {{$select.selected.utente.nome}}</ui-select-match>
+								           		<ui-select-choices repeat="profilo in profilos | filter: $select.search">
+													<div ng-bind-html="profilo.descrizione | highlight: $select.search"></div>
+													<small>
+								                      	Ufficio: <span ng-bind-html="profilo.aoo.descrizione| highlight: $select.search"  ></span>
+								                        Utente: <span ng-bind-html="profilo.utente.cognome +' '+ profilo.utente.nome| highlight: $select.search"  ></span>
+													</small>
+												</ui-select-choices>
+											</ui-select>
+										</div>
+										<div class="form-group col-sm-6" >
+											<label translate="cifra2gestattiApp.sedutaGiunta.resoconto.qualifica">qualifica</label> *
+											<select style="font-family: arial; font-weight: normal;" ng-disabled="isSolaLetturaResoconto()"
+												ng-model="resoconto.segretarioFine.qualifica" class="form-control ng-pristine ng-untouched ng-valid"
+												ng-options="qualifica as qualifica.denominazione for qualifica in qualifiche.segretarioFine track by qualifica.id"
+												aria-hidden="false" aria-invalid="false" required="required">
+												<option value=""></option>
+											</select>
+										</div>
+									</div>
+									<div class="row" ng-if="sedutaGiunta.organo == 'C'">
+										<div class="form-group col-sm-6" >
+											<label translate="cifra2gestattiApp.sedutaGiunta.resoconto.scrutatore">Scrutatore</label>
+
+											<ui-select
+												ng-init="setQualificheProfilo('scrutatore01',resoconto.scrutatore01.profilo.id, false); setListaScrutatori();"
+												ng-change="setQualificheProfilo('scrutatore01',resoconto.scrutatore01.profilo.id, true); setListaScrutatori();"
+												ng-disabled="isSolaLetturaResoconto()" ng-model="resoconto.scrutatore01.profilo" theme="bootstrap" title="Ricerca scrutatore" >
+												<ui-select-match allow-clear="true" placeholder="Cerca scrutatore..">{{$select.selected.descrizione}} - {{$select.selected.utente.cognome}} {{$select.selected.utente.nome}}</ui-select-match>
+								           		<ui-select-choices repeat="profilo in listaScrutatori">
+								           			<div ng-bind-html="profilo.descrizione | highlight: $select.search"></div>
+								           			<small>
+								                      	Ufficio: <span ng-bind-html="profilo.aoo.descrizione| highlight: $select.search"  ></span>
+								                        Utente: <span ng-bind-html="profilo.utente.cognome +' '+ profilo.utente.nome| highlight: $select.search"  ></span>
+													</small>
+								           		</ui-select-choices>
+											</ui-select>
+
+										</div>
+										<div class="form-group col-sm-6" >
+											<label translate="cifra2gestattiApp.sedutaGiunta.resoconto.qualifica">qualifica</label>
+											<select style="font-family: arial; font-weight: normal;" ng-disabled="isSolaLetturaResoconto()"
+												ng-model="resoconto.scrutatore01.qualifica" class="form-control ng-pristine ng-untouched ng-valid"
+												ng-options="qualifica as qualifica.denominazione for qualifica in qualifiche.scrutatore01 track by qualifica.id"
+												aria-hidden="false" aria-invalid="false">
+												<option value=""></option>
+											</select>
+										</div>
+									</div>
+									<div class="row" ng-if="sedutaGiunta.organo == 'C'">
+										<div class="form-group col-sm-6" >
+											<label translate="cifra2gestattiApp.sedutaGiunta.resoconto.scrutatore">Scrutatore</label>
+
+											<ui-select
+												ng-init="setQualificheProfilo('scrutatore02',resoconto.scrutatore02.profilo.id, false); setListaScrutatori();"
+												ng-change="setQualificheProfilo('scrutatore02',resoconto.scrutatore02.profilo.id, true); setListaScrutatori();"
+												ng-disabled="isSolaLetturaResoconto()" ng-model="resoconto.scrutatore02.profilo" theme="bootstrap" title="Ricerca scrutatore" >
+												<ui-select-match allow-clear="true" placeholder="Cerca scrutatore..">{{$select.selected.descrizione}} - {{$select.selected.utente.cognome}} {{$select.selected.utente.nome}}</ui-select-match>
+								           		<ui-select-choices repeat="profilo in listaScrutatori">
+								           			<div ng-bind-html="profilo.descrizione | highlight: $select.search"></div>
+								           			<small>
+								                      	Ufficio: <span ng-bind-html="profilo.aoo.descrizione| highlight: $select.search"  ></span>
+								                        Utente: <span ng-bind-html="profilo.utente.cognome +' '+ profilo.utente.nome| highlight: $select.search"  ></span>
+													</small>
+								           		</ui-select-choices>
+											</ui-select>
+										</div>
+										<div class="form-group col-sm-6" >
+											<label translate="cifra2gestattiApp.sedutaGiunta.resoconto.qualifica">qualifica</label>
+											<select style="font-family: arial; font-weight: normal;" ng-disabled="isSolaLetturaResoconto()"
+												ng-model="resoconto.scrutatore02.qualifica" class="form-control ng-pristine ng-untouched ng-valid"
+												ng-options="qualifica as qualifica.denominazione for qualifica in qualifiche.scrutatore02 track by qualifica.id"
+												aria-hidden="false" aria-invalid="false">
+												<option value=""></option>
+											</select>
+										</div>
+									</div>
+									<div class="row" ng-if="sedutaGiunta.organo == 'C'">
+										<div class="form-group col-sm-6" >
+											<label translate="cifra2gestattiApp.sedutaGiunta.resoconto.scrutatore">Scrutatore</label>
+
+											<ui-select
+												ng-init="setQualificheProfilo('scrutatore03',resoconto.scrutatore03.profilo.id, false); setListaScrutatori();"
+												ng-change="setQualificheProfilo('scrutatore03',resoconto.scrutatore03.profilo.id, true); setListaScrutatori();"
+												ng-disabled="isSolaLetturaResoconto()" ng-model="resoconto.scrutatore03.profilo" theme="bootstrap" title="Ricerca scrutatore" >
+												<ui-select-match allow-clear="true" placeholder="Cerca scrutatore..">{{$select.selected.descrizione}} - {{$select.selected.utente.cognome}} {{$select.selected.utente.nome}}</ui-select-match>
+								           		<ui-select-choices repeat="profilo in listaScrutatori">
+								           			<div ng-bind-html="profilo.descrizione | highlight: $select.search"></div>
+								           			<small>
+								                      	Ufficio: <span ng-bind-html="profilo.aoo.descrizione| highlight: $select.search"  ></span>
+								                        Utente: <span ng-bind-html="profilo.utente.cognome +' '+ profilo.utente.nome| highlight: $select.search"  ></span>
+													</small>
+								           		</ui-select-choices>
+											</ui-select>
+										</div>
+										<div class="form-group col-sm-6" >
+											<label translate="cifra2gestattiApp.sedutaGiunta.resoconto.qualifica">qualifica</label>
+											<select style="font-family: arial; font-weight: normal;" ng-disabled="isSolaLetturaResoconto()"
+												ng-model="resoconto.scrutatore03.qualifica" class="form-control ng-pristine ng-untouched ng-valid"
+												ng-options="qualifica as qualifica.denominazione for qualifica in qualifiche.scrutatore03 track by qualifica.id"
+												aria-hidden="false" aria-invalid="false">
+												<option value=""></option>
+											</select>
+										</div>
+									</div>
+								</div>
+	                		</div>
+	                		<div ng-if="infoTab==1 && (visibilitaPresenza || visibilitaVotazione)" ng-class="infoTab==1 ? 'tab-pane active' : 'tab-pane'">
+	                			<div ng-if="visibilitaVotazione" class="row">
+									<div class="form-group col-sm-6" >
+										<label class="checkbox-inline">
+											<input type="checkbox" ng-change="impostaTutti('*')" class="form-control" ng-disabled="resoconto.modificaComponenti" ng-model="resoconto.votazioneSegreta"><span translate="cifra2gestattiApp.sedutaGiunta.votazionesegreta">Votazione segreta</span>
+										</label>
+									</div>
+									<div class="form-group col-sm-6" >
+										<div ng-if="resoconto">
+											<span>Selezione Rapida</span>
+											<select ng-change="impostaTutti()" ng-model="resoconto.impostaTutti" ng-disabled="isSolaLetturaResoconto()">
+												<option value="P">Tutti Presenti</option>
+												<option value="PTC">Presenti - tutti contrari</option>
+												<option value="A">Tutti Assenti</option>
+												<option value="*">Svuota</option>
+											</select>
+										</div>
+									</div>
+								</div>
+								<div class="row" ng-if="resoconto.votazioneSegreta && visibilitaPresenza">
+									<div class="form-group col-sm-3">
+										<label>Presenti</label>
+										<input type="number" disabled="disabled" ng-class="{'btn-danger' : erroreCongruenzaPresentiNumVoti}" ng-change="verificaPresentiNumVoti()" ng-model="resoconto.voto.segreto.presenti" step="1" min="0" class="form-control">
+									</div>
+									<div class="form-group col-sm-3">
+										<label>Assenti</label>
+										<input type="number" disabled="disabled" ng-model="resoconto.voto.segreto.assenti" step="1" min="0" class="form-control">
+									</div>
+								</div>
+								<div class="row" ng-if="resoconto.votazioneSegreta && visibilitaVotazione">
+									<div class="form-group col-sm-3">
+										<label>Favorevoli</label>
+										<input type="number" ng-disabled="isSolaLetturaResoconto()" ng-blur="resoconto.voto.segreto.favorevoli = (resoconto.voto.segreto.favorevoli !== null ? resoconto.voto.segreto.favorevoli : 0)" ng-change="verificaPresentiNumVoti()" ng-model="resoconto.voto.segreto.favorevoli" step="1" min="0" class="form-control">
+									</div>
+									<div class="form-group col-sm-3">
+										<label>Contrari</label>
+										<input type="number" ng-disabled="isSolaLetturaResoconto()" ng-blur="resoconto.voto.segreto.contrari = (resoconto.voto.segreto.contrari !== null ? resoconto.voto.segreto.contrari : 0)" ng-change="verificaPresentiNumVoti()" ng-model="resoconto.voto.segreto.contrari" step="1" min="0" class="form-control">
+									</div>
+									<div class="form-group col-sm-3">
+										<label>Astenuti</label>
+										<input type="number" ng-disabled="isSolaLetturaResoconto()" ng-blur="resoconto.voto.segreto.astenuti = (resoconto.voto.segreto.astenuti !== null ? resoconto.voto.segreto.astenuti : 0)" ng-change="verificaPresentiNumVoti()" ng-model="resoconto.voto.segreto.astenuti" step="1" min="0" class="form-control">
+									</div>
+									<div class="form-group col-sm-3">
+										<label>Presenti non votanti</label>
+										<input type="number" ng-disabled="isSolaLetturaResoconto()" ng-blur="resoconto.voto.segreto.presentiNonVotanti = (resoconto.voto.segreto.presentiNonVotanti !== null ? resoconto.voto.segreto.presentiNonVotanti : 0)" ng-change="verificaPresentiNumVoti()" ng-model="resoconto.voto.segreto.presentiNonVotanti" step="1" min="0" class="form-control">
+									</div>
+								</div>
+								<div class="row" ng-if="resoconto.votazioneSegreta && erroreCongruenzaPresentiNumVoti">
+									<div class="form-group col-sm-12">
+										<span style="color: darkred;" translate="cifra2gestattiApp.sedutaGiunta.erroreCongruenzaPresentiNumVoti"></span>
+									</div>
+								</div>
+								<div class="row">
+									<div class="form-group col-sm-12" >
+										<label ng-if="sedutaGiunta.organo == 'G'">Carica Versione Composizione Giunta</label>
+										<label ng-if="sedutaGiunta.organo == 'C'">Carica Versione Composizione Consiglio</label>
+										<select ng-if="sedutaGiunta.organo == 'G'" class="form-control" name="composizione" ng-disabled="isSolaLetturaResoconto()" ng-model="resoconto.composizione.id" ng-options="composizione.id as composizione.descrizione for composizione in versioniComposizioneGiunta" ng-change="caricaComposizioneSelezionata();"></select>
+										<select ng-if="sedutaGiunta.organo == 'C'" class="form-control" name="composizione" ng-disabled="isSolaLetturaResoconto()" ng-model="resoconto.composizione.id" ng-options="composizione.id as composizione.descrizione for composizione in versioniComposizioneConsiglio" ng-change="caricaComposizioneSelezionata();"></select>
+									</div>
+								</div>
+	                			<div class="row">
+									<div class="form-group col-sm-12" >
+										<label ng-if="sedutaGiunta.organo == 'G'">Componenti Giunta</label>
+										<label ng-if="sedutaGiunta.organo == 'C'">Componenti Consiglio</label>
+										<table class="table table-responsive">
+											<thead>
+												<tr>
+													<th ng-if="sedutaGiunta.organo == 'G'">Assessore</th>
+													<th ng-if="sedutaGiunta.organo == 'C'">Consigliere</th>
+													<th ng-if="visibilitaPresenza"><span translate="cifra2gestattiApp.sedutaGiunta.resoconto.presenza">Presenza</span> *</th>
+													<th ng-if="visibilitaVotazione && resoconto && !resoconto.votazioneSegreta"><span translate="cifra2gestattiApp.sedutaGiunta.resoconto.votazione">Votazione</span> *</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr ng-repeat="componente in resoconto.componenti | filter:{isSegretarioFine:false}">
+													<td>{{componente.profilo.utente.nome}} {{componente.profilo.utente.cognome}}</td>
+													<td ng-if="visibilitaPresenza"><select ng-model="componente.presente" class="form-control" ng-disabled="isSolaLetturaResoconto()"
+																ng-init="updateTotals(); verificaVotazione($index, componente, false);" ng-change="updateTotals(); verificaVotazione($index, componente, false);"
+																ng-options="item.valore as item.label for item in [{valore: true, label: 'Presente'},{valore: false, label: 'Assente'}]" required="required"></select></td>
+													<td ng-if="visibilitaVotazione && resoconto && !resoconto.votazioneSegreta"><select id="componente-votazione-{{$index}}" ng-model="componente.votazione" class="form-control"
+																ng-init="updateTotals()" ng-change="updateTotals()" ng-disabled="!componente.presente || isSolaLetturaResoconto()"
+																ng-options="itemv.codice as itemv.descrizione for itemv in valVotazioni"></select></td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+								<div class="row">
+									<div class="form-group col-sm-12" >
+										<label translate="cifra2gestattiApp.sedutaGiunta.dichiarazioniVoto">Dichiarazioni di voto</label>
+										<textarea class="form-control" rows="5" ng-disabled="resoconto.modificaComponenti" ng-model="resoconto.dichiarazioniVoto"></textarea>
+									</div>
+								</div>
+	                		</div>
+	                		<div ng-if="infoTab==2 && (visibilitaPresenza || visibilitaVotazione) && resoconto.votazioneIE" ng-class="infoTab==2 ? 'tab-pane active' : 'tab-pane'">
+	                			<div style="margin-top: 5px;" class="row">
+									<div class="form-group col-sm-6" >
+										<span ng-click="copiaGestioneSedutaToIE()" class="btn btn-sm btn-primary" translate="cifra2gestattiApp.sedutaGiunta.copiaGestioneSedutaToIE"></span>
+									</div>
+									<div class="col-sm-6" >
+									</div>
+								</div>
+	                			
+	                			<div class="row">
+									<div class="form-group col-sm-6" >
+										<label translate="cifra2gestattiApp.sedutaGiunta.resoconto.presidenteIE">presidente</label> *
+										<ui-select ng-init="setQualificheProfilo('presidenteIE',resoconto.presidenteIE.profilo.id, false)"
+											ng-change="setQualificheProfilo('presidenteIE',resoconto.presidenteIE.profilo.id, true)"
+											ng-disabled="isSolaLetturaResoconto()" ng-model="resoconto.presidenteIE.profilo"
+											theme="bootstrap" title="Ricerca presidente" required="required">
+
+							          		<ui-select-match placeholder="Cerca profili..">{{$select.selected.descrizione}} - {{$select.selected.utente.cognome}} {{$select.selected.utente.nome}} </ui-select-match>
+							            	<ui-select-choices repeat="profilo in profilosPresidente | filter: $select.search">
+							            		<div ng-bind-html="profilo.descrizione | highlight: $select.search"></div>
+							                	<small>
+							                		Ufficio: <span ng-bind-html="profilo.aoo.descrizione| highlight: $select.search"  ></span>
+													Utente: <span ng-bind-html="profilo.utente.cognome +' '+ profilo.utente.nome| highlight: $select.search"  ></span>
+												</small>
+											</ui-select-choices>
+										</ui-select>
+									</div>
+									<div class="form-group col-sm-6" >
+										<label translate="cifra2gestattiApp.sedutaGiunta.resoconto.qualifica">qualifica</label> *
+										<select style="font-family: arial; font-weight: normal;"
+											ng-disabled="isSolaLetturaResoconto()"
+											ng-model="resoconto.presidenteIE.qualifica" class="form-control ng-pristine ng-untouched ng-valid"
+											ng-options="qualifica as qualifica.denominazione for qualifica in qualifiche.presidenteIE track by qualifica.id"
+											aria-hidden="false" aria-invalid="false" required="required">
+											<option value=""></option>
+										</select>
+									</div>
+								</div>
+
+								<div class="row">
+									<div class="form-group col-sm-6" >
+										<label translate="cifra2gestattiApp.sedutaGiunta.resoconto.segretarioIE">segretario</label> *
+										<ui-select ng-init="setQualificheProfilo('segretarioIE',resoconto.segretarioIE.profilo.id, false)"
+											ng-change="setQualificheProfilo('segretarioIE',resoconto.segretarioIE.profilo.id, true)"
+											ng-disabled="isSolaLetturaResoconto()" ng-model="resoconto.segretarioIE.profilo"
+											theme="bootstrap" title="Ricerca segretario" required="required">
+
+											<ui-select-match placeholder="Cerca profili..">{{$select.selected.descrizione}} - {{$select.selected.utente.cognome}} {{$select.selected.utente.nome}}</ui-select-match>
+							           		<ui-select-choices repeat="profilo in profilos | filter: $select.search">
+												<div ng-bind-html="profilo.descrizione | highlight: $select.search"></div>
+												<small>
+							                      	Ufficio: <span ng-bind-html="profilo.aoo.descrizione| highlight: $select.search"  ></span>
+							                        Utente: <span ng-bind-html="profilo.utente.cognome +' '+ profilo.utente.nome| highlight: $select.search"  ></span>
+												</small>
+											</ui-select-choices>
+										</ui-select>
+									</div>
+									<div class="form-group col-sm-6" >
+										<label translate="cifra2gestattiApp.sedutaGiunta.resoconto.qualifica">qualifica</label> *
+										<select style="font-family: arial; font-weight: normal;"
+											ng-disabled="isSolaLetturaResoconto()"
+											ng-model="resoconto.segretarioIE.qualifica" class="form-control ng-pristine ng-untouched ng-valid"
+											ng-options="{id : qualifica.id} as qualifica.denominazione for qualifica in qualifiche.segretarioIE track by qualifica.id"
+											aria-hidden="false" aria-invalid="false" required="required">
+											<option value=""></option>
+										</select>
+									</div>
+								</div>
+								<div class="row" ng-if="sedutaGiunta.organo == 'C'">
+									<div class="form-group col-sm-6" >
+										<label translate="cifra2gestattiApp.sedutaGiunta.resoconto.scrutatore">Scrutatore</label>
+
+										<ui-select
+											ng-init="setQualificheProfilo('scrutatoreIE01',resoconto.scrutatoreIE01.profilo.id, false); setListaScrutatoriIE();"
+											ng-change="setQualificheProfilo('scrutatoreIE01',resoconto.scrutatoreIE01.profilo.id, true); setListaScrutatoriIE();"
+											ng-disabled="isSolaLetturaResoconto()" ng-model="resoconto.scrutatoreIE01.profilo" theme="bootstrap" title="Ricerca scrutatore" >
+											<ui-select-match allow-clear="true" placeholder="Cerca scrutatore..">{{$select.selected.descrizione}} - {{$select.selected.utente.cognome}} {{$select.selected.utente.nome}}</ui-select-match>
+							           		<ui-select-choices repeat="profilo in listaScrutatoriIE">
+							           			<div ng-bind-html="profilo.descrizione | highlight: $select.search"></div>
+							           			<small>
+							                      	Ufficio: <span ng-bind-html="profilo.aoo.descrizione| highlight: $select.search"  ></span>
+							                        Utente: <span ng-bind-html="profilo.utente.cognome +' '+ profilo.utente.nome| highlight: $select.search"  ></span>
+												</small>
+							           		</ui-select-choices>
+										</ui-select>
+
+									</div>
+									<div class="form-group col-sm-6" >
+										<label translate="cifra2gestattiApp.sedutaGiunta.resoconto.qualifica">qualifica</label>
+										<select style="font-family: arial; font-weight: normal;"
+											ng-disabled="isSolaLetturaResoconto()"
+											ng-model="resoconto.scrutatoreIE01.qualifica" class="form-control ng-pristine ng-untouched ng-valid"
+											ng-options="qualifica as qualifica.denominazione for qualifica in qualifiche.scrutatoreIE01 track by qualifica.id"
+											aria-hidden="false" aria-invalid="false">
+											<option value=""></option>
+										</select>
+									</div>
+								</div>
+								<div class="row" ng-if="sedutaGiunta.organo == 'C'">
+									<div class="form-group col-sm-6" >
+										<label translate="cifra2gestattiApp.sedutaGiunta.resoconto.scrutatore">Scrutatore</label>
+
+										<ui-select
+											ng-init="setQualificheProfilo('scrutatoreIE02',resoconto.scrutatoreIE02.profilo.id, false); setListaScrutatoriIE();"
+											ng-change="setQualificheProfilo('scrutatoreIE02',resoconto.scrutatoreIE02.profilo.id, true); setListaScrutatoriIE();"
+											ng-disabled="isSolaLetturaResoconto()" ng-model="resoconto.scrutatoreIE02.profilo" theme="bootstrap" title="Ricerca scrutatore" >
+											<ui-select-match allow-clear="true" placeholder="Cerca scrutatore..">{{$select.selected.descrizione}} - {{$select.selected.utente.cognome}} {{$select.selected.utente.nome}}</ui-select-match>
+							           		<ui-select-choices repeat="profilo in listaScrutatoriIE">
+							           			<div ng-bind-html="profilo.descrizione | highlight: $select.search"></div>
+							           			<small>
+							                      	Ufficio: <span ng-bind-html="profilo.aoo.descrizione| highlight: $select.search"  ></span>
+							                        Utente: <span ng-bind-html="profilo.utente.cognome +' '+ profilo.utente.nome| highlight: $select.search"  ></span>
+												</small>
+							           		</ui-select-choices>
+										</ui-select>
+									</div>
+									<div class="form-group col-sm-6" >
+										<label translate="cifra2gestattiApp.sedutaGiunta.resoconto.qualifica">qualifica</label>
+										<select style="font-family: arial; font-weight: normal;"
+											ng-disabled="isSolaLetturaResoconto()"
+											ng-model="resoconto.scrutatoreIE02.qualifica" class="form-control ng-pristine ng-untouched ng-valid"
+											ng-options="qualifica as qualifica.denominazione for qualifica in qualifiche.scrutatoreIE02 track by qualifica.id"
+											aria-hidden="false" aria-invalid="false">
+											<option value=""></option>
+										</select>
+									</div>
+								</div>
+								<div class="row" ng-if="sedutaGiunta.organo == 'C'">
+									<div class="form-group col-sm-6" >
+										<label translate="cifra2gestattiApp.sedutaGiunta.resoconto.scrutatore">Scrutatore</label>
+
+										<ui-select
+											ng-init="setQualificheProfilo('scrutatoreIE03',resoconto.scrutatoreIE03.profilo.id, false); setListaScrutatoriIE();"
+											ng-change="setQualificheProfilo('scrutatoreIE03',resoconto.scrutatoreIE03.profilo.id, true); setListaScrutatoriIE();"
+											ng-disabled="isSolaLetturaResoconto()" ng-model="resoconto.scrutatoreIE03.profilo" theme="bootstrap" title="Ricerca scrutatore" >
+											<ui-select-match allow-clear="true" placeholder="Cerca scrutatore..">{{$select.selected.descrizione}} - {{$select.selected.utente.cognome}} {{$select.selected.utente.nome}}</ui-select-match>
+							           		<ui-select-choices repeat="profilo in listaScrutatoriIE">
+							           			<div ng-bind-html="profilo.descrizione | highlight: $select.search"></div>
+							           			<small>
+							                      	Ufficio: <span ng-bind-html="profilo.aoo.descrizione| highlight: $select.search"  ></span>
+							                        Utente: <span ng-bind-html="profilo.utente.cognome +' '+ profilo.utente.nome| highlight: $select.search"  ></span>
+												</small>
+							           		</ui-select-choices>
+										</ui-select>
+									</div>
+									<div class="form-group col-sm-6" >
+										<label translate="cifra2gestattiApp.sedutaGiunta.resoconto.qualifica">qualifica</label>
+										<select style="font-family: arial; font-weight: normal;"
+											ng-disabled="isSolaLetturaResoconto()"
+											ng-model="resoconto.scrutatoreIE03.qualifica" class="form-control ng-pristine ng-untouched ng-valid"
+											ng-options="qualifica as qualifica.denominazione for qualifica in qualifiche.scrutatoreIE03 track by qualifica.id"
+											aria-hidden="false" aria-invalid="false">
+											<option value=""></option>
+										</select>
+									</div>
+								</div>
+	                		</div>
+
+	                		<div ng-if="infoTab==3 && (visibilitaPresenza || visibilitaVotazione) && resoconto.votazioneIE" ng-class="infoTab==3 ? 'tab-pane active' : 'tab-pane'">
+
+	                			<div class="row">
+									<div class="form-group col-sm-6" >
+										<label>Immediata Eseguibilit&agrave; *</label>
+										<select ng-model="resoconto.approvataIE" class="form-control"
+											ng-disabled="resoconto.modificaComponenti"
+											ng-options="item.valore as item.label for item in [{valore:true,label:'Approvata'},{valore:false,label:'Respinta'}]">
+										</select>
+									</div>
+									<div class="form-group col-sm-6" >
+										<label>Selezione Rapida</label>
+										<select ng-change="impostaTuttiIE()" ng-model="resoconto.impostaTuttiIE" ng-disabled="isSolaLetturaResoconto()" class="form-control">
+											<option value="P">Tutti Presenti</option>
+											<option value="PTC">Presenti - tutti contrari</option>
+											<option value="A">Tutti Assenti</option>
+											<option value="C">Copia Presenze/Votazioni</option>
+											<option value="*">Svuota Votazione</option>
+										</select>
+									</div>
+								</div>
+								
+	                			<div class="row">
+									<div class="form-group col-sm-12" >
+										<label ng-if="sedutaGiunta.organo == 'G'">Componenti Giunta</label>
+										<label ng-if="sedutaGiunta.organo == 'C'">Componenti Consiglio</label>
+										<table class="table table-responsive">
+											<thead>
+												<tr>
+													<th ng-if="sedutaGiunta.organo == 'G'">Assessore</th>
+													<th ng-if="sedutaGiunta.organo == 'C'">Consigliere</th>
+													<th><span translate="cifra2gestattiApp.sedutaGiunta.resoconto.presenza">Presenza</span> *</th>
+													<th><span translate="cifra2gestattiApp.sedutaGiunta.resoconto.votazione">Votazione</span> *</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr ng-repeat="componente in resoconto.componenti | filter:{isSegretarioFine:false}">
+													<td>{{componente.profilo.utente.nome}} {{componente.profilo.utente.cognome}}</td>
+													<td ng-if="visibilitaPresenza"><select ng-model="componente.presenteIE" class="form-control" ng-disabled="isSolaLetturaResoconto()"
+																ng-init="updateTotals(); verificaVotazione($index, componente, true);" ng-change="updateTotals(); verificaVotazione($index, componente, true);"
+																ng-options="item.valore as item.label for item in [{valore: true, label: 'Presente'},{valore: false, label: 'Assente'}]" required="required"></select></td>
+													<td ng-if="visibilitaVotazione"><select id="componente-votazione-{{$index}}" ng-model="componente.votazioneIE" class="form-control"
+																ng-init="updateTotals()" ng-change="updateTotals()" ng-disabled="!componente.presenteIE || isSolaLetturaResoconto()"
+																ng-options="itemv.codice as itemv.descrizione for itemv in valVotazioni"></select></td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+								<div class="row">
+									<div class="form-group col-sm-12" >
+										<label translate="cifra2gestattiApp.sedutaGiunta.dichiarazioniVoto">Dichiarazioni di voto</label>
+										<textarea class="form-control" rows="5" ng-disabled="isSolaLetturaResoconto()" ng-model="resoconto.dichiarazioniVoto"></textarea>
+									</div>
+								</div>
+	                		</div>
+	                	</div>
+                	</div>
+
+                </div>
+				<div ng-if="!resoconto.id || (sedutaGiunta.selected.length > 1)">
+					<div class="modal-footer" ng-if="!scenariDisabilitazione || scenariDisabilitazione.indexOf('VotazioniPresenzeNonModificabili') < 0">
+	                    <button type="button" class="btn btn-default" ng-click="terminaRegistrazioni();" ng-disabled="taskLoading">
+	                        <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;
+	                        <span translate="entity.action.cancel" ng-if="sedutaGiunta.selected.length < 2">Cancel</span>
+	                        <span translate="cifra2gestattiApp.sedutaGiunta.terminaRegistrazioni" ng-if="sedutaGiunta.selected.length > 1">Cancel</span>
+	                    </button>
+	                    <button type="button" class="btn btn-default" ng-disabled="taskLoading" ng-if="resoconto.curIdx > 0" ng-click="resocontoMassivoBack();">
+	                        <span class="glyphicon glyphicon-step-backward"></span>&nbsp;
+	                        <span translate="entity.action.back">Indietro</span>
+	                    </button>
+	                    <!--<button type="button" ng-if="resoconto.annulla == true" class="btn btn-danger" data-dismiss="modal" ng-click="annullaResoconto()" >
+	                        <span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span translate="cifra2gestattiApp.sedutaGiunta.resoconto.annulla.label">Cancella</span>
+	                    </button>-->
+	                    <button type="submit" class="btn btn-primary" ng-if="resoconto.modifica == true && (resoconto.curIdx == sedutaGiunta.selected.length-1 || resoconto.id)"
+	                    		ng-disabled="!validaResocontoForm() || verifyDataChiusura(resoconto.dataDiscussione) || taskLoading" ng-click="resoconto.stepMass = 0;">
+	                    	<i class="fa fa-spinner fa-pulse" ng-if="taskLoading"></i>
+	                        <span class="glyphicon glyphicon-floppy-disk"></span>&nbsp;
+	                        <span translate="cifra2gestattiApp.sedutaGiunta.salvaRegistrazione">Salva</span>
+	                    </button>
+	                    <button type="submit" class="btn btn-primary" ng-if="resoconto.modifica == true && (resoconto.curIdx < sedutaGiunta.selected.length-1)"
+	                    		ng-disabled="!validaResocontoForm() || verifyDataChiusura(resoconto.dataDiscussione) || taskLoading" ng-click="resoconto.stepMass = 1;">
+	                    	<i class="fa fa-spinner fa-pulse" ng-if="taskLoading"></i>
+	                        <span class="glyphicon glyphicon-floppy-disk"></span>&nbsp;
+	                        <span translate="cifra2gestattiApp.sedutaGiunta.salvaProcedi">Salva e Procedi</span>
+	                    </button>
+	                    <!-- 
+	                    ID: {{resoconto.id}}
+	                    MOD: {{resoconto.modifica}}
+	                    IDX: {{resoconto.curIdx}}
+	                    SEL: {{sedutaGiunta.selected.length}}
+	                    -->
+	                </div>
+				</div>
+                <div ng-if="(!sedutaAttoId) && resoconto.id && (!sedutaGiunta.selected || sedutaGiunta.selected.length < 2)">
+					<div ng-if="!confermaEsito">
+						<div class="modal-footer" ng-if="!scenariDisabilitazione || scenariDisabilitazione.indexOf('VotazioniPresenzeNonModificabili') < 0">
+							<button type="button" class="btn btn-default" data-dismiss="modal">
+									<span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="">Torna ad elenco senza modificare esito</span>
+							</button>
+							<button type="submit" ng-disabled="!validaResocontoForm() || verifyDataChiusura(resoconto.dataDiscussione) || taskLoading" ng-if="resoconto.modifica == true" class="btn btn-primary">
+								<i class="fa fa-spinner fa-pulse" ng-if="taskLoading"></i>
+									<span class="glyphicon glyphicon-floppy-disk"></span>&nbsp;<span translate="">Salva Modifiche Esito</span>
+							</button>
+							<button type="button" ng-click="annullaResoconto(atto)" ng-disabled="!validaResocontoForm() || verifyDataChiusura(resoconto.dataDiscussione) || taskLoading" ng-if="resoconto.modifica == true" class="btn btn-primary">
+								<i class="fa fa-spinner fa-pulse" ng-if="taskLoading"></i>
+									<span class="glyphicon glyphicon-floppy-disk"></span>&nbsp;<span translate="">Cancella Esito</span>
+							</button>
+						</div>
+					</div>
+					<div ng-if="confermaEsito">
+						<div class="modal-footer" ng-if="!scenariDisabilitazione || scenariDisabilitazione.indexOf('VotazioniPresenzeNonModificabili') < 0">
+							<button type="button" class="btn btn-default" data-dismiss="modal" >
+									<span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="">Torna ad elenco senza confermare esito</span>
+							</button>
+							<button type="button" ng-click="confermaResoconto()" ng-disabled="!validaResocontoForm() || verifyDataChiusura(resoconto.dataDiscussione) || taskLoading" ng-if="resoconto.modifica == true" class="btn btn-primary">
+								<i class="fa fa-spinner fa-pulse" ng-if="taskLoading"></i>
+									<span class="glyphicon glyphicon-floppy-disk"></span>&nbsp;<span translate="">Conferma Definitiva Esito</span>
+							</button>
+						</div>
+					</div>
+					<div ng-if="resoconto.segretarioFine.atto.bloccoModifica">
+						<div class="modal-footer">
+		                    <button type="button" class="closeModalEsito" class="btn btn-default" data-dismiss="modal">
+		                        <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+		                    </button>
+		                </div>
+					</div>
+				</div>
+				<div class="modal-footer" ng-if="sedutaAttoId">
+					<button type="button" class="btn btn-default" data-dismiss="modal">
+							<span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="">Chiudi senza modificare</span>
+					</button>
+					<button type="submit" ng-disabled="!validaResocontoForm() || verifyDataChiusura(resoconto.dataDiscussione) || taskLoading" class="btn btn-primary">
+						<i class="fa fa-spinner fa-pulse" ng-if="taskLoading"></i>
+						<span class="glyphicon glyphicon-floppy-disk"></span>&nbsp;<span translate="">Salva Modifiche Votazioni</span>
+					</button>
+				</div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="annullaResocontoAtto" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form name="cancelResocontoForm" ng-submit="confirmAnnullaResoconto()">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                            ng-click="clearAnnullaResoconto()">&times;</button>
+                    <h4 class="modal-title" translate="cifra2gestattiApp.sedutaGiunta.resoconto.annullaEsito.title">Confirm delete operation</h4>
+                </div>
+                <div class="modal-body">
+                    <p translate="cifra2gestattiApp.sedutaGiunta.resoconto.annullaEsito.question" >Are you sure you want to delete this Resoconto?</p>
+                    <table class="table table-responsive">
+                    	<thead>
+                    		<tr>
+                    			<th>Num. proposta&#92;Codice Attico</th>
+                    			<th>Esito</th>
+                    		</tr>
+                    	</thead>
+                    	<tbody>
+                    		<tr ng-repeat="atto in listaAnnulla">
+                    			<td>{{atto.atto.codiceCifra}}</td>
+                    			<td>{{getEsitoLabel(atto.esito)}}</td>
+                    		</tr>
+                    	</tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">
+                        <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+                    </button>
+                    <button type="submit" class="btn btn-danger">
+                    	<i class="fa fa-spinner fa-pulse" ng-if="taskLoading"></i>
+                        <span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span translate="entity.action.delete">Delete</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="deleteAllegatoConfirmation" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form name="deleteForm" ng-submit="confirmDeleteAllegato(allegatoDelete.id)">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                            ng-click="clear()">&times;</button>
+                    <h4 class="modal-title" translate="entity.delete.title">Confirm delete operation</h4>
+                </div>
+                <div class="modal-body">
+                    <p ng-if="allegatoDelete" translate="cifra2gestattiApp.documentoInformatico.delete.question" translate-values="{nomeFile: purificaTestoPerJs(allegatoDelete.nomeFile)}">Are you sure you want to delete this Allegato?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">
+                        <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+                    </button>
+                    <button type="submit" ng-disabled="deleteForm.$invalid" class="btn btn-danger">
+                        <span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span translate="entity.action.delete">Delete</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="cercaModelloCampoConfirmation">
+  <div class="modal-dialog">
+      <div class="modal-content">
+          <form name="modelloCampoForm" ng-submit="confirmCercaModelloCampo(tipoModelloCampo)">
+              <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                          ng-click="clear()">&times;</button>
+                  <h4 class="modal-title" translate="cifra2gestattiApp.atto.cercaModelloCampo">Cerca</h4>
+              </div>
+              <div class="modal-body">
+	              <div class="form-group">
+	                  <label translate="cifra2gestattiApp.modelloCampo.codice">Codice</label>
+	                  <input type="text" class="form-control" name="codice"
+	                         ng-model="modelloCampoCriteria.codice" >
+
+	              </div>
+	              <div class="form-group">
+	                  <label translate="cifra2gestattiApp.modelloCampo.titolo">Titolo</label>
+	                  <input type="text" class="form-control" name="titolo"
+	                         ng-model="modelloCampoCriteria.titolo">
+
+	              </div>
+
+				  <div>
+				  	<div class="table-responsive">
+				        <table class="table table-striped">
+				            <thead>
+				                <tr>
+				                    <th translate="cifra2gestattiApp.modelloCampo.codice">Codice</th>
+				                    <th translate="cifra2gestattiApp.modelloCampo.titolo">Titolo</th>
+				                    <th translate="cifra2gestattiApp.modelloCampo.createdDate">createdDate</th>
+				                    <th translate="cifra2gestattiApp.modelloCampo.Profilo">profilo</th>
+				               <th></th>
+
+				                </tr>
+				            </thead>
+				            <tbody>
+				                <tr ng-repeat="modelloCampo in modelloCampos">
+				                    <td>{{modelloCampo.codice}}</td>
+				                    <td>{{modelloCampo.titolo}}</td>
+				                    <td>{{modelloCampo.createdDate| date:'dd-MM-yyyy HH:mm'}}</td>
+				                    <td>
+				                    	<span ng-if="modelloCampo.profilo">{{modelloCampo.profilo.utente.nome}} {{modelloCampo.profilo.utente.cognome}}</span>
+				                    	<span ng-if="!modelloCampo.profilo">Tutti</span>
+									</td>
+
+				                       <td><button class="btn btn-info pull-right"  ng-click="selezionaModelloCampo(modelloCampo)"  ><i class="fa fa-start" ></i>Seleziona</button></td>
+				                </tr>
+				            </tbody>
+				        </table>
+					   </div>
+				       <nav ng-if="totalModelloCampos">
+				            <ul class="pagination">
+				                <li ng-if="totalModelloCampos"><a>Risultati trovati: {{totalModelloCampos}}</a></li>
+				                <li ng-show="modelloCampoLinks['first']" ng-click="loadPageModelloCampo(modelloCampoLinks['first'], tipoModelloCampo)"><a>&lt;&lt;</a></li>
+				                <li ng-show="modelloCampoLinks['prev']" ng-click="loadPageModelloCampo(modelloCampoLinks['prev'], tipoModelloCampo)"><a>&lt;</a></li>
+				                <li ng-show="pageModelloCampo > 2" ng-click="loadPageModelloCampo(pageModelloCampo - 2, tipoModelloCampo)"><a>{{pageModelloCampo - 2}}</a></li>
+				                <li ng-show="pageModelloCampo > 1" ng-click="loadPageModelloCampo(pageModelloCampo - 1, tipoModelloCampo)"><a>{{pageModelloCampo - 1}}</a></li>
+				                <li class="active"><a>{{pageModelloCampo ? pageModelloCampo : 1}}</a></li>
+				                <li ng-show="pageModelloCampo < modelloCampoLinks['last']" ng-click="loadPageModelloCampo(pageModelloCampo + 1, tipoModelloCampo)"><a>{{pageModelloCampo + 1}}</a></li>
+				                <li ng-show="pageModelloCampo < modelloCampoLinks['last'] - 1" ng-click="loadPageModelloCampo(pageModelloCampo + 2, tipoModelloCampo)"><a>{{pageModelloCampo + 2}}</a></li>
+				                <li ng-show="modelloCampoLinks['next']" ng-click="loadPageModelloCampo(modelloCampoLinks['next'], tipoModelloCampo)"><a>&gt;</a></li>
+				                <li ng-show="modelloCampoLinks['last']" ng-click="loadPageModelloCampo(modelloCampoLinks['last'], tipoModelloCampo)"><a>&gt;&gt;</a></li>
+				            </ul>
+				       </nav>
+				    </div>
+	          </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal"  >
+                      <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+                  </button>
+                  <button type="submit" class="btn btn-default">
+                      <span class="fa fa-search"></span>&nbsp;<span translate="cifra2gestattiApp.atto.cercaModelloCampo">Cerca</span>
+                  </button>
+              </div>
+          </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="salvaModelloCampoConfirmation">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form name="modelloCampoForm" ng-submit="confirmSalvaModelloCampo(modelloCampo)">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                            ng-click="clear()">&times;</button>
+                    <h4 class="modal-title" translate="cifra2gestattiApp.atto.salvaModelloCampo">Salva come modello</h4>
+                </div>
+                <div class="modal-body">
+                      <div class="form-group">
+                       <label translate="cifra2gestattiApp.modelloCampo.titolo">Titolo</label> *
+                       <input type="text" class="form-control" name="titolo"
+                              ng-model="modelloCampo.titolo" required>
+                     </div>
+                     <div class="form-group">
+                         <label translate="cifra2gestattiApp.modelloCampo.codice">Codice</label>
+                         <input type="text" class="form-control" name="codice"
+                                ng-model="modelloCampo.codice">
+                     </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal"  >
+                        <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+                    </button>
+                    <button type="submit" ng-disabled="modelloCampoForm.$invalid" class="btn btn-info">
+                        <span class="fa fa-star"></span>&nbsp;<span translate="cifra2gestattiApp.atto.salvaModelloCampo">Delete</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="rinunciaVerbaleConfirmation">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form name="rinunciaVerbaleForm" >
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                            ng-click="clear()">&times;</button>
+                    <h4 class="modal-title" translate="entity.delete.title">Confirm delete operation</h4>
+                </div>
+                <div class="modal-body">
+                    <p translate="cifra2gestattiApp.sedutaGiunta.verbale.rinuncia.question">Sei sicuro di voler rinunciare al verbale?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal"  >
+                        <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+                    </button>
+                    <button type="button" class="btn btn-danger" ng-click="confirmRinunciaVerbale()">
+                        <span translate="cifra2gestattiApp.sedutaGiunta.verbale.rinuncia.label">Conferma la Rinuncia al Verbale</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="warningFileType" tabindex="-1" role="dialog"
+	        aria-labelledby="warningFileLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+           <div class="modal-header">
+               <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                       ng-click="clear()">&times;</button>
+               <h4 class="modal-title" id="warningFileLabel" >Formato non supportato</h4>
+           </div>
+
+           <div class="modal-body">
+				Il formato del file allegato non &egrave; supportato per includerlo come accorpato.
+				Le estensioni accettate sono:
+				<ul>
+					<li ng-repeat="estensioneAccettata in estensioniAccettate">
+						{{ estensioneAccettata }}<span ng-if="!$last">;</span><span ng-if="$last">.</span>
+					</li>
+				</ul>
+           </div>
+           <div class="modal-footer">
+               <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="$('#warningFileType').modal('hide');">
+                   Chiudi
+               </button>
+           </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="deleteSottoscrittoreResocontoConfirmation">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form name="deleteForm" >
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                            ng-click="clear()">&times;</button>
+                    <h4 class="modal-title" translate="entity.delete.title">Confirm delete operation</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Confermi la cancellazione del sottoscrittore?</p>
+                    <p>{{sottoscrittoreResocontoDelete.profilo.descrizione}} - {{sottoscrittoreResocontoDelete.profilo.utente.cognome}} {{sottoscrittoreResocontoDelete.profilo.utente.nome}}</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal"  >
+                        <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+                    </button>
+                    <button type="button" ng-disabled="deleteForm.$invalid" class="btn btn-danger" ng-click="confirmDeleteSottoscrittoreResoconto(sottoscrittoreResocontoDelete.id)">
+                        <span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span translate="entity.action.delete">Delete</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- DIALOG ORDINAMENTO ATTI INSERITI-->
+<div class="modal fade" id="ordinamentoAttiInseritiModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form name="ordinaAttoInseritoForm" ng-submit="confirmOrdinamentoAtto(attoNewPosition)">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                            ng-click="clear()">&times;</button>
+                    <h4 class="modal-title" translate="">Riposiziona Atto</h4>
+                </div>
+                <div class="modal-body">
+										<label>Inserire la nuova posizione dell'atto:
+									   <input type="number" name="attoNewPosition" style="width: 7em" ng-change="checkPosition(attoNewPosition)" ng-model="attoNewPosition"
+									           min="{{minPosition}}" max="{{maxPosition}}" step="1" required>
+									 </label>
+                  <p ng-show="ordinaAttoInseritoForm.attoNewPosition.$touched && ordinaAttoInseritoForm.attoNewPosition.maxPosition.$error"
+                     class="alert alert-danger list-group-item">Posione non valida</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal"  >
+                        <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+                    </button>
+                    <button type="submit" ng-disabled="ordinaAttoInseritoForm.$invalid" class="btn btn-danger">
+                        <span class="glyphicon glyphicon-save"></span>&nbsp;<span translate="entity.action.save">Save</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="ripristinaAttiNonTrattatiConfirmation" style="z-index: 9999">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form name="confirmForm" ng-submit="confirmTrattatiMassivo()">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="clear()">&times;</button>
+                    <h4 class="modal-title">Riporta Atto in elenco Atti Trattati</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Vuoi riporatare gli atti selezionati negli Atti Trattati?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="dismissModal()"  >
+                        <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+                    </button>
+                    <button type="submit" class="btn btn-danger">
+                        <span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span>Conferma</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- DIALOG ORDINAMENTO ELENCO DISCUSSIONE -->
+<div class="modal fade" id="ordinamentoElencoDiscussioneModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form name="ordinaElencoDiscussioneForm" ng-submit="confirmOrdinamentoElencoDiscussione(attoNewPosition)">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                            ng-click="clear()">&times;</button>
+                    <h4 class="modal-title" translate="">Riposiziona in Elenco Discussione</h4>
+                </div>
+                <div class="modal-body">
+										<label>Inserire la nuova posizione:
+									   <input type="number" name="attoNewPosition" style="width: 7em" ng-change="checkPositionElencoDiscussione(attoNewPosition)" ng-model="attoNewPosition"
+									           min="1" max="{{maxPosition}}" step="1" required ng-init="attoNewPosition">
+									 </label>
+                  <p ng-show="ordinaElencoDiscussioneForm.attoNewPosition.$touched && ordinaElencoDiscussioneForm.attoNewPosition.maxPosition.$error"
+                     class="alert alert-danger list-group-item">Posione non valida</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal"  >
+                        <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+                    </button>
+                    <button type="submit" ng-disabled="ordinaAttoInseritoForm.$invalid" class="btn btn-danger">
+                        <span class="glyphicon glyphicon-save"></span>&nbsp;<span translate="entity.action.save">Save</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- DIALOG ORDINAMENTO ELENCO ARGOMENTO -->
+<div class="modal fade" id="ordinamentoElencoArgomentoModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form name="ordinaElencoArgomentoForm" >
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                            ng-click="clear()">&times;</button>
+                    <h4 class="modal-title">Assegnazione Numero Argomento</h4><hr/>
+                    <p><span>{{attoDaAggiornare.atto.codiceCifra + (attoDaAggiornare.atto.numeroAdozione ? ' - ' + attoDaAggiornare.atto.numeroAdozione : '')}}</span></p>
+					<p>
+						<span title="{{attoDaAggiornare.atto.oggetto}}" class="modal-title">{{visualizzaOggetto(attoDaAggiornare.atto.oggetto)}}</span>
+					</p>
+                </div>
+                <div class="modal-body">
+					<p>
+						<label>Inserire il numero di argomento:
+							<input type="number" name="attoNewPosition" ng-model="attoNewPosition" step="1" required>
+						</label>
+					</p>
+					<p>
+						 <label>Numerazione ODE:
+						 	<input type="checkbox" name="ode" ng-model="ode">
+						 </label>
+					</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal"  >
+                        <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+                    </button>
+                    <button type="button" ng-disabled="ordinaElencoArgomentoForm.$invalid" class="btn btn-danger" ng-click="eaSalva()">
+                        <span class="glyphicon glyphicon-save"></span>&nbsp;<span translate="entity.action.save">Save</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="spostaAltraSedutaConfirmation" style="z-index: 9999">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form name="confirmForm" ng-submit="spostaAltraSedutaMassivo()">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="clear()">&times;</button>
+                    <h4 class="modal-title">Riporta Atti in altra seduta</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Attenzione! Gli atti selezionati saranno inseriti nell'elenco delle proposte inseribili.<br/>
+                    	 In tal caso, cliccando su <span style="font-weight: bold;">"Conferma"</span>, gli atti selezionati NON POTRANNO PI&Ugrave; ESSERE UTILIZZATI PER LA SEDUTA CORRENTE.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="dismissModal()"  >
+                        <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+                    </button>
+                    <button type="submit" class="btn btn-danger">
+                        <span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span>Conferma</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="checkParereObbligatorioDialog" style="z-index: 9999">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form name="checkParereObbligatorioForm">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="clear()">&times;</button>
+                    <h4 class="modal-title">Conferma Esito</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Attenzione! Non è possibile confermare l'esito dell'atto per:</p>
+										<span>
+											<table class="table table-responsive">
+	                    	<tbody>
+	                    		<tr ng-repeat="task in listTaskAttivi">
+	                    			<td>{{task.descrizione}}</td>
+														<td>{{task.nominativo}}</td>
+	                    		</tr>
+	                    	</tbody>
+	                    </table>
+										</span>
+                </div>
+                <div class="modal-footer">
+									<button type="button" class="btn btn-default" data-dismiss="modal" ng-click="dismissModal()"  >
+											<span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.close">Chiudi</span>
+									</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="editNumeroSedutaModal">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<form name="editNumeroSedutaForm" ng-submit="confirmEditNumeroSeduta()">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+							ng-click="clear()">&times;</button>
+					<h4 class="modal-title" translate="">Modifica numero seduta</h4>
+				</div>
+				<div class="modal-body">
+					<label>Numero Seduta:
+						<input type="number" name="nuovoNumeroSeduta" style="width: 7em"
+							   min="1" ng-model="nuovoNumeroSeduta" step="1" required>
+					</label>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal"  >
+						<span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+					</button>
+					<button type="submit" ng-disabled="editNumeroSeduta.$invalid" class="btn btn-danger">
+						<span class="glyphicon glyphicon-save"></span>&nbsp;<span translate="entity.action.save">Save</span>
+					</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>

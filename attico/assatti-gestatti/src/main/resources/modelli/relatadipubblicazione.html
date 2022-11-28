@@ -1,0 +1,40 @@
+<p>&nbsp;</p>
+<p style="text-align: center; font-family: Calibri; font-size: 18pt; font-weight: bold;">
+	<span>Relata di Pubblicazione</span>
+</p>
+<p>&nbsp;</p>
+<p style="text-align: left; font-family: Calibri; font-size: 10pt; font-weight: bold;">
+	<span>La presente Determinazione Dirigenziale:</span>
+</p>
+<p style="text-align: left; font-family: Calibri; font-size: 10pt; font-weight: bold; font-style: italic;">
+	<span>N. <span th:if="${datiRelata.numeroAdozione !=null}">[[${datiRelata.numeroAdozione}]]</span>&nbsp;di repertorio del&nbsp;<span th:if="${datiRelata.dataAdozione != null}">[[${datiRelata.dataAdozione.toString("dd/MM/yyyy")}]]</span></span>
+</p>
+<p style="text-align: left; font-family: Calibri; font-size: 10pt;">
+	<span style="font-weight: bold;">Codice Atto</span><span>: [[${datiRelata.codiceCifra}]]</span>
+</p>
+<p style="text-align: justify; font-family: Calibri; font-size: 10pt;">
+	<span style="font-weight: bold;">Oggetto: </span><span th:utext="${#strings.replace( #strings.escapeXml(datiRelata.oggetto),T(java.lang.System).getProperty('line.separator'),'<br ></span>')}"></span>
+</p>
+<p style="text-align: justify; font-family: Calibri; font-size: 10pt; font-weight: bold;">
+	<span>ai sensi di quanto previsto dall'Art.20 - comma 3 - del D.P.G.R. n. 443 del 31/07/2015, &egrave; stata pubblicata all'Albo Online del Dipartimento/Sezione dal&nbsp;</span>
+	<span th:if="${datiRelata.inizioPubblicazioneAlbo != null}">[[${datiRelata.inizioPubblicazioneAlbo.toString("dd/MM/yyyy")}]]</span>
+	<span>&nbsp;al&nbsp;</span>
+	<span th:if="${datiRelata.finePubblicazioneAlbo != null}">[[${datiRelata.finePubblicazioneAlbo.toString("dd/MM/yyyy")}]].</span>
+</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p style="text-align: justify; font-family: Calibri; font-size: 10pt; font-weight: bold;">
+	<span>Data: [[${#dates.format(#dates.createNow(), 'dd/MM/yyyy')}]]</span>
+</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p style="text-align: left; font-family: Calibri; font-size: 10pt; font-weight: bold;">
+	<span>Il Responsabile della Pubblicazione</span>
+	<br>
+	<span>[[${datiRelata.nominativoResponsabilePubblicazione}]]</span>
+</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p style="font-family: Calibri; font-size: 8pt;">
+	<span>Documento informatico firmato digitalmente ai sensi del Testo Unico D.P.R. 28 dicembre 2000, n. 445 e del D.Lgs 7 marzo 2005, n. 82 e norme collegate che sostituisce il testo cartaceo e la firma autografa.</span>
+</p>

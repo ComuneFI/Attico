@@ -1,0 +1,257 @@
+<div>
+
+    <h2>Pareri Commissioni Consiliari</h2>
+    
+    <div class="table-responsive crud-search">
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th>Num. proposta&#92;Codice Attico</th>
+					<th>Data Creazione</th>
+					<th>Oggetto</th>
+					<th>Stato</th>
+					<th>Tipo atto</th>
+					<!-- <th>Tipo iter</th>  -->
+					<th>Commissioni</th>
+					<th width="30px"></th>
+				</tr>
+				<tr>
+					<th><input type="text" ng-model="tempSearch.codiceCifra" style="width:100%"></th>
+					<th>
+	                	<div class="form-group">
+						    <div class="input-group" style="position:inherit;">
+						      <input type="text" ng-model="tempSearch.dataCreazioneDa" size="7" onkeydown="return false;" bs-datepicker placeholder="Dal">
+						      <div class="input-group-addon" style="padding:0px !important;width:0px;"><button title="Cancella Data" ng-click="tempSearch.dataCreazioneDa = null;" class="btn btn-xs btn-link"><span class="glyphicon glyphicon-remove"></span></button></div>
+						    </div>
+						</div>
+						<div class="form-group">
+						    <div class="input-group" style="position:inherit;">
+						      <input type="text" ng-model="tempSearch.dataCreazioneA" size="7" onkeydown="return false;" bs-datepicker placeholder="Al">
+						      <div class="input-group-addon" style="padding:0px !important;width:0px;"><button title="Cancella Data" ng-click="tempSearch.dataCreazioneA = null;" class="btn btn-xs btn-link"><span class="glyphicon glyphicon-remove"></span></button></div>
+						    </div>
+						</div>
+	                </th>
+					<th><input type="text" ng-model="tempSearch.oggetto" style="width:100%"></th>
+					<th class="limited-width">
+						<ui-select ng-model="tempSearch.statoProposta" theme="bootstrap">
+	                    	<ui-select-match allow-clear="true">{{$select.selected}}</ui-select-match>
+	                    	<ui-select-choices repeat="stato in statiProposta | orderBy:'toString()' | filter: $select.search track by $index">
+	                            <div ng-bind-html="stato | highlight: $select.search"></div>
+	                    	</ui-select-choices>
+                      	</ui-select>
+					</th>
+					<th class="limited-width">
+						<div class="form-group">
+					    	<div class="input-group" style="position:inherit;">
+						    	<select class="form-control" style="width:100%" name="TipoAtto" ng-model="tempSearch.tipoAtto" ng-options="tipoAtto.codice as tipoAtto.descrizione for tipoAtto in tipoattos"></select>
+						    	<div class="input-group-addon" style="padding:0px !important;width:0px;">
+						    		<button title="Cancella Tipo Atto" ng-click="tempSearch.tipoAtto = null;" class="btn btn-xs btn-link"><span class="glyphicon glyphicon-remove"></span></button>
+						    	</div>
+					    	</div>
+						</div>
+					</th>
+					<!-- <th><input type="text" ng-model="tempSearch.tipoIter" style="width:100%"></th> -->
+					<th>&nbsp;</th>
+					<th class="scrivania" style="text-align:center;">
+                    	<button class="btn btn-primary btn-xs" ng-click="ricercaAtti()"><span class="glyphicon glyphicon-search"/> <span translate="global.messages.cerca">Ricerca</span></button>
+						<button class="btn btn-primary btn-xs" ng-click="resetRicerca()"><span translate="global.messages.resetricerca">Reset ricerca</span></button>
+                    </th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="atto in attos">
+				
+					<td>{{atto.codiceCifra}}</td>
+					<td>{{atto.dataCreazione | date:'dd-MM-yyyy'}}</td>
+					<td title="{{atto.oggetto}}">{{visualizzaOggetto(atto.oggetto)}}</td>
+					<td>{{atto.stato}}</td>
+					<td>{{atto.tipoAtto.descrizione}}</td>
+					<!-- <td>{{atto.tipoIter.descrizione}}</td> -->
+					<td><div ng-init="mostraCommissioni(atto)" ng-bind-html="atto.stringaCommissioni"></div></td>
+					<td>
+						<a ng-hide="profiloattivo.id == 0" 
+							href="#/atto/{{atto.id}}" 
+							class="btn btn-info btn-sm">
+							<span class="glyphicon glyphicon-eye-open"></span>&nbsp;<span
+									translate="entity.action.view">View</span>
+						</a>
+						<button ng-click="gestisciCommissioni(atto)" class="btn btn-primary btn-sm">
+							<span has-ruolo="ROLE_OPERATORE_RESOCONTO_CONSIGLIO" translate="cifra2gestattiApp.commissioniCons.home.gestParere">Gest Parere</span>
+						</button>
+						
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<div ng-if="attos && attos.length == 0 && !loading" class="search-no-result"><h3 translate="global.searchNoResult"></h3></div>
+		<div ng-if="attos && attos.length == 0 && loading" class="search-no-result"><h3 translate="global.loading"></h3></div>
+	</div>
+	<nav>
+           <ul class="pagination">
+               <li ng-show="links['first']" ng-click="loadPageAtto(links['first'])"><a>&lt;&lt;</a></li>
+               <li ng-show="links['prev']" ng-click="loadPageAtto(links['prev'])"><a>&lt;</a></li>
+               <li ng-show="page > 2" ng-click="loadPageAtto(page - 2)"><a>{{page - 2}}</a></li>
+               <li ng-show="page > 1" ng-click="loadPageAtto(page - 1)"><a>{{page - 1}}</a></li>
+               <li class="active"><a>{{page}}</a></li>
+               <li ng-show="page < links['last']" ng-click="loadPageAtto(page + 1)"><a>{{page + 1}}</a></li>
+               <li ng-show="page < links['last'] - 1" ng-click="loadPageAtto(page + 2)"><a>{{page + 2}}</a></li>
+               <li ng-show="links['next']" ng-click="loadPageAtto(links['next'])"><a>&gt;</a></li>
+               <li ng-show="links['last']" ng-click="loadPageAtto(links['last'])"><a>&gt;&gt;</a></li>
+           </ul>
+      	</nav>
+</div>
+
+<div class="modal fade" id="mascheraPareri" tabindex="-1" role="dialog" 
+	        aria-labelledby="mascheraPareriLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+        	<div class="modal-header">
+                <button type="button" class="close everActive" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="mascheraPareriLabel" translate="cifra2gestattiApp.commissioniCons.home.gestParere">Gest Parere</h4>
+            </div>
+
+            <div class="modal-body">
+            	<div ng-include="'scripts/app/entities/pareri_comm_cons/modificaCommissioni.html'"  >
+				</div>
+         	</div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default everActive" data-dismiss="modal">
+                    Chiudi
+                </button>
+	        </div>
+	    </div>
+	</div>
+</div>
+
+<div class="modal fade" id="confermaNonEspresso" tabindex="-1" role="dialog" 
+	        aria-labelledby="confermaNonEspressoLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        	<div class="modal-header">
+                <button type="button" class="close everActive" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="confermaNonEspressoLabel" translate="cifra2gestattiApp.commissioniCons.gestionePareri.confermaNonEspresso">Conferma</h4>
+            </div>
+
+            <div class="modal-body">
+            	
+         	</div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default everActive" data-dismiss="modal">
+                    Chiudi
+                </button>
+                <button type="button" ng-click="inserisciParereNonEspresso()" class="btn btn-danger everActive">
+                    <span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span>Conferma</span>
+                </button>
+	        </div>
+	    </div>
+	</div>
+</div>
+
+<div class="modal fade" id="confermaElimina" tabindex="-1" role="dialog" 
+	        aria-labelledby="confermaEliminaLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        	<div class="modal-header">
+                <button type="button" class="close everActive" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="confermaEliminaLabel" translate="cifra2gestattiApp.commissioniCons.gestionePareri.confermaElimina">Conferma</h4>
+            </div>
+
+            <div class="modal-body">
+            	
+         	</div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default everActive" data-dismiss="modal">
+                    Chiudi
+                </button>
+                <button type="button" ng-click="eliminaCommissione()" class="btn btn-danger everActive">
+                    <span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span>Conferma</span>
+                </button>
+	        </div>
+	    </div>
+	</div>
+</div>
+
+
+<div class="modal fade" id="modificaScadenza" tabindex="-1" role="dialog" 
+	        aria-labelledby="mascheraPareriLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        	<div class="modal-header">
+                <button type="button" class="close everActive" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="mascheraPareriLabel" translate="cifra2gestattiApp.commissioniCons.gestionePareri.modificaScadenza">Mod Scadenza</h4>
+            </div>
+
+            <div class="modal-body">
+				<form name="editForm" role="form">
+<!--	            	<div class="row">-->
+<!--			            <div class="form-group col-md-4">-->
+<!--			            	<label>Data Richiesta</label>-->
+<!--			            </div>-->
+<!--			            <div class="form-group col-md-8">-->
+<!--			            	<input type="text" disabled="disabled" value="{{confCommissioneSel.dataCreazione | date:'dd-MM-yyyy'}}" />-->
+<!--			            </div>-->
+<!--	            	</div>-->
+					<div class="row">
+						<div class="form-group col-md-4">
+							<label>Data Effettiva Richiesta</label>*
+						</div>
+						<div class="form-group col-md-8">
+							<div class="input-group col-md-7" style="position:inherit;">
+								<input type="text" size="10" style="width:100%" class="everActive" ng-model="confCommissioneSel.dataManuale" data-date-type="date" onkeydown="return false;" bs-datepicker required>
+								<div class="input-group-addon" style="padding:0px !important;width:0px;"><button title="Cancella Data" ng-click="confCommissioneSel.dataManuale = null;" class="btn btn-xs btn-link everActive"><span class="glyphicon glyphicon-remove"></span></button></div>
+							</div>
+							<span ng-show="!confCommissioneSel.dataManuale" style="background: #ffcbcb; color: #1e1212;">Inserire una data.</span>
+						</div>
+					</div>
+	            	<div class="row">
+			            <div class="form-group col-md-4">
+			            	<label>Giorni Scadenza</label>*
+			            </div>
+			            <div class="form-group col-md-8">
+			            	<input ng-model="confCommissioneSel.giorniScadenza" class="everActive" ng-pattern="/^[0-9]{1,3}$/" type="text" class="form-control" required><br/>
+			            	<span ng-show="!confCommissioneSel.giorniScadenza" style="background: #ffcbcb; color: #1e1212;">Inserire valore numerico. Massimo tre cifre</span>
+			            </div>
+	            	</div>
+	            	<div class="row">
+			            <div class="form-group col-md-4">
+			            	<label>Data Scadenza</label>
+			            </div>
+			            <div class="form-group col-md-8">
+			            	<input type="text" disabled="disabled" value="{{confCommissioneSel.dataManuale && confCommissioneSel.giorniScadenza!=null?(addDays(confCommissioneSel.dataManuale,confCommissioneSel.giorniScadenza) | date:'dd-MM-yyyy'):''}}" />
+			            </div>
+	            	</div>
+	            </form>
+         	</div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default everActive" data-dismiss="modal">
+                    Chiudi senza salvare
+                </button>
+                <button type="button" ng-click="inserisciScadenza()" class="btn btn-danger everActive" ng-disabled="!editForm.$valid">
+                    <span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span>Conferma</span>
+                </button>
+	        </div>
+	    </div>
+	</div>
+</div>
+
+<div class="modal fade" id="mascheraParere" tabindex="-1" role="dialog" 
+	        aria-labelledby="mascheraPareriLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-body">
+            	<form name="mascheraInsParere" role="form">
+	            	<div ng-include="'scripts/app/entities/pareri_comm_cons/modificaParere.html'"  >
+					</div>
+				</form>
+         	</div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default everActive" ng-click="closeMascheraParere()">
+                    Chiudi senza salvare
+                </button>
+                <button type="button" ng-disabled="mascheraInsParere.$invalid" class="btn btn-primary everActive" ng-click="salvaEChiudiMascheraParere()" > 
+                	Conferma Parere
+                </button>
+	        </div>
+	    </div>
+	</div>
+</div>

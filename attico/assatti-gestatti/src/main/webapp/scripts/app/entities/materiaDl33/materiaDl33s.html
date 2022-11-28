@@ -1,0 +1,168 @@
+<div>
+
+    <h2 translate="cifra2gestattiApp.materiaDl33.home.title">MateriaDl33</h2>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <button class="btn btn-primary" data-toggle="modal" data-target="#saveMateriaDl33Modal" ng-click="clear()">
+                    <span class="glyphicon glyphicon-flash"></span> <span translate="cifra2gestattiApp.materiaDl33.home.createLabel">Create a new MateriaDl33</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="saveMateriaDl33Modal" tabindex="-1" role="dialog" aria-labelledby="myMateriaDl33Label"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form name="editForm" role="form" novalidate ng-submit="save()">
+
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                                ng-click="clear()">&times;</button>
+                        <h4 class="modal-title" id="myMateriaDl33Label" translate="cifra2gestattiApp.materiaDl33.home.createOrEditLabel">Create or edit a MateriaDl33</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label>ID</label>
+                            <input type="text" class="form-control" name="id"
+                                   ng-model="materiaDl33.id" readonly>
+                        </div>
+
+                        <div class="form-group">
+                            <label translate="cifra2gestattiApp.materiaDl33.denominazione">Denominazione</label> *
+                            <input required type="text" class="form-control" name="denominazione"
+                                   ng-model="materiaDl33.denominazione">
+
+                        </div>
+                        <div class="form-group">
+                            <label translate="cifra2gestattiApp.materiaDl33.attivo">Attivo</label> *
+                            <input type="checkbox" class="form-control" name="attivo"
+                                   ng-model="materiaDl33.attivo">
+
+                        </div>
+
+                        <div class="form-group">
+                            <label translate="cifra2gestattiApp.materiaDl33.AmbitoDl33">AmbitoDl33</label> *
+                            <select required class="form-control" name="AmbitoDl33" ng-model="materiaDl33.ambitoDl33.id" ng-options="ambitoDl33.id as ambitoDl33.denominazione for ambitoDl33 in ambitodl33s | filter:{attivo:true}">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
+                            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+                        </button>
+                        <button type="submit" ng-disabled="editForm.$invalid" class="btn btn-primary">
+                            <span class="glyphicon glyphicon-save"></span>&nbsp;<span translate="entity.action.save">Save</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="deleteMateriaDl33Confirmation">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form name="deleteForm" ng-submit="confirmDelete(materiaDl33.id)">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                                ng-click="clear()">&times;</button>
+                        <h4 class="modal-title" translate="entity.delete.title">Confirm delete operation</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p translate="cifra2gestattiApp.materiaDl33.delete.question" translate-values="{id: '{{materiaDl33.id}}'}">Are you sure you want to delete this MateriaDl33?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
+                            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+                        </button>
+                        <button type="submit" ng-disabled="deleteForm.$invalid" class="btn btn-danger">
+                            <span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span translate="entity.action.delete">Delete</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div>
+    	<div class="table-responsive crud-search">
+	        <table class="table table-striped">
+	            <thead>
+	                <tr>
+	                	<th width="30px"></th>
+	                    <th>ID</th>
+	                    <th translate="cifra2gestattiApp.materiaDl33.denominazione">Denominazione</th>
+	                    <th translate="cifra2gestattiApp.materiaDl33.attivo">Attivo</th>
+	                    <th translate="cifra2gestattiApp.materiaDl33.AmbitoDl33">AmbitoDl33</th>
+	                    <th width="30px"></th>
+	                </tr>
+	                <tr>
+	                   <th style="text-align:center;"><button class="btn btn-primary btn-xs" ng-click="ricerca()"><span class="glyphicon glyphicon-search"/> <span translate="global.messages.cerca">Ricerca</span></button> <button class="btn btn-primary btn-xs" ng-click="resetRicerca()"><span translate="global.messages.resetricerca">Reset ricerca</span></button></th>
+			           <th></th>
+			           <th><input type="text" ng-model="tempSearch.denominazione"></th>
+			           <th class="limited-width">
+			           		<ui-select ng-model="tempSearch.attivo" theme="bootstrap">
+		                    	<ui-select-match allow-clear="true">{{$select.selected.descrizione}}</ui-select-match>
+		                    	<ui-select-choices repeat="cur in listTrueFalse | filter: $select.search track by $index">
+		                            <div ng-bind-html="cur.descrizione | highlight: $select.search"></div>
+		                    	</ui-select-choices>
+	                      	</ui-select>
+			           	</th>
+			           <th class="limited-width">
+			           		<ui-select ng-model="tempSearch.ambitoDl33" theme="bootstrap">
+		                    	<ui-select-match allow-clear="true">{{$select.selected.denominazione}}</ui-select-match>
+		                    	<ui-select-choices repeat="cur in ambitodl33s | filter: $select.search track by $index">
+		                            <div ng-bind-html="cur.denominazione | highlight: $select.search"></div>
+		                    	</ui-select-choices>
+	                      	</ui-select>
+			           	</th>
+			           <th style="text-align:center;"><button class="btn btn-primary btn-xs" ng-click="ricerca()"><span class="glyphicon glyphicon-search"/> <span translate="global.messages.cerca">Ricerca</span></button> <button class="btn btn-primary btn-xs" ng-click="resetRicerca()"><span translate="global.messages.resetricerca">Reset ricerca</span></button></th>
+			        </tr>
+	            </thead>
+	            <tbody>
+	                <tr ng-repeat="materiaDl33 in materiaDl33s">
+	                    <td></td>
+	                    <td><a ui-sref="materiaDl33Detail({id:materiaDl33.id})">{{materiaDl33.id}}</a></td>
+	                    <td>{{materiaDl33.denominazione}}</td>
+	                    <td><span ng-if="materiaDl33.attivo == true">Si</span><span ng-if="materiaDl33.attivo == false">No</span></td>
+	                    <td>{{materiaDl33.ambitoDl33.denominazione}}</td>
+	                    <td>
+	                        <button type="submit"
+	                                ui-sref="materiaDl33Detail({id:materiaDl33.id})"
+	                                class="btn btn-info btn-sm">
+	                            <span class="glyphicon glyphicon-eye-open"></span>&nbsp;<span translate="entity.action.view"> View</span>
+	                        </button>
+	                        <button type="submit"
+	                                ng-click="showUpdate(materiaDl33.id)"
+	                                class="btn btn-primary btn-sm">
+	                            <span class="glyphicon glyphicon-pencil"></span>&nbsp;<span translate="entity.action.edit"> Edit</span>
+	                        </button>
+	                        <button type="submit"
+	                                ng-click="delete(materiaDl33.id)"
+	                                class="btn btn-danger btn-sm">
+	                            <span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span translate="entity.action.delete"> Delete</span>
+	                        </button>
+	                    </td>
+	                </tr>
+	            </tbody>
+	        </table>
+	        <div ng-if="materiaDl33s && materiaDl33s.length == 0" class="search-no-result"><h3 translate="global.searchNoResult"></h3></div>
+	    </div>
+        <nav>
+            <ul class="pagination">
+                <li ng-show="links['first']" ng-click="loadPage(links['first'])"><a>&lt;&lt;</a></li>
+                <li ng-show="links['prev']" ng-click="loadPage(links['prev'])"><a>&lt;</a></li>
+                <li ng-show="page > 2" ng-click="loadPage(page - 2)"><a>{{page - 2}}</a></li>
+                <li ng-show="page > 1" ng-click="loadPage(page - 1)"><a>{{page - 1}}</a></li>
+                <li class="active"><a>{{page}}</a></li>
+                <li ng-show="page < links['last']" ng-click="loadPage(page + 1)"><a>{{page + 1}}</a></li>
+                <li ng-show="page < links['last'] - 1" ng-click="loadPage(page + 2)"><a>{{page + 2}}</a></li>
+                <li ng-show="links['next']" ng-click="loadPage(links['next'])"><a>&gt;</a></li>
+                <li ng-show="links['last']" ng-click="loadPage(links['last'])"><a>&gt;&gt;</a></li>
+            </ul>
+        </nav>
+    </div>
+</div>

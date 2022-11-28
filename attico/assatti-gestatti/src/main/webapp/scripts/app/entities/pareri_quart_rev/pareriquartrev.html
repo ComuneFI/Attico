@@ -1,0 +1,160 @@
+<div>
+
+    <h2>Pareri Consigli di Quartiere e dei Revisori Contabili</h2>
+    
+	<div class="table-responsive crud-search">
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th>Num. proposta&#92;Codice Attico</th>
+					<th>Data Creazione</th>
+					<th>Oggetto</th>
+					<th>Stato</th>
+					<th>Tipo atto</th>
+					<th translate="cifra2gestattiApp.pareriQuartRev.home.uffici" >uffici</th>
+					<!-- IN ATTICO NON PREVISTO
+					<th>Tipo iter</th>
+					 -->
+					<th width="30px"></th>
+				</tr>
+				<tr>
+					<th><input type="text" ng-model="tempSearch.codiceCifra" style="width:100%"></th>
+					<th>
+	                	<div class="form-group">
+						    <div class="input-group" style="position:inherit;">
+						      <input type="text" ng-model="tempSearch.dataCreazioneDa" size="7" onkeydown="return false;" bs-datepicker placeholder="Dal">
+						      <div class="input-group-addon" style="padding:0px !important;width:0px;"><button title="Cancella Data" ng-click="tempSearch.dataCreazioneDa = null;" class="btn btn-xs btn-link"><span class="glyphicon glyphicon-remove"></span></button></div>
+						    </div>
+						</div>
+						<div class="form-group">
+						    <div class="input-group" style="position:inherit;">
+						      <input type="text" ng-model="tempSearch.dataCreazioneA" size="7" onkeydown="return false;" bs-datepicker placeholder="Al">
+						      <div class="input-group-addon" style="padding:0px !important;width:0px;"><button title="Cancella Data" ng-click="tempSearch.dataCreazioneA = null;" class="btn btn-xs btn-link"><span class="glyphicon glyphicon-remove"></span></button></div>
+						    </div>
+						</div>
+	                </th>
+					<th><input type="text" ng-model="tempSearch.oggetto" style="width:100%"></th>
+					<th class="limited-width">
+						<ui-select ng-model="tempSearch.statoProposta" theme="bootstrap">
+	                    	<ui-select-match allow-clear="true">{{$select.selected}}</ui-select-match>
+	                    	<ui-select-choices repeat="stato in statiProposta | orderBy:'toString()' | filter: $select.search track by $index">
+	                            <div ng-bind-html="stato | highlight: $select.search"></div>
+	                    	</ui-select-choices>
+                      	</ui-select>
+					</th>
+					<th class="limited-width">
+						<div class="form-group">
+					    	<div class="input-group" style="position:inherit;">
+						    	<select class="form-control" style="width:100%" name="TipoAtto" ng-model="tempSearch.tipoAtto" ng-options="tipoAtto.codice as tipoAtto.descrizione for tipoAtto in tipoattos"></select>
+						    	<div class="input-group-addon" style="padding:0px !important;width:0px;">
+						    		<button title="Cancella Tipo Atto" ng-click="tempSearch.tipoAtto = null;" class="btn btn-xs btn-link"><span class="glyphicon glyphicon-remove"></span></button>
+						    	</div>
+					    	</div>
+						</div>
+					</th>
+					<th>&nbsp;</th>
+					<!-- IN ATTICO NON PREVISTO
+					<th><input type="text" ng-model="tempSearch.tipoIter" style="width:100%"></th>
+					-->
+					<th class="scrivania" style="text-align:center;">
+                    	<button class="btn btn-primary btn-xs" ng-click="ricercaAtti()"><span class="glyphicon glyphicon-search"/> <span translate="global.messages.cerca">Ricerca</span></button>
+						<button class="btn btn-primary btn-xs" ng-click="resetRicerca()"><span translate="global.messages.resetricerca">Reset ricerca</span></button>
+                    </th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="atto in attos">
+				
+					<td>{{atto.codiceCifra}}</td>
+					<td>{{atto.dataCreazione | date:'dd-MM-yyyy'}}</td>
+					<td title="{{atto.oggetto}}">{{visualizzaOggetto(atto.oggetto)}}</td>
+					<td>{{atto.stato}}</td>
+					<td>{{atto.tipoAtto.descrizione}}</td>
+					<td><!-- <ul ng-if="atto.pareri && atto.pareri.length > 0">
+							<li ng-repeat="parere in atto.pareri" ng-if="parere.origine == 'Q' && parere.tipoAzione.codice == configurationParams.codice_tipo_parere_quartieri_revisori">
+								{{parere.aoo.descrizione + (parere.parereSintetico ? ' (' + parere.parereSintetico + ')' : '')}}
+							</li>
+						</ul>-->
+						<div ng-bind-html="mostraPareriQ(atto.pareri)"></div>
+					</td>
+					<!-- IN ATTICO NON PREVISTO
+					<td>{{atto.tipoIter.descrizione}}</td>
+					-->
+					<td>
+						<a ng-hide="profiloattivo.id == 0" 
+							href="#/atto/{{atto.id}}" 
+							class="btn btn-info btn-sm">
+							<span class="glyphicon glyphicon-eye-open"></span>&nbsp;<span
+									translate="entity.action.view">View</span>
+						</a>
+						<button ng-click="gestisciPareri(atto)" class="btn btn-primary btn-sm">
+							<span has-ruolo="ROLE_OPERATORE_RESOCONTO_CONSIGLIO" translate="cifra2gestattiApp.pareriQuartRev.home.gestParere">Gest Parere</span>
+						</button>
+						
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<div ng-if="attos && attos.length == 0 && !loading" class="search-no-result"><h3 translate="global.searchNoResult"></h3></div>
+		<div ng-if="attos && attos.length == 0 && loading" class="search-no-result"><h3 translate="global.loading"></h3></div>
+	</div>
+	<nav>
+           <ul class="pagination">
+               <li ng-show="links['first']" ng-click="loadPageAtto(links['first'])"><a>&lt;&lt;</a></li>
+               <li ng-show="links['prev']" ng-click="loadPageAtto(links['prev'])"><a>&lt;</a></li>
+               <li ng-show="page > 2" ng-click="loadPageAtto(page - 2)"><a>{{page - 2}}</a></li>
+               <li ng-show="page > 1" ng-click="loadPageAtto(page - 1)"><a>{{page - 1}}</a></li>
+               <li class="active"><a>{{page}}</a></li>
+               <li ng-show="page < links['last']" ng-click="loadPageAtto(page + 1)"><a>{{page + 1}}</a></li>
+               <li ng-show="page < links['last'] - 1" ng-click="loadPageAtto(page + 2)"><a>{{page + 2}}</a></li>
+               <li ng-show="links['next']" ng-click="loadPageAtto(links['next'])"><a>&gt;</a></li>
+               <li ng-show="links['last']" ng-click="loadPageAtto(links['last'])"><a>&gt;&gt;</a></li>
+           </ul>
+      	</nav>
+</div>
+
+<div class="modal fade" id="gestionePareri" tabindex="-1" role="dialog" 
+	        aria-labelledby="gestionePareriLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+        	<div class="modal-header">
+                <button type="button" ng-click="ricercaAtti()" class="close everActive" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="gestionePareriLabel" translate="cifra2gestattiApp.pareriQuartRev.home.gestParere">Gest Parere</h4>
+            </div>
+
+            <div class="modal-body">
+            	<form name="mascheraInsParere" role="form">
+	            	<div ng-include="'scripts/app/entities/pareri_quart_rev/gestionePareri.html'"  >
+					</div>
+				</form>
+         	</div>
+            <div class="modal-footer">
+                <button type="button" ng-click="ricercaAtti()" class="btn btn-default everActive" data-dismiss="modal">
+                    Chiudi
+                </button>
+	        </div>
+	    </div>
+	</div>
+</div>
+
+<div class="modal fade" id="mascheraParere" tabindex="-1" role="dialog" 
+	        aria-labelledby="mascheraPareriLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-body">
+            	<form name="mascheraInsParere" role="form">
+	            	<div ng-include="'scripts/app/entities/pareri_quart_rev/modificaParere.html'"  >
+					</div>
+				</form>
+         	</div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default everActive" ng-click="closeMascheraParere()">
+                    Chiudi senza salvare
+                </button>
+                <button type="button" ng-disabled="mascheraInsParere.$invalid" class="btn btn-primary everActive" ng-click="saveParereQuartRev()" > 
+                	Conferma Parere
+                </button>
+	        </div>
+	    </div>
+	</div>
+</div>

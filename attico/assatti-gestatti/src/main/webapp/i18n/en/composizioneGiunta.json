@@ -1,0 +1,24 @@
+{
+    "cifra2gestattiApp": {
+        "composizioneGiunta" : {
+            "home": {
+                "title": "Composizione Giunta",
+                "createLabel": "Crea nuovo Profilo",
+                "createOrEditLabel": "Crea o Modifica un Profilo"
+            },
+            "descrizione": "Descrizione",
+            "validodal": "Valido dal",
+            "validoal": "Valido al",
+            "delega": "Delega",
+            "tipoAtto": "Tipo Atto",
+            "utente": "Utente",
+            "grupporuolo": "Gruppo Ruolo",
+            "ruoli": "Ruoli",
+            "qualificaProfessionale":"Qualifica Professionale",
+            "ordine":"Ordine Presenza/Votazione",
+            "componente":"Componente Giunta",
+            "valido":"Valido"
+            
+        }
+    }
+}

@@ -1,0 +1,30 @@
+{
+
+//"verbale.tipo" : {"key":"verbale.tipo", "titolo": "Tipo ", "template": "text", "fields":[] },
+"verbale.idDiogene" : {"key":"verbale.idDiogene", "titolo": "Id Documentale", "template": "text", "fields":[] },
+"verbale.organoDeliberante" : {"key":"verbale.organoDeliberante", "titolo": "Organo Deliberante", "template": "text", "fields":[] },
+
+//"verbale.dataPubblicazioneSito" : {"key":"verbale.dataPubblicazioneSito", "titolo": "Data Pubblicazione Sito", "template": "text", "fields":[] },
+
+"verbale.sedutaGiunta.luogo" : {"key":"verbale.sedutaGiunta.luogo", "titolo": "SedutaGiunta.luogo", "template": "text", "fields":[] },
+"verbale.sedutaGiunta.dataOra" : {"key":"verbale.sedutaGiunta.dataOra", "titolo": "SedutaGiunta.dataOra", "template": "text", "fields":[] },
+"verbale.sedutaGiunta.stato" : {"key":"verbale.sedutaGiunta.stato", "titolo": "SedutaGiunta.stato", "template": "text", "fields":[] },
+"verbale.sedutaGiunta.tipoSeduta" : {"key":"verbale.sedutaGiunta.tipoSeduta", "titolo": "SedutaGiunta.tipoSeduta", "template": "text", "fields":[] },
+
+"verbale.sedutaGiunta.presidente.utente.nome" : {"key":"verbale.sedutaGiunta.presidente.utente.nome", "titolo": "Presidente.nome", "template": "text", "fields":[] },
+"verbale.sedutaGiunta.presidente.utente.cognome" : {"key":"verbale.sedutaGiunta.presidente.utente.cognome", "titolo": "Presidente.cognome", "template": "text", "fields":[] },
+
+"verbale.sedutaGiunta.segretario.utente.nome" : {"key":"verbale.sedutaGiunta.segretario.utente.nome", "titolo": "Segretario.nome", "template": "text", "fields":[] },
+"verbale.sedutaGiunta.segretario.utente.cognome" : {"key":"verbale.sedutaGiunta.segretario.utente.cognome", "titolo": "Segretario.cognome", "template": "text", "fields":[] },
+
+"verbale.sedutaGiunta.componentiGiunta": {"key":"verbale.sedutaGiunta.componentiGiunta", "titolo": "ComponentiGiunta", "template": "list" , 
+		"fields":[
+			
+			{"key":"utente.nome", "titolo": "nome", "template": "text" },
+			{"key":"utente.cognome", "titolo": "cognome", "template": "text" }
+			
+		]
+}
+
+	
+}

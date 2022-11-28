@@ -1,0 +1,125 @@
+<div>
+	<nav>
+		<ul class="nav nav-pills">
+			<li ng-if="isOperatoreResoconto && [
+			sedutaConstants.statiSeduta.sedutaConclusaIndicazioneNumeroArgomento.label,
+			sedutaConstants.statiSeduta.sedutaConclusaRegistrazioneEsiti.label,
+			sedutaConstants.statiSeduta.sedutaConclusaNumerazioneConfermata.label
+			].indexOf(sedutaGiunta.stato) > -1 && (!existsDocDefEsito || !existsDocVerbali)" class="pull-left" >
+
+				<div class="dropdown">
+					<button class="btn btn-default btn-sm dropdown-toggle"
+						type="button" id="dropdownMenu1" data-toggle="dropdown"
+						aria-haspopup="true" aria-expanded="true">
+						Anteprima Documenti <span class="caret"></span>
+					</button>
+					<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+						<li ng-repeat="modelloHtml in modelloHtmls"><a
+							ng-if="((isOperatoreResoconto && sedutaGiunta.stato == sedutaConstants.statiSeduta.sedutaConclusaNumerazioneConfermata.label && !existsDocDefEsito) || sedutaGiunta.stato == sedutaConstants.statiSeduta.sedutaConclusaRegistrazioneEsiti.label) && modelloHtml.tipoDocumento.codice =='documento_definitivo_esito'"
+							target="_blank"
+							href="/api/preview/{{modelloHtml.id}}/resoconto{{ sedutaGiunta.id }}.pdf?access_token={{access_token}}">
+								<i class="fa fa-file-pdf-o"></i>&nbsp;<span>{{modelloHtml.titolo}}</span>
+						</a></li>
+						<li ng-repeat="modelloHtml in modelloHtmls"><a
+							ng-if="((sedutaGiunta.stato == sedutaConstants.statiSeduta.sedutaConclusaIndicazioneNumeroArgomento.label) || (isOperatoreResoconto && sedutaGiunta.organo == 'C' && sedutaGiunta.stato == sedutaConstants.statiSeduta.sedutaConclusaNumerazioneConfermata.label && !existsDocVerbali)) && modelloHtml.tipoDocumento.codice =='documento_definitivo_elenco_verbali'"
+							target="_blank"
+							href="/api/preview/{{modelloHtml.id}}/elencoVerbali{{ sedutaGiunta.id }}.pdf?access_token={{access_token}}">
+								<i class="fa fa-file-pdf-o"></i>&nbsp;<span>{{modelloHtml.titolo}}</span>
+						</a></li>
+					</ul>
+				</div>
+			</li>
+
+			<!-- FIRMA NON PREVISTA IN ATTICO
+				ng-disabled="(sedutaGiunta.sottoscrittoriresoconto.length < 1 || sottoscrittoriResocontoValid() != true)"
+			-->
+			<li ng-if="isOperatoreResoconto && sedutaGiunta.stato == sedutaConstants.statiSeduta.sedutaConclusaNumerazioneConfermata.label && !existsDocDefEsito" class="pull-right"
+				ng-repeat="decisione in decisioni | filter:{ tipo: 'sedutadocres'}">&nbsp;
+					<button type="button"
+						ng-click="callDecisioneOdg(indexSezioneCorrente,decisione,null)"
+						class="btn btn-primary btn-sm">
+						<i class="fa fa-spinner fa-pulse" ng-if="taskLoading"></i>
+						{{decisione.descrizione}}
+					</button>
+			</li>
+			<li ng-if="isOperatoreResoconto && sedutaGiunta.stato == sedutaConstants.statiSeduta.sedutaConclusaIndicazioneOrdineDiscussione.label" class="pull-right"
+				ng-repeat="decisione in decisioni | filter:{ tipo: 'confermadiscussione'}">&nbsp;
+					<button type="button"
+						ng-click="callDecisioneOdg(indexSezioneCorrente,decisione,null)"
+						class="btn btn-primary btn-sm">
+						<i class="fa fa-spinner fa-pulse" ng-if="taskLoading"></i>
+						{{decisione.descrizione}}
+					</button>
+			</li>
+			<li ng-if="isOperatoreResoconto && sedutaGiunta.stato == sedutaConstants.statiSeduta.sedutaConclusaIndicazioneNumeroArgomento.label" class="pull-right"
+				ng-repeat="decisione in decisioni | filter:{ tipo: 'modificadiscussione'}">&nbsp;
+					<button type="button"
+						ng-click="callDecisioneOdg(indexSezioneCorrente,decisione,null)"
+						class="btn btn-primary btn-sm">
+						<i class="fa fa-spinner fa-pulse" ng-if="taskLoading"></i>
+						{{decisione.descrizione}}
+					</button>
+			</li>
+			
+			<li ng-if="isOperatoreResoconto && sedutaGiunta.stato == sedutaConstants.statiSeduta.sedutaConclusaIndicazioneNumeroArgomento.label" class="pull-right"
+				ng-repeat="decisione in decisioni | filter:{ tipo: 'passtoregistrazioneesiti'}">&nbsp;
+					<button type="button"
+						ng-click="callDecisioneOdg(indexSezioneCorrente,decisione,null)"
+						class="btn btn-primary btn-sm">
+						<i class="fa fa-spinner fa-pulse" ng-if="taskLoading"></i>
+						{{decisione.descrizione}}
+					</button>
+			</li>
+			<!-- FUNZIONI NON PREVISTE IN ATTICO
+			<li ng-if="abilitaPulsanteFirmaResoconto()" class="pull-right" ng-repeat="decisione in decisioni | filter:{ tipo: 'sedutaresdocfirma'}">&nbsp;
+					<button type="button"
+						ng-click="callDecisioneOdg(indexSezioneCorrente,decisione,null)"
+						class="btn btn-primary btn-sm">
+						<i class="fa fa-spinner fa-pulse" ng-if="taskLoading"></i>
+						{{decisione.descrizione}}
+					</button>
+			</li>
+
+			<li ng-if="abilitaPulsanteFirmaPresenze()" class="pull-right" ng-repeat="decisione in decisioni | filter:{ tipo: 'sedutadocpreassfirma'}">&nbsp;
+					<button type="button"
+						ng-click="callDecisioneOdg(indexSezioneCorrente,decisione,null)"
+						class="btn btn-primary btn-sm">
+						<i class="fa fa-spinner fa-pulse" ng-if="taskLoading"></i>
+						{{decisione.descrizione}}
+					</button>
+			</li>
+
+			<li ng-if="abilitaPulsantiResoconto() && isOperatoreResoconto == true && (sedutaGiunta.resoconto != null && sedutaGiunta.resoconto.length > 1) && resocontoPubblicato == false" class="pull-right" ng-repeat="decisione in decisioni | filter:{ tipo: 'sedutapubdocres'}">&nbsp;
+				<button type="button"
+					ng-click="callDecisioneOdg(indexSezioneCorrente,decisione,null)"
+					class="btn btn-primary btn-sm">
+					<i class="fa fa-spinner fa-pulse" ng-if="taskLoading"></i>
+					{{decisione.descrizione}}
+				</button>
+			</li>
+			-->
+
+			<li ng-if="isOperatoreResoconto && sedutaGiunta.organo == 'C' && sedutaGiunta.stato == sedutaConstants.statiSeduta.sedutaConclusaNumerazioneConfermata.label && !existsDocVerbali" class="pull-right"
+				ng-repeat="decisione in decisioni | filter:{ tipo: 'sedutadocverbali'}">&nbsp;
+					<button type="button"
+						ng-click="callDecisioneOdg(indexSezioneCorrente,decisione,null)"
+						class="btn btn-primary btn-sm">
+						<i class="fa fa-spinner fa-pulse" ng-if="taskLoading"></i>
+						{{decisione.descrizione}}
+					</button>
+			</li>
+
+			<li ng-if="isOperatoreResoconto && sedutaGiunta.stato == sedutaConstants.statiSeduta.sedutaConclusaEsitiConfermati.label" class="pull-right"
+				ng-repeat="decisione in decisioni | filter:{ tipo: 'adozione'}">&nbsp;
+					<button type="button"
+						ng-click="callDecisioneOdg(indexSezioneCorrente,decisione,null)"
+						class="btn btn-primary btn-sm">
+						<i class="fa fa-spinner fa-pulse" ng-if="taskLoading"></i>
+						{{decisione.descrizione}}
+					</button>
+			</li>
+
+		</ul>
+	</nav>
+
+</div>

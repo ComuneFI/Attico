@@ -1,0 +1,85 @@
+<div>
+	<br>
+	<div class="form-group ">
+		<label>Notifica</label>
+		<span data-toggle="tooltip"
+			title="<b>GUIDA</b><br/>Dopo l’esecutività dell’Atto, il sistema provvede, in automatico, ad effettuare la sua notifica ai soggetti interessati via posta elettronica, se il destinatario è interno all’Ente, oppure via PEC se esterno. In questa sezione è possibile specificare i destinatari della notifica interni all’Ente fra Uffici, Assessorato e Utenti e quelli esterni all’Ente fra quelli presenti in rubrica."
+			data-html="true" ng-init="initTooltip()">
+			<i class="fa fa-question" ></i>
+		</span>
+	</div>
+	
+	<div class="form-group ">
+	<label translate="cifra2gestattiApp.atto.notificaBeneficiari">Notifica beneficiari</label> <input type="checkbox" ng-model="atto.notificaBeneficiari"/> <span data-title="{{'cifra2gestattiApp.atto.notificaBeneficiariTooltip' | translate}}" bs-tooltip><i class="fa fa-question"></i></span>
+	</div>
+		<div class="row title">
+			<div class="col-sm-2">
+				<label>
+					<span class="fa fa-whatsapp fa-fw"></span>  
+					<span translate="cifra2gestattiApp.atto.destinatariInterniTitle">destinatariInterni</span>
+				</label>
+			</div>	
+			<div class="col-sm-6">
+			    <label class="radio-inline">
+			      Cerca in:
+			    </label>
+			    <label class="radio-inline">
+			      <!-- TODO !!! -->
+			      <!-- ng-class="{'everActive' : checkFunzioneTipoAtto('setContentEditableDel')}" -->
+			      <input type="radio" ng-model="searchFlag" value="aoo" ng-change="changeTipoDestinatario('aoo')" ng-init="searchFlag='aoo'">Ufficio
+			    </label>
+			    <label class="radio-inline">
+			      <input type="radio" ng-model="searchFlag" value="ass" ng-change="changeTipoDestinatario('ass')">Assessorato
+			    </label>
+			    <label class="radio-inline">
+			      <input type="radio" ng-model="searchFlag" value="ute" ng-change="changeTipoDestinatario('ute')">Utente
+			    </label>
+			</div>
+		</div>
+						
+		<div class="row">
+		</div>
+		<div class="row destinatari-notifica">
+			<div class="col-sm-12">
+				<ui-select multiple sortable="true" ng-model="atto.destinatariInterni" theme="bootstrap" class="form-control"
+					ng-disabled="solaLettura">
+		        	<ui-select-match>{{$item.strippedDescrizione}}</ui-select-match>
+		            <ui-select-choices repeat="item in rubricaDestinatarioInternos | filter: $select.search">
+		            	<div ng-bind-html="item.descrizione | highlight: $select.search"></div>
+		            	<small ng-bind-html="item.email | highlight: $select.search"></small>			            				            		
+		            </ui-select-choices>
+		        </ui-select>
+			</div>
+		</div>
+		
+		<div class="row title last destinatari-notifica">
+			<div class="col-sm-12">
+				<label> <span class="fa fa-whatsapp fa-fw"></span>  <span translate="cifra2gestattiApp.atto.destinatariEsterni">destinatariEsterni</span></label>
+				
+				<ui-select multiple sortable="true" ng-model="atto.destinatariEsterni" theme="bootstrap" class="form-control"
+					ng-disabled="solaLettura">
+		        	<ui-select-match>{{$item.nameCerca}}</ui-select-match>
+		            <ui-select-choices repeat="item in rubricaDestinatariList | filter: $select.search">
+		            	<div class="row">
+		            		<div class="col-sm-8">
+				            	<div ng-bind-html="item.nameCerca | highlight: $select.search"></div>
+				            	<small ng-bind-html="item.pec | highlight: $select.search"></small>			            				            		
+		            		</div>
+		            		<div class="col-sm-4">
+				            	<button type="submit" class="btn btn-danger btn-sm" ng-click="disableDestinatarioEsterno(item)">
+				            		<span class="glyphicon glyphicon-remove-circle"></span>&nbsp;
+				            		<span>Rimuovi</span>
+				            	</button>
+		            		</div>
+		            	</div>
+		            </ui-select-choices>
+		        </ui-select>
+				<label>
+					<a class="pull-left btn btn-primary btn-sm" ng-hide="solaLettura"   
+						ng-click="addRubricaDestinatarioEsterno()" > <span translate="cifra2gestattiApp.atto.addDestinatarioEsterno">Aggiungi destinatario esterno </span>
+					<span class="glyphicon glyphicon-plus" ></span></a>
+			  	</label>
+			</div>
+		</div>
+			
+</div>

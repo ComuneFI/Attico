@@ -1,0 +1,71 @@
+<div>
+	
+		<div class="form-group">
+										<label translate="cifra2gestattiApp.ufficio.codice">Codice</label> *
+										<input type="text" class="form-control" name="codice"
+										ng-model="ngModel.codice" required>
+
+										<div ng-show="editForm.codice.$invalid">
+										</div>
+									</div>
+
+									<div class="form-group">
+										<label translate="cifra2gestattiApp.ufficio.descrizione">Descrizione</label> *
+										<input type="text" class="form-control" name="descrizione"
+										ng-model="ngModel.descrizione" required>
+
+										<div ng-show="editForm.descrizione.$invalid">
+										</div>
+									</div>
+
+									<validita-form ng-model="ngModel.validita" ></validita-form>
+
+									<div class="form-group">
+
+										<div class="form-group col-sm-4">
+											<label translate="cifra2gestattiApp.ufficio.fax">Fax</label>
+											<input type="text" class="form-control" name="fax"
+											ng-model="ngModel.fax">
+
+											<div ng-show="editForm.fax.$invalid">
+											</div>
+										</div>
+
+										<div class="form-group col-sm-4">
+											<label translate="cifra2gestattiApp.ufficio.email">Email</label>
+											<input type="text" class="form-control" name="email"
+											ng-model="ngModel.email">
+
+											<div ng-show="editForm.email.$invalid">
+											</div>
+										</div>
+
+										<div class="form-group col-sm-4">
+											<label translate="cifra2gestattiApp.ufficio.pec">Pec</label>
+											<input type="text" class="form-control" name="pec"
+											ng-model="ngModel.pec">
+
+											<div ng-show="editForm.pec.$invalid">
+											</div>
+										</div>
+
+										<div class="form-group col-sm-6">
+											<label translate="cifra2gestattiApp.ufficio.aoo">aoo</label> *
+											<select class="form-control" name="aoo" ng-model="ngModel.aoo.id" ng-init="loadProfilos(ngModel.aoo.id)" ng-change="loadProfilos(ngModel.aoo.id)" ng-options="aoo.id as aoo.codice  + '-' +  aoo.descrizione for aoo in listaAoo" required>
+												<option value=""></option>
+											</select>	
+										</div>
+
+										<div class="form-group col-sm-6">
+											<label translate="cifra2gestattiApp.ufficio.responsabile">responsabile</label>
+											<select class="form-control" name="responsabile" ng-disabled="!ngModel.aoo" ng-model="ngModel.responsabile.id" ng-options="profilo.id as profilo.utente.cognome +' '+profilo.utente.nome for profilo in filterProfilo">
+											</select>
+										</div>
+
+
+									</div>
+
+									<indirizzo-select span="12" ng-model="ngModel.indirizzo"></indirizzo-select>
+
+
+</div>

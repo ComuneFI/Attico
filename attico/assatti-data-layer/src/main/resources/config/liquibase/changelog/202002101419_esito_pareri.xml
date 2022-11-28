@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    <changeSet author="magria" id="202002101445-1">
+    	<sql>
+			CREATE TABLE `esito_pareri` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `codice` varchar(255) NOT NULL,
+  `valore` varchar(255) NOT NULL,
+  `tipo` varchar(255) NOT NULL,
+  `enabled` tinyint(4) NOT NULL,
+  `tipoatto_id` bigint(20) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK_tipoatto_id_esito_pareri` (`tipoatto_id`),
+  CONSTRAINT `FK_tipoatto_id_esito_pareri` FOREIGN KEY (`tipoatto_id`) REFERENCES `tipoatto` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+</sql>
+    </changeSet>
+</databaseChangeLog>

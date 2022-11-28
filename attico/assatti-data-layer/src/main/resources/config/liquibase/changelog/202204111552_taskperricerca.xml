@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    <changeSet author="magria" id="202204111552-00001">
+	    <sql>
+    	INSERT INTO task_per_ricerca (id,tipoatto_id,key_code,descrizione,type_code) VALUES (70,10,'Task_1433s18','Verifica Atto','TASK');
+		INSERT INTO task_per_ricerca (id,tipoatto_id,key_code,descrizione,type_code) VALUES (71,8,'Task_1433s18','Verifica Atto','TASK');
+		INSERT INTO task_per_ricerca (id,tipoatto_id,key_code,descrizione,type_code) VALUES (72,9,'Task_1433s18','Verifica Atto','TASK');
+		INSERT INTO task_per_ricerca (id,tipoatto_id,key_code,descrizione,type_code) VALUES (73,10,'IntermediateCatchEvent_0ys7hda','Attesa Registrazione Esito Seduta','EVENT');
+		INSERT INTO task_per_ricerca (id,tipoatto_id,key_code,descrizione,type_code) VALUES (74,8,'IntermediateCatchEvent_0ys7hda','Attesa Registrazione Esito Seduta','EVENT');
+		INSERT INTO task_per_ricerca (id,tipoatto_id,key_code,descrizione,type_code) VALUES (75,9,'IntermediateCatchEvent_0ys7hda','Attesa Registrazione Esito Seduta','EVENT');
+		INSERT INTO task_per_ricerca (id,tipoatto_id,key_code,descrizione,type_code) VALUES (76,10,'UserTask_1mh1qbh','Pubblicazione','TASK');
+		INSERT INTO task_per_ricerca (id,tipoatto_id,key_code,descrizione,type_code) VALUES (77,8,'UserTask_1mh1qbh','Pubblicazione','TASK');
+		INSERT INTO task_per_ricerca (id,tipoatto_id,key_code,descrizione,type_code) VALUES (78,9,'UserTask_1mh1qbh','Pubblicazione','TASK');
+		INSERT INTO task_per_ricerca (id,tipoatto_id,key_code,descrizione,type_code) VALUES (79,10,'coordinamento_testo','Coordinamento testo','TASK');
+		INSERT INTO task_per_ricerca (id,tipoatto_id,key_code,descrizione,type_code) VALUES (80,8,'coordinamento_testo','Coordinamento testo','TASK');
+		INSERT INTO task_per_ricerca (id,tipoatto_id,key_code,descrizione,type_code) VALUES (81,9,'coordinamento_testo','Coordinamento testo','TASK');
+		INSERT INTO task_per_ricerca (id,tipoatto_id,key_code,descrizione,type_code) VALUES (82,10,'_2_coordinamento_testo','Coordinamento testo','TASK');
+		INSERT INTO task_per_ricerca (id,tipoatto_id,key_code,descrizione,type_code) VALUES (83,8,'_2_coordinamento_testo','Coordinamento testo','TASK');
+		INSERT INTO task_per_ricerca (id,tipoatto_id,key_code,descrizione,type_code) VALUES (84,9,'_2_coordinamento_testo','Coordinamento testo','TASK');
+		INSERT INTO task_per_ricerca (id,tipoatto_id,key_code,descrizione,type_code) VALUES (85,10,'UserTask_0ihg0so','Predisposizione Atto','TASK');
+		INSERT INTO task_per_ricerca (id,tipoatto_id,key_code,descrizione,type_code) VALUES (86,8,'UserTask_0ihg0so','Predisposizione Atto','TASK');
+		INSERT INTO task_per_ricerca (id,tipoatto_id,key_code,descrizione,type_code) VALUES (87,9,'UserTask_0ihg0so','Predisposizione Atto','TASK');
+		INSERT INTO task_per_ricerca (id,tipoatto_id,key_code,descrizione,type_code) VALUES (88,10,'UserTask_0wq1qq5','Genera o Rifiuta Atto','TASK');
+		INSERT INTO task_per_ricerca (id,tipoatto_id,key_code,descrizione,type_code) VALUES (89,8,'UserTask_0wq1qq5','Genera o Rifiuta Atto','TASK');
+		INSERT INTO task_per_ricerca (id,tipoatto_id,key_code,descrizione,type_code) VALUES (90,9,'UserTask_0wq1qq5','Genera o Rifiuta Atto','TASK');
+		INSERT INTO task_per_ricerca (id,tipoatto_id,key_code,descrizione,type_code) VALUES (91,10,'UserTask_1ug4zl9','Istruttoria Breve','TASK');
+		INSERT INTO task_per_ricerca (id,tipoatto_id,key_code,descrizione,type_code) VALUES (92,8,'UserTask_1ug4zl9','Istruttoria Breve','TASK');
+		INSERT INTO task_per_ricerca (id,tipoatto_id,key_code,descrizione,type_code) VALUES (93,9,'UserTask_1ug4zl9','Istruttoria Breve','TASK');
+		INSERT INTO tipologia_ricerca_task (tip_ricerca_id,task_id) VALUES (1,70);
+		INSERT INTO tipologia_ricerca_task (tip_ricerca_id,task_id) VALUES (1,71);
+		INSERT INTO tipologia_ricerca_task (tip_ricerca_id,task_id) VALUES (1,72);
+		INSERT INTO tipologia_ricerca_task (tip_ricerca_id,task_id) VALUES (1,73);
+		INSERT INTO tipologia_ricerca_task (tip_ricerca_id,task_id) VALUES (1,74);
+		INSERT INTO tipologia_ricerca_task (tip_ricerca_id,task_id) VALUES (1,75);
+		INSERT INTO tipologia_ricerca_task (tip_ricerca_id,task_id) VALUES (1,76);
+		INSERT INTO tipologia_ricerca_task (tip_ricerca_id,task_id) VALUES (1,77);
+		INSERT INTO tipologia_ricerca_task (tip_ricerca_id,task_id) VALUES (1,78);
+		INSERT INTO tipologia_ricerca_task (tip_ricerca_id,task_id) VALUES (1,79);
+		INSERT INTO tipologia_ricerca_task (tip_ricerca_id,task_id) VALUES (1,80);
+		INSERT INTO tipologia_ricerca_task (tip_ricerca_id,task_id) VALUES (1,81);
+		INSERT INTO tipologia_ricerca_task (tip_ricerca_id,task_id) VALUES (1,82);
+		INSERT INTO tipologia_ricerca_task (tip_ricerca_id,task_id) VALUES (1,83);
+		INSERT INTO tipologia_ricerca_task (tip_ricerca_id,task_id) VALUES (1,84);
+		INSERT INTO tipologia_ricerca_task (tip_ricerca_id,task_id) VALUES (1,85);
+		INSERT INTO tipologia_ricerca_task (tip_ricerca_id,task_id) VALUES (1,86);
+		INSERT INTO tipologia_ricerca_task (tip_ricerca_id,task_id) VALUES (1,87);
+		INSERT INTO tipologia_ricerca_task (tip_ricerca_id,task_id) VALUES (1,88);
+		INSERT INTO tipologia_ricerca_task (tip_ricerca_id,task_id) VALUES (1,89);
+		INSERT INTO tipologia_ricerca_task (tip_ricerca_id,task_id) VALUES (1,90);
+		INSERT INTO tipologia_ricerca_task (tip_ricerca_id,task_id) VALUES (1,91);
+		INSERT INTO tipologia_ricerca_task (tip_ricerca_id,task_id) VALUES (1,92);
+		INSERT INTO tipologia_ricerca_task (tip_ricerca_id,task_id) VALUES (1,93);
+		</sql>
+    </changeSet>
+</databaseChangeLog>

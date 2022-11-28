@@ -1,0 +1,19 @@
+{
+    "cifra2gestattiApp": {
+        "statoRichiestaHD" : {
+            "home": {
+                "title": "Stato Richiesta HD",
+                "createLabel": "Crea una nuovo Stato Richiesta HD",
+                "createOrEditLabel": "Crea o modifica un nuovo Stato Richiesta HD"
+            },
+            "delete": {
+                "question": "Siete sicuri di voler cancellare lo Stato Richiesta HD {{ id }}?"
+            },
+            "detail": {
+                "title": "Stato Richiesta HD"
+            },
+            
+            "descrizione": "Descrizione"
+        }
+    }
+}

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    
+    <changeSet author="mazzottada" id="201908281032-1">
+    	<sql>
+    		INSERT INTO tipodocumento (descrizione, codice, riversamento_tipoatto, dms_content_type) VALUES('Relata di pubblicazione', 'relata', 1, 'atc:AllegatoType');
+    	</sql>
+    </changeSet>
+    
+    <changeSet author="mazzottada" id="201908281032-2">
+    	<sql>
+		    INSERT INTO configurazione_riversamento
+			(tipodocumentoserie_id, validodal, validoal, tipodocumento_id, only_pubblicabili, aoo_id, tipoatto_id)
+			VALUES((select id from tipodocumentoserie where codice = 'ALLEGATO'), now(), null, (select id from tipodocumento where codice = 'relata'), null, 0, null);
+    	</sql>
+    </changeSet>
+    
+    <changeSet author="mazzottada" id="201908281032-3">
+    	<sql>
+		    update tipoatto set ricerca_stato_concluso = concat(ricerca_stato_concluso, '|', 'ATTESA_RELATA') where ricerca_stato_concluso is not null and length(ricerca_stato_concluso) > 0;
+		    update tipoatto set ricerca_stato_concluso = 'ATTESA_RELATA' where ricerca_stato_concluso is null or length(ricerca_stato_concluso) = 0;
+    	</sql>
+    </changeSet>
+</databaseChangeLog>

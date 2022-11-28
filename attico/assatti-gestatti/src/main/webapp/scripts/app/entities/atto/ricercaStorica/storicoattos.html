@@ -1,0 +1,14 @@
+<div>
+
+    <h2 ng-if="tipoRicercaStorica != null && tipoRicercaStorica == 'atti-dirigenziali'">Ricerca storica Atti Dirigenziali</h2>
+    <h2 ng-if="tipoRicercaStorica != null && tipoRicercaStorica == 'atti-giunta'">Ricerca storica Atti di Giunta</h2>
+	
+	
+	<div ng-if="tipoRicercaStorica != null && tipoRicercaStorica == 'atti-dirigenziali'" 
+	     ng-include="'scripts/app/entities/atto/ricercaStorica/storicodetermine.html'">
+	</div>
+	
+	<div ng-if="tipoRicercaStorica != null && tipoRicercaStorica == 'atti-giunta'" 
+	     ng-include="'scripts/app/entities/atto/ricercaStorica/storicodelibere.html'">
+	</div>
+</div>

@@ -1,0 +1,18 @@
+{
+    "cifra2gestattiApp": {
+        "tipodato" : {
+            "home": {
+                "title": "Tipodatos",
+                "createLabel": "Create a new Tipodato",
+                "createOrEditLabel": "Create or edit a Tipodato"
+            },
+            "delete": {
+                "question": "Are you sure you want to delete Tipodato {{ id }}?"
+            },
+            "detail": {
+                "title": "Tipodato"
+            },
+            "nome": "Nome"
+        }
+    }
+}

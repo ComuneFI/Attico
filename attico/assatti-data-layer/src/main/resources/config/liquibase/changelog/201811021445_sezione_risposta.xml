@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    
+    <changeSet author="chiriacog" id="201811021445-1">
+    	<sql>
+    		UPDATE `sezione` SET `descrizione`='Testo Completo' WHERE `codice`='domanda';
+    		INSERT INTO `tipoevento` (`descrizione`, `codice`, `categoriaEvento_id`) VALUES ('Testo in Predisposizione', 'TESTO_IN_PREDISPOSIZIONE', '1');
+			INSERT INTO `sezione` (`id`, `descrizione`, `codice`) VALUES (28, 'Risposta', 'risposta');
+    	</sql> 
+    </changeSet>
+    <changeSet author="chiriacog" id="201811021445-2">
+    	<sql>
+    		INSERT INTO `sezione_tipoatto` (`tipoatto_id`, `sezione_id`, `visibile`) VALUES ( 1, 28, 0);
+			INSERT INTO `sezione_tipoatto` (`tipoatto_id`, `sezione_id`, `visibile`) VALUES ( 2, 28, 0);
+			INSERT INTO `sezione_tipoatto` (`tipoatto_id`, `sezione_id`, `visibile`) VALUES ( 3, 28, 0);
+			INSERT INTO `sezione_tipoatto` (`tipoatto_id`, `sezione_id`, `visibile`) VALUES ( 4, 28, 0);
+			INSERT INTO `sezione_tipoatto` (`tipoatto_id`, `sezione_id`, `visibile`) VALUES ( 5, 28, 0);
+			INSERT INTO `sezione_tipoatto` (`tipoatto_id`, `sezione_id`, `visibile`) VALUES ( 7, 28, 0);
+			INSERT INTO `sezione_tipoatto` (`tipoatto_id`, `sezione_id`, `visibile`) VALUES ( 8, 28, 1);
+			INSERT INTO `sezione_tipoatto` (`tipoatto_id`, `sezione_id`, `visibile`) VALUES ( 9, 28, 1);
+			INSERT INTO `sezione_tipoatto` (`tipoatto_id`, `sezione_id`, `visibile`) VALUES (10, 28, 1);
+			INSERT INTO `sezione_tipoatto` (`tipoatto_id`, `sezione_id`, `visibile`) VALUES (11, 28, 0);
+			INSERT INTO `sezione_tipoatto` (`tipoatto_id`, `sezione_id`, `visibile`) VALUES (12, 28, 0);
+			INSERT INTO `sezione_tipoatto` (`tipoatto_id`, `sezione_id`, `visibile`) VALUES (13, 28, 0);
+			INSERT INTO `sezione_tipoatto` (`tipoatto_id`, `sezione_id`, `visibile`) VALUES (14, 28, 0);
+			INSERT INTO `sezione_tipoatto` (`tipoatto_id`, `sezione_id`, `visibile`) VALUES (15, 28, 1);
+			INSERT INTO `sezione_tipoatto` (`tipoatto_id`, `sezione_id`, `visibile`) VALUES (16, 28, 0);
+			INSERT INTO `sezione_tipoatto` (`tipoatto_id`, `sezione_id`, `visibile`) VALUES (17, 28, 0);
+			INSERT INTO `sezione_tipoatto` (`tipoatto_id`, `sezione_id`, `visibile`) VALUES (19, 28, 0);
+    	</sql>
+    </changeSet>   
+    <changeSet author="chiriacog" id="201811021445-3">
+    	<sql>
+    		UPDATE `sezione_tipoatto` SET `visibile`=0 WHERE `tipoatto_id`=8  and `sezione_id`=22;
+			UPDATE `sezione_tipoatto` SET `visibile`=0 WHERE `tipoatto_id`=9  and `sezione_id`=22;
+			UPDATE `sezione_tipoatto` SET `visibile`=0 WHERE `tipoatto_id`=10 and `sezione_id`=22;
+			UPDATE `sezione_tipoatto` SET `visibile`=0 WHERE `tipoatto_id`=15 and `sezione_id`=22;
+    	</sql>
+    </changeSet>
+</databaseChangeLog>

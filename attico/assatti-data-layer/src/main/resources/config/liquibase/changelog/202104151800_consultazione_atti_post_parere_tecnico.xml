@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    <changeSet author="magria" id="202104151800-0001">
+    	<sql>
+			INSERT INTO task_per_ricerca (id,tipoatto_id,key_code,descrizione,type_code) VALUES (48,2,'UserTask_0f6ra7y','Regolarità Tecnica','TASK');
+			INSERT INTO task_per_ricerca (id,tipoatto_id,key_code,descrizione,type_code) VALUES (49,2,'UserTask_0l0i8xq','Verifica Altri Responsabili','TASK');
+			INSERT INTO task_per_ricerca (id,tipoatto_id,key_code,descrizione,type_code) VALUES (50,2,'UserTask_0n5ykue','Verifica Istruttore Contabile','TASK');
+			INSERT INTO task_per_ricerca (id,tipoatto_id,key_code,descrizione,type_code) VALUES (51,2,'UserTask_1x0d78t','Verifica Istruttore Contabile','TASK');
+			INSERT INTO task_per_ricerca (id,tipoatto_id,key_code,descrizione,type_code) VALUES (52,2,'UserTask_1ppxp2s','Verifica Resp. Contabile','TASK');
+			
+			INSERT INTO task_per_ricerca (id,tipoatto_id,key_code,descrizione,type_code) VALUES (53,11,'UserTask_0jg4luf','Regolarità Tecnica','TASK');
+			INSERT INTO task_per_ricerca (id,tipoatto_id,key_code,descrizione,type_code) VALUES (54,11,'UserTask_08a11el','Verifica Altri Responsabili','TASK');
+			INSERT INTO task_per_ricerca (id,tipoatto_id,key_code,descrizione,type_code) VALUES (55,11,'UserTask_0n5ykue','Verifica Istruttore Contabile','TASK');
+			INSERT INTO task_per_ricerca (id,tipoatto_id,key_code,descrizione,type_code) VALUES (56,11,'UserTask_1x0d78t','Verifica Istruttore Contabile','TASK');
+			INSERT INTO task_per_ricerca (id,tipoatto_id,key_code,descrizione,type_code) VALUES (57,11,'UserTask_1ppxp2s','Verifica Resp. Contabile','TASK');
+			
+			INSERT INTO tipologia_ricerca_task (tip_ricerca_id,task_id) VALUES (3,48);
+			INSERT INTO tipologia_ricerca_task (tip_ricerca_id,task_id) VALUES (3,49);
+			INSERT INTO tipologia_ricerca_task (tip_ricerca_id,task_id) VALUES (3,50);
+			INSERT INTO tipologia_ricerca_task (tip_ricerca_id,task_id) VALUES (3,51);
+			INSERT INTO tipologia_ricerca_task (tip_ricerca_id,task_id) VALUES (3,52);
+			INSERT INTO tipologia_ricerca_task (tip_ricerca_id,task_id) VALUES (3,53);
+			INSERT INTO tipologia_ricerca_task (tip_ricerca_id,task_id) VALUES (3,54);
+			INSERT INTO tipologia_ricerca_task (tip_ricerca_id,task_id) VALUES (3,55);
+			INSERT INTO tipologia_ricerca_task (tip_ricerca_id,task_id) VALUES (3,56);
+			INSERT INTO tipologia_ricerca_task (tip_ricerca_id,task_id) VALUES (3,57);
+			
+			INSERT INTO task_per_ricerca (id,tipoatto_id,key_code,descrizione,type_code) VALUES (58,3,'UserTask_0njun73','Regolarità Tecnica','TASK');
+			INSERT INTO task_per_ricerca (id,tipoatto_id,key_code,descrizione,type_code) VALUES (59,3,'UserTask_0sqzkn8','Verifica Altri Responsabili','TASK');
+			INSERT INTO task_per_ricerca (id,tipoatto_id,key_code,descrizione,type_code) VALUES (60,3,'UserTask_0n5ykue','Verifica Istruttore Contabile','TASK');
+			INSERT INTO task_per_ricerca (id,tipoatto_id,key_code,descrizione,type_code) VALUES (61,3,'UserTask_1x0d78t','Verifica Istruttore Contabile','TASK');
+			INSERT INTO task_per_ricerca (id,tipoatto_id,key_code,descrizione,type_code) VALUES (62,3,'UserTask_1ppxp2s','Verifica Resp. Contabile','TASK');
+			INSERT INTO task_per_ricerca (id,tipoatto_id,key_code,descrizione,type_code) VALUES (63,3,'UserTask_03ttjp3','Visto Segretario generale','TASK');
+			INSERT INTO task_per_ricerca (id,tipoatto_id,key_code,descrizione,type_code) VALUES (64,3,'Task_0oa27qb','Verifica proposta','TASK');
+			
+			INSERT INTO task_per_ricerca (id,tipoatto_id,key_code,descrizione,type_code) VALUES (65,11,'UserTask_1gelv0t','Regolarità modifica Resp tecnico','TASK');
+			INSERT INTO task_per_ricerca (id,tipoatto_id,key_code,descrizione,type_code) VALUES (66,11,'UserTask_0nqzkxs','Regolarità modifica Resp contabile','TASK');
+			
+			INSERT INTO tipologia_ricerca_task (tip_ricerca_id,task_id) VALUES (4,58);
+			INSERT INTO tipologia_ricerca_task (tip_ricerca_id,task_id) VALUES (4,59);
+			INSERT INTO tipologia_ricerca_task (tip_ricerca_id,task_id) VALUES (4,60);
+			INSERT INTO tipologia_ricerca_task (tip_ricerca_id,task_id) VALUES (4,61);
+			INSERT INTO tipologia_ricerca_task (tip_ricerca_id,task_id) VALUES (4,62);
+			INSERT INTO tipologia_ricerca_task (tip_ricerca_id,task_id) VALUES (4,63);
+			INSERT INTO tipologia_ricerca_task (tip_ricerca_id,task_id) VALUES (4,64);
+			INSERT INTO tipologia_ricerca_task (tip_ricerca_id,task_id) VALUES (4,65);
+			INSERT INTO tipologia_ricerca_task (tip_ricerca_id,task_id) VALUES (4,66);
+		</sql>
+    </changeSet>
+    
+</databaseChangeLog>

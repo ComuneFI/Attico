@@ -1,0 +1,191 @@
+<div>
+
+    <h2 translate="cifra2gestattiApp.configurazioneRiversamento.home.title">Configurazione Riversamento</h2>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <button class="btn btn-primary" data-toggle="modal" data-target="#saveSerieModal" ng-click="clear()">
+                    <span class="glyphicon glyphicon-flash"></span> <span translate="cifra2gestattiApp.configurazioneRiversamento.home.createLabel">Create a new configurazione</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="saveSerieModal" tabindex="-1" role="dialog" aria-labelledby="mySerieLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form name="editForm" role="form" novalidate ng-submit="save()">
+
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                                ng-click="clear()">&times;</button>
+                        <h4 class="modal-title" id="mySerieLabel" translate="cifra2gestattiApp.configurazioneRiversamento.home.createLabel">Create configurazioneRiversamento</h4>
+                    </div>
+                    <div class="modal-body">
+
+                        <div class="form-group">
+                            <label translate="cifra2gestattiApp.configurazioneRiversamento.TipoDocumento">TipoDocumento</label> *
+                            <select class="form-control" name="TipoDocumento" ng-model="configurazioneRiversamento.tipoDocumento" ng-change="configurazioneRiversamento.tipoAttoId = null" ng-options="tipoDocumento as tipoDocumento.descrizione for tipoDocumento in tipodocumentos | orderBy:'descrizione' track by tipoDocumento.id" required>
+                            </select>
+                        </div>
+                        
+                        <div ng-if="configurazioneRiversamento.tipoDocumento && configurazioneRiversamento.tipoDocumento.riversamentoTipoatto" class="form-group">
+                            <label>Tipo Atto</label>
+                            <select class="form-control" name="TipoAtto" ng-model="configurazioneRiversamento.tipoAttoId" ng-options="tipoAtto.id as tipoAtto.descrizione for tipoAtto in tipoattos | orderBy:'descrizione'">
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label translate="cifra2gestattiApp.configurazioneRiversamento.TipoDocumentoSerie">DestinazioneDiogene</label> *
+                            <select class="form-control" name="TipoDocumento" ng-model="configurazioneRiversamento.tipoDocumentoSerie" 
+                            ng-class="{'entityDisabilitata' : configurazioneRiversamento && configurazioneRiversamento.tipoDocumentoSerie.highlighted}"
+                            ng-options="tipoDocumento as tipoDocumento.descrizione for tipoDocumento in includiRef(tipodocumentoseries, configurazioneRiversamento.tipoDocumentoSerie, 'descrizione', configurazioneRiversamento.tipoDocumentoSerie) | orderBy:'descrizione' track by tipoDocumento.id" required>
+                            </select>
+                        </div>
+                        
+                        <!-- <div class="form-group">
+                        	<label translate="cifra2gestattiApp.configurazioneRiversamento.onlyPubblicabili">onlyPubblicabili</label> *
+                        	<input type="checkbox" ng-model="configurazioneRiversamento.onlyPubblicabili" ng-value="configurazioneRiversamento.onlyPubblicabili ? true : false">
+                        </div> -->
+                        
+                        <div class="form-group">
+                            <label translate="cifra2gestattiApp.configurazioneRiversamento.Aoo">Aoo</label>
+                            <select class="form-control" name="Aoo" ng-model="configurazioneRiversamento.aooId" ng-options="aoo.id as (aoo.codice && aoo.codice != '0' && aoo.codice != '-1' ? aoo.codice : '') + (aoo.descrizione && aoo.codice != '0' && aoo.codice != '-1' ? ' - ' + aoo.descrizione : aoo.descrizione) for aoo in aoos | orderBy:'codice'" required>
+                            </select>
+                        </div>
+                        
+                        
+                        
+                        
+                        <div class="form-group" >
+                        	<div class="row">
+							 	<div class="col-md-6" >
+							 		<i class="fa fa-calendar"></i>&nbsp;<label translate="global.messages.validodal">Validodal</label>
+							 		<input type="text" class="form-control" name="validodal" ng-disabled="true" value="{{ configurazioneRiversamento.validoDal| date:'dd-MM-yyyy'}}">
+							 	</div>
+							
+							 	<div class="col-md-6">
+							 		<i class="fa fa-calendar"></i>&nbsp;<label translate="global.messages.validoal">Validoal</label>
+							 		<input type="text" class="form-control" name="validoal" ng-disabled="true" value="{{ configurazioneRiversamento.validoAl| date:'dd-MM-yyyy'}}">
+							 	</div>
+                        	</div>
+						</div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
+                            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+                        </button>
+                        <button type="submit" ng-disabled="editForm.$invalid" class="btn btn-primary">
+                            <span class="glyphicon glyphicon-save"></span>&nbsp;<span translate="entity.action.save">Save</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+	<div>
+    	<div class="table-responsive crud-search">
+	        <table class="table table-striped">
+	            <thead>
+	                <tr>
+	                	<th width="30px"></th>
+	                    <th translate="cifra2gestattiApp.configurazioneRiversamento.TipoDocumento">TipoDocumento</th>
+	                    <th translate="cifra2gestattiApp.configurazioneRiversamento.TipoDocumentoSerie">TipoDocumentoSerie</th>
+	                    <th translate="cifra2gestattiApp.configurazioneRiversamento.Aoo">Aoo</th>
+	                    <th>Tipo Atto</th>
+	                    <!-- <th translate="cifra2gestattiApp.configurazioneRiversamento.onlyPubblicabili">onlyPubblicabili</th> -->
+	                    <th></th>
+	                </tr>
+	                <tr>
+	                   <th style="text-align:center;"><button class="btn btn-primary btn-xs" ng-click="ricerca()"><span class="glyphicon glyphicon-search"/> <span translate="global.messages.cerca">Ricerca</span></button> <button class="btn btn-primary btn-xs" ng-click="resetRicerca()"><span translate="global.messages.resetricerca">Reset ricerca</span></button></th>
+			           <th class="limited-width">
+			           		<ui-select ng-model="tempSearch.tipoDocumento" theme="bootstrap">
+		                    	<ui-select-match allow-clear="true">{{$select.selected.descrizione}}</ui-select-match>
+		                    	<ui-select-choices repeat="cur in tipodocumentos | filter: $select.search track by $index">
+		                            <div ng-bind-html="cur.descrizione | highlight: $select.search"></div>
+		                    	</ui-select-choices>
+	                      	</ui-select>
+			           </th>
+			           <th class="limited-width">
+			           		<ui-select ng-model="tempSearch.tipoDocumentoSerie" theme="bootstrap">
+		                    	<ui-select-match allow-clear="true">{{$select.selected.descrizione}}</ui-select-match>
+		                    	<ui-select-choices repeat="cur in tipodocumentoseries | filter: $select.search track by $index">
+		                            <div ng-bind-html="cur.descrizione | highlight: $select.search"></div>
+		                    	</ui-select-choices>
+	                      	</ui-select>
+			           </th>
+			           <th class="limited-width">
+			           		<input type="text" ng-model="tempSearch.aoo" class="form-control">
+			           </th>
+			           <th class="limited-width">
+			           		<ui-select ng-model="tempSearch.tipoAtto" theme="bootstrap">
+		                    	<ui-select-match allow-clear="true">{{$select.selected.descrizione}}</ui-select-match>
+		                    	<ui-select-choices repeat="cur in tipoattos | filter: $select.search track by $index">
+		                            <div ng-bind-html="cur.descrizione | highlight: $select.search"></div>
+		                    	</ui-select-choices>
+	                      	</ui-select>
+			           </th>
+			           <!-- <th class="limited-width">
+			           		<si-no-select ng-model="tempSearch.onlyPubblicabili" ></si-no-select>
+			           </th> -->
+			           <th><button class="btn btn-primary btn-xs" ng-click="ricerca()"><span class="glyphicon glyphicon-search"/> <span translate="global.messages.cerca">Ricerca</span></button> <button class="btn btn-primary btn-xs" ng-click="resetRicerca()"><span translate="global.messages.resetricerca">Reset ricerca</span></button></th>
+			        </tr>
+	            </thead>
+	            <tbody>
+	                <tr ng-repeat="configurazioneRiversamento in configurazioneRiversamentos">
+	                	<td></td>
+	                    <td>{{configurazioneRiversamento.tipoDocumento.descrizione}}</td>
+	                    <td>{{configurazioneRiversamento.tipoDocumentoSerie.descrizione}}</td>
+	                    <td>{{configurazioneRiversamento.aoo && configurazioneRiversamento.aoo.id && configurazioneRiversamento.aoo.id > 0 ? (configurazioneRiversamento.aoo.codice + ' - ' + configurazioneRiversamento.aoo.descrizione) : configurazioneRiversamento.aoo.id == 0 ? 'Tutte' : configurazioneRiversamento.aoo.id < 0 ? 'Nessuna' : ''}}</td>
+	                    <td>{{configurazioneRiversamento.tipoAtto ? configurazioneRiversamento.tipoAtto.descrizione : ''}}</td>
+	                    <!-- <td>{{configurazioneRiversamento.onlyPubblicabili ? 'Si' : 'No'}}</td> -->
+	                    <td>
+	                        <button type="submit"
+                        		ng-hide="configurazioneRiversamento.validoAl"
+                                ng-click="disable(configurazioneRiversamento)"
+                                class="btn btn-warning btn-xs">
+	                            <span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span translate="entity.action.disable"> Disable</span>
+	                        </button>
+	                        <button type="submit"
+	                        		ng-show="configurazioneRiversamento.validoAl"
+	                                ng-click="enable(configurazioneRiversamento)"
+	                                class="btn btn-success btn-xs">
+	                            <span class="glyphicon glyphicon-ok-circle"></span>&nbsp;<span translate="entity.action.enable"> Enable</span>
+	                        </button>
+	                         <button type="submit"
+	                                ng-click="showUpdate(configurazioneRiversamento.id)"
+	                                class="btn btn-primary btn-xs">
+	                            <span class="glyphicon glyphicon-pencil"></span>&nbsp;<span translate="entity.action.edit"> Edit</span>
+	                        </button>
+	                        <button type="submit" ng-disabled="generaSpin == true"
+	                                ng-click="generate(configurazioneRiversamento)"
+	                                class="btn btn-danger btn-xs">
+	                            <span ng-show="!generaSpin" class="glyphicon glyphicon-save"></span>
+	                            <span ng-show="generaSpin == true" class="glyphicon glyphicon-refresh glyphicon-refresh-animate" style="margin-right:10px;"></span>
+	                            &nbsp;<span translate="cifra2gestattiApp.configurazioneRiversamento.home.generate"> generate</span>
+	                        </button>
+	                    </td>
+	                </tr>
+	            </tbody>
+	        </table>
+	        <div ng-if="configurazioneRiversamentos && configurazioneRiversamentos.length == 0 && !loading" class="search-no-result"><h3 translate="global.searchNoResult"></h3></div>
+			<div ng-if="configurazioneRiversamentos && configurazioneRiversamentos.length == 0 && loading" class="search-no-result"><h3 translate="global.loading"></h3></div>
+        </div>
+        <nav>
+            <ul class="pagination">
+                <li ng-show="links['first']" ng-click="loadPage(links['first'])"><a>&lt;&lt;</a></li>
+                <li ng-show="links['prev']" ng-click="loadPage(links['prev'])"><a>&lt;</a></li>
+                <li ng-show="page > 2" ng-click="loadPage(page - 2)"><a>{{page - 2}}</a></li>
+                <li ng-show="page > 1" ng-click="loadPage(page - 1)"><a>{{page - 1}}</a></li>
+                <li class="active"><a>{{page}}</a></li>
+                <li ng-show="page < links['last']" ng-click="loadPage(page + 1)"><a>{{page + 1}}</a></li>
+                <li ng-show="page < links['last'] - 1" ng-click="loadPage(page + 2)"><a>{{page + 2}}</a></li>
+                <li ng-show="links['next']" ng-click="loadPage(links['next'])"><a>&gt;</a></li>
+                <li ng-show="links['last']" ng-click="loadPage(links['last'])"><a>&gt;&gt;</a></li>
+            </ul>
+        </nav>
+    </div>
+</div>

@@ -1,0 +1,67 @@
+<div>
+
+	 	<aoo-info ng-model="aoo" ></aoo-info>
+
+	<div class="row">
+
+		<div class="col-sm-12">
+
+ 
+
+			<div class="form-group ">
+				<div ui-tree="options"   ng-if="!editing"  >
+
+
+					<ol ui-tree-nodes ng-model="ufficios" data-type="ufficio" data-nodrag   >
+						<li ng-repeat="ufficio in ufficios" ui-tree-node  >
+
+							<div ui-tree-handle class="tree-node tree-node-content" >
+
+								<label  >{{ufficio.codice}} - {{ufficio.descrizione}} </label>
+
+								
+
+								<div class="pull-right"  >
+									<a class="pull-right btn btn-danger btn-sm"  ng-click="edit(ufficio)"  >Modifica Servizio <span
+										class="glyphicon glyphicon-edit"></span></a>
+
+
+									</div>
+								</div>
+							</li>
+
+							<li>
+								<div   class="tree-node tree-node-content" >
+									<label>
+										<a class="pull-left btn btn-primary btn-sm"    ng-click="addUfficio()"   >Aggiungi Servizio  <span
+											class="glyphicon glyphicon-plus"></span></a>
+										</label>
+									</div>
+								</li>
+
+
+							</ol>
+						</div>
+ 
+							<form    ng-if="editing" name="editForm" role="form" novalidate ng-submit="salvaUfficio( ufficioEdit )"  show-validation>
+
+									<ufficio-form ng-model="ufficioEdit" ng-disabled="true" lista-profilo="profilos" lista-aoo="aoos" ></ufficio-form>
+								
+
+									<button type="button" class="btn btn-default"  ng-click="cancelEdit(ufficioEdit)">
+										<span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+									</button>
+
+									<button type="submit" ng-disabled="editForm.$invalid" class="btn btn-primary">
+										<span class="glyphicon glyphicon-save"></span>&nbsp;<span translate="entity.action.save">Save</span>
+									</button>
+
+
+								</form>
+
+					</div>
+				</div>
+
+
+			</div>
+ </div>

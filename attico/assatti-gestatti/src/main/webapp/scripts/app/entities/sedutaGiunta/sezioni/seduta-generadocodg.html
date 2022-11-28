@@ -1,0 +1,55 @@
+<div>
+	<div ng-if="notEmptyDestinatariNotifiche()">
+		<div class="form-group" ng-if="sezioneCorrente.target === 'datiOdgBase'">
+			<h4>Questa operazione consentir&agrave; di generare il documento di {{odgStr}} consolidato, sei sicuro che i dati inseriti siano definitivi?</h4>
+			<br/>
+			<h4 style="font-weight: bold;">	
+				ATTENZIONE: successivamente sar&agrave; possibile creare solo {{odgStr}} Suppletivi e Fuori Sacco.
+			</h4>
+		</div>
+		
+		<div class="form-group" ng-if="sezioneCorrente.target === 'datiOdgSuppletivo'">
+			<h4>Questa operazione consentir&agrave; di generare il documento di {{odgStr}} Suppletivo consolidato.</h4>
+			<br/>
+			<h4 style="font-weight: bold;">	
+				Attenzione!!! Dopo la generazione di questo documento NON SAR&Agrave; PI&Ugrave; POSSIBILE MODIFICARE L’OdL SUPPLETIVO! Sei sicuro che i dati inseriti siano definitivi?
+			</h4>
+		</div>
+		
+		<div class="form-group" ng-if="sezioneCorrente.target === 'datiOdgFuoriSacco'">
+			<h4>Questa operazione consentir&agrave; di generare il documento di {{odgStr}} Fuori Sacco consolidato.</h4>
+			<br/>
+			<h4 style="font-weight: bold;">	
+				Attenzione!!! Dopo la generazione di questo documento NON SAR&Agrave;  PI&Ugrave; POSSIBILE MODIFICARE L’OdL Fuori Sacco! Sei sicuro che i dati inseriti siano definitivi?
+			</h4>
+		</div>
+		
+		<div class="form-group">
+			<label  >Modello documento</label>
+	  			 <select class="form-control" name="modelloHtmlId" ng-model="dtoWorkflow.campi['modelloHtmlId']" ng-options="modello.titolo for modello in modelloHtmlsOdg track by modello.id" required>
+			</select>				
+		</div>
+		<!-- <div class="form-group">
+			<label translate="cifra2gestattiApp.sedutaGiunta.sottoscrittore">Sottoscrittore</label>
+			<ui-select ng-model="dtoWorkflow.campi['profiloSottoscrittore']"  theme="bootstrap" title="Seleziona sottoscrittore" required>
+	         	<ui-select-match placeholder="Cerca profili..">{{$select.selected.descrizione}} - {{$select.selected.utente.cognome}} {{$select.selected.utente.nome}} </ui-select-match>
+	           	<ui-select-choices repeat="profilo in profilosSottoscrittoriOdg | filter: $select.search">
+	           		<div ng-bind-html="profilo.descrizione | highlight: $select.search"></div>
+	               	<small>
+	               		Ufficio: <span ng-bind-html="profilo.aoo.descrizione| highlight: $select.search"  ></span>
+						Utente: <span ng-bind-html="profilo.utente.cognome +' '+ profilo.utente.nome| highlight: $select.search"  ></span>
+					</small>
+				</ui-select-choices>
+			</ui-select>
+		</div> -->
+	</div>
+	<div ng-if="!notEmptyDestinatariNotifiche()">
+		<div class="form-group">
+			<h4 style="font-weight: bold;">	
+				Attenzione!! Nessun destinatario &egrave; stato selezionato.
+				E' necessario selezionare almeno un destinatario per le notifiche prima di generare il documento per la firma.
+			</h4>
+			<input type="hidden" class="form-control" ng-model="dtoFdr.codiceFiscale" required>
+		</div>
+	</div>
+</div>

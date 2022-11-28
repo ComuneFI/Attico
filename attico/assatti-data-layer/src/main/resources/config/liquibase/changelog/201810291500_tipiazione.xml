@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    
+    <changeSet author="magria" id="201810291500-1">
+    	<sql>
+    		INSERT INTO tipo_azione (codice, descrizione) VALUES('visto_resp_tecnico', 'Visto Responsabile Tecnico');
+			INSERT INTO tipo_azione (codice, descrizione) VALUES('visto_resp_istruttoria', 'Visto Responsabile Istruttoria');
+			INSERT INTO tipo_azione (codice, descrizione) VALUES('visto_contabile', 'Visto Contabile');
+			INSERT INTO tipo_azione (codice, descrizione) VALUES('visto_consigliere', 'Visto Consigliere');
+			INSERT INTO tipo_azione (codice, descrizione) VALUES('visto_commissione', 'Visto Segretario Commissione');
+			INSERT INTO tipo_azione (codice, descrizione) VALUES('visto_assessore', 'Visto Assessore');
+			INSERT INTO tipo_azione (codice, descrizione) VALUES('visto_altro_resp', 'Visto Altro Responsabile');
+			INSERT INTO tipo_azione (codice, descrizione) VALUES('selezione_relatore', 'Selezione Relatore');
+			INSERT INTO tipo_azione (codice, descrizione) VALUES('ritiro', 'Ritiro');
+			INSERT INTO tipo_azione (codice, descrizione) VALUES('risposta_nei_termini', 'Risposta nei Termini');
+			INSERT INTO tipo_azione (codice, descrizione) VALUES('restituzione_proponente', 'Restituzione al Proponente');
+			INSERT INTO tipo_azione (codice, descrizione) VALUES('parere_resp_istruttoria', 'Parere Responsabile Istruttoria');
+			INSERT INTO tipo_azione (codice, descrizione) VALUES('parere_contabile', 'Parere Contabile');
+			INSERT INTO tipo_azione (codice, descrizione) VALUES('parere_commissione', 'Parere Commissione');
+			INSERT INTO tipo_azione (codice, descrizione) VALUES('inserimento_risposta', 'Inserimento Risposta');
+			INSERT INTO tipo_azione (codice, descrizione) VALUES('assegnazione_altro_ufficio', 'Assegnazione Altro Ufficio');
+			INSERT INTO tipo_azione (codice, descrizione) VALUES('visto_segreteria_consiglio', 'Visto Segreteria Consiglio');
+			INSERT INTO tipo_azione (codice, descrizione) VALUES('restituzione_segreteria', 'Restituzione a Segreteria');
+			INSERT INTO tipo_azione (codice, descrizione) VALUES('visto_segretario_seduta', 'Visto Segretario Seduta');
+			INSERT INTO tipo_azione (codice, descrizione) VALUES('visto_segretario_generale', 'Visto Segretario Generale');
+			INSERT INTO tipo_azione (codice, descrizione) VALUES('assegnazione_secondo_ufficio', 'Assegnazione Secondo Ufficio')
+    	</sql>
+    </changeSet>  
+</databaseChangeLog>
+

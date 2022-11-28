@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    <changeSet author="chiriacog" id="201810191030-1">
+    	<sql>
+    		ALTER TABLE `progressivoadozione` 
+			DROP INDEX `UK_3c1uxx3grb230pdkwpriru8jh` ,
+			ADD UNIQUE INDEX `UK_3c1uxx3grb230pdkwpriru8jh` (`anno` ASC, `aoo_id` ASC, `tipoprogressivo_id` ASC);
+			
+			
+			ALTER TABLE `progressivoproposta` 
+			DROP INDEX `UK_d4p7bnkkw1nvr5ol8e6leaxxw` ,
+			ADD UNIQUE INDEX `UK_d4p7bnkkw1nvr5ol8e6leaxxw` (`anno` ASC, `aoo_id` ASC, `tipoprogressivo_id` ASC);
+    	</sql>
+    </changeSet>   
+</databaseChangeLog>

@@ -1,0 +1,8 @@
+<div>
+	<ui-select ng-disabled="ngDisabled" ng-model="ngModel" theme="bootstrap" ng-change="updateModel(ngModel)">
+	   	<ui-select-match allow-clear="{{!disallowclear}}">{{$select.selected.label}}</ui-select-match>
+	   	<ui-select-choices repeat="cur.valore as cur in sinoList | filter: $select.search">
+	           <div ng-bind-html="cur.label | highlight: $select.search"></div>
+	   	</ui-select-choices>
+	 </ui-select>
+ </div>

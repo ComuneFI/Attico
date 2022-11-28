@@ -1,0 +1,83 @@
+ 
+                <form  name="cercaAttoForm" ng-submit="confirmCercaAtto(criteria)">
+                            <div class="form-group col-md-3">
+                                    <label translate="cifra2gestattiApp.atto.stato">stato</label>
+
+                                    <select   class="form-control" name="stato" 
+                                                ng-model="criteria.stato" >
+                                                <option value="proposta">Proposta atto</option>
+                                                <option value="adottato">Atto con adozione</option>
+                                  </select>
+                                </div>
+
+                                <div class="form-group col-md-3">
+                                    <label translate="cifra2gestattiApp.atto.codiceCifra">codiceCifra</label>
+                                    <input type="text" class="form-control" name="codiceCifra"
+                                           ng-model="criteria.codiceCifra" >
+
+                                </div>
+
+                                <div class="form-group col-md-3">
+                                    <label translate="cifra2gestattiApp.atto.numeroAdozione">numeroAdozione</label>
+                                    <input type="text" class="form-control" name="numeroAdozione"
+                                           ng-model="criteria.numeroAdozione" >
+
+                                </div>
+                   <div class="form-group col-md-3">
+                    <label  >&nbsp;</label>
+                        <button type="submit" ng-disabled="cercaAttoForm.$invalid" class="btn btn-default form-control">
+                            <span class="fa fa-search"></span>&nbsp;<span translate="cifra2gestattiApp.atto.cerca">Cerca</span>
+                        </button>
+                        </div>
+              </form>
+
+
+	<div>
+	    <div class="table-responsive">
+	        <table class="table table-striped">
+	            <thead>
+	                <tr>
+	                    <th translate="cifra2gestattiApp.atto.codiceCifra">CodiceCifra</th>
+	                    <th translate="cifra2gestattiApp.atto.dataCreazione">dataCreazione</th>
+	                    <th translate="cifra2gestattiApp.atto.oggetto">oggetto</th>
+	
+	                    
+	                    <th translate="cifra2gestattiApp.atto.tipoIter">tipoIter</th>
+	                    <th translate="cifra2gestattiApp.atto.createdBy">createdBy</th>
+	             	  <th></th>
+	
+	                </tr>
+	            </thead>
+	            <tbody>
+	                <tr ng-repeat="atto in resultAtti">
+	                    <td>{{atto.codiceCifra}}</td>
+	                    <td>{{atto.dataCreazione| date:'dd-MM-yyyy'}}</td>
+	                    <td>{{atto.oggetto}}</td>
+	
+	                    <td>{{atto.tipoAtto.descrizione}}</td>
+	                    <td>{{atto.createdBy}}</td> 
+	                    
+	                    <td>
+	                    	<button class="btn btn-info pull-right"  ng-click="creaAtto(atto.id, tipoNuovo)"  ><i class="fa fa-start" ></i>Crea atto {{tipoNuovo}} </button>
+	                    </td>
+	                </tr>
+	            </tbody>
+	        </table>
+		</div>
+        <nav ng-if="totalResultAtti">
+            <ul class="pagination">
+                <li><a>Risultati trovati: {{totalResultAtti}}</a></li>
+                <li ng-show="resultAttiLinks['first']" ng-click="loadPageCercaAtto(resultAttiLinks['first'])"><a>&lt;&lt;</a></li>
+                <li ng-show="resultAttiLinks['prev']" ng-click="loadPageCercaAtto(resultAttiLinks['prev'])"><a>&lt;</a></li>
+                <li ng-show="pageCercaAtto > 2" ng-click="loadPageCercaAtto(pageCercaAtto - 2)"><a>{{pageCercaAtto - 2}}</a></li>
+                <li ng-show="pageCercaAtto > 1" ng-click="loadPageCercaAtto(pageCercaAtto - 1)"><a>{{pageCercaAtto - 1}}</a></li>
+                <li class="active"><a>{{pageModelloCampo}}</a></li>
+                <li ng-show="pageCercaAtto < resultAttiLinks['last']" ng-click="loadPageCercaAtto(pageCercaAtto + 1)"><a>{{pageCercaAtto + 1}}</a></li>
+                <li ng-show="pageCercaAtto < resultAttiLinks['last'] - 1" ng-click="loadPageCercaAtto(pageCercaAtto + 2)"><a>{{pageCercaAtto + 2}}</a></li>
+                <li ng-show="resultAttiLinks['next']" ng-click="loadPageCercaAtto(resultAttiLinks['next'])"><a>&gt;</a></li>
+                <li ng-show="resultAttiLinks['last']" ng-click="loadPageCercaAtto(resultAttiLinks['last'])"><a>&gt;&gt;</a></li>
+            </ul>
+        </nav>
+    </div>
+ 
+ 

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    <changeSet author="magria" id="202103181245-0001">
+    	<sql>
+			INSERT INTO tipodocumento (descrizione,codice,riversamento_tipoatto,dms_content_type,specifica_filename,`type`)	VALUES ('Proposta Licenziata dalla Giunta','PROPOSTA_LICENZIATA_DALLA_GIUNTA',0,'atc:AllegatoType','Proposta_Licenziata_dalla_Giunta_DPC_$datiatto','PROPOSTA');
+			INSERT INTO modellohtml (`titolo`, `html`, `tipodocumento_id`) select 'PROPOSTA LICENZIATA DALLA GIUNTA', (select html from modellohtml where titolo like 'PROPOSTA DI DELIBERAZIONE PER IL CONSIGLIO'), (select id from tipodocumento where codice like 'PROPOSTA_LICENZIATA_DALLA_GIUNTA');
+		</sql>
+    </changeSet>
+</databaseChangeLog>

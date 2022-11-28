@@ -1,0 +1,84 @@
+{
+    "cifra2gestattiApp": {
+        "aoo" : {
+            "codiceDuplicato":{
+                "modalTitle":"Conferma salvataggio",
+                "alertMessage":"Attenzione. Risulta un\u0027altro ufficio con lo stesso codice inserito per l\u0027ufficio corrente.<br/>Confermando il salvataggio, l\u0027altro ufficio con stesso codice viene dismesso ed i suoi progressivi saranno trasferiti a quello che si sta creando in questo momento.<br />Sicuro di voler procedere?",
+                "forcedSave":"Salva comunque",
+                "warnAbilitazione":"Attenzione, il codice di questo ufficio risulta essere usato da un\u0027altro ufficio attivo per cui non \u00E8 possibile abilitarlo.<br />Potete creare un nuovo ufficio con lo stesso codice per dismettere quello attualmente attivo, mantenendone i progressivi."
+            },
+            "guida":{
+               "nessunResponsabile":"<b>GUIDA</b><br/>Attualmente non vi sono Profili responsabili associabili per l\u0027ufficio. Prima di poter selezionare un Profilo responsabile \u00E8 necessario seguire i seguenti step\u003A<br/><ol><li>Creare / Salvare il nuovo ufficio;</li><li>Selezionare la voce di menu Organigramma e scegliere la voce Profilo;</li><li>Creare / Salvare il nuovo Profilo:</li><ol type=\u0027a\u0027><li>Valorizzare il campo obbligatorio \u0022Gruppo Ruolo\u0022 scegliendo un gruppo ruolo che contiene il ruolo di \u0022Responsabile Tecnico\u0022;</li><li>Completare la valorizzazione di tutti i campi obbligatori, ed in particolare del campo ufficio, selezionando l\u0027ufficio precedentemente creato / salvato;</li></ol><li>Ritornare in modifica dell\u0027ufficio precedentemente creato / salvato e valorizzare il campo Profilo responsabile con il profilo creato.</li></ol>",
+               "responsabiliPresenti":"<b>GUIDA</b><br/>Nel caso in cui tra i Profili Responsabili non sia presente quello desiderato, \u00E8 necessario crearlo seguendo i seguenti step\u003A<br/><ol><li>Selezionare la voce di menu Organigramma e scegliere la voce Profilo;</li><li>Creare / Salvare il nuovo Profilo\u003A</li><ol type=\u0027a\u0027><li>Valorizzare il campo obbligatorio \u0022Gruppo Ruolo\u0022 scegliendo un gruppo ruolo che contiene il ruolo di \u0022Sottoscrittore Emanante\u0022;</li><li type=\u0027a\u0027>Completare la valorizzazione di tutti i campi obbligatori, ed in particolare del campo ufficio, selezionando l\u0027ufficio precedentemente creato / salvato;</li></ol><li>Ritornare in modifica dell\u0027ufficio precedentemente creato / salvato e valorizzare il campo Profilo responsabile con il profilo creato.</li></ol>",
+               "aooRicerca":"Inserire il codice o la denominazione dell\u0027ufficio"
+            },
+            "warnCodiceExists":"Attenzione! Il codice inserito \u00E8 gi\u00E0 utilizzato per un altro ufficio. Occorre sceglierne un altro.",
+            "warnDisabilitazione":"Attenzione! Disabilitazione non possibile in quanto esistono profili attivi associati all\u0027ufficio selezionato.",
+            "home": {
+                "title": "Lista Uffici",
+                "createLabel": "Crea nuovo Ufficio",
+                "createOrEditLabel": "Crea o modifica Ufficio"
+            },
+            "spostaARadice": {
+                "question": "Sei sicuro di voler spostare l\u0027Ufficio {{ id }}?",
+                "azione":"Sposta a primo livello"
+            },
+            "delete": {
+                "question": "Sei sicuro di voler disabilitare l\u0027Ufficio {{ id }}?"
+            },
+            "enable": {
+                "question": "Sei sicuro di voler abilitare l\u0027Ufficio {{ id }}?"
+            },
+            "detail": {
+                "title": "Ufficio"
+            },
+            "sezione": {
+            	"title": "Sezione"
+            },
+            "associaTipoMateria": {
+                "title": "Gestione Materie"
+            },
+            "associaUfficio": {
+                "title": "Gestione Servizi"
+            },
+            "associaGruppoRuolo": {
+                "title": "Gestione Gruppo Ruolo"
+            },
+            "associaProfilo": {
+                "title": "Gestione Profilo Utente"
+            },
+            "associaRubricaDestinatarioEsterno": {
+                "title": "Gestione Rubrica Destinatari Esterni"
+            },
+             "associaQualificaProfessionale": {
+                "title": "Gestione  Qualifica Professionale"
+            },
+            "filtro":{
+            	"label-stato" : "Stato",
+            	"stato" : {
+            		"disattivate" : "Uffici disabilitati",
+            		"attive" : "Uffici attivi",
+            		"entrambe" : "Entrambe"
+            	}
+            },
+            "codice": "Codice",
+            "descrizione": "Descrizione",
+            "telefono": "Telefono",
+            "fax": "Fax",
+            "email": "Email",
+            "pec": "Pec",
+            "identitavisiva": "Identit\u00E0 visiva",
+            "validodal": "Valido dal",
+            "validoal": "Valido al",
+            "profiloResponsabile": "Profilo responsabile",
+            "profiloResponsabileNonDefinito":"Nessun responsabile definito",
+            "denominazioneRelatore": "Denominazione Relatore",
+            "indirizzo": "Indirizzo",
+            "tipoAoo": "Tipologia Ufficio",
+            "aooPadre":"Ufficio livello superiore",
+            "specializzazione":"Specializzazione",
+            "logo":"Logo",
+            "assessorato":"Assessorato"
+        }
+    }
+}

@@ -1,0 +1,20 @@
+<div>
+	<div id="attoDispositivoEdit" class="form-group">
+		<label translate="cifra2gestattiApp.atto.dispositivo">Dispositivo</label>
+		<span data-toggle="tooltip"
+			title="<b>GUIDA</b><br/>Per valorizzare il campo &egrave; possibile: importare un file che contiene le informazioni sul Dispositivo oppure caricare un modello predefinito e personalizzarlo oppure inserire testo libero che potrà successivamente essere conservato come modello.<br />"
+			data-html="true" ng-init="initTooltip()">
+			<i class="fa fa-question" ></i>
+		</span>
+		
+		<!-- <div ckeditor="options" ng-model="$parent.atto.dispositivo" ready="onReady()"></div> -->
+		
+		<div>
+			<summernote required ng-model="atto.dispositivo.testo"  config="summernoteOptions"></summernote>
+		</div>
+		
+	</div>
+	<div id="attoDispositivoButtons" class="import-formcontrol">
+		<ng-include src="'scripts/app/entities/atto/import-formcontrol.html'" ng-init="codeSezImport='dispositivo'" ></ng-include>
+	</div>
+</div>

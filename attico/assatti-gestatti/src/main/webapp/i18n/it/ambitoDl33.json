@@ -1,0 +1,19 @@
+{
+    "cifra2gestattiApp": {
+        "ambitoDl33" : {
+            "home": {
+                "title": "Ambiti Dl33",
+                "createLabel": "Crea un nuovo Ambito Dl33",
+                "createOrEditLabel": "Crea o modifica un Ambito Dl33"
+            },
+            "delete": {
+                "question": "Sei sicuro di volec cancellare l'Ambito Dl33 con ID {{ id }}?"
+            },
+            "detail": {
+                "title": "Ambito Dl33"
+            },
+            "denominazione": "Denominazione",
+            "attivo": "Attivo"
+        }
+    }
+}

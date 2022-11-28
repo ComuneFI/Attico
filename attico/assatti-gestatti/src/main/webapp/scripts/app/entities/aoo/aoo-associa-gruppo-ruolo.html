@@ -1,0 +1,89 @@
+<div>
+
+	 
+	<aoo-info ng-model="aoo" ></aoo-info>
+
+	<div class="row">
+
+		<div class="col-sm-12">
+
+			<div class="form-group ">
+				<div ui-tree="options" ng-if="!editing"  >
+
+					<ol ui-tree-nodes ng-model="gruppoRuolos" data-type="gruppoRuolo" data-nodrag   >
+						<li ng-repeat="gruppoRuolo in gruppoRuolos" ui-tree-node  >
+
+							<div ui-tree-handle class="tree-node tree-node-content" >
+
+								<label >{{gruppoRuolo.denominazione}} </label>
+
+								
+								<div class="pull-right"  >
+									<a class="pull-right btn btn-danger btn-sm"  ng-click="edit(gruppoRuolo)"  >Modifica gruppo ruolo <span
+										class="glyphicon glyphicon-edit"></span></a>
+
+
+									</div>
+								</div>
+							</li>
+
+							<li>
+								<div   class="tree-node tree-node-content" >
+									<label>
+										<a class="pull-left btn btn-primary btn-sm"    ng-click="addGruppoRuolo()"   >Aggiungi gruppo ruolo  <span
+											class="glyphicon glyphicon-plus"></span></a>
+										</label>
+									</div>
+								</li>
+
+
+							</ol>
+						</div>
+
+
+							<form    ng-if="editing" name="editForm" role="form" novalidate ng-submit="salvaGruppoRuolo( gruppoRuoloEdit )"  show-validation>
+
+						
+
+									<div class="form-group">
+										<label translate="cifra2gestattiApp.gruppoRuolo.denominazione">Denominazione</label>
+										<input type="text" class="form-control" name="denominazione"
+										ng-model="gruppoRuoloEdit.denominazione">
+										<div ng-show="editForm.denominazione.$invalid"></div>
+									</div>
+
+
+									<div class="form-group">
+										<label>Ruoli associati</label>
+
+									 <ui-select multiple ng-model="gruppoRuoloEdit.hasRuoli"    theme="bootstrap" >
+										<ui-select-match placeholder="Selezioni ruoli ">{{$item.descrizione}}</ui-select-match>
+										<ui-select-choices repeat="ruolo in ruolos | filter: $select.search">
+										<div ng-bind-html="ruolo.descrizione | highlight: $select.search"></div>
+									</ui-select-choices>
+
+								</ui-select>
+								</div>
+
+								<div class="form-group">
+									<label translate="cifra2gestattiApp.gruppoRuolo.aoo">aoo</label>
+									<select class="form-control" name="aoo" ng-model="gruppoRuoloEdit.aoo.id" ng-options="aoo.id as aoo.descrizione for aoo in aoos" ng-disabled="true" required>
+									</select>
+								</div>
+ 
+										<button type="button" class="btn btn-default"  ng-click="cancelEdit(gruppoRuoloEdit)">
+											<span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+										</button>
+										<button type="submit" ng-disabled="editForm.$invalid" class="btn btn-primary">
+											<span class="glyphicon glyphicon-save"></span>&nbsp;<span translate="entity.action.save">Save</span>
+										</button>
+
+
+
+
+							 </form>
+
+					</div> 
+				</div>
+			</div>
+		</div>

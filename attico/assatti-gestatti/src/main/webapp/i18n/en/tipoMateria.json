@@ -1,0 +1,32 @@
+{
+    "cifra2gestattiApp": {
+        "tipoMateria" : {
+            "home": {
+                "title": "TipoMaterias",
+                "createLabel": "Create a new TipoMateria",
+                "createOrEditLabel": "Create or edit a TipoMateria"
+            },
+            "delete": {
+                "question": "Are you sure you want to delete TipoMateria {{ id }}?"
+            },
+            "detail": {
+                "title": "TipoMateria"
+            },
+            "filtro":{
+            	"label-stato" : "State",
+            	"stato" : {
+            		"disattivati" : "Deactivated types material",
+            		"attivi" : "Activated types material",
+            		"entrambi" : "Both"
+            	}
+            },
+            "descrizione": "Descrizione",
+            "aoo": "ufficio",
+            "messages": {
+	            "error": {
+	                "operationNotPermitted": "Non \u00E8 possibile effettuare l\u0027operazione in quanto l\u0027elemento \u00E8 incluso in uno o pi\u00F9 atti."
+	            }
+	        }
+        }
+    }
+}

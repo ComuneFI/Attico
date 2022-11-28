@@ -1,0 +1,250 @@
+<div>
+
+    <h2 translate="cifra2gestattiApp.documentoInformatico.home.title">DocumentoInformatico</h2>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <button class="btn btn-primary" data-toggle="modal" data-target="#saveDocumentoInformaticoModal" ng-click="clear()">
+                    <span class="glyphicon glyphicon-flash"></span> <span translate="cifra2gestattiApp.documentoInformatico.home.createLabel">Create a new DocumentoInformatico</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="saveDocumentoInformaticoModal" tabindex="-1" role="dialog" aria-labelledby="myDocumentoInformaticoLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form name="editForm" role="form" novalidate ng-submit="save()">
+
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                                ng-click="clear()">&times;</button>
+                        <h4 class="modal-title" id="myDocumentoInformaticoLabel" translate="cifra2gestattiApp.documentoInformatico.home.createOrEditLabel">Create or edit a DocumentoInformatico</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label>ID</label>
+                            <input type="text" class="form-control" name="id"
+                                   ng-model="documentoInformatico.id" readonly>
+                        </div>
+
+                        <div class="form-group">
+                            <label translate="cifra2gestattiApp.documentoInformatico.titolo">Titolo</label>
+                            <input type="text" class="form-control" name="titolo"
+                                   ng-model="documentoInformatico.titolo">
+
+                        </div>
+                        <div class="form-group">
+                            <label translate="cifra2gestattiApp.documentoInformatico.nomeFile">NomeFile</label>
+                            <input type="text" class="form-control" name="nomeFile"
+                                   ng-model="documentoInformatico.nomeFile">
+
+                        </div>
+                        <div class="form-group">
+                            <label translate="cifra2gestattiApp.documentoInformatico.idDiogene">IdDiogene</label>
+                            <input type="text" class="form-control" name="idDiogene"
+                                   ng-model="documentoInformatico.idDiogene">
+
+                        </div>
+                        <div class="form-group">
+                            <label translate="cifra2gestattiApp.documentoInformatico.ordineInclusione">OrdineInclusione</label>
+                            <input type="number" class="form-control" name="ordineInclusione"
+                                   ng-model="documentoInformatico.ordineInclusione">
+
+                        </div>
+                        <div class="form-group">
+                            <label translate="cifra2gestattiApp.documentoInformatico.pubblicabile">Pubblicabile</label>
+                            <input type="checkbox" class="form-control" name="pubblicabile"
+                                   ng-model="documentoInformatico.pubblicabile">
+
+                        </div>
+                         <div class="form-group">
+                            <label translate="cifra2gestattiApp.documentoInformatico.omissis">Omissis</label>
+                            <input type="checkbox" class="form-control" name="omissis"
+                                   ng-model="documentoInformatico.omissis">
+
+                        </div>
+
+                        <div class="form-group">
+                            <label translate="cifra2gestattiApp.documentoInformatico.oggetto">Oggetto</label>
+                            <input type="text" class="form-control" name="oggetto"
+                                   ng-model="documentoInformatico.oggetto">
+
+                        </div>
+
+                        <div class="form-group">
+                            <label translate="cifra2gestattiApp.documentoInformatico.Atto">Atto</label>
+                            <select class="form-control" name="Atto" ng-model="documentoInformatico.atto.id" ng-options="atto.id as atto.id for atto in attos">
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label translate="cifra2gestattiApp.documentoInformatico.TipoDocumento">TipoDocumento</label>
+                            <select class="form-control" name="TipoDocumento" ng-model="documentoInformatico.tipoDocumento.id" ng-options="tipoDocumento.id as tipoDocumento.id for tipoDocumento in tipodocumentos">
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label translate="cifra2gestattiApp.documentoInformatico.Serie">Serie</label>
+                            <select class="form-control" name="Serie" ng-model="documentoInformatico.serie.id" ng-options="serie.id as serie.id for serie in series">
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label translate="cifra2gestattiApp.documentoInformatico.Parere">Parere</label>
+                            <select class="form-control" name="Parere" ng-model="documentoInformatico.parere.id" ng-options="parere.id as parere.id for parere in pareres">
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label translate="cifra2gestattiApp.documentoInformatico.Resoconto">Resoconto</label>
+                            <select class="form-control" name="Resoconto" ng-model="documentoInformatico.resoconto.id" ng-options="resoconto.id as resoconto.id for resoconto in resocontos">
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label translate="cifra2gestattiApp.documentoInformatico.File">File</label>
+                            <a href="{{documentoInformatico.file.id}}" >{{documentoInformatico.file.nomeFile}}</a>
+                        </div>
+                        <div class="form-group">
+                            <label translate="cifra2gestattiApp.documentoInformatico.fileomissis">Fileomissis</label>
+                            <a href="{{documentoInformatico.file.id}}" >{{documentoInformatico.fileomissis.nomeFile}}</a>
+                        </div>
+                        <div class="form-group">
+                            <label translate="cifra2gestattiApp.documentoInformatico.Lettera">Lettera</label>
+                            <select class="form-control" name="Lettera" ng-model="documentoInformatico.lettera.id" ng-options="lettera.id as lettera.id for lettera in letteras">
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label translate="cifra2gestattiApp.documentoInformatico.Verbale">Verbale</label>
+                            <select class="form-control" name="Verbale" ng-model="documentoInformatico.verbale.id" ng-options="verbale.id as verbale.id for verbale in verbales">
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label translate="cifra2gestattiApp.documentoInformatico.Fascicolo">Fascicolo</label>
+                            <select class="form-control" name="Fascicolo" ng-model="documentoInformatico.fascicolo.id" ng-options="fascicolo.id as fascicolo.id for fascicolo in fascicolos">
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label translate="cifra2gestattiApp.documentoInformatico.Avanzamento">Avanzamento</label>
+                            <select class="form-control" name="Avanzamento" ng-model="documentoInformatico.avanzamento.id" ng-options="avanzamento.id as avanzamento.id for avanzamento in avanzamentos">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
+                            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+                        </button>
+                        <button type="submit" ng-disabled="editForm.$invalid" class="btn btn-primary">
+                            <span class="glyphicon glyphicon-save"></span>&nbsp;<span translate="entity.action.save">Save</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="deleteDocumentoInformaticoConfirmation">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form name="deleteForm" ng-submit="confirmDelete(documentoInformatico.id)">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                                ng-click="clear()">&times;</button>
+                        <h4 class="modal-title" translate="entity.delete.title">Confirm delete operation</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p translate="cifra2gestattiApp.documentoInformatico.delete.question" translate-values="{nomeFile: '{{documentoInformatico.nomeFile}}'}">Are you sure you want to delete this DocumentoInformatico?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
+                            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+                        </button>
+                        <button type="submit" ng-disabled="deleteForm.$invalid" class="btn btn-danger">
+                            <span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span translate="entity.action.delete">Delete</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+	<div>
+	    <div class="table-responsive">
+	        <table class="table table-striped">
+	            <thead>
+	                <tr>
+	                    <th>ID</th>
+	                    <th translate="cifra2gestattiApp.documentoInformatico.titolo">Titolo</th>
+	                    <th translate="cifra2gestattiApp.documentoInformatico.nomeFile">NomeFile</th>
+	                    <th translate="cifra2gestattiApp.documentoInformatico.idDiogene">IdDiogene</th>
+	                    <th translate="cifra2gestattiApp.documentoInformatico.ordineInclusione">OrdineInclusione</th>
+	                    <th translate="cifra2gestattiApp.documentoInformatico.pubblicabile">Pubblicabile</th>
+	                    <th translate="cifra2gestattiApp.documentoInformatico.riservato">Riservato</th>
+	                    <th translate="cifra2gestattiApp.documentoInformatico.oggetto">Oggetto</th>
+	                    <th translate="cifra2gestattiApp.documentoInformatico.Atto">Atto</th>
+	                    <th translate="cifra2gestattiApp.documentoInformatico.TipoDocumento">TipoDocumento</th>
+	                    <th translate="cifra2gestattiApp.documentoInformatico.Serie">Serie</th>
+	                    <th translate="cifra2gestattiApp.documentoInformatico.Parere">Parere</th>
+	                    <th translate="cifra2gestattiApp.documentoInformatico.Resoconto">Resoconto</th>
+	                    <th translate="cifra2gestattiApp.documentoInformatico.File">File</th>
+	                    <th translate="cifra2gestattiApp.documentoInformatico.Lettera">Lettera</th>
+	                    <th translate="cifra2gestattiApp.documentoInformatico.Verbale">Verbale</th>
+	                    <th translate="cifra2gestattiApp.documentoInformatico.Fascicolo">Fascicolo</th>
+	                    <th translate="cifra2gestattiApp.documentoInformatico.Avanzamento">Avanzamento</th>
+	                    <th></th>
+	                </tr>
+	            </thead>
+	            <tbody>
+	                <tr ng-repeat="documentoInformatico in documentoInformaticos">
+	                    <td><a ui-sref="documentoInformaticoDetail({id:documentoInformatico.id})">{{documentoInformatico.id}}</a></td>
+	                    <td>{{documentoInformatico.titolo}}</td>
+	                    <td>{{documentoInformatico.nomeFile}}</td>
+	                    <td>{{documentoInformatico.idDiogene}}</td>
+	                    <td>{{documentoInformatico.ordineInclusione}}</td>
+	                    <td>{{documentoInformatico.pubblicabile}}</td>
+	                    <td>{{documentoInformatico.riservato}}</td>
+	                    <td>{{documentoInformatico.oggetto}}</td>
+	                    <td>{{documentoInformatico.Atto.id}}</td>
+	                    <td>{{documentoInformatico.TipoDocumento.id}}</td>
+	                    <td>{{documentoInformatico.Serie.id}}</td>
+	                    <td>{{documentoInformatico.Parere.id}}</td>
+	                    <td>{{documentoInformatico.Resoconto.id}}</td>
+	                    <td>{{documentoInformatico.File.id}}</td>
+	                    <td>{{documentoInformatico.Lettera.id}}</td>
+	                     <td>{{documentoInformatico.Verbale.id}}</td>
+	                    <td>{{documentoInformatico.Fascicolo.id}}</td>
+	                    <td>{{documentoInformatico.Avanzamento.id}}</td>
+	                    <td>
+	                        <button type="submit"
+	                                ui-sref="documentoInformaticoDetail({id:documentoInformatico.id})"
+	                                class="btn btn-info btn-sm">
+	                            <span class="glyphicon glyphicon-eye-open"></span>&nbsp;<span translate="entity.action.view"> View</span>
+	                        </button>
+	                        <button type="submit"
+	                                ng-click="showUpdate(documentoInformatico.id)"
+	                                class="btn btn-primary btn-sm">
+	                            <span class="glyphicon glyphicon-pencil"></span>&nbsp;<span translate="entity.action.edit"> Edit</span>
+	                        </button>
+	                        <button type="submit"
+	                                ng-click="delete(documentoInformatico.id)"
+	                                class="btn btn-danger btn-sm">
+	                            <span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span translate="entity.action.delete"> Delete</span>
+	                        </button>
+	                    </td>
+	                </tr>
+	            </tbody>
+	        </table>
+	    </div>
+        <nav>
+            <ul class="pagination">
+                <li ng-show="links['first']" ng-click="loadPage(links['first'])"><a>&lt;&lt;</a></li>
+                <li ng-show="links['prev']" ng-click="loadPage(links['prev'])"><a>&lt;</a></li>
+                <li ng-show="page > 2" ng-click="loadPage(page - 2)"><a>{{page - 2}}</a></li>
+                <li ng-show="page > 1" ng-click="loadPage(page - 1)"><a>{{page - 1}}</a></li>
+                <li class="active"><a>{{page}}</a></li>
+                <li ng-show="page < links['last']" ng-click="loadPage(page + 1)"><a>{{page + 1}}</a></li>
+                <li ng-show="page < links['last'] - 1" ng-click="loadPage(page + 2)"><a>{{page + 2}}</a></li>
+                <li ng-show="links['next']" ng-click="loadPage(links['next'])"><a>&gt;</a></li>
+                <li ng-show="links['last']" ng-click="loadPage(links['last'])"><a>&gt;&gt;</a></li>
+            </ul>
+        </nav>
+    </div>
+</div>

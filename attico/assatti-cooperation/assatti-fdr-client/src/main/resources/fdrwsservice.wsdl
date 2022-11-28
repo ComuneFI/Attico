@@ -1,0 +1,111 @@
+<?xml version='1.0' encoding='UTF-8'?><wsdl:definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://impl.service.ws.fdr.linksmt.it/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:ns2="http://schemas.xmlsoap.org/soap/http" xmlns:ns1="http://service.ws.fdr.linksmt.it/" name="FdrWsServiceImplService" targetNamespace="http://impl.service.ws.fdr.linksmt.it/">
+  <wsdl:import location="http://localhost:8080/fdr-ws/fdrwsservice?wsdl=FdrWsService.wsdl" namespace="http://service.ws.fdr.linksmt.it/">
+    </wsdl:import>
+  <wsdl:binding name="FdrWsServiceImplServiceSoapBinding" type="ns1:FdrWsService">
+    <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="cadesSignature">
+      <soap:operation soapAction="" style="rpc"/>
+      <wsdl:input name="cadesSignature">
+        <soap:body namespace="http://service.ws.fdr.linksmt.it/" use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="cadesSignatureResponse">
+        <soap:body namespace="http://service.ws.fdr.linksmt.it/" use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="markFile">
+      <soap:operation soapAction="" style="rpc"/>
+      <wsdl:input name="markFile">
+        <soap:body namespace="http://service.ws.fdr.linksmt.it/" use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="markFileResponse">
+        <soap:body namespace="http://service.ws.fdr.linksmt.it/" use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="cercaProfiliUtenti">
+      <soap:operation soapAction="" style="rpc"/>
+      <wsdl:input name="cercaProfiliUtenti">
+        <soap:body namespace="http://service.ws.fdr.linksmt.it/" use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="cercaProfiliUtentiResponse">
+        <soap:body namespace="http://service.ws.fdr.linksmt.it/" use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="xadesSignature">
+      <soap:operation soapAction="" style="rpc"/>
+      <wsdl:input name="xadesSignature">
+        <soap:body namespace="http://service.ws.fdr.linksmt.it/" use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="xadesSignatureResponse">
+        <soap:body namespace="http://service.ws.fdr.linksmt.it/" use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="closeSession">
+      <soap:operation soapAction="" style="rpc"/>
+      <wsdl:input name="closeSession">
+        <soap:body namespace="http://service.ws.fdr.linksmt.it/" use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="closeSessionResponse">
+        <soap:body namespace="http://service.ws.fdr.linksmt.it/" use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="openSession">
+      <soap:operation soapAction="" style="rpc"/>
+      <wsdl:input name="openSession">
+        <soap:body namespace="http://service.ws.fdr.linksmt.it/" use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="openSessionResponse">
+        <soap:body namespace="http://service.ws.fdr.linksmt.it/" use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="checkSignature">
+      <soap:operation soapAction="" style="rpc"/>
+      <wsdl:input name="checkSignature">
+        <soap:body namespace="http://service.ws.fdr.linksmt.it/" use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="checkSignatureResponse">
+        <soap:body namespace="http://service.ws.fdr.linksmt.it/" use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="checkMarkTime">
+      <soap:operation soapAction="" style="rpc"/>
+      <wsdl:input name="checkMarkTime">
+        <soap:body namespace="http://service.ws.fdr.linksmt.it/" use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="checkMarkTimeResponse">
+        <soap:body namespace="http://service.ws.fdr.linksmt.it/" use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="addCadesSignature">
+      <soap:operation soapAction="" style="rpc"/>
+      <wsdl:input name="addCadesSignature">
+        <soap:body namespace="http://service.ws.fdr.linksmt.it/" use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="addCadesSignatureResponse">
+        <soap:body namespace="http://service.ws.fdr.linksmt.it/" use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="padesSignature">
+      <soap:operation soapAction="" style="rpc"/>
+      <wsdl:input name="padesSignature">
+        <soap:body namespace="http://service.ws.fdr.linksmt.it/" use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="padesSignatureResponse">
+        <soap:body namespace="http://service.ws.fdr.linksmt.it/" use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="sendCredential">
+      <soap:operation soapAction="" style="rpc"/>
+      <wsdl:input name="sendCredential">
+        <soap:body namespace="http://service.ws.fdr.linksmt.it/" use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="sendCredentialResponse">
+        <soap:body namespace="http://service.ws.fdr.linksmt.it/" use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="FdrWsServiceImplService">
+    <wsdl:port binding="tns:FdrWsServiceImplServiceSoapBinding" name="FdrWsServiceImplPort">
+      <soap:address location="http://localhost:8080/fdr-ws/fdrwsservice"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    <changeSet author="mazzottada" id="202009041453-00">
+    	<sql>
+    		update tipodocumentoserie set descrizione = 'DETERMINA_DIRIGENZIALE' where codice = 'DETERMINAZIONI_DIRIGENZIALI'; 
+		</sql>
+    </changeSet>
+    <changeSet author="mazzottada" id="202009041453-01">
+    	<sql>
+    		ALTER TABLE gestatti.documentopdf ADD completo tinyint(4) NULL;
+		</sql>
+    </changeSet>
+    <changeSet author="mazzottada" id="202009041453-2">
+    	<sql>
+    		 INSERT INTO tipodocumento
+			(descrizione, codice, riversamento_tipoatto, dms_content_type)
+			VALUES('Determinazione Dirigenziale Completa', 'DETERMINA_DIRIGENZIALE_COMPLETA', 0, 'atc:DeterminaType');
+		</sql>
+    </changeSet>
+    <changeSet author="mazzottada" id="202009041453-3">
+    	<sql>
+    		INSERT INTO configurazione_riversamento
+			(tipodocumentoserie_id, validodal,  tipodocumento_id, aoo_id)
+			VALUES((select id from tipodocumentoserie where (codice = 'DETERMINA_DIRIGENZIALE' or descrizione = 'DETERMINA_DIRIGENZIALE') and enable = 1 limit 1), now(), (select id from tipodocumento where codice = 'DETERMINA_DIRIGENZIALE_COMPLETA'),  0);
+		</sql>
+    </changeSet>
+    <changeSet author="mazzottada" id="202009041453-4">
+    	<sql>
+    		update tipodocumento set dms_content_type = 'atc:AllegatoType' where codice = 'LOG_ITER_ATTO';
+		</sql>
+    </changeSet>
+    <changeSet author="mazzottada" id="202009041453-5">
+    	<sql>
+    		INSERT INTO configurazione_riversamento
+			(tipodocumentoserie_id, validodal,  tipodocumento_id, aoo_id)
+			VALUES((select id from tipodocumentoserie where codice = 'LOG_SISTEMA' and enable = 1 limit 1), now(), (select id from tipodocumento where codice = 'LOG_ITER_ATTO'),  0);
+		</sql>
+    </changeSet>
+    <changeSet author="mazzottada" id="202009041453-6">
+    	<sql>
+    		INSERT INTO tipoevento
+			(descrizione, codice,  categoriaEvento_id)
+			VALUES('Log iter atto generato', 'LOG_ITER_GENERATO', (select id from categoriaevento where denominazione = 'STATI PRINCIPALI'));
+		</sql>
+    </changeSet>
+    <changeSet author="mazzottada" id="202009041453-7">
+    	<sql>
+    		update tipodocumento set dms_content_type = 'atc:AllegatoType' where codice = 'report_ricerca';
+		</sql>
+    </changeSet>
+    <changeSet author="mazzottada" id="202009041453-8">
+    	<sql>
+    		update tipodocumentoserie set descrizione = 'DETERMINAZIONI DIRIGENZIALI' where codice = 'DETERMINAZIONI_DIRIGENZIALI';
+		</sql>
+    </changeSet>
+</databaseChangeLog>

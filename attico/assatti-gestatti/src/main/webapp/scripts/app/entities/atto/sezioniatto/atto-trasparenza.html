@@ -1,0 +1,333 @@
+<div>
+	<div class="form-group ">
+		<label translate="cifra2gestattiApp.atto.obbligodlgs332013">Obbligodlgs332013</label>
+		<span data-toggle="tooltip"
+			title="<b>GUIDA</b><br/>Impostare a <strong>Si</strong> se si tratta di un Atto soggetto agli obblighi di pubblicazione sull’Amministrazione Trasparente sanciti dal D.Lgs 33/2013 altrimenti impostare a <strong>No</strong>."
+			data-html="true" ng-init="initTooltip()">
+			<i class="fa fa-question" ></i>
+		</span>
+		<si-no-select required ng-model="atto.obbligodlgs332013"></si-no-select>
+	</div>
+
+	<div ng-show="atto.obbligodlgs332013">
+		<!--
+		<div class="table-responsive">
+			<table class="table">
+				<tr>
+					<th>
+						<label translate="cifra2gestattiApp.atto.Ambito">Ambito</label>
+						<span data-toggle="tooltip"
+							title="<b>GUIDA</b><br/>Specificare obbligatoriamente almeno un Ambito e una Materia."
+							data-html="true" ng-init="initTooltip()">
+							<i class="fa fa-question" ></i>
+						</span>
+					</th>
+					<th>
+						<label translate="cifra2gestattiApp.atto.Materia">Materia</label>
+					</th>
+					<th>&nbsp;</th>
+				</tr>
+				<tbody>
+					<tr>
+
+						<td><select class="form-control" name="ambitoDl"
+							ng-model="attoHasAmbitoMateria.ambitoDl.id"
+							ng-options="item.id as item.denominazione for item in sortObject(ambiti) | orderBy:'denominazione'"
+							ng-change="attoHasAmbitoMateria.materiaDl.id = null;"
+							ng-required="atto.obbligodlgs332013 && first(atto.hasAmbitoMateriaDl) == null">
+						</select></td>
+						<td><select class="form-control" name="materiaDl"
+							ng-required="atto.obbligodlgs332013 && first(atto.hasAmbitoMateriaDl) == null"
+							ng-model="attoHasAmbitoMateria.materiaDl.id"
+							ng-options="item.id as item.denominazione for item in sortObject(ambiti[attoHasAmbitoMateria.ambitoDl.id].materie) | orderBy:'denominazione' | booleanFilter:{attivo:true}  ">
+						</select></td>
+
+						<td>
+
+							<button type="button"
+								ng-disabled="!(attoHasAmbitoMateria.materiaDl.id > 0 && attoHasAmbitoMateria.ambitoDl.id > 0)"
+								class="btn btn-primary" ng-click="addRowAmbitomateria( )">
+								<span class="glyphicon glyphicon-plus"></span>&nbsp;<span
+									translate="entity.action.add">Aggiungi</span>
+							</button>
+
+						</td>
+
+
+					</tr>
+
+					<tr ng-repeat="attohasambitomateria in atto.hasAmbitoMateriaDl">
+
+
+						<td><input type="text" class="form-control"
+							name="obbligatorio"
+							ng-model="ambiti[attohasambitomateria.ambitoDl.id].denominazione"
+							readonly></td>
+						<td><input type="text" class="form-control"
+							name="obbligatorio"
+							ng-model="ambiti[attohasambitomateria.ambitoDl.id].materie[attohasambitomateria.materiaDl.id].denominazione"
+							readonly></td>
+
+						<td>
+							<button type="button" class="btn btn-primary"
+								ng-click="removeRowAmbitoMateria($index)">
+								<span class="glyphicon glyphicon-minus"></span>&nbsp;<span
+									translate="entity.action.delete">Cancella</span>
+							</button>
+						</td>
+					</tr>
+
+				</tbody>
+			</table>
+		</div>
+		-->
+
+
+		<div class="row" ng-if="!atto.dataAdozione">
+			<div class="form-group col-sm-4">
+				<label translate="cifra2gestattiApp.atto.macroCategoriaObbligoDl">macroCategoriaObbligoDl</label>
+				<span data-toggle="tooltip"
+					title="<b>GUIDA</b><br/>Specificare obbligatoriamente una Macrocategoria Obbligo, una Categoria Obbligo e un Obbligo associati."
+					data-html="true" ng-init="initTooltip()">
+					<i class="fa fa-question" ></i>
+				</span>
+				<select ng-if="!solaLettura" class="form-control" ng-required="atto.obbligodlgs332013"
+					name="macro" ng-model="atto.macroCategoriaObbligoDl33.id"
+					ng-change="atto.categoriaObbligoDl33 = null; atto.obbligoDl33 = null; ricaricaSchedeTrasparenza() "
+					ng-options="item.id as item.descrizione for item in sortObject(macros) | orderBy:'descrizione' | booleanFilter:{attiva:true}">
+				</select>
+				<input ng-if="solaLettura" type="text" class="form-control" value="{{atto.macroCategoriaObbligoDl33.descrizione}}" />
+			</div>
+			<div class="form-group col-sm-4">
+				<label translate="cifra2gestattiApp.atto.categoriaObbligoDl">categoriaObbligoDl</label>
+				<select ng-if="!solaLettura" class="form-control"
+					ng-required="atto.obbligodlgs332013 && first(macros[atto.macroCategoriaObbligoDl33.id].categorie) != null"
+					name="materia" ng-model="atto.categoriaObbligoDl33.id"
+					ng-change="atto.obbligoDl33 = null; ricaricaSchedeTrasparenza() "
+					ng-options="categoria.id as categoria.descrizione for categoria in sortObject(macros[atto.macroCategoriaObbligoDl33.id].categorie) | orderBy:'descrizione'">
+				</select>
+				<input ng-if="solaLettura" type="text" class="form-control" value="{{atto.categoriaObbligoDl33.descrizione}}" />
+			</div>
+			<div class="form-group col-sm-4">
+				<label translate="cifra2gestattiApp.atto.obbligoDl">obbligoDl</label>
+				<select ng-if="!solaLettura" class="form-control"
+					ng-required="atto.obbligodlgs332013 && first(macros[atto.macroCategoriaObbligoDl33.id].categorie[atto.categoriaObbligoDl33.id].obblighi) != null"
+					name="sottoMateria" ng-change="ricaricaSchedeTrasparenza()"
+					ng-model="atto.obbligoDl33.id"
+					ng-options="sottoMateria.id as sottoMateria.descrizione for sottoMateria in sortObject(macros[atto.macroCategoriaObbligoDl33.id].categorie[atto.categoriaObbligoDl33.id].obblighi) | orderBy:'descrizione'">
+				</select>
+				<input ng-if="solaLettura" type="text" class="form-control" value="{{atto.obbligoDl33.descrizione}}" />
+			</div>
+		</div>
+		<div class="row" ng-if="atto.dataAdozione">
+			<div class="form-group col-sm-4">
+				<label translate="cifra2gestattiApp.atto.macroCategoriaObbligoDl">macroCategoriaObbligoDl</label>
+				<input type="text" class="form-control"
+							name="macroCategoriaObbligoDl"
+							ng-model="atto.macroCategoriaObbligoDl33.descrizione"
+							readonly>
+			</div>
+			<div class="form-group col-sm-4">
+				<label translate="cifra2gestattiApp.atto.categoriaObbligoDl">categoriaObbligoDl</label>
+				<input type="text" class="form-control"
+							name="macroCategoriaObbligoDl"
+							ng-model="atto.categoriaObbligoDl33.descrizione"
+							readonly>
+				
+			</div>
+			<div class="form-group col-sm-4">
+				<label translate="cifra2gestattiApp.atto.obbligoDl">obbligoDl</label>
+				<input type="text" class="form-control"
+							name="macroCategoriaObbligoDl"
+							ng-model="atto.obbligoDl33.descrizione"
+							readonly>
+				
+			</div>
+		</div>
+		<div class="form-group" ng-if="valoriSchedeDati.activeTab">
+			<label>Schede dati</label>
+			<span data-toggle="tooltip"
+				title="<b>GUIDA</b><br/>Inserire i dati della scheda prevista dall’Obbligo selezionato."
+				data-html="true" ng-init="initTooltip()">
+				<i class="fa fa-question" ></i>
+			</span>
+		</div>
+
+		<div bs-tabs bs-active-pane="valoriSchedeDati.activeTab">
+	
+			<div ng-repeat="scheda in schede" title="{{ scheda.etichetta }}"
+				data-name="{{ scheda.id }}" bs-pane>
+				<ng-form name="{{scheda.id}}">
+
+					<div class="well"
+						ng-repeat="elemento in valoriSchedeDati.elementiSchede[scheda.id]"
+						ng-init="elementoIndex = $index;  elementoScheda = 'valoriSchedeDati.elementiSchede['+scheda.id+']['+elementoIndex+']'">
+	
+						<div ng-repeat="campo in scheda.campi"
+							ng-init="campoName = scheda.id+'-'+elementoIndex+'-'+campo.id; 
+	             					 createRuntimeExpression(elementoScheda,campoName, campo.hideExpression )">
+	
+							<div
+								class="form-group {{editForm[scheda.id][campoName].$invalid ? 'has-error' : 'has-default'}}"
+								ng-if="runtimeHideExpression[campoName].value">
+	
+								<label for="{{campoName}}"><span
+									ng-if="campo.obbligatorio">*</span> {{campo.dato.etichetta}} <span
+									ng-if="campo.dato.tipoDato == 'beneficiario' && campo.obbligatorio && (!atto.beneficiari || atto.beneficiari.length == undefined || atto.beneficiari.length < 1)"
+									class="glyphicon glyphicon-alert"
+									data-title="{{'cifra2gestattiApp.atto.trasparenza.tooltipBeneficiarioAlert' | translate}}"
+									bs-tooltip></span><span
+									ng-if="campo.dato.tipoDato == 'beneficiario' && (!campo.obbligatorio || !((!atto.beneficiari || atto.beneficiari.length == undefined || atto.beneficiari.length < 1)))"
+									class="glyphicon glyphicon-info-sign"
+									data-title="{{'cifra2gestattiApp.atto.trasparenza.tooltipBeneficiarioInfo' | translate}}"
+									bs-tooltip></span> <!--  hideExpression:{{runtimeHideExpression[campoName]}}  -->
+	
+								</label> 
+								
+								<span ng-if="campo.dato.tipoDato == 'valuta'"data-toggle="tooltip"
+			title="<b>GUIDA</b><br/>Sono ammesse solo cifre '0123456789' e la ',' (virgola) come elemento separatore dei decimali<br/>
+				- Non utilizzare alcun simbolo di separazione per le migliaia (punti)<br/>
+				- Non inserire pi&#249; di due cifre decimali<br/>"
+			data-html="true" ng-init="initTooltip()">
+			<i class="fa fa-question" ></i>
+		</span>
+								
+								<input
+									ng-if="campo.dato.tipoDato == 'number'"
+									ng-change="evalRuntimeHideExpression( )" 
+									type="number" class="form-control"
+									name="{{campoName}}" ng-model="elemento[campo.id]"
+									ng-required="campo.obbligatorio" ng-disabled="solaLettura"
+									>
+									
+									<input
+									ng-if="campo.dato.tipoDato == 'valuta'"
+									type="text" class="form-control"
+									name="{{campoName}}" ng-model="elemento[campo.id]"
+									ng-required="campo.obbligatorio" ng-disabled="solaLettura" ng-class="{'btn-danger': elemento[campo.id] && !isGoodNumber(elemento[campo.id])}">
+									<input
+									ng-if="campo.dato.tipoDato == 'text'"
+									ng-change="evalRuntimeHideExpression( )"
+									type="text" class="form-control"
+									name="{{campoName}}" ng-model="elemento[campo.id]"
+									ng-required="campo.obbligatorio" ng-disabled="solaLettura">
+									
+									<input
+									ng-if="campo.dato.tipoDato == 'url'"
+									ng-change="evalRuntimeHideExpression( )"
+									type="url" pattern="https?://.+" required class="form-control"
+									name="{{campoName}}" ng-model="elemento[campo.id]"
+									ng-required="campo.obbligatorio" ng-disabled="solaLettura" placeholder="http://example.com" value="http://">
+	
+								<div class="form-inline" ng-if="campo.dato.tipoDato == 'date' ">
+									<i class="fa fa-calendar"></i> <input
+										ng-if="campo.dato.tipoDato == 'date'" size="10"
+										ng-change="evalRuntimeHideExpression( )" type="text"
+										class="form-control" name="{{campoName}}"
+										ng-required="campo.obbligatorio" ng-model="elemento[campo.id]"
+										bs-datepicker ng-disabled="solaLettura"
+										onkeydown="return false;">
+								</div>
+	
+								<div class="form-inline"
+									ng-if="campo.dato.tipoDato == 'datetime' ">
+									<i class="fa fa-calendar"></i> <input
+										ng-change="evalRuntimeHideExpression( )" type="text"
+										class="form-control" size="10" name="{{campoName}}"
+										data-date-type="date" ng-model="elemento[campo.id]"
+										ng-required="campo.obbligatorio" ng-disabled="solaLettura"
+										onkeydown="return false;" bs-datepicker> <i
+										class="fa fa-clock-o"></i> <input type="text"
+										ng-change="evalRuntimeHideExpression( )" class="form-control"
+										name="elemento[campo.id]_time" size="8"
+										name="elemento[campo.id]" data-time-type="date"
+										ng-model="elemento[campo.id]" ng-required="campo.obbligatorio"
+										ng-disabled="solaLettura" onkeydown="return false;"
+										bs-timepicker>
+								</div>
+	
+								<div ng-if="campo.dato.tipoDato == 'file' ">
+									<input type="hidden" ng-model="elemento[campo.id]"
+										ng-required="campo.obbligatorio">
+									<button ng-disabled="solaLettura" ngf-drop ngf-select
+										ngf-multiple="false" name="{{campoName}}"
+										ngf-change="fileDropperTrasparenza($files, $event, $rejectedFiles,scheda.id, campo.id, elemento, elementoIndex )"
+										class="btn btn-default" ngf-drag-over-class="dragover"
+										ngf-max-size="ngfMaxSize"> <!-- accept="application/*"> -->
+										<i class="fa fa-upload"></i> Allega {{campo.dato.etichetta}}
+	
+									</button>
+	
+	                 				<a ng-if="elemento[campo.id].id > 0 && !elemento[campo.id].temp"
+										target="_blank"
+										href="api/attos/{{atto.id}}/trasparenza/allegato/{{campo.id}}/{{elementoIndex}}?access_token={{access_token}}">
+										<i class="fa fa-download"></i> {{elemento[campo.id].nomeFile}}
+										({{elemento[campo.id].createdBy}})
+									</a> <span style="text-decoration: underline;" ng-if="elemento[campo.id].temp">
+	                 {{elemento[campo.id].nomeFile}} ({{elemento[campo.id].createdBy}})</span> <a
+										ng-if="elemento[campo.id] && !solaLettura" href="#"
+										onclick="return false;" class="btn btn-xs btn-danger"
+										ng-click="removeAllegatoTrasparenza(campo.id, elemento, elementoIndex)"
+										data-title="{{'Rimuovi ' + campo.dato.etichetta}}" bs-tooltip>
+										<span class="glyphicon glyphicon-remove"></span>
+									</a>
+								</div>
+	
+								<select ng-if="campo.dato.tipoDato == 'select'"
+									class="form-control" ng-change="evalRuntimeHideExpression( )"
+									name="{{campoName}}" ng-model="elemento[campo.id]"
+									ng-disabled="solaLettura">
+									<option ng-repeat="item in campo.dato.options">{{item}}</option>
+								</select>
+								<select ng-if="campo.dato.tipoDato == 'beneficiario'"
+									ng-disabled="solaLettura" class="form-control"
+									name="traspBeneficiario" ng-model="elemento[campo.id]"
+									ng-options="item as item.descrizioneLeggibileBeneficiario for item in beneficiariTrasp track by item.id">
+								</select>
+								<input type="hidden"
+									ng-if="campo.obbligatorio && campo.dato.tipoDato == 'beneficiario' && (elemento[campo.id] == undefined || elemento[campo.id] == null || elemento[campo.id].id == undefined || elemento[campo.id].id == null || elemento[campo.id].id == -1)"
+									required ng-model="voidValue">
+	
+								<!--     <div  ng-if="editForm[scheda.id][campoName].$invalid" class="alert alert-danger" role="alert"> 
+	            
+	             <i class="fa fa-exclamation-triangle "></i> Errore validazione
+	            </div> -->
+	
+	
+							</div>
+	
+	
+						</div>
+						<div class="row">						
+							<div class="col-xs-6 pull-right">
+								<button type="button" ng-if="scheda.ripetitiva" class="btn btn-danger btn-sm pull-right" ng-click="removeSchedaTrasparenza( valoriSchedeDati, $index )">
+							       <i class="fa fa-minus"></i>
+							    </button>
+							</div>
+						</div>
+					</div>
+	
+					<button type="button" ng-if="scheda.ripetitiva" class="btn btn-default" ng-click="addSchedaTrasparenza( valoriSchedeDati, scheda )">
+				       <span class="glyphicon glyphicon-plus"></span>&nbsp;<span>Aggiungi scheda {{scheda.etichetta}}</span>
+				    </button>
+			    <!-- 
+     <button type="button" ng-disabled="editForm[scheda.id].$invalid"  class="btn btn-primary" ng-click="salvaSchedaTrasparenza( valoriSchedeDati,scheda )">
+           <span class="glyphicon glyphicon-save"></span>&nbsp;<span  >Salva scheda {{scheda.etichetta}}</span>
+     </button> --> <!--    <button type="button"    class="btn btn-primary" ng-click="caricaPopolaSchedeTrasparenza( valoriSchedeDati )">
+           <span class="glyphicon glyphicon-load"></span>&nbsp;<span  >Carica</span>
+         </button> -->
+         		</ng-form>
+			</div>
+
+		</div>
+
+	</div>
+
+	<!-- {{macros}} -->
+	<!-- {{schede}} -->
+	<!-- <div class="well">
+  <pre id="default-spacing">{{valoriSchedeDati |json}}</pre>
+</div>
+   -->
+</div>
+

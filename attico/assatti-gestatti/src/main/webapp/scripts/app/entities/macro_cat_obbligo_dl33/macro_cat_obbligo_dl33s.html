@@ -1,0 +1,213 @@
+<div>
+
+    <h2 translate="cifra2gestattiApp.macro_cat_obbligo_dl33.home.title">Macro_cat_obbligo_dl33</h2>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <button class="btn btn-primary" data-toggle="modal" data-target="#saveMacro_cat_obbligo_dl33Modal" ng-click="clear()">
+                    <span class="glyphicon glyphicon-flash"></span> <span translate="cifra2gestattiApp.macro_cat_obbligo_dl33.home.createLabel">Create a new Macro_cat_obbligo_dl33</span>
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal fade" id="operationNotPermitted">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                   <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                           ng-click="clear()">&times;</button>
+                   <h4 class="modal-title" translate="entity.modify.notPermitted">Operation not permitted</h4>
+               </div>
+               <div class="modal-body">
+                   <p translate="cifra2gestattiApp.macro_cat_obbligo_dl33.messages.error.operationNotPermitted">Operation not permitted</p>
+               </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="saveMacro_cat_obbligo_dl33Modal" tabindex="-1" role="dialog" aria-labelledby="myMacro_cat_obbligo_dl33Label"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form name="editForm" role="form" novalidate ng-submit="save()">
+
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                                ng-click="clear()">&times;</button>
+                        <h4 class="modal-title" id="myMacro_cat_obbligo_dl33Label" translate="cifra2gestattiApp.macro_cat_obbligo_dl33.home.createOrEditLabel">Create or edit a Macro_cat_obbligo_dl33</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label>ID</label>
+                            <input type="text" class="form-control" name="id"
+                                   ng-model="macro_cat_obbligo_dl33.id" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label translate="cifra2gestattiApp.macro_cat_obbligo_dl33.codice">Codice</label> * <span data-toggle="tooltip" bs-tooltip data-html="true" data-placement="right" data-title="{{'cifra2gestattiApp.macro_cat_obbligo_dl33.guida.codice' | translate}}">
+								<i class="fa fa-question" ></i>
+							</span>
+                            <input type="text" class="form-control" name="codice"
+                                   ng-model="macro_cat_obbligo_dl33.codice" required>
+
+                        </div>
+                        <div class="alert alert-danger" ng-if="checkEsistenza == true"><span translate="cifra2gestattiApp.macro_cat_obbligo_dl33.alreadyExists"></span></div>
+                        <div class="form-group">
+                            <label translate="cifra2gestattiApp.macro_cat_obbligo_dl33.descrizione">Descrizione</label> *
+                            <input type="text" class="form-control" name="descrizione"
+                                   ng-model="macro_cat_obbligo_dl33.descrizione" required>
+
+                        </div>
+                        <!-- <div class="form-group">
+                            <label translate="cifra2gestattiApp.macro_cat_obbligo_dl33.attiva">Attiva</label>
+                            <input type="checkbox" class="form-control" name="attiva"
+                                   ng-model="macro_cat_obbligo_dl33.attiva">
+
+                        </div>
+                         -->
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
+                            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+                        </button>
+                        <button type="submit" ng-disabled="editForm.$invalid" class="btn btn-primary">
+                            <span class="glyphicon glyphicon-save"></span>&nbsp;<span translate="entity.action.save">Save</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="deleteMacro_cat_obbligo_dl33Confirmation">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form name="deleteForm" ng-submit="confirmDelete(macro_cat_obbligo_dl33.id)">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                                ng-click="clear()">&times;</button>
+                        <h4 class="modal-title" translate="entity.delete.title">Confirm delete operation</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p translate="cifra2gestattiApp.macro_cat_obbligo_dl33.delete.question" translate-values="{id: '{{macro_cat_obbligo_dl33.id}}'}">Are you sure you want to delete this Macro_cat_obbligo_dl33?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
+                            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+                        </button>
+                        <button type="submit" class="btn btn-warning">
+                            <span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span translate="entity.action.delete">Delete</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div>
+    	<div class="table-responsive crud-search">
+	        <table class="table table-striped">
+	            <thead>
+	                <tr>
+	                	<th width="30px"></th>
+	                    <th>ID</th>
+	                    <th translate="cifra2gestattiApp.macro_cat_obbligo_dl33.codice">Codice</th>
+	                    <th translate="cifra2gestattiApp.macro_cat_obbligo_dl33.descrizione">Descrizione</th>
+	                    <th translate="cifra2gestattiApp.macro_cat_obbligo_dl33.attiva">Attiva</th>
+	                    <th></th>
+	                </tr>
+	                <tr>
+	                	<th style="text-align:center;"><button class="btn btn-primary btn-xs" ng-click="ricerca()"><span class="glyphicon glyphicon-search"/> <span translate="global.messages.cerca">Ricerca</span></button> <button class="btn btn-primary btn-xs" ng-click="resetRicerca()"><span translate="global.messages.resetricerca">Reset ricerca</span></button></th>
+			           <th></th>
+			           <th><input type="text" ng-model="tempSearch.codice"></th>
+			           <th><input type="text" ng-model="tempSearch.descrizione"></th>
+			           <th class="limited-width">
+			           		<ui-select ng-model="tempSearch.attiva" theme="bootstrap">
+		                    	<ui-select-match allow-clear="true">{{$select.selected.descrizione}}</ui-select-match>
+		                    	<ui-select-choices repeat="cur in listTrueFalse | filter: $select.search track by $index">
+		                            <div ng-bind-html="cur.descrizione | highlight: $select.search"></div>
+		                    	</ui-select-choices>
+	                      	</ui-select>
+			           	</th>
+			           <th><button class="btn btn-primary btn-xs" ng-click="ricerca()"><span class="glyphicon glyphicon-search"/> <span translate="global.messages.cerca">Ricerca</span></button> <button class="btn btn-primary btn-xs" ng-click="resetRicerca()"><span translate="global.messages.resetricerca">Reset ricerca</span></button></th>
+			        </tr>
+	            </thead>
+	            <tbody>
+	                <tr ng-repeat="macro_cat_obbligo_dl33 in macro_cat_obbligo_dl33s">
+	                    <td></td>
+	                    <td><a ui-sref="macro_cat_obbligo_dl33Detail({id:macro_cat_obbligo_dl33.id})">{{macro_cat_obbligo_dl33.id}}</a></td>
+	                    <td>{{macro_cat_obbligo_dl33.codice}}</td>
+	                    <td>{{macro_cat_obbligo_dl33.descrizione}}</td>
+	                    <td><span ng-if="macro_cat_obbligo_dl33.attiva == true">Si</span><span ng-if="macro_cat_obbligo_dl33.attiva == false">No</span></td>
+	                    <td>
+	                        <button type="submit"
+	                                ui-sref="macro_cat_obbligo_dl33Detail({id:macro_cat_obbligo_dl33.id})"
+	                                class="btn btn-info btn-sm">
+	                            <span class="glyphicon glyphicon-eye-open"></span>&nbsp;<span translate="entity.action.view"> View</span>
+	                        </button>
+	                        <button type="submit"
+	                                ng-click="showUpdate(macro_cat_obbligo_dl33.id)"
+	                                class="btn btn-primary btn-sm">
+	                            <span class="glyphicon glyphicon-pencil"></span>&nbsp;<span translate="entity.action.edit"> Edit</span>
+	                        </button>
+	                        <button type="submit"
+	                        		ng-show="macro_cat_obbligo_dl33.attiva"
+	                                ng-click="disabilita(macro_cat_obbligo_dl33)"
+	                                class="btn btn-warning btn-sm">
+	                            <span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span translate="entity.action.disable"> Disable</span>
+	                        </button>
+	                        <button type="submit"
+	                        		ng-show="!macro_cat_obbligo_dl33.attiva"
+	                                ng-click="abilita(macro_cat_obbligo_dl33)"
+	                                class="btn btn-success btn-sm">
+	                            <span class="glyphicon glyphicon-ok-circle"></span>&nbsp;<span translate="entity.action.enable"> Enable</span>
+	                        </button>
+	                    </td>
+	                </tr>
+	            </tbody>
+	        </table>
+	        <div ng-if="macro_cat_obbligo_dl33s && macro_cat_obbligo_dl33s.length == 0" class="search-no-result"><h3 translate="global.searchNoResult"></h3></div>
+	    </div>
+        <nav>
+            <ul class="pagination">
+                <li ng-show="links['first']" ng-click="loadPage(links['first'])"><a>&lt;&lt;</a></li>
+                <li ng-show="links['prev']" ng-click="loadPage(links['prev'])"><a>&lt;</a></li>
+                <li ng-show="page > 2" ng-click="loadPage(page - 2)"><a>{{page - 2}}</a></li>
+                <li ng-show="page > 1" ng-click="loadPage(page - 1)"><a>{{page - 1}}</a></li>
+                <li class="active"><a>{{page}}</a></li>
+                <li ng-show="page < links['last']" ng-click="loadPage(page + 1)"><a>{{page + 1}}</a></li>
+                <li ng-show="page < links['last'] - 1" ng-click="loadPage(page + 2)"><a>{{page + 2}}</a></li>
+                <li ng-show="links['next']" ng-click="loadPage(links['next'])"><a>&gt;</a></li>
+                <li ng-show="links['last']" ng-click="loadPage(links['last'])"><a>&gt;&gt;</a></li>
+            </ul>
+        </nav>
+    </div>
+</div>
+
+
+<div class="modal fade" id="alertDisabilitazione">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form name="deleteForm" ng-submit="confirmForceDelete(daDisabilitare.id)">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                                ng-click="clear()">&times;</button>
+                        <h4 class="modal-title" translate="entity.disattiva.title">Confirm disabilitazione operation</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p translate="cifra2gestattiApp.macro_cat_obbligo_dl33.disabilitazioneAlertText" translate-values="{categorie: '{{daDisabilitare.categorie}}', obblighi: '{{daDisabilitare.obblighi}}', nome: '{{daDisabilitare.descrizione}}'}"></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" onclick="$('#alertDisabilitazione').modal('hide');">
+                            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+                        </button>
+                        <button type="submit" class="btn btn-warning" ng-click="confermaDisabilitazione(daDisabilitare.id)">
+                            <span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span translate="entity.action.disable">Disable</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>

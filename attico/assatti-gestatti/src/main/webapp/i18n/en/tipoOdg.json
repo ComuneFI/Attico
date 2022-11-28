@@ -1,0 +1,18 @@
+{
+    "cifra2gestattiApp": {
+        "tipoOdg" : {
+            "home": {
+                "title": "TipoOdgs",
+                "createLabel": "Create a new TipoOdg",
+                "createOrEditLabel": "Create or edit a TipoOdg"
+            },
+            "delete": {
+                "question": "Are you sure you want to delete TipoOdg {{ id }}?"
+            },
+            "detail": {
+                "title": "TipoOdg"
+            },
+            "descrizione": "Descrizione"
+        }
+    }
+}

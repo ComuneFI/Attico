@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    
+    <changeSet author="magria" id="202207071039-00001">
+    	<sql>
+			INSERT INTO tipo_azione (codice,descrizione) VALUES ('parere_resp_contabile_regolarita_modifiche','Parere Responsabile Contabile Regolarità Modifiche');
+			INSERT INTO tipo_azione (codice,descrizione) VALUES ('parere_resp_tecnico_regolarita_modifiche','Parere Responsabile Tecnico Regolarità Modifiche');
+    	</sql>
+    </changeSet>
+    <changeSet author="magria" id="202207071408-00002">
+    	<sql>
+			INSERT INTO esito_pareri (codice,valore,tipo,enabled,tipoatto_id) VALUES ('PARERE_FAVOREVOLE_RESP_CONTABILE_REG_MOD','Parere Favorevole','Resp. Contabile Reg. Mod.',1,11);
+			INSERT INTO esito_pareri (codice,valore,tipo,enabled,tipoatto_id) VALUES ('PARERE_FAVOREVOLE_RESP_TECNICO_REG_MOD','Parere Favorevole','Resp. Tecnico Reg. Mod.',1,11);
+			INSERT INTO esito_pareri (codice,valore,tipo,enabled,tipoatto_id) VALUES ('PARERE_ARTICOLATO_RESP_CONTABILE_REG_MOD','Parere Articolato','Resp. Contabile Reg. Mod.',1,11);
+			INSERT INTO esito_pareri (codice,valore,tipo,enabled,tipoatto_id) VALUES ('PARERE_ARTICOLATO_RESP_TECNICO_REG_MOD','Parere Articolato','Resp. Tecnico Reg. Mod.',1,11);
+    	</sql>
+    </changeSet>
+    
+    
+</databaseChangeLog>

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_1kf7881" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="2.2.1">
+  <bpmn:process id="VistoAssessoreGiunta" isExecutable="true">
+    <bpmn:endEvent id="EndEvent_037rpvg">
+      <bpmn:incoming>SequenceFlow_0srkxfp</bpmn:incoming>
+      <bpmn:incoming>SequenceFlow_0hghm6u</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:boundaryEvent id="BoundaryEvent_0sjai9p" name="Annulla visto Assesstore" attachedToRef="UserTask_0nc7nox">
+      <bpmn:outgoing>SequenceFlow_0srkxfp</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_0zbxn6k" messageRef="Message_1068cd1" />
+    </bpmn:boundaryEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_0srkxfp" sourceRef="BoundaryEvent_0sjai9p" targetRef="EndEvent_037rpvg" />
+    <bpmn:sequenceFlow id="SequenceFlow_1axjy8r" sourceRef="StartEvent_1yt0wo9" targetRef="UserTask_0nc7nox" />
+    <bpmn:userTask id="UserTask_0nc7nox" name="Visto Assessore" camunda:assignee="${ ASSESSORE_VISTO }">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="LISTA_DECISIONI">
+            <camunda:script scriptFormat="groovy">import it.linksmt.assatti.bpm.util.ListaDecisioni
+
+decisioni = new ListaDecisioni()
+decisioni.addDecisione('Salva', false)
+decisioni.addDecisione('Vista e Inoltra', 'visto_assessore', 'VISTO_ASSESSORE', 'SI', 'VISTO_POSITIVO', true)
+
+decisioni.export()</camunda:script>
+          </camunda:inputParameter>
+          <camunda:inputParameter name="SCENARI_DISABILITAZIONE">
+            <camunda:list>
+              <camunda:value>TuttoNonModificabile</camunda:value>
+            </camunda:list>
+          </camunda:inputParameter>
+          <camunda:inputParameter name="ABILITA_OPERAZIONE_MASSIVA">VISTO_MASSIVO::VISTO_POSITIVO</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_1axjy8r</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0lsqcpj</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:serviceTask id="ServiceTask_0hqhtji" name="Registra Evento Visto Assessore" camunda:delegateExpression="${ registrazioneEventoService }">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="REGISTRA_EVENTO">PROPOSTA_VISTATA_AMMINISTRATORE_FIRMATARIO</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_0lsqcpj</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1t6x6zu</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="ServiceTask_0o2n9gb" name="Registra Azione Visto" camunda:delegateExpression="${ registrazioneEventoService }">
+      <bpmn:incoming>SequenceFlow_1t6x6zu</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0hghm6u</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="SequenceFlow_0lsqcpj" sourceRef="UserTask_0nc7nox" targetRef="ServiceTask_0hqhtji" />
+    <bpmn:sequenceFlow id="SequenceFlow_1t6x6zu" sourceRef="ServiceTask_0hqhtji" targetRef="ServiceTask_0o2n9gb" />
+    <bpmn:sequenceFlow id="SequenceFlow_0hghm6u" sourceRef="ServiceTask_0o2n9gb" targetRef="EndEvent_037rpvg" />
+    <bpmn:startEvent id="StartEvent_1yt0wo9">
+      <bpmn:outgoing>SequenceFlow_1axjy8r</bpmn:outgoing>
+    </bpmn:startEvent>
+  </bpmn:process>
+  <bpmn:message id="Message_1068cd1" name="ANNULLA_VISTO_ASSESSORE" />
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="VistoAssessoreGiunta">
+      <bpmndi:BPMNShape id="EndEvent_037rpvg_di" bpmnElement="EndEvent_037rpvg">
+        <dc:Bounds x="686" y="132" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="320" y="275" width="74" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BoundaryEvent_0sjai9p_di" bpmnElement="BoundaryEvent_0sjai9p">
+        <dc:Bounds x="251" y="172" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="181" y="204.5" width="62" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0srkxfp_di" bpmnElement="SequenceFlow_0srkxfp">
+        <di:waypoint x="269" y="208" />
+        <di:waypoint x="269" y="255" />
+        <di:waypoint x="704" y="255" />
+        <di:waypoint x="704" y="168" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="UserTask_0nc7nox_di" bpmnElement="UserTask_0nc7nox">
+        <dc:Bounds x="219" y="110" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_0hqhtji_di" bpmnElement="ServiceTask_0hqhtji">
+        <dc:Bounds x="376" y="110" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_0o2n9gb_di" bpmnElement="ServiceTask_0o2n9gb">
+        <dc:Bounds x="526" y="110" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1t6x6zu_di" bpmnElement="SequenceFlow_1t6x6zu">
+        <di:waypoint x="476" y="150" />
+        <di:waypoint x="526" y="150" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0lsqcpj_di" bpmnElement="SequenceFlow_0lsqcpj">
+        <di:waypoint x="319" y="150" />
+        <di:waypoint x="376" y="150" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1axjy8r_di" bpmnElement="SequenceFlow_1axjy8r">
+        <di:waypoint x="145" y="162" />
+        <di:waypoint x="219" y="162" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0hghm6u_di" bpmnElement="SequenceFlow_0hghm6u">
+        <di:waypoint x="626" y="150" />
+        <di:waypoint x="686" y="150" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="StartEvent_0l3s6n2_di" bpmnElement="StartEvent_1yt0wo9">
+        <dc:Bounds x="109" y="144" width="36" height="36" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

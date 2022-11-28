@@ -1,0 +1,213 @@
+<div>
+
+    <h2 translate="cifra2gestattiApp.classificazione.home.title">Classificazione</h2>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <button class="btn btn-primary" data-toggle="modal" data-target="#saveClassificazioneModal" ng-click="clear()">
+                    <span class="glyphicon glyphicon-flash"></span> <span translate="cifra2gestattiApp.classificazione.home.createLabel">Create a new Classificazione</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="saveClassificazioneModal" tabindex="-1" role="dialog" aria-labelledby="myClassificazioneLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form name="editForm" role="form" ng-submit="save()">
+
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                                ng-click="clear()">&times;</button>
+                        <h4 class="modal-title" id="myClassificazioneLabel" translate="cifra2gestattiApp.classificazione.home.createOrEditLabel">Create or edit a Classificazione</h4>
+                    </div>
+                    <div class="modal-body">
+						<div class="form-group">
+                            <label translate="cifra2gestattiApp.classificazione.titolario">Titolario</label> *
+                            <!-- <input disabled="disabled" type="text" class="form-control" name="titolario" ng-model="classificazione.titolario" required> -->
+                            <textarea disabled="disabled" class="form-control" rows="3" name="titolario" ng-model="classificazione.titolario"  required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label translate="cifra2gestattiApp.classificazione.voceTitolario">VoceTitolario</label> *
+                            <input style="display: none;" disabled="disabled" type="text" class="form-control" name="voceTitolario" ng-model="classificazione.voceTitolarioCodice" required>
+                            <input style="display: none;" disabled="disabled" type="text" class="form-control" name="voceTitolario" ng-model="classificazione.voceTitolarioDescrizione" required>
+                           <!-- <span class="form-control" disabled="disabled">{{classificazione.voceTitolarioCodice && classificazione.voceTitolarioDescrizione ? classificazione.voceTitolarioCodice + ' - ' + classificazione.voceTitolarioDescrizione : ''}}</span> -->
+                             <textarea disabled="disabled" class="form-control" rows="3">{{classificazione.voceTitolarioCodice && classificazione.voceTitolarioDescrizione ? classificazione.voceTitolarioCodice + ' - ' + classificazione.voceTitolarioDescrizione : ''}}</textarea>
+                        </div>
+                        <div class="form-group" style="display: none;">
+                            <label translate="cifra2gestattiApp.classificazione.idTitolario">IdTitolario</label> *
+                            <input type="text" class="form-control" name="idTitolario" ng-model="classificazione.idTitolario" required>
+                        </div>
+                        <div class="form-group" style="display: none;">
+                            <label translate="cifra2gestattiApp.classificazione.idVoceTitolario">idVoceTitolario</label> *
+                            <input type="text" class="form-control" name="idVoceTitolario" ng-model="classificazione.idVoceTitolario" required>
+                        </div>
+                        <div align="center"><input type="button" class="btn btn-primary" ng-click="viewDiogeneTree()" value="Visualizza Titolari e Voci di Titolario"></div>
+                        <div class="form-group">
+                            <label translate="cifra2gestattiApp.classificazione.aoo">aoo</label>
+                            <select class="form-control" name="aoo" ng-model="classificazione.aoo" ng-options="aoo as aoo.codice  + '-' +  aoo.descrizione for aoo in aoos track by aoo.codice">
+                            	<option value="">Tutte le Aoo</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label translate="cifra2gestattiApp.classificazione.tipoDocumentoSerie">tipoDocumentoSerie</label>
+                            <select class="form-control" name="tipoDocumentoSerie" ng-model="classificazione.tipoDocumentoSerie" ng-options="tipoDocumentoSerie as tipoDocumentoSerie.descrizione for tipoDocumentoSerie in tipodocumentoseries track by tipoDocumentoSerie.codice">
+                            	<option value="">Tutti i tipi di DocumentoSerie</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group" >
+                        	<div class="row">
+							 	<div class="col-md-6" >
+							 		<i class="fa fa-calendar"></i>&nbsp;<label translate="global.messages.validodal">Validodal</label>
+							 		<input type="text" class="form-control" name="validodal" ng-disabled="true" value="{{ classificazione.validoDal| date:'dd-MM-yyyy'}}">
+							 	</div>
+							
+							 	<div class="col-md-6">
+							 		<i class="fa fa-calendar"></i>&nbsp;<label translate="global.messages.validoal">Validoal</label>
+							 		<input type="text" class="form-control" name="validoal" ng-disabled="true" value="{{ classificazione.validoAl| date:'dd-MM-yyyy'}}">
+							 	</div>
+                        	</div>
+						</div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
+                            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+                        </button>
+                        <button type="submit" ng-disabled="editForm.$invalid" class="btn btn-primary">
+                            <span class="glyphicon glyphicon-save"></span>&nbsp;<span translate="entity.action.save">Save</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="deleteClassificazioneConfirmation">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form name="deleteForm" ng-submit="confirmDelete(classificazione.id)">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                                ng-click="clear()">&times;</button>
+                        <h4 class="modal-title" translate="entity.delete.title">Confirm delete operation</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p translate="cifra2gestattiApp.classificazione.delete.question" translate-values="{id: '{{classificazione.id}}'}">Are you sure you want to delete this Classificazione?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
+                            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+                        </button>
+                        <button type="submit" ng-disabled="deleteForm.$invalid" class="btn btn-danger">
+                            <span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span translate="entity.action.delete">Delete</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="table-responsive crud-search">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                	<th width="30px"></th>
+                    <th>ID</th>
+                    <th>Id Documentale Titolario</th>
+                    <th translate="cifra2gestattiApp.classificazione.voceTitolario">voceTitolario</th>
+                    <th translate="cifra2gestattiApp.classificazione.aoo">aoo</th>
+                    <th translate="cifra2gestattiApp.classificazione.tipoDocumentoSerie">tipoDocumentoSerie</th>
+                    <th></th>
+                </tr>
+                <tr>
+                   <th style="text-align:center;"><button class="btn btn-primary btn-xs" ng-click="ricerca()"><span class="glyphicon glyphicon-search"/> <span translate="global.messages.cerca">Ricerca</span></button> <button class="btn btn-primary btn-xs" ng-click="resetRicerca()"><span translate="global.messages.resetricerca">Reset ricerca</span></button></th>
+		           <th></th>
+		           <th><input type="text" ng-model="tempSearch.idTitolario"></th>
+		           <th><input type="text" ng-model="tempSearch.idVoceTitolario"></th>
+		           <th class="limited-width">
+		           		<ui-select ng-model="tempSearch.aoo" theme="bootstrap">
+	                    	<ui-select-match allow-clear="true">{{$select.selected.codice}} - {{$select.selected.descrizione}}</ui-select-match>
+	                    	<ui-select-choices repeat="cur in aoos | filter: $select.search track by $index">
+	                            <div ng-bind-html="cur.codice  + '-' +  cur.descrizione | highlight: $select.search"></div>
+	                    	</ui-select-choices>
+                      	</ui-select>
+		           </th>
+		           <th class="limited-width">
+		           		<ui-select ng-model="tempSearch.tipoDocumentoSerie" theme="bootstrap">
+	                    	<ui-select-match allow-clear="true">{{$select.selected.descrizione}}</ui-select-match>
+	                    	<ui-select-choices repeat="cur in tipodocumentoseries | filter: $select.search track by $index">
+	                            <div ng-bind-html="cur.descrizione | highlight: $select.search"></div>
+	                    	</ui-select-choices>
+                      	</ui-select>
+			       </th>
+		           <th><button class="btn btn-primary btn-xs" ng-click="ricerca()"><span class="glyphicon glyphicon-search"/> <span translate="global.messages.cerca">Ricerca</span></button> <button class="btn btn-primary btn-xs" ng-click="resetRicerca()"><span translate="global.messages.resetricerca">Reset ricerca</span></button></th>
+		        </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="classificazione in classificaziones">
+                    <td></td>
+                    <td><a ui-sref="classificazioneDetail({id:classificazione.id})">{{classificazione.id}}</a></td>
+                    <td>{{classificazione.idTitolario}}</td>
+                    <td><span data-toggle="tooltip" bs-tooltip data-html="true" data-placement="top" data-title="{{classificazione.voceTitolarioDescrizione}}">{{classificazione.voceTitolarioCodice}}</span></td>
+                    <td ng-if="classificazione.aoo">{{classificazione.aoo.codice}} - {{classificazione.aoo.descrizione}}</td><td ng-if="!classificazione.aoo">Tutte le Aoo</td>
+                    <td ng-if="classificazione.tipoDocumentoSerie">{{classificazione.tipoDocumentoSerie.descrizione}}</td><td ng-if="!classificazione.tipoDocumentoSerie">Tutti i tipi di DocumentoSerie</td>
+                    <td>
+                        <button type="submit"
+                                ui-sref="classificazioneDetail({id:classificazione.id})"
+                                class="btn btn-info btn-sm">
+                            <span class="glyphicon glyphicon-eye-open"></span>&nbsp;<span translate="entity.action.view"> View</span>
+                        </button>
+                        <button type="submit"
+                                ng-click="showUpdate(classificazione.id)"
+                                class="btn btn-primary btn-sm">
+                            <span class="glyphicon glyphicon-pencil"></span>&nbsp;<span translate="entity.action.edit"> Edit</span>
+                        </button>
+                        <button type="submit"
+                        		ng-hide="classificazione.validoAl"
+                                ng-click="disable(classificazione)"
+                                class="btn btn-warning btn-sm">
+                            <span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span translate="entity.action.disable"> Disable</span>
+                        </button>
+                        <button type="submit"
+                        		ng-show="classificazione.validoAl"
+                                ng-click="enable(classificazione)"
+                                class="btn btn-success btn-sm">
+                            <span class="glyphicon glyphicon-ok-circle"></span>&nbsp;<span translate="entity.action.enable"> Enable</span>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div ng-if="classificaziones && classificaziones.length == 0" class="search-no-result"><h3 translate="global.searchNoResult"></h3></div>
+    </div>
+</div>
+
+<div class="modal fade" id="diogeneModal" tabindex="-1" role="dialog" aria-labelledby="diogeneLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form ng-init="voceSelezionata=null" name="diogeneForm" role="form" novalidate>
+
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                                ng-click="clear()">&times;</button>
+                        <h4 class="modal-title" id="diogeneLabel">Titolari e voci di titolario</h4>
+                    </div>
+                    <div class="modal-body">
+                       <diogene-form ng-model="voceSelezionata" run="diogeneRun"></diogene-form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="closeDiogeneModal()">
+                            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+                        </button>
+                        <button type="button" ng-disabled="!voceSelezionata" class="btn btn-primary" ng-click="voceSelected()">
+                            <span class="glyphicon glyphicon-save"></span>&nbsp;<span>Seleziona</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>

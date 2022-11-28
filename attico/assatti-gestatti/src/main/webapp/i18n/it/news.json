@@ -1,0 +1,47 @@
+{
+    "cifra2gestattiApp": {
+        "news" : {
+            "home": {
+                "title": "Notifiche",
+                "createLabel": "Crea una nuova Notifica",
+                "createOrEditLabel": "Crea o modifica una Notifica",
+                "titleReport":"Report Notifiche"
+            },
+            "delete": {
+                "question": "Siete sicuri di voler cancellare la Notifica con id {{ id }}?"
+            },
+            "detail": {
+                "title": "Notifica",
+                "codiceCifra":"Codice Atto",
+                "numeroOdG":"Numero Ordine del Giorno",
+	            "destinatario":"Destinatario",
+	            "dataInvio":"Data Notifica",
+	            "riferimentoDiogene":"Riferimento Documentale",
+	            "autore": "Autore"
+            },
+            "titolo": "Titolo",
+            "categoria": "Categoria",
+            "autore": "Autore",
+            "testo": "Descrizione",
+            "dataPubblicazione": "Data Pubblicazione",
+            "destinatari": "Destinatari",
+            "pubblica": "Pubblica",
+            "dataUltimaRichiesta":"Data Ultimo Evento",
+            "statoUltimaRichiesta":"Stato Ultima Richiesta",
+            "tipoNotifica":"Tipo Notifica",
+            "motivazioneNotifica":"Motivazione Notifica",
+            "statoRichiesta":"Stato Richiesta",
+            "dataRichiesta":"Data Tentativo o Ricevuta Notifica",
+            "dataErrore":"Data Errore",
+            "dettaglioErrore":"Dettaglio Errore",
+            "dataInvio":"Data Invio",
+            "dettagli":"Dettagli",
+            "storicoTentativi":"Storico Tentativi",
+            "annullaInvio":"Annulla Invio",
+            "retry":"Tenta Nuovo Invio",
+            "oggetto":"Oggetto",
+            "destinatario":"Destinatario",
+            "allegato":"Allegato"
+        }
+    }
+}

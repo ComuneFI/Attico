@@ -1,0 +1,33 @@
+{
+    "cifra2gestattiApp": {
+        "sottoscrittoreAtto" : {
+            "home": {
+                "title": "SottoscrittoreAttos",
+                "createLabel": "Crea un nuovo SottoscrittoreAtto",
+                "createOrEditLabel": "Crea o Modifica un SottoscrittoreAtto"
+            },
+            "delete": {
+                "question": "Sei sicuro di voler eliminare {{nome}} {{cognome}} dai sottoscrittori?",
+                "questionaoo": "Sei sicuro di voler cancellare i SottoscrittoriAtto dell'Ufficio {{ id }}?",
+                "negato": "Impossibile cancellare il Sottoscrittore perchÃ¨ presenti gli Uffici figli.",
+                "aoo": {
+                	"negato": "Impossibile cancellare l'Ufficio {{ id }} perchÃ¨ presenti gli Uffici figli."
+            	}
+            },
+            "detail": {
+                "title": "SottoscrittoreAtto"
+            },
+            "editor": "Editor",
+            "Atto": "Atto",
+            "Profilo": "Sottoscrittore *",
+            "direttore": {
+            	"sezione" : "Direttore Sezione *",
+            	"dipartimento" : "Direttore Dipartimento *"
+            },
+            "Assessore": "Assessore *",
+			"Qualifica": "Qualifica *",
+            "qualificaProfessionale":" Qualifica Professionale",
+            "qualificaEmanante":"Qualifica Emanante *"
+        }
+    }
+}

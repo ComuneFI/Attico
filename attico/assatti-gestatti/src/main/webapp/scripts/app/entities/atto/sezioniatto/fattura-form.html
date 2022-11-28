@@ -1,0 +1,43 @@
+<ng-form name="dettaglioFatturaForm" novalidate>
+	<div>
+	  	<div class="form-group row">
+	  		<div class="col-md-6">
+	  			<label translate="cifra2gestattiApp.beneficiario.fattura.numero">Numero Fattura</label> *
+	  			<input type="text" class="form-control" name="numeroFattura"
+	  			ng-model="ngModel.numeroFattura" required>
+	  		</div>
+	  		<div class="col-md-6">
+	  			<i class="fa fa-calendar"></i> <label translate="cifra2gestattiApp.beneficiario.fattura.data">Data Fattura</label> *
+	  			<input type="text" class="form-control" name="dataFattura"
+	  			ng-model="ngModel.dataFattura" bs-datepicker required onkeydown="return false;">
+	  		</div>
+		</div>
+		<div class="row form-group">
+	  		<div class="col-md-12">
+	  			<label translate="cifra2gestattiApp.beneficiario.fattura.importo">Importo</label> *
+	  			<input type="text" class="form-control" name="importo"
+	  			ng-model="ngModel.importo" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" ng-model-options="{allowInvalid: true}" required>
+	  			<div ng-if="dettaglioFatturaForm.importo.$invalid && !dettaglioFatturaForm.importo.$error.required" class="alert alert-danger list-group-item" translate="cifra2gestattiApp.beneficiario.fattura.importoError"></div>
+	  		</div>
+		</div>
+		<div class="form-group row">
+	  		<div class="col-md-6">
+	  			<label translate="cifra2gestattiApp.beneficiario.fattura.numeroRegistro">Numero Registro</label> *
+	  			<input type="text" class="form-control" name="numeroRegistro"
+	  			ng-model="ngModel.numeroRegistro" required>
+	  		</div>
+	  		<div class="col-md-6">
+	  			<label translate="cifra2gestattiApp.beneficiario.fattura.progressivoRegistro">Progressivo Registro</label> *
+	  			<input type="text" class="form-control" name="progressivoRegistro"
+	  			ng-model="ngModel.progressivoRegistro" required>
+	  		</div>
+	  	</div>
+	  	<div class="form-group row">
+	  		<div class="col-md-12">
+	  			<label translate="cifra2gestattiApp.beneficiario.fattura.causale">Causale</label>
+	  			<textarea rows="4" class="form-control" name="causale"
+	  			ng-model="ngModel.causale"></textarea>
+	  		</div>
+	  	</div>
+	</div>
+</ng-form>

@@ -1,0 +1,144 @@
+<div class="atto-divulgazione" id="pubblicazioneFormFields">
+	<div>
+		<br>
+		<div class="form-group ">
+			<label>Pubblicazione</label>
+			<span data-toggle="tooltip"
+				title="<b>GUIDA</b><br/>Il sistema provvede, in automatico, ad effettuare la sua pubblicazione. In questa sezione &egrave; possibile specificare la durata della pubblicazione dell'Atto."
+				data-html="true" ng-init="initTooltip()">
+				<i class="fa fa-question" ></i>
+			</span>
+		</div>
+		<div ng-if="!isVisibleRiferimentinormativi()" class="form-group ">
+			<label translate="cifra2gestattiApp.atto.riservato">Riservato</label>
+			<span ng-if="showErrAllPubblicabile" style="color: red;">Controllare la
+				sezione degli allegati in quanto sono stati inseriti allegati pubblicabili nonostante l'atto sia riservato.</span>
+			<span data-toggle="tooltip"
+				title="<b>GUIDA</b><br/>Impostare a <strong>Si</strong> se l'Atto non deve essere pubblicato con i documenti.<br>Impostare a <strong>No</strong> se l'Atto è da pubblicare con i documenti.<br />"
+				data-html="true" ng-init="initTooltip()">
+				<i class="fa fa-question" ></i>
+			</span>
+			<select ng-model="atto.riservato" class="form-control" required
+				ng-change="setCampiObbligatoriSez2()"
+				ng-options="item.valore as item.label for item in [{valore:true,label:'SI'},{valore:false,label:'NO'}]">
+			</select>
+		</div>
+		<div ng-if="!isVisibleRiferimentinormativi()" class="form-group ">
+			<label translate="cifra2gestattiApp.atto.periodoPubblicazioneTrasparenza">Periodo Pubblicazione in Trasparenza</label> *
+			<span data-toggle="tooltip"
+				title="<b>GUIDA</b><br/>Impostare a <strong>Senza Scadenza</strong> se l'Atto deve restare sempre pubblicato sulla trasparenza.<br>Impostare a <strong>Medesimo Periodo di Pubblicazione Albo</strong> se l'Atto deve restare pubblicato sulla trasparenza per il medesimo periodo previsto per l'albo.<br />"
+				data-html="true" ng-init="initTooltip()">
+				<i class="fa fa-question" ></i>
+			</span>
+			<select ng-model="atto.pubblicazioneTrasparenzaNolimit" class="form-control" required
+				ng-options="item.valore as item.label for item in [{valore:true,label:'Senza Scadenza'},{valore:false,label:'Medesimo Periodo di Pubblicazione Albo'}]">
+			</select>
+		</div>
+		<div ng-if="!isVisibleRiferimentinormativi()" class="form-group">
+			<label translate="cifra2gestattiApp.atto.pubblicazioneIntegrale">PubblicazioneIntegrale</label>
+			<span data-toggle="tooltip"
+				title="<b>GUIDA</b><br/>Impostare a <strong>Si</strong> se l'Atto deve essere pubblicato integralmente.<br>Impostare a <strong>No</strong> se l'Atto deve essere pubblicato nella versione con omissis.<br />"
+				data-html="true" ng-init="initTooltip()">
+				<i class="fa fa-question" ></i>
+			</span>
+			
+			<select ng-model="atto.pubblicazioneIntegrale" class="form-control"
+				ng-required="!atto.riservato" 
+				ng-disabled="((!taskBpm || !taskBpm.idAssegnatario) && (!scenariDisabilitazione || scenariDisabilitazione.indexOf('PostPubblicazioneTrasparenza') < 0)) 
+				|| (atto.riservato == true) 
+				|| (scenariDisabilitazione && (scenariDisabilitazione.indexOf('TuttoNonModificabile') > -1))
+				|| (scenariDisabilitazione && (scenariDisabilitazione.indexOf('PubblicazioneNonModificabile') > -1))
+				|| (
+					scenariDisabilitazione && (scenariDisabilitazione.indexOf('DatiPubblicazioneModificabili') > -1 || scenariDisabilitazione.indexOf('PostPubblicazioneTrasparenza') > -1) 
+					&& (!atto.documentiPdfAdozioneOmissis || atto.documentiPdfAdozioneOmissis.length < 1)
+					)"
+				ng-options="item.valore as item.label for item in [{valore:true,label:'SI'},{valore:false,label:'NO'}]"
+				ng-change="verificaAllegatiRiservato()">
+			</select>
+			
+			<!-- <input ng-if="atto.riservato == false" type="text" ng-model="atto.pubblicazioneIntegrale" value="null"  class="form-control"  disabled/> -->
+		</div>
+
+
+		<div class="form-group">
+			<div id="oblio" ng-if="configurationParams && configurationParams.pubblicazione_oblio_visible">
+				<label translate="cifra2gestattiApp.atto.dirittoOblio">Diritto Oblio</label>
+				<span data-toggle="tooltip"
+					title="<b>GUIDA</b><br/>Impostare a <strong>Si</strong> se si tratta di un Atto che ha il diritto all'oblio altrimenti impostare a <strong>No</strong>."
+					data-html="true" ng-init="initTooltip()">
+					<i class="fa fa-question" ></i>
+				</span>
+				<si-no-select required  ng-model="atto.oblio" required ng-if="!(atto.avanzamento[0].stato == 'Atto Dirigenziale Esecutivo' || atto.avanzamento[0].stato == 'Atto Dirigenziale Esecutivo con Verifica Contabile Positiva' || atto.avanzamento[0].stato == 'Atto Dirigenziale Esecutivo con Verifica Organo di Controllo Positiva' || atto.avanzamento[0].stato == 'Atto Pubblicato' || atto.avanzamento[0].stato == 'Iter Terminato' || solaLettura)"></si-no-select>
+				<input id="oblioview" class="form-control" name="oblioview" value="{{atto.oblio?'Si':'No'}}" ng-if="(atto.avanzamento[0].stato == 'Atto Dirigenziale Esecutivo' || atto.avanzamento[0].stato == 'Atto Dirigenziale Esecutivo con Verifica Contabile Positiva' || atto.avanzamento[0].stato == 'Atto Dirigenziale Esecutivo con Verifica Organo di Controllo Positiva' || atto.avanzamento[0].stato == 'Atto Pubblicato' || atto.avanzamento[0].stato == 'Iter Terminato' || solaLettura)"/>
+			</div>
+			<div>
+				<label translate="cifra2gestattiApp.atto.durataGiorni">durataGiorni</label> 
+				<span data-toggle="tooltip"
+				title="<b>GUIDA</b><br/>Impostare con un valore da 5 a 60."
+				data-html="true" ng-init="initTooltip()">
+				<i class="fa fa-question" ></i>
+				</span>
+				<label class="form-control" disabled="disabled" ng-if="!isPubblicazione && ((atto && atto.pubblicazioneTrasparenzaNolimit) || ((!taskBpm || !taskBpm.idAssegnatario) && (!scenariDisabilitazione || scenariDisabilitazione.indexOf('PostPubblicazioneTrasparenza') < 0)) 
+						|| (scenariDisabilitazione && ((scenariDisabilitazione.indexOf('TuttoNonModificabile') > -1) || (scenariDisabilitazione.indexOf('DurataPubblicazioneNonModificabile') > -1))))">
+					{{atto.durataGiorni}}
+				</label>
+				<input ng-if="!(!isPubblicazione && ((atto && atto.pubblicazioneTrasparenzaNolimit) || ((!taskBpm || !taskBpm.idAssegnatario) && (!scenariDisabilitazione || scenariDisabilitazione.indexOf('PostPubblicazioneTrasparenza') < 0)) 
+						|| (scenariDisabilitazione && ((scenariDisabilitazione.indexOf('TuttoNonModificabile') > -1) || (scenariDisabilitazione.indexOf('DurataPubblicazioneNonModificabile') > -1)))))" 
+					id="numeroGiorni" ng-class="{ 'form-control': validateDays(), 'form-control btn-danger': !validateDays() }" type="number" name="durataGiorni" min="5" max="60" ng-change="setPublicationEndDate()" ng-model="atto.durataGiorni" ng-required="!atto.riservato">
+			</div>
+		</div>
+		
+		<div class="form-group" ng-if="atto.id > 0">
+			<label translate="cifra2gestattiApp.atto.dataPubblicazioneTrasparenza">DataPubblicazioneTrasparenza</label>
+			<input  type="text" class="form-control everActive" name="dataPubblicazioneTrasparenza"
+			value="{{atto.dataPubblicazioneTrasparenza | date:'dd/MM/yyyy'}}" ng-disabled="true">
+		</div>
+		
+		<div class="form-group" ng-if="(isPubblicazione && !relataGestibile) || (atto.dataInizioPubblicazionePresunta && atto.dataFinePubblicazionePresunta)">
+			<div class="row" style="margin-top:10px;">
+				<div class="col-md-4 form-group">
+					<label translate="cifra2gestattiApp.atto.dataPresuntaInizioPubblicazione">dataPresuntaInizioPubblicazione</label> 
+					<input ng-change="setPublicationEndDate();" class="form-control" type="text" ng-init="setTomorrowDate()"
+						ng-disabled="((!taskBpm || !taskBpm.idAssegnatario) && (!scenariDisabilitazione || scenariDisabilitazione.indexOf('PostPubblicazioneTrasparenza') < 0)) 
+						|| (scenariDisabilitazione && (scenariDisabilitazione.indexOf('TuttoNonModificabile') > -1)) || (scenariDisabilitazione && (scenariDisabilitazione.indexOf('PubblicazioneNonModificabile') > -1))"
+						ng-required="!atto.riservato && false" ng-model="atto.dataInizioPubblicazionePresunta" 
+						size="7" onkeydown="return false;" bs-datepicker placeholder="dd/MM/yyyy">
+				</div>
+				<div class="col-md-1"></div>
+				<div class="col-md-4 form-group">
+					<!-- FIXME eliminare la forzatura sull'obbligatorietà del campo -->
+					<label translate="cifra2gestattiApp.atto.dataPresuntaFinePubblicazione">finePubbl</label> 
+					<input ng-init="setPublicationEndDate()" class="pubblicazione form-control" type="text" 
+						ng-required="!atto.riservato && false" value="{{atto.dataFinePubblicazionePresunta | date:'dd/MM/yyyy'}}" 
+						size="7" onkeydown="return false;" readonly>
+				</div>
+				<div class="col-md-3"></div>
+			</div>
+			<div ng-if="checkWarnDatePubblicazione()" class="row" align="center" style="margin-top:10px;margin-bottom:20px;">
+				<div class="col-md-8">
+					<span class="alert alert-danger">Attenzione! La data di fine pubblicazione è precedente a quella di inizio!</span>
+				</div>
+				<div class="col-md-4">
+				</div>
+			</div>
+		</div>
+		<div class="form-group" ng-if="atto.inizioPubblicazioneAlbo && atto.finePubblicazioneAlbo">
+			<div class="row" style="margin-top:10px;">
+				<div class="col-md-4 form-group">
+					<label translate="cifra2gestattiApp.atto.dataInizioPubblicazione">inizioPubbl</label> 
+					<span class="pubblicazione form-control" type="text">
+						{{atto.inizioPubblicazioneAlbo | date : 'dd/MM/yyyy'}}
+					</span>
+				</div>
+				<div class="col-md-1"></div>
+				<div class="col-md-4 form-group">
+					<label translate="cifra2gestattiApp.atto.dataFinePubblicazione">finePubbl</label> 
+					<span class="pubblicazione form-control" type="text">
+						{{atto.finePubblicazioneAlbo | date : 'dd/MM/yyyy'}}
+					</span>
+				</div>
+				<div class="col-md-3"></div>
+			</div>
+		</div>
+	</div>
+</div>

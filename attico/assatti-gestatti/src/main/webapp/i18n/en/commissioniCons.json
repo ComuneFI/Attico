@@ -1,0 +1,23 @@
+{
+    "cifra2gestattiApp": {
+        "commissioniCons" : {
+            "home": {
+                "title": "Pareri Commissioni Consiliari",
+                "gestParere": "Gestisci Parere"
+            },
+            "gestionePareri": {
+                "viewEditParere":"Visualizza/Modifica Parere",
+                "insertParere":"Inserisci Parere",
+                "visualizza":"Visualizza",
+            	"listCommissioni": "Commissioni Consiliari",
+            	"aggiungi": "Aggiungi",
+            	"nonEspresso": "Parere non espresso",
+            	"modifica": "Termini presentazione",
+            	"eliminaCommissione": "Rimuovi Commissione",
+            	"confermaNonEspresso": "Confermi che il Parere della Commissione non verr&agrave; espresso?",
+            	"confermaElimina": "Confermi l'eliminazione della commissione ?",
+            	"modificaScadenza": "Modifica Termini Presentazione Parere"
+            }
+        }
+    }
+}

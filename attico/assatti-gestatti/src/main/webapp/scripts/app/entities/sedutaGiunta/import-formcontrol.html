@@ -1,0 +1,33 @@
+<div class="form-group col-sm-2">
+	<button ng-click="salvaModelloCampo(codeSezImport)" ng-disabled="solaLetturaVerbale" type="button" class="btn btn-info btn-sm" translate="cifra2gestattiApp.atto.salvaModelloCampo">salvaModelloCampo</button>
+</div>
+<div class="form-group col-sm-2">
+	<button ng-click="cercaModelloCampo(codeSezImport)" ng-disabled="solaLetturaVerbale" type="button" class="btn btn-default btn-sm" translate="cifra2gestattiApp.atto.cercaModelloCampo">cercaModelloCampo</button>
+</div>
+<div class="form-group col-sm-8" id="uploader" ng-init="importingSection[codeSezImport]=false">
+	<div ng-if="!solaLetturaVerbale" class="text-right"><span style="cursor:pointer;" title="Cancella il contenuto della sezione in alto." class="label label-default" ng-click="pulisciTesto(codeSezImport)">
+		<span class="glyphicon glyphicon-remove"></span> Pulisci Sezione</span>
+	</div>
+	<label ng-if="!solaLetturaVerbale" translate="cifra2gestattiApp.atto.importContentFile">Importa content file</label>
+	<div ngf-drop ngf-select  ngf-multiple="false" ng-if="!solaLetturaVerbale" ng-show="!importingSection[codeSezImport]"
+		ngf-change="fileImportDropped($files, $event, $rejectedFiles, codeSezImport, true)"
+		class="drop-box input-group" 
+		ngf-drag-over-class="dragover" 
+		ngf-max-size="ngfMaxSize"> 
+		<!-- accept="*"> -->
+		<h5 data-toggle="tooltip" title="File compatibili: doc, docx, rtf, txt, odt"><i class="fa fa-upload" ></i> Trascina qui file da importare
+			<i class="fa fa-upload" ></i>
+		</h5>
+	</div>
+	<div class="label label-info" ng-show="importingSection[codeSezImport]" >Importazione in corso <i class="fa fa-circle-o-notch fa-spin" ></i></div>
+
+ 	<div ngf-no-file-drop class="label label-danger">
+		File Drag/Drop non supportato per questo browser
+	</div>
+</div>
+
+<script>
+$(document).ready(function(){
+    $('[data-toggle="tooltip"]').tooltip();
+});
+</script>

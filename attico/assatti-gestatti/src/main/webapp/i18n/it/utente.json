@@ -1,0 +1,55 @@
+{
+    "cifra2gestattiApp": {
+        "utente" : {
+            "myself":{
+        	     "title":"Dati Personali Utente"
+            },
+            "home": {
+                "title": "Lista Utenti",
+                "createLabel": "Crea nuovo Utente",
+                "importLabel": "Importa Utente",
+                "createOrEditLabel": "Crea o Modifica Utente"
+            },
+            "delete": {
+                "question": "Sei sicuro di voler cancellare l'utente {{ username }}?"
+            },
+            "attiva": {
+                "question": "Sei sicuro di voler attivare l'utente {{ username }}?"
+            },
+            "activeAmministratoreIP": {
+                "question": "Sei sicuro di voler attivare l'utente {{ username }} come Amministratore I?",
+                "button": "Attiva Amministratore I"
+            },
+            "activeAmministratoreRP": {
+                "question": "Sei sicuro di voler attivare l'utente {{ username }} come Amministratore II?",
+                "button": "Attiva Amministratore II"
+            },
+
+            "detail": {
+                "title": "Utente"
+            },
+             "linkprofili": "Visualizza Profili",
+            "cognome": "Cognome *",
+            "nome": "Nome *",
+            "username": "Username *",
+            "codicefiscale": "Codice fiscale *",
+            "validodal": "Valido dal",
+            "validoal": "Valido al",
+            "telefono": "Telefono",
+            "altrorecapito": "Altro recapito",
+            "fax": "Fax",
+            "email": "Email *",
+            "indirizzo": "Indirizzo",
+             "stato": "Stato *",
+             "moduloregistrazione":"Modulo di registrazione",
+             "aggiornamoduloregistrazione":"Aggiorna modulo di registrazione *",
+             "modulo":"Modulo",
+             "downloadtitle":"Scarica modulo di registrazione",
+              "required":{
+             	"moduloregistrazione" : "Modulo di registrazione obbligatorio"
+             },
+             "savingsuccess":"Salvataggio effettuato con successo",
+             "aoo": "Ufficio"
+        }
+    }
+}

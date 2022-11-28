@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    
+    <changeSet author="mazzottada" id="202001230959-01">
+    	<sql>
+			UPDATE tipoatto SET descrizione= replace(descrizione, 'Determina ', 'Determinazione ') where descrizione like '%determina %';
+			UPDATE tipoatto SET descrizione= replace(descrizione, 'Delibera ', 'Deliberazione ') where descrizione like '%delibera %';
+			UPDATE tipoatto SET descrizione= replace(descrizione, 'determina ', 'determinazione ') where descrizione like '%determina %';
+			UPDATE tipoatto SET descrizione= replace(descrizione, 'delibera ', 'deliberazione ') where descrizione like '%delibera %';
+    	</sql>
+    </changeSet>
+</databaseChangeLog>

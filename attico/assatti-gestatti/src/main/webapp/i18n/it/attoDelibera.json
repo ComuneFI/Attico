@@ -1,0 +1,28 @@
+{
+    "cifra2gestattiApp": {
+        "attoDelibera" : {
+        	"regolamento": "Regolamento *",
+        	 "codicecifraAttoProvvisorio": "Codice Atto ",
+            "numeroAdozioneAttoProvvisorio": "Numero Adozione",
+            "dataAdozioneAttoProvvisorio": "Data Adozione",
+            "reltecnica":"Relazione Tecnica *",
+            "comunicazione":"Comunicazione *",
+            "usoesclusivo": "Uso Esclusivo",
+            "argomentiodg": "Argomenti ODG *",
+            "articolato": "Articolato",
+            "sottoscrittoreAtto":"Sottoscrittore dellâ€™atto *",
+            "sottoscrizione": {
+            	"congiunto": {
+            		"avviso": "Inserire almeno un Ufficio Congiunto",
+            		"aooproponente": "Ufficio proponente, selezionarne un'altra"
+            	},
+            	"assessore": {
+            		"avviso": "Configurare un Assessorato per l'Ufficio proponente"
+            	},
+            	"duplicati": {
+            		"avviso": "Sono presenti sottoscrittori duplicati"
+            	}
+            }
+        }
+    }
+}

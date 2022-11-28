@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    <changeSet author="mazzottada" id="202011051408-001">
+    	<sql>
+    		ALTER TABLE tipodocumento ADD type varchar(100) NULL;
+		</sql>
+    </changeSet>
+    <changeSet author="mazzottada" id="202011051408-002">
+    	<sql>
+    		update tipodocumento set type = 'PROPOSTA' where codice like 'PROPOSTA_%' or codice like 'PARERE_REG_TECNICA_%' or codice like 'PARERE_REG_CONTABILE_%';
+    		update tipodocumento set type = 'PROVVEDIMENTO' where codice like '%_COMPLETA' or codice in ('DETERMINA_DIRIGENZIALE', 'DETERMINA_LIQUIDAZIONE');
+		</sql>
+    </changeSet>
+</databaseChangeLog>

@@ -1,0 +1,15 @@
+<div>
+	<div class="form-group">
+		<input type="hidden" ng-init="initTitoloParere()"
+			ng-model="dtoWorkflow.parere.titolo" />
+			
+		<input type="hidden" name="parere" ng-model="dtoWorkflow.parere.parere" value="">
+		<input type="hidden" name="parereSintetico" ng-model="dtoWorkflow.parere.parereSintetico" value="ritiro">
+	
+		<label>Confermi di voler procedere con la restituzione dell'atto all'istruttore ?</label>
+		<div class="form-group">
+			<label>MOTIVAZIONE</label> *
+			<textarea class="form-control" name="parere" ng-model="dtoWorkflow.parere.parere" required></textarea>
+		</div>
+	</div>
+</div>

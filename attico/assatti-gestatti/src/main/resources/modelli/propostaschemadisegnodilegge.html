@@ -1,0 +1,27 @@
+<br><br><br><br><br><br><br><div style="text-align: right;">	<table width="90%">
+		<tbody>
+			<tr>
+				<td style="padding: 20pt 0pt; border-top: 5px solid #000; border-bottom: 5px solid #000; text-align: center; font-family: Cambria; font-size: 18pt; line-height: 27pt; color: #000;" valign="middle">					SCHEMA DI DISEGNO DI LEGGE				</td>
+			</tr>
+			<tr>
+				<td>					<br><br>					<div style="text-align: left; font-family: Calibri; font-size: 13pt; line-height: 19.5pt;">						<span>Codice Atto</span>						<span>: [[${atto.codiceCifra}]]</span>						<br><br>						<span style="font-weight: bold;">OGGETTO: </span>						<span th:utext="${#strings.replace( #strings.escapeXml(atto.oggetto),T(java.lang.System).getProperty('line.separator'),'<br></span>')}"></span>					</div>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+<p style="page-break-before:always; border-bottom:1px dashed #000;"></p>
+<div style="font-family: Calibri; font-size: 11pt; line-height: 16.5pt; text-align: justify;" th:utext="${atto.preambolo.testo}">+${atto.preambolo}</div>
+<p>&nbsp;</p>
+<table style="page-break-inside: avoid;" width="100%" cellspacing="0" cellpadding="0">
+	<tbody>
+		<tr th:each="item: ${#lists.sort(atto.sottoscrittori)}" th:if="${item.qualificaProfessionale != null and item.tipologia == 1}">
+			<td>				<div style="text-align: right; font-family: Calibri; font-size: 11pt; line-height: 16.5pt;"><span th:if="${item.qualificaProfessionale != null}">[[${item.qualificaProfessionale.denominazione}]]</span></div>
+				<div style="text-align: right; font-family: Calibri; font-size: 11pt; line-height: 16.5pt;">[[${item.profilo.utente.nome}]] [[${item.profilo.utente.cognome}]]</div>
+				<br>			</td>
+		</tr>
+	</tbody>
+</table>
+<br><br> <p style="font-family: Calibri; font-size: 8pt; line-height: 12pt; text-align: justify;">	<span>Documento informatico firmato digitalmente ai sensi del Testo Unico D.P.R. 28 dicembre 2000, n. 445 e del D.Lgs 7 marzo 2005, n. 82 e norme collegate che sostituisce il testo cartaceo e la firma autografa.</span></p>
+<p style="page-break-before:always; border-bottom:1px dashed #000;"></p>
+<div style="font-family: Calibri; font-size: 11pt; line-height: 16.5pt; text-align: justify;" th:utext="${atto.motivazione.testo}">+${atto.motivazione}</div>

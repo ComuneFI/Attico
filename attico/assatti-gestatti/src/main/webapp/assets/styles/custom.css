@@ -1,0 +1,170 @@
+/*do not remove this file*/
+/*it permits loading dinamyc css file*/
+
+
+
+
+/*
+
+.cifra2-brand{
+  float: left;
+  display: block;
+  height: 40px;
+  width: 48px;
+  max-height: 48px;
+  overflow: visible;
+  background-image: url('../../assets/images/logo.png');
+}
+
+a {
+	color: #004400;
+}
+a:hover, a:focus {
+	color: #2D882D;
+}
+.navbar-default {
+  background-color: #88CC88;
+ 
+}
+.navbar-default .navbar-brand {
+  color: #FFFFFF;
+}
+.navbar-default .navbar-brand:hover, .navbar-default .navbar-brand:focus {
+  color: #ffffff;
+}
+.navbar-default .navbar-text {
+  color: #FFFFFF;
+}
+.navbar-default .navbar-nav > li > a {
+  color: #FFFFFF;
+}
+.navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
+  color: #ffffff;
+}
+.navbar-default .navbar-nav > li > .dropdown-menu {
+  background-color: #2D882D;
+}
+.navbar-default .navbar-nav > li > .dropdown-menu > li > a {
+  color: #FFFFFF;
+}
+.navbar-default .navbar-nav > li > .dropdown-menu > li.active > a  {
+  color: #ffffff;
+}
+.navbar-default .navbar-nav > li > .dropdown-menu > li > a:hover,
+.navbar-default .navbar-nav > li > .dropdown-menu > li > a:focus {
+  color: #ffffff;
+  background-color: #2D882D;
+}
+.navbar-default .navbar-nav > li > .dropdown-menu > li > .divider {
+  color: #ffffff;
+  background-color: #FFFFFF;
+}
+.navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:hover, .navbar-default .navbar-nav > .active > a:focus {
+  color: #ffffff;
+  background-color: #2D882D;
+}
+.navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .open > a:hover, .navbar-default .navbar-nav > .open > a:focus {
+  color: #ffffff;
+  background-color: #2D882D;
+}
+.navbar-default .navbar-toggle {
+  border-color: #FFFFFF;
+}
+.navbar-default .navbar-toggle:hover, .navbar-default .navbar-toggle:focus {
+  background-color: #FFFFFF;
+}
+.navbar-default .navbar-toggle .icon-bar {
+  background-color: #FFFFFF;
+}
+.navbar-default .navbar-collapse,
+.navbar-default .navbar-form {
+  border-color: #FFFFFF;
+}
+.navbar-default .navbar-link {
+  color: #FFFFFF;
+}
+.navbar-default .navbar-link:hover {
+  color: #ffffff;
+}
+
+@media (max-width: 767px) {
+  .navbar-default .navbar-nav .open .dropdown-menu > li > a {
+    color: #FFFFFF;
+  }
+  .navbar-default .navbar-nav .open .dropdown-menu > li > a:hover, .navbar-default .navbar-nav .open .dropdown-menu > li > a:focus {
+    color: #ffffff;
+  }
+  .navbar-default .navbar-nav .open .dropdown-menu > .active > a, .navbar-default .navbar-nav .open .dropdown-menu > .active > a:hover, .navbar-default .navbar-nav .open .dropdown-menu > .active > a:focus {
+    color: #ffffff;
+    background-color: #FFFFFF;
+  }
+}
+
+.dropdown-submenu:hover>.dropdown-menu{
+    display:block;
+}
+.dropdown-submenu> .dropdown-menu{
+    background-color: #88CC88;
+    top:0;
+    left:100%;
+}
+.dropdown-submenu> .dropdown-menu > li > a{
+ color: #FFFFFF;
+}
+.dropdown-submenu> .dropdown-menu > li > a:hover, .dropdown-submenu> .dropdown-menu > li > a:focus {
+  color: #ffffff;
+  background-color: #FFFFFF;
+}
+.dropdown-menu {
+	background-color: #88CC88;
+}
+.dropdown-menu .divider {
+	background-color: #2D882D;
+}
+
+.dropdown-menu > li > a {
+	color: #FFFFFF;
+}
+.dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus {
+	background-color: #2D882D;
+	color: #FFFFFF;
+}
+.dropdown-submenu> .dropdown-menu > li > a:hover, .dropdown-submenu> .dropdown-menu > li > a:focus {
+	background-color: #2D882D;
+	color: #FFFFFF;
+}
+.dropdown-menu > .active > a, .dropdown-menu > .active > a:hover, .dropdown-menu > .active > a:focus {
+	background-color: #2D882D;
+}
+.nav-pills > li.active > a, .nav-pills > li.active > a:hover, .nav-pills > li.active > a:focus {
+	background-color: #2D882D;
+}
+div.cifra-tab-menu div.list-group>a .glyphicon,
+div.cifra-tab-menu div.list-group>a .fa {
+  color: rgba(0, 0, 0, 0.87);
+}
+div.cifra-tab-menu div.list-group>a.active,
+div.cifra-tab-menu div.list-group>a.active .glyphicon,
+div.cifra-tab-menu div.list-group>a.active .fa{
+  background-color: #0C77B8 !important;
+  background-image: #FFFFFF;
+  color: #ffffff  !important;
+}
+.ui-select-bootstrap .ui-select-choices-row>a {
+	color: #FFFFFF;
+}
+.ui-select-bootstrap .ui-select-choices-row.active>a {
+	background-color: #2D882D;
+}
+.navbar-title {
+  padding-left:10px;
+  font-size: 40px;
+  color: #004400;
+}
+.navbar-version {
+    color: #004400;
+    font-weight: normal;
+    font-size: smaller;
+}
+
+*/

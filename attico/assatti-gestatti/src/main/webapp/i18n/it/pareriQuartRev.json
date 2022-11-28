@@ -1,0 +1,23 @@
+{
+    "cifra2gestattiApp": {
+        "pareriQuartRev" : {
+            "home": {
+                "title": "Pareri Consigli di Quartiere e dei Revisori Contabili",
+                "gestParere": "Gestisci Parere",
+                "uffici":"Consigli di Quartiere e Revisori Contabili"
+            },
+            "gestionePareri": {
+            	"listUffici": "Consigli di Quartiere e Revisori Contabili",
+            	"aggiungi": "Aggiungi",
+            	"nonEspresso": "Parere non espresso",
+            	"modificaScadenza": "Termini presentazione",
+            	"modifica": "Inserisci\u002FModifica Parere",
+            	"eliminaParere": "Rimuovi Parere",
+            	"confermaNonEspresso": "Confermi che il Parere non verr&agrave; espresso?",
+            	"confermaElimina": "Confermi l'eliminazione della commissione ?",
+            	"modificaScadenza": "Modifica Termini Presentazione Parere",
+                "dataScadenza": "Data Scadenza"
+            }
+        }
+    }
+}

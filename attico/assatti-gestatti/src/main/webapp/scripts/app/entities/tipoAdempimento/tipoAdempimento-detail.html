@@ -1,0 +1,54 @@
+
+<div>
+    <h2><span translate="cifra2gestattiApp.tipoAdempimento.detail.title">TipoAdempimento</span> {{tipoAdempimento.id}}</h2>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th translate="entity.detail.field">Field</th>
+                    <th translate="entity.detail.value">Value</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.tipoAdempimento.descrizione">Descrizione</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{tipoAdempimento.descrizione}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.tipoAdempimento.obbligoBeneficiario">Obbligo beneficiario</span>
+                    </td>
+                    <td>
+                        {{(tipoAdempimento.beneficiarioRequired)?'SI':'NO'}}
+                    </td>
+                </tr>
+                <tr ng-if="tipoAdempimento.tipoiter.codice == ITER_SENZA_VERIFICA_CONTABILE && tipoAdempimento.generazioneSchedaAnagraficoContabile!=null">
+                    <td>
+                        <span translate="cifra2gestattiApp.tipoAdempimento.generazioneSchedaAnagraficoContabile">Generazione Scheda Anagrafico Contabile</span>
+                    </td>
+                    <td>
+                        {{(tipoAdempimento.generazioneSchedaAnagraficoContabile)?'SI':'NO'}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.tipoAdempimento.tipoiter">Tipo iter</span>
+                    </td>
+                    <td>
+                        {{tipoAdempimento.tipoiter.descrizione + ' (' + tipoAdempimento.tipoiter.tipoAtto.codice + ')'}}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <button type="submit"
+            ui-sref="tipoAdempimento"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span translate="entity.action.back"> Back</span>
+    </button>
+</div>

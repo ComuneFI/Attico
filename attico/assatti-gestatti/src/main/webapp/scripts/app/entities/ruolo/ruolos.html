@@ -1,0 +1,190 @@
+<div>
+
+    <h2 translate="cifra2gestattiApp.ruolo.home.title">Ruolo</h2>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <button class="btn btn-primary" data-toggle="modal" data-target="#saveRuoloModal" ng-click="clear()">
+                    <span class="glyphicon glyphicon-flash"></span> <span translate="cifra2gestattiApp.ruolo.home.createLabel">Create a new Ruolo</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="saveRuoloModal" tabindex="-1" role="dialog" aria-labelledby="myRuoloLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <form name="editForm" role="form" novalidate ng-submit="save()" show-validation>
+
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                                ng-click="clear()">&times;</button>
+                        <h4 class="modal-title" id="myRuoloLabel" translate="cifra2gestattiApp.ruolo.home.createOrEditLabel">Create or edit a Ruolo</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label>ID</label>
+                            <input type="text" class="form-control" name="id"
+                                   ng-model="ruolo.id" readonly>
+                        </div>
+
+                        <div class="form-group">
+                            <label translate="cifra2gestattiApp.ruolo.codice">Codice</label> *
+                            <input type="text" class="form-control" name="codice"
+                                   ng-model="ruolo.codice" required>
+
+                            <div ng-show="editForm.codice.$invalid">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label translate="cifra2gestattiApp.ruolo.descrizione">Descrizione</label> *
+                            <input required type="text" class="form-control" name="descrizione"
+                                   ng-model="ruolo.descrizione">
+
+                            <div ng-show="editForm.descrizione.$invalid">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label translate="cifra2gestattiApp.ruolo.tipo">Tipo</label> *
+                            <span class="fa fa-question" data-toggle="tooltip" bs-tooltip data-html="true" data-placement="top" data-title="{{'cifra2gestattiApp.ruolo.guida.tipo' | translate}}"></span>
+                            <select
+							ng-model="ruolo.tipo"
+							ng-options="item.valore as item.label for item in tipologieRuolo"				
+							required name="tipo"
+							class="form-control"></select>
+                        </div>
+
+                        <div class="form-group">
+                            <label translate="cifra2gestattiApp.ruolo.onlyAdmin">OnlyAdmin</label> <br/>
+                            <input type="checkbox" ng-model="ruolo.onlyAdmin">
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
+                            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+                        </button>
+                        <button type="submit" ng-disabled="editForm.$invalid" class="btn btn-primary">
+                            <span class="glyphicon glyphicon-save"></span>&nbsp;<span translate="entity.action.save">Save</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+	<div>
+	    <div class="table-responsive crud-search">
+	        <table class="table table-striped">
+	            <thead>
+	                <tr>
+	                    <th>ID</th>
+	                    <th translate="cifra2gestattiApp.ruolo.codice">Codice</th>
+	                    <th translate="cifra2gestattiApp.ruolo.descrizione">Descrizione</th>
+	                    <th><span translate="cifra2gestattiApp.ruolo.tipo">Tipo</span> <span class="fa fa-question" data-toggle="tooltip" bs-tooltip data-html="true" data-placement="top" data-title="{{'cifra2gestattiApp.ruolo.guida.tipo' | translate}}"></span></th>
+	                    <th></th>
+	                </tr>
+	                <tr>
+	                    <th><input type="text" ng-model="tempSearch.id"></th>
+	                    <th><input type="text" ng-model="tempSearch.codice"></th>
+	                    <th><input type="text" ng-model="tempSearch.descrizione"></th>
+	                    <th>
+	                    <ui-select class="form-group" ng-model="tempSearch.tipo" theme="bootstrap">
+	                    	<ui-select-match allow-clear="true">{{$select.selected.label}}</ui-select-match>
+	                    	<ui-select-choices repeat="item in tipologieRuolo | filter: $select.search track by item.label">
+	                            <div ng-bind-html="item.label | highlight: $select.search"></div>
+	                    	</ui-select-choices>
+	                    </ui-select>
+	                    </th>
+	                    <th></th>
+	                </tr>
+	                <tr>
+						<td colspan="5" class="text-center"><button
+								class="btn btn-primary btn-sm" ng-click="ricerca()">
+								<span class="glyphicon glyphicon-search"></span> <span
+									translate="global.messages.cerca" class="ng-scope">Cerca</span>
+							</button>
+							<button class="btn btn-primary btn-sm" ng-click="resetRicerca()">
+								<span translate="global.messages.resetricerca" class="ng-scope">Reset
+									ricerca</span>
+							</button></td>
+					</tr>
+	            </thead>
+	            <tbody>
+	                <tr ng-repeat="ruolo in ruolos">
+	                    <td><a ui-sref="ruoloDetail({id:ruolo.id})">{{ruolo.id}}</a></td>
+	                    <td>{{ruolo.codice}}</td>
+	                    <td>{{ruolo.descrizione}}</td>
+	                    <td>{{getLabelByTipoVal(ruolo.tipo)}}</td>
+	                    <td>
+	                        <button type="submit"
+	                                ui-sref="ruoloDetail({id:ruolo.id})"
+	                                class="btn btn-info btn-sm">
+	                            <span class="glyphicon glyphicon-eye-open"></span>&nbsp;<span translate="entity.action.view"> View</span>
+	                        </button>
+	                        <button type="submit"
+	                                ng-click="showUpdate(ruolo.id)"
+	                                class="btn btn-primary btn-sm">
+	                            <span class="glyphicon glyphicon-pencil"></span>&nbsp;<span translate="entity.action.edit"> Edit</span>
+	                        </button>
+	                        <button type="submit"
+	                                ng-click="disable(ruolo.id)"
+	                                class="btn btn-warning btn-sm"
+	                                ng-show="ruolo.enabled">
+	                            <span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span translate="entity.action.disable"> Disable</span>
+	                        </button>
+	                        <button type="submit"
+	                                ng-click="enable(ruolo.id)"
+	                                class="btn btn-success btn-sm"
+	                                ng-hide="ruolo.enabled">
+	                            <span class="glyphicon glyphicon-ok-circle"></span>&nbsp;<span translate="entity.action.enable"> Enable</span>
+	                        </button>
+	                    </td>
+	                </tr>
+	            </tbody>
+	        </table>
+	        <div ng-if="ruolos && ruolos.length == 0" class="search-no-result"><h3 translate="global.searchNoResult"></h3></div>
+	    </div>
+        <nav>
+            <ul class="pagination">
+                <li ng-show="links['first']" ng-click="loadPage(links['first'])"><a>&lt;&lt;</a></li>
+                <li ng-show="links['prev']" ng-click="loadPage(links['prev'])"><a>&lt;</a></li>
+                <li ng-show="page > 2" ng-click="loadPage(page - 2)"><a>{{page - 2}}</a></li>
+                <li ng-show="page > 1" ng-click="loadPage(page - 1)"><a>{{page - 1}}</a></li>
+                <li class="active"><a>{{page}}</a></li>
+                <li ng-show="page < links['last']" ng-click="loadPage(page + 1)"><a>{{page + 1}}</a></li>
+                <li ng-show="page < links['last'] - 1" ng-click="loadPage(page + 2)"><a>{{page + 2}}</a></li>
+                <li ng-show="links['next']" ng-click="loadPage(links['next'])"><a>&gt;</a></li>
+                <li ng-show="links['last']" ng-click="loadPage(links['last'])"><a>&gt;&gt;</a></li>
+            </ul>
+        </nav>
+    </div>
+</div>
+
+<div class="modal fade" id="disableRuoloDenied">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                        ng-click="clear()">&times;</button>
+                <h4 class="modal-title">Impossibile disabilitare ruolo</h4>
+            </div>
+            <div class="modal-body">
+               <p>Il ruolo che si intende disabilitare risulta utilizzato all'interno di un gruppo ruolo.<br/>
+                  In tale situazione per disabilitare il ruolo occorre:<br/>
+                  1 - Posizionarsi nella gestione dei gruppi ruoli;<br/>
+                  2 - Cercare i gruppi ruolo che comprendono il ruolo che si intende disabilitare;<br/>
+                  3 - Modificare tali gruppi ruolo rimuovendo il ruolo interessato dalla lista dei ruoli associati;<br/>
+                  4 - A quel punto risulta possibile tornare nella gestione dei ruoli e disabilitare il ruolo.
+               </p>
+			</div>                	
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
+                    <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

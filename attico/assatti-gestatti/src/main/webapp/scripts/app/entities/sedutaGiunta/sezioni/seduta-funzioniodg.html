@@ -1,0 +1,88 @@
+<div class="form-group col-sm-12">
+		<h3 class="header-title" ng-if="odg.tipoOdg.id > 0">{{odgStr}} {{odg.tipoOdg.descrizione}}</h3>
+		
+	<nav ng-if="odg != null  ">
+			<div ng-if="'C' == sedutaGiunta.organo" style="margin-bottom:20px;">
+				<a ng-repeat="modelloHtml in modelloHtmls"
+				   ng-if="modelloHtml.tipoDocumento.codice =='ordinegiornoconsiglio'"
+				   target="_blank"
+				   href="/api/preview/{{modelloHtml.id}}/ordinegiorno{{odg.id}}.docx?access_token={{access_token}}">
+				   <i class="fa fa-file-word-o"></i>&nbsp;<span>{{modelloHtml.titolo}}</span>
+				</a>
+				<br />
+			</div>
+			<div ng-if="'G' == sedutaGiunta.organo" style="margin-bottom:20px;">
+				<a ng-repeat="modelloHtml in modelloHtmls"
+				   ng-if="modelloHtml.tipoDocumento.codice =='ordinegiornogiunta'"
+				   target="_blank"
+				   href="/api/preview/{{modelloHtml.id}}/ordinegiorno{{odg.id}}.docx?access_token={{access_token}}">
+				   <i class="fa fa-file-word-o"></i>&nbsp;<span>{{modelloHtml.titolo}}</span>
+				</a>
+				<br />
+			</div>
+			<ul class="nav nav-pills">
+				<li ng-if="isOperatoreOdg == true && !isSolaLettura(odg)">
+					<div class="dropdown">
+						<button class="btn btn-default btn-sm dropdown-toggle"
+							type="button" id="dropdownMenu1" data-toggle="dropdown"
+							aria-haspopup="true" aria-expanded="true">
+							Anteprima Documenti <span class="caret"></span>
+						</button>
+						<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+							<li ng-repeat="modelloHtml in modelloHtmls"><a
+								ng-if="modelloHtml.tipoDocumento.codice =='ordinegiornogiunta' && 'G' == sedutaGiunta.organo"
+								
+								target="_blank"
+								href="/api/preview/{{modelloHtml.id}}/ordinegiorno{{odg.id}}.pdf?access_token={{access_token}}">
+									<i class="fa fa-file-pdf-o"></i>&nbsp;<span>{{modelloHtml.titolo}}</span>
+							</a></li>
+							<li ng-repeat="modelloHtml in modelloHtmls"><a
+								ng-if="modelloHtml.tipoDocumento.codice =='ordinegiornoconsiglio' && 'C' == sedutaGiunta.organo"
+								target="_blank"
+								href="/api/preview/{{modelloHtml.id}}/ordinegiorno{{odg.id}}.pdf?access_token={{access_token}}">
+									<i class="fa fa-file-pdf-o"></i>&nbsp;<span>{{modelloHtml.titolo}}</span>
+							</a></li>
+						</ul>
+					</div>
+				</li>
+				
+				<li ng-if="isOperatoreOdg == true && !isSolaLettura(odg) && odg.attos.length > 0" class="pull-left" ng-repeat="decisione in decisioni | filter:{ codice: 'seduta-generadocodg'}">&nbsp;
+					<button type="button"
+						ng-click="callDecisioneOdg(indexSezioneCorrente,decisione,odg)"
+						ng-class="{'btn btn-default btn-sm' : (!editForm.$valid), 'btn btn-primary btn-sm' : !(!editForm.$valid)}">
+						<i class="fa fa-spinner fa-pulse" ng-if="taskLoading"></i>
+						{{decisione.descrizione}}
+					</button>
+	
+				</li>
+				
+				<li ng-if="verificaShowButtonFirma(odg) && odg.attos.length > 0" class="pull-left" ng-repeat="decisione in decisioni | filter:{ codice: 'seduta-firmadocodg'}">&nbsp;
+					<button type="button"
+						ng-click="callDecisioneOdg(indexSezioneCorrente,decisione,odg)"
+						ng-class="{'btn btn-default btn-sm' : (!editForm.$valid), 'btn btn-primary btn-sm' : !(!editForm.$valid)}">
+						<i class="fa fa-spinner fa-pulse" ng-if="taskLoading"></i>
+						{{decisione.descrizione}}
+					</button>
+	
+				</li>
+				<li class="pull-left" ng-if="isOperatoreOdg == true">
+					<!-- CONTROLLO ORARIO NON ABILITATO IN ATTICO:  && controlloOrario(odg.tipoOdg.id,odg.oggetto -->
+					<button ng-if="(odg.tipoOdg.id == 3 || odg.tipoOdg.id == 4) && !isSolaLettura(odg)" type="submit"  ng-click="eliminaOdg(odg.id)"
+			                class="btn btn-danger btn-sm" title="Eliminare Ordine Del Giorno">
+			            <span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span translate="entity.action.delete"> Elimina</span>
+			        </button>
+			    </li>
+			    
+			    <li class="pull-left" ng-if="isOperatoreOdg == true">
+			   		<!-- CONTROLLO ORARIO NON ABILITATO IN ATTICO:  && controlloOrario(odg.tipoOdg.id,odg.oggetto) -->
+					<button ng-if="(odg.tipoOdg.id == 3 || odg.tipoOdg.id == 4) && !isSolaLettura(odg)" type="submit"  ng-click="aggiornaOdg(odg)"
+			                class="btn btn-primary btn-sm" title="Salvare Ordine Del Giorno">
+			            <span class="glyphicon glyphicon-floppy-disk"></span>&nbsp;<span translate="entity.action.save"> Salva</span>
+			        </button>
+			    </li>
+			</ul>
+
+		</nav>	
+<hr/>
+	</div>
+		

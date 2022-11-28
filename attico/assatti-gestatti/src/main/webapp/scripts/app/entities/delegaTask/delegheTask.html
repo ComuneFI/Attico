@@ -1,0 +1,298 @@
+<div>
+
+    <h2 translate="cifra2gestattiApp.delegaTask.home.title">Delega</h2>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <button class="btn btn-primary" ng-click="showCreate()">
+                    <span class="glyphicon glyphicon-flash"></span> <span translate="cifra2gestattiApp.delegaTask.home.createLabel">Create a new delegaTask</span>
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal fade" id="saveDelegaModal" tabindex="-1" role="dialog" aria-labelledby="myDelegaLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" ng-class="{'modal-lg' : (!delega || !delega.id)}">
+            <div class="modal-content" ng-show="delega">
+                <form name="editForm" novalidate role="form" ng-submit="save()" show-validation>
+					<div ng-if="!delega.id" class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="clear()">&times;</button>
+                        <h4 class="modal-title" id="myDelegaLabel" translate="cifra2gestattiApp.delegaTask.home.createLabel">Create a DelegaTask</h4>
+                    </div>
+                    <div ng-if="delega.id" class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="clear()">&times;</button>
+                        <h4 class="modal-title" id="myDelegaLabel" translate="cifra2gestattiApp.delegaTask.home.editLabel">Edit a DelegaTask</h4>
+                    </div>
+                    <div class="modal-body">
+                    	<div class="row">
+                    		<div class="col-md-12 form-group">
+                    			<label>Guida <span data-toggle="tooltip" bs-tooltip data-html="true" data-placement="right" data-title="{{'cifra2gestattiApp.delegaTask.guida' | translate}}">
+									<i class="fa fa-question" ></i>
+								</span></label>
+                    		</div>
+                     	</div>
+                     	<div class="row">
+                     		<div class="col-md-12 form-group">
+	                     		<label>Delegante</label> *
+	                        	<!-- 
+	                        	<input class="form-control" type="hidden" disabled="disabled" ng-model="delega.profiloDelegante" required />
+	                        	<label class="form-control">{{delega.profiloDelegante ? (delega.profiloDelegante.aoo.codice + ' - ' + delega.profiloDelegante.utente.cognome +' '+ delega.profiloDelegante.utente.nome +' (' + delega.profiloDelegante.descrizione + ')') : 'Selezionare la lavorazione da delegare'}}</label>
+	                        	-->
+	                        	<ui-select ng-disabled="delega.id" ng-model="delega.profiloDelegante" theme="bootstrap" ng-change="deleganteSelected()" required>
+		                           	<ui-select-match placeholder="Seleziona delegante"><span ng-class="{'entityDisabilitata':$select.selected.validita && $select.selected.validita.validoal}">{{$select.selected.aoo.codice}} - {{$select.selected.utente.cognome}} {{$select.selected.utente.nome}} ({{$select.selected.descrizione}}){{$select.selected.validita && $select.selected.validita.validoal ? disableLabel : ''}}</span></ui-select-match>
+		                               <ui-select-choices repeat="delegante in deleganti | filter: $select.search track by delegante.id">
+		                               	<div ng-bind-html="delegante.aoo.codice + ' - ' + delegante.utente.cognome +' '+ delegante.utente.nome +' (' + delegante.descrizione + ')' | highlight: $select.search"></div>
+		                           	</ui-select-choices>
+	                        	</ui-select>
+                     		</div>
+                        </div>
+                        
+                        <div ng-if="!delega.id" id="searchTask">
+							    <div class="table-responsive crud-search">
+							        <table class="table table-striped">
+							            <thead>
+							                <tr>
+							                	<th></th>
+							                    <th translate="cifra2gestattiApp.delegaTask.codiceCifra">codicecifra</th>
+							                    <th translate="cifra2gestattiApp.delegaTask.oggetto">oggetto</th>
+							                    <th translate="cifra2gestattiApp.delegaTask.tipoAtto">tipoatto</th>
+							                    <th translate="cifra2gestattiApp.delegaTask.lavorazione">lavorazione</th>
+							                    <!-- <th translate="cifra2gestattiApp.delegaTask.assegnatario">assegnatario</th>-->
+							                </tr>
+							                <tr>
+							                	<th></th>
+							                    <th><input type="text" class="form-control" ng-model="tempTaskSearch.codiceCifra"></th>
+							                    <th><input type="text" class="form-control" ng-model="tempTaskSearch.oggetto"></th>
+							                    <th>
+							                    	<ui-select ng-model="tempTaskSearch.tipoAtto" theme="bootstrap">
+							                           	<ui-select-match allow-clear="true"><span>{{$select.selected.descrizione}} ({{$select.selected.codice}})</span></ui-select-match>
+							                               <ui-select-choices repeat="tipoAtto.codice as tipoAtto in tipiAtto | filter: $select.search track by tipoAtto.id">
+							                               	<div ng-bind-html="tipoAtto.descrizione + ' (' + tipoAtto.codice + ')' | highlight: $select.search"></div>
+							                           	</ui-select-choices>
+						                        	</ui-select>
+							                    </th>
+							                    <th><input type="text" class="form-control" ng-model="tempTaskSearch.lavorazione"></th>
+							                    <!-- <th><input type="text" ng-model="tempTaskSearch.assegnatario"></th> -->
+							                </tr>
+							                <tr>
+												<td colspan="5" class="text-center"><button type="button"
+														class="btn btn-primary btn-sm" title="{{delega.profiloDelegante ? '' : 'Selezionare il Delegante'}}" ng-disabled="!delega.profiloDelegante" ng-click="ricercaTask()">
+														<span class="glyphicon glyphicon-search"></span> <span
+															translate="global.messages.cerca" class="ng-scope">Cerca</span>
+													</button>
+													<button type="button" class="btn btn-primary btn-sm" ng-click="resetRicercaTask()">
+														<span translate="global.messages.resetricerca" class="ng-scope">Reset
+															ricerca</span>
+													</button></td>
+											</tr>
+							            </thead>
+							            <tbody>
+							                <tr ng-if="tasks && tasks.length > 0" ng-repeat="task in tasks">
+							                	<td>
+							                		<input type="radio" ng-model="delega.task" value="{{task.taskBpm.id}}" ng-change="taskSelected(task, delega)">
+							                	</td>
+							                	<td>{{task.atto.codiceCifra}}</td>
+							                	<td title="{{task.atto.oggetto}}">{{visualizzaOggetto(task.atto.oggetto)}}</td>
+							                	<td>{{task.atto.tipoAtto.descrizione}}</td>
+							                	<td>{{task.taskBpm.nomeVisualizzato}}</td>
+							                	<!-- <td>{{task.taskBpm.idAssegnatario ? (onlyUsername(task.taskBpm.idAssegnatario)) : ''}}</td> -->
+							                </tr>
+							            </tbody>
+							        </table>
+							        <div ng-if="tasks && tasks.length == 0 && !taskLoading" class="search-no-result"><h3 translate="global.searchNoResult"></h3></div>
+									<div ng-if="tasks && tasks.length == 0 && taskLoading" class="search-no-result"><h3 translate="global.loading"></h3></div>
+							    </div>
+						        <nav class="text-center">
+						            <ul class="pagination">
+						                <li ng-show="linksTask['first']" ng-click="loadPageTask(linksTask['first'])"><a>&lt;&lt;</a></li>
+						                <li ng-show="linksTask['prev']" ng-click="loadPageTask(linksTask['prev'])"><a>&lt;</a></li>
+						                <li ng-show="pageTask > 2" ng-click="loadPageTask(pageTask - 2)"><a>{{pageTask - 2}}</a></li>
+						                <li ng-show="pageTask > 1" ng-click="loadPageTask(pageTask - 1)"><a>{{pageTask - 1}}</a></li>
+						                <li class="active"><a>{{pageTask}}</a></li>
+						                <li ng-show="pageTask < linksTask['last']" ng-click="loadPageTask(pageTask + 1)"><a>{{pageTask + 1}}</a></li>
+						                <li ng-show="pageTask < linksTask['last'] - 1" ng-click="loadPageTask(pageTask + 2)"><a>{{pageTask + 2}}</a></li>
+						                <li ng-show="linksTask['next']" ng-click="loadPageTask(linksTask['next'])"><a>&gt;</a></li>
+						                <li ng-show="linksTask['last']" ng-click="loadPageTask(linksTask['last'])"><a>&gt;&gt;</a></li>
+						            </ul>
+						        </nav>
+                        </div>
+                        
+                        <div class="row">
+                        	<div class="col-md-12 form-group">
+	                     		<label translate="cifra2gestattiApp.delegaTask.delegato">Delegato</label> *
+	                            <ui-select ng-model="delega.profiloDelegato" theme="bootstrap" required>
+		                           	<ui-select-match placeholder="Seleziona delegato"><span ng-class="{'entityDisabilitata':$select.selected.validita && $select.selected.validita.validoal}">{{$select.selected.aoo.codice}} - {{$select.selected.utente.cognome}} {{$select.selected.utente.nome}} ({{$select.selected.descrizione}}){{$select.selected.validita && $select.selected.validita.validoal ? disableLabel : ''}}</span></ui-select-match>
+		                               <ui-select-choices repeat="delegato in delegati | filter: $select.search track by delegato.id">
+		                               	<div ng-bind-html="delegato.aoo.codice + ' - ' + delegato.utente.cognome +' '+ delegato.utente.nome +' (' + delegato.descrizione + ')' | highlight: $select.search"></div>
+		                           	</ui-select-choices>
+	                        	</ui-select>
+                     		</div>
+                        </div>
+                        
+                        <div class="row" >
+						 	<div class="form-group col-md-12" >
+						 		<label translate="cifra2gestattiApp.delegaTask.tipo">tipo</label> *
+						 		<table>
+						 			<tr><td><input type="radio" ng-model="delega.tipo" value="ONE_TASK_ONLY" required /></td><td><label style="margin-left: 5px;" translate="cifra2gestattiApp.delegaTask.tipoOneTaskOnly"></label><td></tr>
+						 			<tr><td><input type="radio" ng-model="delega.tipo" value="FULL_ITER" required /></td><td><label style="margin-left: 5px;" translate="cifra2gestattiApp.delegaTask.tipoFullIter"></label><td></tr>
+						 		</table>
+						 	</div>
+						</div>
+                        
+                        <div class="row" >
+						 	<div class="form-group col-md-6" >
+						 		<label translate="cifra2gestattiApp.delegaTask.atto">atto</label> *
+						 		
+						 		<input class="form-control" type="text" disabled="disabled" ng-model="delega.atto.codiceCifra" 
+						 			aria-invalid="false" required />
+						 	</div>
+						
+						 	<div class="form-group col-md-6" >
+						 		<label translate="cifra2gestattiApp.delegaTask.lavorazioneDelegata">lavorazione</label> *
+						 		
+						 		<input class="form-control" type="text" disabled="disabled" ng-model="delega.lavorazione" 
+						 			aria-invalid="false" required />
+						 		
+						 		<input class="form-control" type="hidden" ng-model="delega.taskBpmId" required />
+						 	</div>
+						
+						</div>
+						
+                    </div>
+                   
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
+                            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+                        </button>
+                        <button type="submit" ng-disabled="editForm.$invalid" class="btn btn-primary">
+                            <span class="glyphicon glyphicon-save"></span>&nbsp;<span translate="entity.action.save">Save</span>
+                        </button>
+                    </div> 
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal fade" id="deleteDelegaConfirmation">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form name="deleteForm" ng-submit="confirmDelete(delega.id)">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                                ng-click="clear()">&times;</button>
+                        <h4 class="modal-title" translate="entity.delete.title">Confirm delete operation</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p translate="cifra2gestattiApp.delegaTask.delete.question" translate-values="{id: '{{delega.id}}'}">Are you sure you want to delete this Delega?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
+                            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+                        </button>
+                        
+                        <button type="submit"
+                        		ng-if="delega.enabled"
+                                class="btn btn-warning">
+	                        <span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span translate="entity.action.delete"> delete</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="deleteDelegaDeletingError">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                 <div class="modal-header">
+                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                             ng-click="clear()">&times;</button>
+                     <h4 class="modal-title">Errore nella cancellazione</h4>
+                 </div>
+                 <div class="modal-body">
+                     <p>La delega selezionata non pu&#242; essere eliminata in quanto risulta referenziato da altre entit&#224; del sistema.</p>
+                     <label class="btn btn-xs btn-primary" ng-click="showDetailErroreCancellazione = !showDetailErroreCancellazione">Visualizza/Nascondi Dettagli Errore</label>
+                     <p ng-show="showDetailErroreCancellazione">{{erroreCancellazione}}</p>
+                 </div>
+                 <div class="modal-footer">
+                     <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
+                         <span>OK</span>
+                     </button>
+                 </div>
+            </div>
+        </div>
+    </div>
+    
+    <div>
+	    <div class="table-responsive crud-search">
+	        <table class="table table-striped">
+	            <thead>
+	                <tr>
+	                    <th>ID</th>
+	                    <th translate="cifra2gestattiApp.delegaTask.delegante">Delegante</th>
+	                    <th translate="cifra2gestattiApp.delegaTask.delegato">Delegato</th>
+	                    <th translate="cifra2gestattiApp.delegaTask.atto">atto</th>
+	                    <th translate="cifra2gestattiApp.delegaTask.lavorazione">lavorazione</th>
+	                    <th></th>
+	                </tr>
+	                <tr>
+	                	<th></th>
+	                    <th><input type="text" ng-model="tempSearch.delegante"></th>
+	                    <th><input type="text" ng-model="tempSearch.delegato"></th>
+	                    <th><input type="text" ng-model="tempSearch.codiceCifra"></th>
+	                    <th><input type="text" ng-model="tempSearch.lavorazione"><th>
+	                </tr>
+	                <tr>
+						<td colspan="14" class="text-center"><button
+								class="btn btn-primary btn-sm" ng-click="ricerca()">
+								<span class="glyphicon glyphicon-search"></span> <span
+									translate="global.messages.cerca" class="ng-scope">Cerca</span>
+							</button>
+							<button class="btn btn-primary btn-sm" ng-click="resetRicerca()">
+								<span translate="global.messages.resetricerca" class="ng-scope">Reset
+									ricerca</span>
+							</button></td>
+					</tr>
+	            </thead>
+	            <tbody>
+	                <tr ng-repeat="item in deleghe">
+	                	<td>{{item.id}}</td>
+	                	<td ng-bind-html="getDeleganteDelegatoLabel(item.profiloDelegante)"></td>
+	                	<td ng-bind-html="getDeleganteDelegatoLabel(item.profiloDelegato)"></td>
+	                	<td>{{ item.codiceCifra }}</td>
+	                	<td>{{ item.lavorazione }}</td>
+	                	<td>
+	                        <button type="button"
+	                        	ng-if="item.enabled"
+	                        	ng-click="showUpdate(item)"
+	                            class="btn btn-primary btn-sm">
+	                            <span class="glyphicon glyphicon-pencil"></span>&nbsp;<span translate="entity.action.edit"> Edit</span>
+	                        </button>
+	                        <button type="submit"
+                        		ng-if="item.enabled"
+                                ng-click="delete(item)"
+                                class="btn btn-warning btn-sm">
+	                            <span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span translate="entity.action.delete"> delete</span>
+	                        </button>
+	                	</td>
+	                </tr>
+	            </tbody>
+	        </table>
+	        <div ng-if="deleghe && deleghe.length == 0" class="search-no-result"><h3 translate="global.searchNoResult"></h3></div>
+	    </div>
+        <nav>
+            <ul class="pagination">
+                <li ng-show="links['first']" ng-click="loadPage(links['first'])"><a>&lt;&lt;</a></li>
+                <li ng-show="links['prev']" ng-click="loadPage(links['prev'])"><a>&lt;</a></li>
+                <li ng-show="page > 2" ng-click="loadPage(page - 2)"><a>{{page - 2}}</a></li>
+                <li ng-show="page > 1" ng-click="loadPage(page - 1)"><a>{{page - 1}}</a></li>
+                <li class="active"><a>{{page}}</a></li>
+                <li ng-show="page < links['last']" ng-click="loadPage(page + 1)"><a>{{page + 1}}</a></li>
+                <li ng-show="page < links['last'] - 1" ng-click="loadPage(page + 2)"><a>{{page + 2}}</a></li>
+                <li ng-show="links['next']" ng-click="loadPage(links['next'])"><a>&gt;</a></li>
+                <li ng-show="links['last']" ng-click="loadPage(links['last'])"><a>&gt;&gt;</a></li>
+            </ul>
+        </nav>
+    </div>
+</div>

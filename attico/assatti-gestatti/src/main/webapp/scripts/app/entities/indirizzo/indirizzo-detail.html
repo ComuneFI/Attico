@@ -1,0 +1,70 @@
+
+<div>
+    <h2><span translate="cifra2gestattiApp.indirizzo.detail.title">Indirizzo</span> {{indirizzo.id}}</h2>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th translate="entity.detail.field">Field</th>
+                    <th translate="entity.detail.value">Value</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.indirizzo.dug">Dug</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{indirizzo.dug}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.indirizzo.toponimo">Toponimo</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{indirizzo.toponimo}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.indirizzo.civico">Civico</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{indirizzo.civico}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.indirizzo.cap">Cap</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{indirizzo.cap}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.indirizzo.comune">Comune</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{indirizzo.comune}}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.indirizzo.provincia">Provincia</span>
+                    </td>
+                    <td>
+                        <input type="text" class="input-sm form-control" value="{{indirizzo.provincia}}" readonly>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <button type="submit"
+            ui-sref="indirizzo"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span translate="entity.action.back"> Back</span>
+    </button>
+</div>

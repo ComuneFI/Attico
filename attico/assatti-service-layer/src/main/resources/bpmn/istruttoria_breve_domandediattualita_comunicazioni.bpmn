@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_1rhhw1d" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="3.4.1">
+  <bpmn:process id="IstruttoriaBreveDomandeAttualitaComunicazioni" name="IstruttoriaBreveDomandeAttualitaComunicazioni" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1">
+      <bpmn:outgoing>SequenceFlow_0qo1t2w</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:userTask id="UserTask_0yg5223" name="Istruttoria Breve" camunda:assignee="${ ISTRUTTORE_ATTO }">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="SCENARI_DISABILITAZIONE">
+            <camunda:list>
+              <camunda:value>TipoIterNonModificabile</camunda:value>
+            </camunda:list>
+          </camunda:inputParameter>
+          <camunda:inputParameter name="LISTA_DOCUMENTI_ANTEPRIMA">
+            <camunda:script scriptFormat="groovy">java.util.ArrayList
+
+LISTA_DOCUMENTI_ANTEPRIMA = new ArrayList();
+
+if(TIPO_ATTO.equalsIgnoreCase('COM')){
+	LISTA_DOCUMENTI_ANTEPRIMA.add('COMUNICAZIONE')
+} else if(TIPO_ATTO.equalsIgnoreCase('DAT')){
+	LISTA_DOCUMENTI_ANTEPRIMA.add('DOMANDA_ATTUALITA')
+}
+
+return LISTA_DOCUMENTI_ANTEPRIMA</camunda:script>
+          </camunda:inputParameter>
+          <camunda:inputParameter name="LISTA_DECISIONI">
+            <camunda:script scriptFormat="groovy">import it.linksmt.assatti.bpm.util.ListaDecisioni
+
+decisioni = new ListaDecisioni()
+decisioni.addDecisione('Salva', false)
+decisioni.addDecisione('Genera Atto ed Invia a OdL', null, null, 'GENERA_ATTO', true)
+decisioni.addDecisione("Ritira Proposta", "ritiro", "RITIRO", "SI", "RITIRO_FASE_ISTRUTTORIA", true)
+
+decisioni.export()</camunda:script>
+          </camunda:inputParameter>
+          <camunda:inputParameter name="LISTA_DOCUMENTI_GENERAZIONE">
+            <camunda:script scriptFormat="groovy">java.util.ArrayList
+
+LISTA_DOCUMENTI_GENERAZIONE = new ArrayList();
+
+if(TIPO_ATTO.equalsIgnoreCase('COM')){
+	LISTA_DOCUMENTI_GENERAZIONE.add('COMUNICAZIONE')
+} else if(TIPO_ATTO.equalsIgnoreCase('DAT')){
+	LISTA_DOCUMENTI_GENERAZIONE.add('DOMANDA_ATTUALITA')
+}
+
+return LISTA_DOCUMENTI_GENERAZIONE</camunda:script>
+          </camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_07ugwf0</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_13c4y0u</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:serviceTask id="ServiceTask_1x4zwg7" name="Numerazione Atto" camunda:delegateExpression="${ numerazioneAttoService }">
+      <bpmn:incoming>SequenceFlow_0qo1t2w</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1c9mm4t</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="ServiceTask_0qa1q5v" name="Evento Atto Numerato" camunda:delegateExpression="${ registrazioneEventoService }">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="IMPOSTA_STATO">Proposta in predisposizione</camunda:inputParameter>
+          <camunda:inputParameter name="REGISTRA_EVENTO">ATTO_NUMERATO</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_1c9mm4t</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_07ugwf0</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="ServiceTask_18h6dru" name="Atto Creato" camunda:delegateExpression="${ registrazioneEventoService }">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="IMPOSTA_STATO">Atto Creato</camunda:inputParameter>
+          <camunda:inputParameter name="REGISTRA_EVENTO">GENERAZIONE_ATTO</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_1hm0tin</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1rwfgkb</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="EndEvent_06kyk3w">
+      <bpmn:incoming>SequenceFlow_1rwfgkb</bpmn:incoming>
+      <bpmn:incoming>SequenceFlow_0mvoiiz</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_1c9mm4t" sourceRef="ServiceTask_1x4zwg7" targetRef="ServiceTask_0qa1q5v" />
+    <bpmn:sequenceFlow id="SequenceFlow_07ugwf0" sourceRef="ServiceTask_0qa1q5v" targetRef="UserTask_0yg5223" />
+    <bpmn:sequenceFlow id="SequenceFlow_1rwfgkb" sourceRef="ServiceTask_18h6dru" targetRef="EndEvent_06kyk3w" />
+    <bpmn:sequenceFlow id="SequenceFlow_0qo1t2w" sourceRef="StartEvent_1" targetRef="ServiceTask_1x4zwg7" />
+    <bpmn:sequenceFlow id="SequenceFlow_13c4y0u" sourceRef="UserTask_0yg5223" targetRef="ExclusiveGateway_1k9ojmm" />
+    <bpmn:exclusiveGateway id="ExclusiveGateway_1k9ojmm" default="SequenceFlow_1hm0tin">
+      <bpmn:incoming>SequenceFlow_13c4y0u</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1hm0tin</bpmn:outgoing>
+      <bpmn:outgoing>SequenceFlow_0mvoiiz</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="SequenceFlow_1hm0tin" sourceRef="ExclusiveGateway_1k9ojmm" targetRef="ServiceTask_18h6dru" />
+    <bpmn:sequenceFlow id="SequenceFlow_0mvoiiz" sourceRef="ExclusiveGateway_1k9ojmm" targetRef="EndEvent_06kyk3w">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${execution.hasVariable('RITIRO') &amp;&amp; execution.getVariable('RITIRO') !=null &amp;&amp; execution.getVariable('RITIRO').equalsIgnoreCase('SI')}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="IstruttoriaBreveDomandeAttualitaComunicazioni">
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="173" y="162" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="UserTask_0yg5223_di" bpmnElement="UserTask_0yg5223">
+        <dc:Bounds x="582" y="140" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_1x4zwg7_di" bpmnElement="ServiceTask_1x4zwg7">
+        <dc:Bounds x="265" y="140" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_0qa1q5v_di" bpmnElement="ServiceTask_0qa1q5v">
+        <dc:Bounds x="416" y="140" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_18h6dru_di" bpmnElement="ServiceTask_18h6dru">
+        <dc:Bounds x="790" y="140" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_06kyk3w_di" bpmnElement="EndEvent_06kyk3w">
+        <dc:Bounds x="937" y="162" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1c9mm4t_di" bpmnElement="SequenceFlow_1c9mm4t">
+        <di:waypoint x="365" y="180" />
+        <di:waypoint x="416" y="180" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_07ugwf0_di" bpmnElement="SequenceFlow_07ugwf0">
+        <di:waypoint x="516" y="180" />
+        <di:waypoint x="582" y="180" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1rwfgkb_di" bpmnElement="SequenceFlow_1rwfgkb">
+        <di:waypoint x="890" y="180" />
+        <di:waypoint x="937" y="180" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0qo1t2w_di" bpmnElement="SequenceFlow_0qo1t2w">
+        <di:waypoint x="209" y="180" />
+        <di:waypoint x="265" y="180" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_13c4y0u_di" bpmnElement="SequenceFlow_13c4y0u">
+        <di:waypoint x="682" y="180" />
+        <di:waypoint x="705" y="180" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ExclusiveGateway_1k9ojmm_di" bpmnElement="ExclusiveGateway_1k9ojmm" isMarkerVisible="true">
+        <dc:Bounds x="705" y="155" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1hm0tin_di" bpmnElement="SequenceFlow_1hm0tin">
+        <di:waypoint x="755" y="180" />
+        <di:waypoint x="790" y="180" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0mvoiiz_di" bpmnElement="SequenceFlow_0mvoiiz">
+        <di:waypoint x="730" y="155" />
+        <di:waypoint x="730" y="80" />
+        <di:waypoint x="955" y="80" />
+        <di:waypoint x="955" y="162" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

@@ -1,0 +1,30 @@
+{
+
+"resoconto.tipo" : {"key":"resoconto.tipo", "titolo": "Tipo ", "template": "text", "fields":[] },
+"resoconto.idDiogene" : {"key":"resoconto.idDiogene", "titolo": "Id Documentale", "template": "text", "fields":[] },
+"resoconto.organoDeliberante" : {"key":"resoconto.organoDeliberante", "titolo": "Organo Deliberante", "template": "text", "fields":[] },
+
+"resoconto.dataPubblicazioneSito" : {"key":"resoconto.dataPubblicazioneSito", "titolo": "Data Pubblicazione Sito", "template": "text", "fields":[] },
+
+"resoconto.sedutaGiunta.luogo" : {"key":"resoconto.sedutaGiunta.luogo", "titolo": "SedutaGiunta.luogo", "template": "text", "fields":[] },
+"resoconto.sedutaGiunta.dataOra" : {"key":"resoconto.sedutaGiunta.dataOra", "titolo": "SedutaGiunta.dataOra", "template": "text", "fields":[] },
+"resoconto.sedutaGiunta.stato" : {"key":"resoconto.sedutaGiunta.stato", "titolo": "SedutaGiunta.stato", "template": "text", "fields":[] },
+"resoconto.sedutaGiunta.tipoSeduta" : {"key":"resoconto.sedutaGiunta.tipoSeduta", "titolo": "SedutaGiunta.tipoSeduta", "template": "text", "fields":[] },
+
+"resoconto.sedutaGiunta.presidente.utente.nome" : {"key":"resoconto.sedutaGiunta.presidente.utente.nome", "titolo": "Presidente.nome", "template": "text", "fields":[] },
+"resoconto.sedutaGiunta.presidente.utente.cognome" : {"key":"resoconto.sedutaGiunta.presidente.utente.cognome", "titolo": "Presidente.cognome", "template": "text", "fields":[] },
+
+"resoconto.sedutaGiunta.segretario.utente.nome" : {"key":"resoconto.sedutaGiunta.segretario.utente.nome", "titolo": "Segretario.nome", "template": "text", "fields":[] },
+"resoconto.sedutaGiunta.segretario.utente.cognome" : {"key":"resoconto.sedutaGiunta.segretario.utente.cognome", "titolo": "Segretario.cognome", "template": "text", "fields":[] },
+
+"resoconto.sedutaGiunta.componentiGiunta": {"key":"resoconto.sedutaGiunta.componentiGiunta", "titolo": "ComponentiGiunta", "template": "list" , 
+		"fields":[
+			
+			{"key":"utente.nome", "titolo": "nome", "template": "text" },
+			{"key":"utente.cognome", "titolo": "cognome", "template": "text" }
+			
+		]
+	}
+
+	
+}

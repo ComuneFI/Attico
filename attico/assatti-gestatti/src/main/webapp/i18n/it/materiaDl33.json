@@ -1,0 +1,20 @@
+{
+    "cifra2gestattiApp": {
+        "materiaDl33" : {
+            "home": {
+                "title": "Lista Materia DL33/2013",
+                "createLabel": "Crea una nuova Materia Dl33",
+                "createOrEditLabel": "Crea o modifica una MateriaDl33"
+            },
+            "delete": {
+                "question": "Sei sicuro di voler cancellare la MateriaDl33 con ID {{ id }}?"
+            },
+            "detail": {
+                "title": "Materia DL33/2013"
+            },
+            "denominazione": "Denominazione",
+            "attivo": "Attivo",
+            "AmbitoDl33": "AmbitoDl33"
+        }
+    }
+}

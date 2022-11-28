@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    <changeSet author="magria" id="202103081430-0001">
+    	<sql>
+			INSERT INTO ruolo (codice,descrizione,haqualifica,enabled,tipo) VALUES ('ROLE_VISUALIZZATORE_ATTI_POST_SEDUTA_G','Operatore Consultazione Atti di Giunta Post Seduta',0,1,'SISTEMA');
+			INSERT INTO ruolo (codice,descrizione,haqualifica,enabled,tipo)	VALUES ('ROLE_VISUALIZZATORE_ATTI_POST_SEDUTA_C','Operatore Consultazione Atti di Consiglio Post Seduta',0,1,'SISTEMA');
+		</sql>
+    </changeSet>
+    <changeSet author="magria" id="202103081430-0002">
+    	<sql>
+			INSERT INTO ruolo_hasgruppi (grupporuolo_id, ruolo_id) VALUES ((select id from grupporuolo where denominazione like 'Segreteria Giunta'), (select id from ruolo where codice like 'ROLE_VISUALIZZATORE_ATTI_POST_SEDUTA_G'));
+			INSERT INTO ruolo_hasgruppi (grupporuolo_id, ruolo_id) VALUES ((select id from grupporuolo where denominazione like 'Segreteria Consiglio'), (select id from ruolo where codice like 'ROLE_VISUALIZZATORE_ATTI_POST_SEDUTA_C'));
+		</sql>
+    </changeSet>
+</databaseChangeLog>

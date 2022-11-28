@@ -1,0 +1,154 @@
+<div>
+
+    <h2 translate="cifra2gestattiApp.categoriaMsg.home.title">Categorie messaggi</h2>
+    
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6">
+            	<button class="btn btn-primary" data-toggle="modal" data-target="#newCategoriamsgModal" ng-click="clear()">
+                    <span class="glyphicon glyphicon-flash"></span> <span translate="cifra2gestattiApp.categoriaMsg.home.createLabel">Nuova Categoria Msg</span>
+                </button>
+            </div>
+            <div class="col-md-3 ">
+            </div>
+             <div class="col-md-3 ">
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="saveCategoriamsgModal" tabindex="-1" role="dialog" aria-labelledby="myCategoriamsgLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form name="editForm" role="form" novalidate ng-submit="update()" show-validation>
+
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                                ng-click="clear()">&times;</button>
+                        <h4 class="modal-title" id="myCategoriamsgLabel" translate="cifra2gestattiApp.categoriaMsg.home.editLabel">editLabel</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label translate="cifra2gestattiApp.categoriaMsg.descrizione">descrizione</label> *
+                            <input type="text" class="form-control" name="descrizione"
+                                   ng-model="categoriaMsg.descrizione" ng-maxlength="200" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">
+                            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+                        </button>
+                        <button type="submit" ng-disabled="editForm.$invalid" class="btn btn-primary">
+                            <span class="glyphicon glyphicon-save"></span>&nbsp;<span translate="entity.action.save">Save</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal fade" id="newCategoriamsgModal" tabindex="-1" role="dialog" aria-labelledby="myCategoriamsgLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form name="editForm" role="form" novalidate ng-submit="save()" show-validation>
+
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                                ng-click="clear()">&times;</button>
+                        <h4 class="modal-title" id="myCategoriamsgLabel" translate="cifra2gestattiApp.categoriaMsg.home.createLabel">Nuova categoriaMsg</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label translate="cifra2gestattiApp.categoriaMsg.descrizione">descrizione</label>
+                            <input type="text" class="form-control" name="descrizione"
+                                   ng-model="categoriaMsg.descrizione" ng-maxlength="200" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">
+                            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+                        </button>
+                        <button type="submit" ng-disabled="editForm.$invalid" class="btn btn-primary">
+                            <span class="glyphicon glyphicon-save"></span>&nbsp;<span translate="entity.action.save">Save</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+	<div class="row">
+	<div class="col-md-8">
+	    <div class="table-responsive crud-search">
+	        <table class="table table-striped">
+	            <thead>
+	                <tr>
+	                    <th translate="cifra2gestattiApp.categoriaMsg.descrizione">DataInvio</th>
+	                    <th></th>
+	                </tr>
+	                <tr>
+		                <th>
+		                	<input type="text" ng-model="tempSearch.descrizione">
+		                </th>
+		                <th>
+		                	<div class="pull-right">
+		                		<div class="col-md-6">
+		                    		<button class="pull-right btn btn-primary btn-sm" ng-click="ricerca()"><span class="glyphicon glyphicon-search"/> <span translate="global.messages.cerca">Ricerca</span></button>
+		                    	</div>
+								 <div class="col-md-5 col-md-offset-1">
+									<button class="pull-right btn btn-primary btn-sm" ng-click="resetRicerca()"><span translate="global.messages.resetricerca">Reset ricerca</span></button>
+								</div>
+							</div>
+                   		</th>
+	                </tr>
+	            </thead>
+	            <tbody>
+	                <tr ng-repeat="categoriaMsg in categoriaMsgs">
+	                    <td>{{categoriaMsg.descrizione}}</td>
+	                    <td align="right">
+	                        <button type="button"
+	                                ui-sref="categoriaMsgDetail({id:categoriaMsg.id})"
+	                                class="btn btn-info btn-sm">
+	                            <span class="glyphicon glyphicon-eye-open"></span>&nbsp;<span translate="entity.action.view"> View</span>
+	                        </button>
+	                        <button type="submit"
+	                                ng-click="showUpdate(categoriaMsg.id)"
+	                                class="btn btn-primary btn-sm">
+	                            <span class="glyphicon glyphicon-pencil"></span>&nbsp;<span translate="entity.action.edit"> Edit</span>
+	                        </button>
+	                        <button type="submit"
+	                                ng-click="disable(categoriaMsg.id)"
+	                                class="btn btn-warning btn-sm"
+	                                ng-show="categoriaMsg.enabled">
+	                            <span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span translate="entity.action.disable"> Disable</span>
+	                        </button>
+	                        <button type="submit"
+	                                ng-click="enable(categoriaMsg.id)"
+	                                class="btn btn-success btn-sm"
+	                                ng-hide="categoriaMsg.enabled">
+	                            <span class="glyphicon glyphicon-ok-circle"></span>&nbsp;<span translate="entity.action.enable"> Enable</span>
+	                        </button>
+	                    </td>
+	                </tr>
+	            </tbody>
+	        </table>
+	        <div ng-if="categoriaMsgs && categoriaMsgs.length == 0" class="search-no-result"><h3 translate="global.searchNoResult"></h3></div>
+	    </div>
+        <nav>
+            <ul class="pagination">
+                <li ng-show="links['first']" ng-click="loadPage(links['first'])"><a>&lt;&lt;</a></li>
+                <li ng-show="links['prev']" ng-click="loadPage(links['prev'])"><a>&lt;</a></li>
+                <li ng-show="page > 2" ng-click="loadPage(page - 2)"><a>{{page - 2}}</a></li>
+                <li ng-show="page > 1" ng-click="loadPage(page - 1)"><a>{{page - 1}}</a></li>
+                <li class="active"><a>{{page}}</a></li>
+                <li ng-show="page < links['last']" ng-click="loadPage(page + 1)"><a>{{page + 1}}</a></li>
+                <li ng-show="page < links['last'] - 1" ng-click="loadPage(page + 2)"><a>{{page + 2}}</a></li>
+                <li ng-show="links['next']" ng-click="loadPage(links['next'])"><a>&gt;</a></li>
+                <li ng-show="links['last']" ng-click="loadPage(links['last'])"><a>&gt;&gt;</a></li>
+            </ul>
+        </nav>
+    </div>
+    <div class="col-md-4"></div>
+    </div>
+</div>

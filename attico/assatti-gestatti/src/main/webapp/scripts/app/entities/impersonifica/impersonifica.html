@@ -1,0 +1,118 @@
+<div>
+    <h2 translate="cifra2gestattiApp.impersonifica.home.title">Impersonifica</h2>
+    
+    <div>
+	    <div class="table-responsive crud-search">
+	        <table class="table table-striped">
+	            <thead>
+	                <tr>
+	                    <th>ID</th>
+	                    <th translate="cifra2gestattiApp.impersonifica.utente">utente</th>
+	                    <th> 
+			                <span translate="cifra2gestattiApp.impersonifica.aoo">Aoo</span>
+		                	<span data-toggle="tooltip"
+								title="<b>GUIDA</b><br/>Inserire il codice Ufficio oppure la denominazione dell’Ufficio."
+								data-html="true" ng-init="initTooltip()">
+								<i class="fa fa-question" ></i>
+							</span>
+		                </th>
+	                    <th translate="cifra2gestattiApp.impersonifica.tipoAtto">tipoAtto</th>
+	                    <th translate="cifra2gestattiApp.impersonifica.grupporuolo">Gruppo Ruolo</th>
+	                    <th translate="cifra2gestattiApp.impersonifica.ruoli">Ruoli</th>
+	                    <th translate="cifra2gestattiApp.impersonifica.qualificaProfessionale">Qualifica Professionale</th>
+	                    <!-- <th translate="cifra2gestattiApp.profilo.delega">Delega</th> -->
+	                    <th translate="cifra2gestattiApp.impersonifica.label-stato">Stato</th>
+	                    <th width="30px"></th>
+	                </tr>
+	                <tr>
+	                    <th><input style="max-width:25px;" type="text" ng-model="tempSearch.id"></th>
+	                    <th><input type="text" ng-model="tempSearch.utente"></th>
+	                    <th><input type="text" ng-model="tempSearch.aoo"></th>
+	                    <th class="limited-width"><ui-select ng-model="tempSearch.tipoAtto" theme="bootstrap">
+		                    	<ui-select-match allow-clear="true">{{$select.selected}}</ui-select-match>
+		                    	<ui-select-choices repeat="tipoCur in listTipoAtto | filter: $select.search track by $index">
+		                            <div ng-bind-html="tipoCur | highlight: $select.search"></div>
+		                    	</ui-select-choices>
+	                      	</ui-select>
+	                    </th>
+	                    <th><input type="text" ng-model="tempSearch.descrizione"></th>
+	                    <th class="limited-width">
+	                      <ui-select ng-model="tempSearch.ruolo"  theme="bootstrap">
+	                            <ui-select-match allow-clear="true">{{$select.selected.descrizione}}</ui-select-match>
+	                            <ui-select-choices repeat="ruolo in ruolos | filter: $select.search track by $index">
+	                            <div ng-bind-html="ruolo.descrizione | highlight: $select.search"></div>
+	                        </ui-select-choices>
+	                      </ui-select>
+	                    </th>
+	                    <th class="limited-width"><ui-select ng-model="tempSearch.qualificaProfessionale" theme="bootstrap">
+		                    	<ui-select-match allow-clear="true">{{$select.selected}}</ui-select-match>
+		                    	<ui-select-choices repeat="qualif in listAllQualifiche | orderBy: qualif.denominazione | filter: $select.search track by $index">
+		                            <div ng-bind-html="qualif | highlight: $select.search"></div>
+		                    	</ui-select-choices>
+	                      	</ui-select>
+	                    </th>
+	                    <!-- <th><input type="text" ng-model="tempSearch.delega"></th> -->
+	                    <th style="min-width:180px">
+	                    	<ui-select ng-model="tempSearch.stato" theme="bootstrap" style='display: inline-block; min-width: 120px;'>
+								<ui-select-match allow-clear="true">{{$select.selected.denominazione | translate}}</ui-select-match>
+								<ui-select-choices repeat="stato in stati | filter: $select.search">
+									<div ng-bind-html="stato.denominazione | translate | highlight: $select.search"></div>
+								</ui-select-choices>
+							</ui-select>
+	                    </th>
+	                    <th></th>
+	                </tr>
+					<tr>
+						<td colspan="14" class="text-center"><button
+								class="btn btn-primary btn-sm" ng-click="ricerca()">
+								<span class="glyphicon glyphicon-search"></span> <span
+									translate="global.messages.cerca" class="ng-scope">Cerca</span>
+							</button>
+							<button class="btn btn-primary btn-sm" ng-click="resetRicerca()">
+								<span translate="global.messages.resetricerca" class="ng-scope">Reset
+									ricerca</span>
+							</button></td>
+					</tr>
+				</thead>
+	            <tbody>
+	                <tr ng-repeat="profilo in profilos">
+	                    <td><a ui-sref="profiloDetail({id:profilo.id})">{{profilo.id}}</a></td>
+	                    <td>{{profilo.utente.id}}-{{profilo.utente.username}}</td>
+	                    <td>{{profilo.aoo.codice}}-{{profilo.aoo.descrizione}}</td>
+	                    <td><div ng-repeat="tipoAtto in profilo.tipiAtto">{{tipoAtto.id}}-{{tipoAtto.descrizione}}</div></td>
+	                    <td>{{profilo.grupporuolo.denominazione}}</td>
+	                    <td>
+	                    	<div ng-repeat="ruolo in profilo.grupporuolo.hasRuoli"><span >- {{ruolo.descrizione}}</span></div>
+	                    </td>
+	                    <td>
+	                    	<div ng-repeat="qualifica in profilo.hasQualifica">-{{qualifica.denominazione + (qualifica.enabled ? '' : disableLabel)}}</div>
+	                    </td>
+	                    <!-- <td>{{profilo.delega}}</td> -->
+	                    <td></td>
+	                    <td align="center">
+	                        <button type="submit" has-ruolo="ROLE_SUPPORT_MANAGER"
+	                                ng-click="impersonifica(profilo)"
+	                                class="btn btn-success btn-sm btn-block">
+	                            <span class="glyphicon glyphicon-user"></span>&nbsp;<span translate="entity.action.impersonificate"> Impersonifica</span>
+	                        </button>
+	                    </td>
+	                </tr>
+	            </tbody>
+	        </table>
+	        <div ng-if="profilos && profilos.length == 0" class="search-no-result"><h3 translate="global.searchNoResult"></h3></div>
+	    </div>
+        <nav>
+            <ul class="pagination">
+                <li ng-show="links['first']" ng-click="loadPage(links['first'])"><a>&lt;&lt;</a></li>
+                <li ng-show="links['prev']" ng-click="loadPage(links['prev'])"><a>&lt;</a></li>
+                <li ng-show="page > 2" ng-click="loadPage(page - 2)"><a>{{page - 2}}</a></li>
+                <li ng-show="page > 1" ng-click="loadPage(page - 1)"><a>{{page - 1}}</a></li>
+                <li class="active"><a>{{page}}</a></li>
+                <li ng-show="page < links['last']" ng-click="loadPage(page + 1)"><a>{{page + 1}}</a></li>
+                <li ng-show="page < links['last'] - 1" ng-click="loadPage(page + 2)"><a>{{page + 2}}</a></li>
+                <li ng-show="links['next']" ng-click="loadPage(links['next'])"><a>&gt;</a></li>
+                <li ng-show="links['last']" ng-click="loadPage(links['last'])"><a>&gt;&gt;</a></li>
+            </ul>
+        </nav>
+    </div>
+</div>

@@ -1,0 +1,88 @@
+
+<div>
+    <h2><span translate="cifra2gestattiApp.news.detail.title">Notifica</span> {{news.atto.codiceCifra}}</h2>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Attributo</th>
+                    <th>Valore</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-if="news.atto != null">
+                    <td>
+                        <span translate="cifra2gestattiApp.news.detail.codiceCifra">Codice Atto</span>
+                    </td>
+                    <td>
+                        {{news.atto.codiceCifra}}
+                    </td>
+                </tr>
+                <tr ng-if="news.atto == null">
+                    <td>
+                        <span translate="cifra2gestattiApp.news.detail.numeroOdG">Numero Ordine del Giorno</span>
+                    </td>
+                    <td>
+                        {{news.documento.ordineGiorno.numeroOdg}}
+                    </td>
+                </tr>
+                <tr>
+                	<td>
+                		<span>Download</span>
+                	</td>
+                	<td ng-if="news.atto">
+                		<a class="list-group-item padding"  target="_blank" href="api/attos/{{news.atto.id}}/documento/{{news.atto.documentiPdfAdozione[0].id}}?access_token={{access_token}}"  >
+			                
+			               <i  class="fa fa-file-pdf-o"></i>
+			             
+			                 {{news.atto.documentiPdfAdozione[0].file.nomeFile}}   
+						 
+							<span class="label label-info pull-right">({{news.atto.documentiPdfAdozione[0].createdBy}} - {{news.atto.documentiPdfAdozione[0].createdDate | date:'medium'}})</span>
+			     
+			                <span class="label label-warning pull-right"  ng-if="news.atto.documentiPdfAdozione[0].firmato" ><i   class="fa fa-shield"></i> Firmato digitalmente da {{news.atto.documentiPdfAdozione[0].firmatario}}</span></a>
+                	</td>
+                	<td ng-if="!news.atto">
+                		<a class="list-group-item padding"  target="_blank" href="api/ordineGiornos/{{news.documento.ordineGiorno.id}}/documento/{{news.documento.id}}?access_token={{access_token}}"  >
+			               <i  class="fa fa-file-pdf-o"></i>
+			                 {{news.documento.file.nomeFile}}   
+							<span class="label label-info pull-right">({{news.documento.createdBy}} - {{news.documento.createdDate | date:'medium'}})</span>
+			                <span class="label label-warning pull-right"  ng-if="news.atto.documentiPdfAdozione[0].firmato" ><i   class="fa fa-shield"></i> Firmato digitalmente da {{news.documento.firmatario}}</span>
+			             </a>
+                	</td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.news.detail.destinatario">Destinatario</span>
+                    </td>
+                    <td>
+                        {{news.destinatarioInterno.tipoDestinatario.descrizione}} - {{news.destinatarioInterno.destinatario.descrizioneAsDestinatario}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span translate="cifra2gestattiApp.news.detail.dataInvio">Data Invio</span>
+                    </td>
+                    <td>
+                        {{news.dataCreazione | date:'dd-MM-yyyy HH:mm:ss' }}
+                    </td>
+                </tr>
+                <tr ng-if="news.idDiogene">
+                    <td>
+                        <span translate="cifra2gestattiApp.news.detail.riferimentoDiogene">Riferimento Documentale</span>
+                    </td>
+                    <td>
+                        {{news.idDiogene}}
+                    </td>
+                </tr>
+                <tr ng-if="news.autore">
+                    <td>
+                        <span translate="cifra2gestattiApp.news.detail.autore">Autore</span>
+                    </td>
+                    <td>
+                        {{news.autore ? news.autore.utente.nome + ' ' + news.autore.utente.cognome : ''}}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

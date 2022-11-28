@@ -1,0 +1,91 @@
+<div>
+
+    <h2 translate="cifra2gestattiApp.ordineGiorno.home.title">OrdineGiorno</h2>
+
+
+
+    <div class="modal fade" id="deleteOrdineGiornoConfirmation">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form name="deleteForm" ng-submit="editOdg(ordineGiorno.id)">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                                ng-click="clear()">&times;</button>
+                        <h4 class="modal-title" translate="entity.delete.title">Conferma Annullamento Ordine del Giorno</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p translate="cifra2gestattiApp.ordineGiorno.delete.question" translate-values="{id: '{{ordineGiorno.id}}'}">
+                        Sei sicuro di voler eliminare e quindi modificare la lista degli atti da discutere nella Seduta di Giunta dell'Ordine del Giorno?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
+                            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+                        </button>
+                       <!--  <button type="submit" ng-disabled="deleteForm.$invalid" class="btn btn-danger">
+                            <span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span translate="entity.action.delete">Delete</span>
+                        </button> -->
+                         <button type="submit"
+                                class="btn btn-primary btn-sm">
+                            <span class="glyphicon glyphicon-pencil"></span>&nbsp;<span translate="entity.action.edit"> Modifica Argomenti</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+	<div>
+	    <div class="table-responsive">
+	        <table class="table table-striped">
+	            <thead>
+	                <tr>
+	                    <th>ID</th>
+	                    <th translate="cifra2gestattiApp.ordineGiorno.numeroOdg">NumeroOdg</th>
+	                    <th translate="cifra2gestattiApp.ordineGiorno.protocollo">Protocollo</th>
+	                    <th translate="cifra2gestattiApp.ordineGiorno.dataPubblicazioneSito">DataPubblicazioneSito</th>
+	                    <th translate="cifra2gestattiApp.ordineGiorno.idDiogene">IdDiogene</th>
+	                    <th translate="cifra2gestattiApp.ordineGiorno.SedutaGiunta">SedutaGiunta</th>
+	                    <th translate="cifra2gestattiApp.ordineGiorno.TipoOdg">TipoOdg</th>
+	                    <th></th>
+	                </tr>
+	            </thead>
+	            <tbody>
+	                <tr ng-repeat="ordineGiorno in ordineGiornos">
+	                    <td><a ui-sref="ordineGiornoDetail({id:ordineGiorno.id})">{{ordineGiorno.id}}</a></td>
+	                    <td>{{ordineGiorno.numeroOdg}}</td>
+	                    <td>{{ordineGiorno.protocollo}}</td>
+	                    <td>{{ordineGiorno.dataPubblicazioneSito}}</td>
+	                    <td>{{ordineGiorno.idDiogene}}</td>
+	                    <td>{{ordineGiorno.SedutaGiunta.id}}</td>
+	                    <td>{{ordineGiorno.TipoOdg.id}}</td>
+	                    <td>
+	                        <button type="submit"
+	                                ui-sref="ordineGiornoDetailSection({id:ordineGiorno.id,section:'view'})"
+	                                class="btn btn-info btn-sm">
+	                            <span class="glyphicon glyphicon-eye-open"></span>&nbsp;<span translate="entity.action.view"> View</span>
+	                        </button>
+	                        <button type="submit"
+	                                ng-click="delete(ordineGiorno.id)"
+	                                class="btn btn-primary btn-sm" title="Annullare o Modificare Argomenti Ordine Del Giorno">
+	                            <span class="glyphicon glyphicon-pencil"></span>&nbsp;<span translate="entity.action.edit"> Modifica</span>
+	                        </button>
+	                    </td>
+	                </tr>
+	            </tbody>
+	        </table>
+	    </div>
+        <nav>
+            <ul class="pagination">
+                <li ng-show="links['first']" ng-click="loadPage(links['first'])"><a>&lt;&lt;</a></li>
+                <li ng-show="links['prev']" ng-click="loadPage(links['prev'])"><a>&lt;</a></li>
+                <li ng-show="page > 2" ng-click="loadPage(page - 2)"><a>{{page - 2}}</a></li>
+                <li ng-show="page > 1" ng-click="loadPage(page - 1)"><a>{{page - 1}}</a></li>
+                <li class="active"><a>{{page}}</a></li>
+                <li ng-show="page < links['last']" ng-click="loadPage(page + 1)"><a>{{page + 1}}</a></li>
+                <li ng-show="page < links['last'] - 1" ng-click="loadPage(page + 2)"><a>{{page + 2}}</a></li>
+                <li ng-show="links['next']" ng-click="loadPage(links['next'])"><a>&gt;</a></li>
+                <li ng-show="links['last']" ng-click="loadPage(links['last'])"><a>&gt;&gt;</a></li>
+            </ul>
+        </nav>
+    </div>
+</div>

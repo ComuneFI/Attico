@@ -1,0 +1,26 @@
+{
+"ordinegiorno.numeroOdg" : {"key":"ordinegiorno.numeroOdg", "titolo": "Numero Odg", "template": "text", "fields":[] },
+"ordinegiorno.idDiogene" : {"key":"ordinegiorno.idDiogene", "titolo": "Id Documentale", "template": "text", "fields":[] },
+"ordinegiorno.protocollo" : {"key":"ordinegiorno.protocollo", "titolo": "Protocollo", "template": "text", "fields":[] },
+"ordinegiorno.dataPubblicazioneSito" : {"key":"ordinegiorno.dataPubblicazioneSito", "titolo": "Data Pubblicazione Sito", "template": "text", "fields":[] },
+"ordinegiorno.tipoOdg.descrizione" : {"key":"ordinegiorno.tipoOdg.descrizione", "titolo": "Tipo", "template": "text", "fields":[] },
+
+"ordinegiorno.sedutaGiunta.luogo" : {"key":"ordinegiorno.sedutaGiunta.luogo", "titolo": "SedutaGiunta.luogo", "template": "text", "fields":[] },
+"ordinegiorno.sedutaGiunta.dataOra" : {"key":"ordinegiorno.sedutaGiunta.dataOra", "titolo": "SedutaGiunta.dataOra", "template": "text", "fields":[] },
+"ordinegiorno.sedutaGiunta.stato" : {"key":"ordinegiorno.sedutaGiunta.stato", "titolo": "SedutaGiunta.stato", "template": "text", "fields":[] },
+"ordinegiorno.sedutaGiunta.tipoSeduta" : {"key":"ordinegiorno.sedutaGiunta.tipoSeduta", "titolo": "SedutaGiunta.tipoSeduta", "template": "text", "fields":[] },
+
+"ordinegiorno.sedutaGiunta.presidente.utente.nome" : {"key":"ordinegiorno.sedutaGiunta.presidente.utente.nome", "titolo": "Presidente.nome", "template": "text", "fields":[] },
+"ordinegiorno.sedutaGiunta.presidente.utente.cognome" : {"key":"ordinegiorno.sedutaGiunta.presidente.utente.cognome", "titolo": "Presidente.cognome", "template": "text", "fields":[] },
+
+"ordinegiorno.sedutaGiunta.segretario.utente.nome" : {"key":"ordinegiorno.sedutaGiunta.segretario.utente.nome", "titolo": "Segretario.nome", "template": "text", "fields":[] },
+"ordinegiorno.sedutaGiunta.segretario.utente.cognome" : {"key":"ordinegiorno.sedutaGiunta.segretario.utente.cognome", "titolo": "Segretario.cognome", "template": "text", "fields":[] },
+
+"ordinegiorno.sedutaGiunta.componentiGiunta": {"key":"ordinegiorno.sedutaGiunta.componentiGiunta", "titolo": "ComponentiGiunta", "template": "list" , 
+		"fields":[
+			{"key":"utente.nome", "titolo": "nome", "template": "text" },
+			{"key":"utente.cognome", "titolo": "cognome", "template": "text" }			
+		]
+}
+
+}

@@ -1,0 +1,77 @@
+<div ng-init="tempSearch.stato = stati[0]; soloAttivi = true;">
+	<div class="form-group">
+		<div class="row">
+			<div class="col-md-6">
+		       <label translate="cifra2gestattiApp.rubricaBeneficiario.denominazione">Denominazione</label>
+		       <input type="text" class="form-control" name="nome" ng-model="tempSearch.denominazione" >
+	      </div>
+	      <div class="col-md-6">
+		       <label translate="cifra2gestattiApp.rubricaBeneficiario.partitaIva">Partita IVA</label>
+		       <input type="text" class="form-control" name="cognome" ng-model="tempSearch.partitaIva" >
+	      </div>
+		</div>
+		<div class="row">
+			<div class="col-md-6">
+			     <label translate="cifra2gestattiApp.rubricaBeneficiario.nome">Nome</label>
+			     <input type="text" class="form-control" name="nome" ng-model="tempSearch.nome" >
+		    </div>
+		    <div class="col-md-6">
+			     <label translate="cifra2gestattiApp.rubricaBeneficiario.cognome">Cognome</label>
+			     <input type="text" class="form-control" name="cognome" ng-model="tempSearch.cognome" >
+		    </div>
+		</div>
+		<div class="row">
+	 		<div class="col-md-12">
+		        <label translate="cifra2gestattiApp.rubricaBeneficiario.codiceFiscale">Codice Fiscale</label>
+		        <input type="text" class="form-control" name="nome" ng-model="tempSearch.codiceFiscale" >
+	       </div>
+		</div>
+		<div class="row">
+	 		<div class="col-md-12" align="center" style="padding-top:5px;">
+		       	<button class="btn btn-primary btn-sm" onclick="return false;" ng-click="ricerca()"><span class="glyphicon glyphicon-search"/> <span translate="global.messages.cerca">Ricerca</span></button>
+				<button class="btn btn-primary btn-sm" onclick="return false;" ng-click="resetRicerca()"><span translate="global.messages.resetricerca">Reset ricerca</span></button>
+	    	</div>
+		</div>
+	</div>
+	<div>
+		<div class="table-responsive" ng-if="rubricaBeneficiarios.length > 0">
+	        <table class="table table-striped">
+	            <thead>
+	                <tr>
+	                	<th></th>
+	                    <th translate="cifra2gestattiApp.rubricaBeneficiario.denominazione">Denominazione</th>
+	                    <th translate="cifra2gestattiApp.rubricaBeneficiario.partitaIva">Partita IVA</th>
+	                    <th translate="cifra2gestattiApp.rubricaBeneficiario.nome">Nome</th>
+	                    <th translate="cifra2gestattiApp.rubricaBeneficiario.cognome">Cognome</th>
+	                    <th translate="cifra2gestattiApp.rubricaBeneficiario.codiceFiscale">Codice Fiscale</th>
+	                </tr>
+	            </thead>
+	            <tbody>
+	                <tr ng-repeat="rubricaBeneficiario in rubricaBeneficiarios">
+	                	<td>
+	                		<input type="radio" ng-model="$parent.$parent.ngModel" ng-value="rubricaBeneficiario" name="rubricaBeneficiarioRadio">
+	                	</td>
+	                    <td>{{rubricaBeneficiario.denominazione ? rubricaBeneficiario.denominazione : '-'}}</td>
+	                    <td>{{rubricaBeneficiario.partitaIva ? rubricaBeneficiario.partitaIva : '-'}}</td>
+	                    <td>{{rubricaBeneficiario.nome ? rubricaBeneficiario.nome : '-'}}</td>
+	                    <td>{{rubricaBeneficiario.cognome ? rubricaBeneficiario.cognome : '-'}}</td>
+	                    <td>{{rubricaBeneficiario.codiceFiscale ? rubricaBeneficiario.codiceFiscale : '-'}}</td>
+	                </tr>
+	            </tbody>
+	        </table>
+	    </div>
+	    <nav>
+	        <ul class="pagination">
+	            <li ng-show="links['first']" ng-click="loadPage(links['first'])"><a>&lt;&lt;</a></li>
+	            <li ng-show="links['prev']" ng-click="loadPage(links['prev'])"><a>&lt;</a></li>
+	            <li ng-show="page > 2" ng-click="loadPage(page - 2)"><a>{{page - 2}}</a></li>
+	            <li ng-show="page > 1" ng-click="loadPage(page - 1)"><a>{{page - 1}}</a></li>
+	            <li class="active"><a>{{page}}</a></li>
+	            <li ng-show="page < links['last']" ng-click="loadPage(page + 1)"><a>{{page + 1}}</a></li>
+	            <li ng-show="page < links['last'] - 1" ng-click="loadPage(page + 2)"><a>{{page + 2}}</a></li>
+	            <li ng-show="links['next']" ng-click="loadPage(links['next'])"><a>&gt;</a></li>
+	            <li ng-show="links['last']" ng-click="loadPage(links['last'])"><a>&gt;&gt;</a></li>
+	        </ul>
+	    </nav>
+	</div>
+</div>

@@ -1,0 +1,17 @@
+{
+    "cifra2gestattiApp": {
+        "categoriaMsg" : {
+            "home": {
+                "title": "Categorie Messaggi",
+                "createLabel": "Nuova categoria messaggi",
+                "createOrEditLabel": "Crea o modifica una categoria messaggi",
+                "editLabel": "Modifica una categoria messaggi"
+            },
+            "detail": {
+                "title": "Dettaglio categoria messaggio"
+            },
+            "descrizione":"Descrizione",
+            "enabled": "Categoria abilitata"
+        }
+    }
+}

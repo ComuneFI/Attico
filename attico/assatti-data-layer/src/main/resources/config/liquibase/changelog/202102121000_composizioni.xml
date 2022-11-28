@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    <changeSet author="magria" id="202102121000-0001">
+    	<sql>
+    		INSERT INTO composizione (id,organo,version,descrizione,predefinita,data_creazione )
+	VALUES (1,'C',1,'Composizione del Consiglio',1,now());
+		</sql>
+    </changeSet>
+    <changeSet author="magria" id="202102121000-0002">
+    	<sql>
+    		INSERT INTO composizione (id,organo,version,descrizione,predefinita,data_creazione )
+	VALUES (2,'G',1,'Composizione della Giunta',1,now());
+		</sql>
+    </changeSet>
+    <changeSet author="magria" id="202102121000-0003">
+    	<sql>
+    		INSERT INTO profilo_composizione (id_composizione,id_profilo,valido,ordine,id_qualifica_professionale)
+SELECT 1, id, 1, ordine_consiglio, id_qualifica_professionale_consiglio
+FROM profilo
+WHERE ordine_consiglio>0;
+		</sql>
+    </changeSet>
+    <changeSet author="magria" id="202102121000-0004">
+    	<sql>
+    		INSERT INTO profilo_composizione (id_composizione,id_profilo,valido,ordine,id_qualifica_professionale)
+SELECT 2, id, 1, ordine_giunta, id_qualifica_professionale_giunta
+FROM profilo
+WHERE ordine_giunta>0;
+		</sql>
+    </changeSet>
+</databaseChangeLog>

@@ -1,0 +1,190 @@
+{
+    "global": {
+        "title": "CIFRA 2",
+        "title2": "Sistema di gestione dell'Iter dei Provvedimenti Regionali",
+        "browsehappy": "Stai usando CIFRA2",
+        "menu": {
+            "home": "Home",
+            "amministrazionerp": "Amministrazione RP",
+             "contatti": "Contatti",
+             "help": "Help",
+             "link": "Link",
+             "mappa": "Mappa",
+             "cambiaProfilo": "Cambia profilo",
+             "gestioneOrganigramma": "Organigramma",
+             "gestioneWorkflow": "Workflow",
+             "gestioneProgressivi": "Progressivi",
+             "gestioneAnagrafiche": "Anagrafiche",
+             "helpdesk": "Helpdesk",
+             "help":"Help",
+             "ricerca": {
+                "main": "Ricerca",
+                "tematica": "Tematica",
+                "libera": "Libera",
+                "storica": "Storica"
+            },
+            "entities": {
+                "main": "Amministratore I",
+                "tipoAtto": "TipoAtto",
+                "tipoAoo": "TipoAoo",
+                "indirizzo": "Indirizzo",
+                "ruolo": "Ruolo",
+                "utente": "Utente",
+                "profilo": "Profilo",
+                "aoo": "Aoo",
+                "ufficio": "Ufficio",
+                "qualificaProfessionale": "Qualifica Professionale",
+                "tipoMateria": "Tipo Materia",
+                "materia": "Materia",
+                "sottoMateria": "Sotto Materia",
+                "tipoIter": "TipoIter",
+                "gruppoRuolo": "Gruppo Ruolo",
+                "funzione": "Funzione",
+                "menu": "Menu",
+                "menuVerticale": "Menu Verticale",
+                "tipoAdempimento": "Tipo Adempimento",
+                "argomentoOdg": "Argomento Odg",
+                "sedutaGiunta": "Seduta Giunta",
+                "progressivoProposta": "Progressivo Proposta",
+                "progressivoAdozione": "Progressivo Adozione",
+                "progressivoRelazioneIst": "Progressivo Relazione Istruttoria",
+                "tipoOdg": "Tipo Odg",
+                "tipoDocumento": "Tipo Documento",
+                "atto": "Atto",
+                "rubricaDestinatarioEsterno": "Rubrica Destinatario Esterno",
+                "modelloHtml": "ModelloHtml",
+                "modelloSezione": "ModelloSezione",
+                "modelloCampo": "Modello Campo",
+                "attivita": "Attivita",
+                "stato": "Stato",
+                "avanzamento": "Avanzamento",
+                "lavorazione": "Lavorazione",
+                "news": "News",
+                "categoriaNews": "Categoria News",
+                "richiestaHD": "RichiestaHD",
+                "richiestaHDFeedback": "RichiestaHD Feedback",
+                "tipoRichiestaHD": "Tipo RichiestaHD",
+                "statoRichiestaHD": "Stato RichiestaHD",
+                "categoriaRichiestaHD": "Categoria RichiestaHD",
+                "faq": "FAQs",
+                "categoriaFaq": "Categoria Faq",
+                "tipoDeterminazione": "TipoDeterminazione",
+                "ambitoDl33": "AmbitoDl33",
+                "materiaDl33": "MateriaDl33", 
+                "macro_cat_obbligo_dl33": "MacroCatObbligoDL33",
+                "cat_obbligo_DL33": "CatObbligoDL33",
+                "obbligo_DL33": "ObbligoDL33",
+                "scheda": "Scheda",
+                "tipodato": "Tipodato",
+                "dato": "Dato",   
+                "schedaDato": "SchedaDato",
+                "additionalEntity": "JHipster will add additional entities here (do not translate!)"
+            },
+            "atto": {
+                "title": "Atto",
+                "attoDirigenziale": "Atto Dirigenziale",
+                "attoDirigenzialeNuovo": "Crea Atto Dirigenziale",
+                "attoSedutaDiGiunta": "Atto Seduta Di Giunta",
+                "lista" :  "Lista Atti",
+                "nuovo": "Nuovo Atto",
+                "clona": "Clona Atto",
+                "riferimento": "Atto di riferimento"
+            },
+            "account": {
+                "main": "Utenza",
+                "settings": "Impostazioni",
+                "password": "Password",
+                "sessions": "Sessions",
+                "login": "Accedi",
+                "logout": "Esci",
+                "register": "Registrati",
+                "selezionaprofilo":"Seleziona profilo"
+            },
+            "admin": {
+                "main": "Monitoraggio sistema",
+                "gestioneUffici": "Gestione Uffici",
+                "estioneRepertori": "Gestione repertori",
+                "tracker": "Tracciamento Utente",
+                "metrics": "Metrica",
+                "health": "Diagnostica",
+                "configuration": "Configurazione",
+                "logs": "Logs",
+                "audits": "Audits",
+                "apidocs": "API",
+                "database": "Database"
+            },
+            "language": "Lingua"
+        },
+        "form": {
+            "username": "Login",
+            "username.placeholder": "Username",
+            "newpassword": "Nuova password",
+            "newpassword.placeholder": "Nuova password",
+            "confirmpassword": "Nuova conferma password",
+            "confirmpassword.placeholder": "Conferma la nuova password",
+            "email": "E-mail",
+            "email.placeholder": "E-mail"
+        },
+        "messages": {
+            "info": {
+                "authenticated": "Se vuoi  autenticarti <a href=\"{{configurationParams.login_url}}\">accedi</a>.",
+                "register": "Se non sei ancora registrato? <a href=\"#/register\">Registra un nuovo utente</a>"
+            },
+            "error": {
+                "dontmatch" : "La passsword e la conferma password non coincidono!"
+            },
+            "validate": {
+                "newpassword": {
+                    "required": "Password obbligatoria.",
+                    "minlength": "Password deve contenere almeno 5 caratteri.",
+                    "maxlength": "Password non può contenere più di 50 caratteri.",
+                    "strength": "Sicurezza della password:"
+                },
+                "confirmpassword": {
+                    "required": "Conferma password obbligatoria.",
+                    "minlength": "Conferma password deve contenere almeno 5 caratteri.",
+                    "maxlength": "Conferma password non può contenere più di 50 caratteri."
+                },
+                "email": {
+                    "required": "E-mail obbligatoria.",
+                    "invalid": "E-mail non valida",
+                    "minlength": "E-mail deve contenere almeno 5 caratteri.",
+                    "maxlength": "E-mail non può contenere più di 50 caratteri."
+                }
+            }
+        }
+    },
+    "entity": {
+        "action": {
+            "back": "Indietro",
+            "cancel": "Annulla",
+            "delete": "Cancella",
+            "attiva": "Attiva",
+            "edit": "Modifica",
+            "save": "Salva",
+            "view": "Visualizza",
+            "add":"Aggiungi"
+        },
+        "detail": {
+            "field": "Campo",
+            "value": "Valore"
+        },
+        "delete": {
+            "title": "Conferma operazione"
+        },
+         "attiva": {
+            "title": "Conferma attiva"
+        },
+        "validation": {
+            "required": "Questo campo \u00E8 obbligatorio.",
+            "minlength": "This field is required to be at least {{min}} characters.",
+            "maxlength": "This field cannot be longer than {{max}} characters.",
+            "min": "This field should be more than {{min}}.",
+            "max": "This field cannot be more than {{max}}.",
+            "pattern": "This field should follow pattern {{pattern}}.",
+            "number": "This field should be a number.",
+            "datetimelocal": "This field should be a date and time."
+        }
+    },
+    "footer": "Innova Puglia"
+}

@@ -1,0 +1,26 @@
+<div>
+	<div class="form-group" ng-class="{ 'everActive': (taskBpmId && taskBpmId.length > 0)}">
+		<label translate="cifra2gestattiApp.atto.note">Note</label>
+		<!-- <div ckeditor="options" ng-model="$parent.atto.note" ready="onReady()"></div> -->
+		<summernote ng-model="atto.nota" config="summernoteOptions"></summernote>
+	</div>
+	
+	<table class="table table-striped" ng-show="showNoteTable">
+		<thead>
+			<tr>
+				<th translate="global.dateTime"></th>
+				<th translate="global.author"></th>
+				<th translate="global.taskName"></th>
+				<th translate="global.text"></th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="notaElement in atto.listaNote" ng-if="notaElement.taskId!=taskBpmId" >
+				<td>{{ notaElement.data | date:'medium' }}</td>
+				<td>{{ notaElement.profilo.utente.cognome }} {{ notaElement.profilo.utente.nome }} ({{ notaElement.profilo.descrizione }})</td>
+				<td>{{ notaElement.taskName }}</td>
+				<td ng-bind-html="notaElement.testo"></td>
+			</tr>
+		</tbody>
+	</table>
+</div>

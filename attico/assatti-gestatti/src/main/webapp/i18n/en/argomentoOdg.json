@@ -1,0 +1,18 @@
+{
+    "cifra2gestattiApp": {
+        "argomentoOdg" : {
+            "home": {
+                "title": "ArgomentoOdgs",
+                "createLabel": "Create a new ArgomentoOdg",
+                "createOrEditLabel": "Create or edit a ArgomentoOdg"
+            },
+            "delete": {
+                "question": "Are you sure you want to delete ArgomentoOdg {{ id }}?"
+            },
+            "detail": {
+                "title": "ArgomentoOdg"
+            },
+            "descrizione": "Descrizione"
+        }
+    }
+}

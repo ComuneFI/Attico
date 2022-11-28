@@ -1,0 +1,198 @@
+<div>
+
+    <h2 translate="cifra2gestattiApp.ufficio.home.title">Ufficio</h2>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <button class="btn btn-primary" data-toggle="modal" data-target="#saveUfficioModal" ng-click="clear()">
+                    <span class="glyphicon glyphicon-flash"></span> <span translate="cifra2gestattiApp.ufficio.home.createLabel">Create a new Ufficio</span>
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal fade" id="operationNotPermitted">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                   <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                           ng-click="clear()">&times;</button>
+                   <h4 class="modal-title" translate="entity.modify.notPermitted">Operation not permitted</h4>
+               </div>
+               <div class="modal-body">
+                   <p translate="cifra2gestattiApp.ufficio.messages.error.operationNotPermitted">Operation not permitted</p>
+               </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="saveUfficioModal" tabindex="-1" role="dialog" aria-labelledby="myUfficioLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form name="editForm" role="form" novalidate ng-submit="save()" show-validation>
+
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                                ng-click="clear()">&times;</button>
+                        <h4 class="modal-title" id="myUfficioLabel" translate="cifra2gestattiApp.ufficio.home.createOrEditLabel">Create or edit a Ufficio</h4>
+                    </div>
+                    <div class="modal-body">
+                        
+
+                    <ufficio-form ng-model="ufficio" ng-disabled="false" lista-profilo="profilos" lista-aoo="aoos" ></ufficio-form>
+
+</div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
+                            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+                        </button>
+                        <button type="submit" ng-disabled="editForm.$invalid" class="btn btn-primary">
+                            <span class="glyphicon glyphicon-save"></span>&nbsp;<span translate="entity.action.save">Save</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="deleteUfficioConfirmation">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form name="deleteForm" ng-submit="confirmDelete(ufficio.id)">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                                ng-click="clear()">&times;</button>
+                        <h4 class="modal-title" translate="entity.delete.title">Confirm delete operation</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p translate="cifra2gestattiApp.ufficio.delete.question" translate-values="{id: '{{ufficio.id}}'}">Are you sure you want to delete this Ufficio?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
+                            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+                        </button>
+                        <button type="submit" ng-disabled="deleteForm.$invalid" class="btn btn-danger">
+                            <span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span translate="entity.action.delete">Delete</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+	<div class="row">
+   		<div class="col-md-6 col-md-offset-6 col-sm-12">
+   			<div class="pull-right">
+   				<div class="form-inline">
+   					<div class="form-group">
+			          <label translate="cifra2gestattiApp.ufficio.filtro.label-stato">Stato</label> 
+			          <ui-select ng-model="tempSearch.stato" theme="bootstrap" style='display: inline-block; min-width: 120px;'>
+						<ui-select-match allow-clear="true">{{$select.selected.denominazione | translate}}</ui-select-match>
+						<ui-select-choices repeat="stato in stati | filter: $select.search">
+							<div ng-bind-html="stato.denominazione | translate | highlight: $select.search"></div>
+						</ui-select-choices>
+					  </ui-select>
+			        </div>
+   				</div>
+   			</div>
+       </div>
+   	</div>
+
+
+	<div>
+	    <div class="table-responsive crud-search">
+	        <table class="table table-striped">
+	            <thead>
+	                <tr>
+	                	<th width="30px"></th>
+	                    <th>ID</th>
+	                    <th translate="cifra2gestattiApp.ufficio.codice">Codice</th>
+	                    <th translate="cifra2gestattiApp.ufficio.descrizione">Descrizione</th>
+	 
+	 
+	                    <th translate="cifra2gestattiApp.ufficio.email">Email</th>
+	                    <th translate="cifra2gestattiApp.ufficio.pec">Pec</th>
+	                    <th translate="cifra2gestattiApp.ufficio.responsabile">responsabile</th>
+	 
+	                    <th> 
+			                <span translate="cifra2gestattiApp.ufficio.aoo">Ufficio</span>
+		                	<span data-toggle="tooltip"
+								title="<b>GUIDA</b><br/>Inserire il codice Ufficio oppure la denominazione dell’Ufficio."
+								data-html="true" ng-init="initTooltip()">
+								<i class="fa fa-question" ></i>
+							</span>
+		                </th>
+	                    <th width="30px"></th>
+	                </tr>
+	                <tr>
+	                	<th style="text-align:center;"><button class="btn btn-primary btn-xs" ng-click="ricerca()"><span class="glyphicon glyphicon-search"/> <span translate="global.messages.cerca">Ricerca</span></button> <button class="btn btn-primary btn-xs" ng-click="resetRicerca()"><span translate="global.messages.resetricerca">Reset ricerca</span></button></th>
+	                    <th><input type="text" ng-model="tempSearch.idUfficio"></th>
+	                    <th><input type="text" ng-model="tempSearch.codice"></th>
+	                    <th><input type="text" ng-model="tempSearch.descrizione"></th>
+	                    <th><input type="text" ng-model="tempSearch.email"></th>
+	                    <th><input type="text" ng-model="tempSearch.pec"></th>
+	                    <th><input type="text" ng-model="tempSearch.responsabile"></th>
+	                    <th><input type="text" ng-model="tempSearch.aoo"></th>
+	                    <th style="text-align:center;"><button class="btn btn-primary btn-xs" ng-click="ricerca()"><span class="glyphicon glyphicon-search"/> <span translate="global.messages.cerca">Ricerca</span></button> <button class="btn btn-primary btn-xs" ng-click="resetRicerca()"><span translate="global.messages.resetricerca">Reset ricerca</span></button></th>
+	                </tr>
+	            </thead>
+	            <tbody>
+	                <tr ng-repeat="ufficio in ufficios">
+	                    <td></td>
+	                    <td><a ui-sref="ufficioDetail({id:ufficio.id})">{{ufficio.id}}</a></td>
+	                    <td>{{ufficio.codice}}</td>
+	                    <td>{{ufficio.descrizione}}</td>
+	 
+	 
+	                    <td>{{ufficio.email}}</td>
+	                    <td>{{ufficio.pec}}</td>
+	                    <td>{{ufficio.responsabile.utente.cognome}} {{ufficio.responsabile.utente.nome}}</td>
+	 
+	                    <td>{{ufficio.aoo.codice}}-{{ufficio.aoo.descrizione}}</td>
+	                    <td>
+	                        <button type="submit"
+	                                ui-sref="ufficioDetail({id:ufficio.id})"
+	                                class="btn btn-info btn-sm btn-block">
+	                            <span class="glyphicon glyphicon-eye-open"></span>&nbsp;<span translate="entity.action.view"> View</span>
+	                        </button>
+	                        <button type="submit"
+	                                ng-click="showUpdate(ufficio.id)"
+	                                class="btn btn-primary btn-sm btn-block">
+	                            <span class="glyphicon glyphicon-pencil"></span>&nbsp;<span translate="entity.action.edit"> Edit</span>
+	                        </button>
+	                        <button type="submit"
+	                        		ng-hide="ufficio.validita.validoal"
+	                                ng-click="disable(ufficio)"
+	                                class="btn btn-warning btn-sm btn-block">
+	                            <span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span translate="entity.action.disable"> Disable</span>
+	                        </button>
+	                        <button type="submit"
+	                        		ng-show="ufficio.validita.validoal"
+	                                ng-click="enable(ufficio)"
+	                                class="btn btn-success btn-sm btn-block">
+	                            <span class="glyphicon glyphicon-ok-circle"></span>&nbsp;<span translate="entity.action.enable"> Enable</span>
+	                        </button>
+	                    </td>
+	                </tr>
+	            </tbody>
+	        </table>
+	        <div ng-if="ufficios && ufficios.length == 0" class="search-no-result"><h3 translate="global.searchNoResult"></h3></div>
+	    </div>
+        <nav>
+            <ul class="pagination">
+                <li ng-show="links['first']" ng-click="loadPage(links['first'])"><a>&lt;&lt;</a></li>
+                <li ng-show="links['prev']" ng-click="loadPage(links['prev'])"><a>&lt;</a></li>
+                <li ng-show="page > 2" ng-click="loadPage(page - 2)"><a>{{page - 2}}</a></li>
+                <li ng-show="page > 1" ng-click="loadPage(page - 1)"><a>{{page - 1}}</a></li>
+                <li class="active"><a>{{page}}</a></li>
+                <li ng-show="page < links['last']" ng-click="loadPage(page + 1)"><a>{{page + 1}}</a></li>
+                <li ng-show="page < links['last'] - 1" ng-click="loadPage(page + 2)"><a>{{page + 2}}</a></li>
+                <li ng-show="links['next']" ng-click="loadPage(links['next'])"><a>&gt;</a></li>
+                <li ng-show="links['last']" ng-click="loadPage(links['last'])"><a>&gt;&gt;</a></li>
+            </ul>
+        </nav>
+    </div>
+</div>

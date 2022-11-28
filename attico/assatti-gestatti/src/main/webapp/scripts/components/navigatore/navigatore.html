@@ -1,0 +1,611 @@
+<div class="container-fluid navigatore" ng-if="isAuthenticated() && activeprofilos.$resolved"> 
+	<ul class="nav nav-pills" ng-switch="isAuthenticated()">
+
+		<li ui-sref-active="active"><a ui-sref="taskDesktop"><span
+				class="glyphicon glyphicon-asterisk"></span> &#xA0;<span>Scrivania</span></a></li>
+				
+		<li ui-sref-active="active"><a ui-sref="utenteMySelf({id:account.utente.id})"><span
+				class="glyphicon glyphicon-user"></span> &#xA0;<span translate="global.menu.datipersonali">Dati Personali Anagrafici</span></a></li>
+				
+		<li ui-sref-active="active"><a ui-sref="selezionaprofilo()"><span
+			class="glyphicon glyphicon-th-large"></span> &#xA0;<span translate="global.menu.dettaglioprofilo">Dettaglio del profilo</span></a></li>
+
+		<li ui-sref-active="active" ng-switch-when="true" role="presentation"
+			has-ruolo="ROLE_OPERATORE_CONSULTAZIONE_ATTI,ROLE_SUPERVISORE_CONSULTAZIONE_ATTI" class="dropdown pointer"><a class="dropdown-toggle"
+			data-toggle="dropdown" href=""> 
+			<span> 
+				<span class="fa fa-book"></span> <span class="hidden-tablet"
+					translate="global.menu.ricerca.main">ricerca</span> 
+					<b class="caret"></b>
+			</span>
+		</a>
+			<ul class="dropdown-menu">
+				<li ui-sref-active="active" class="dropdown dropdown-submenu">
+					<a href="#"><span class="fa fa-table"></span> &nbsp;<span
+						translate="global.menu.ricerca.annocorrente"></span></a>
+					<ul class="dropdown-menu">
+						<li ng-repeat="tipoAtto in profiloattivo.tipiAtto"><a href="#/{{tipoAtto.proponente ? 'grouped-search/current' : 'ricerca/anno'}}/{{tipoAtto.codice}}"><span class="fa fa-plus-square"></span>
+						&nbsp;<span>{{tipoAtto.descrizione}}</span></a></li>
+					</ul>
+				</li>
+				<li ui-sref-active="active" class="dropdown dropdown-submenu">
+					<a href="#"><span class="fa fa-book"></span> &nbsp;<span
+						translate="global.menu.ricerca.tematica"></span></a>
+					<ul class="dropdown-menu">
+						<li ng-repeat="tipoAtto in profiloattivo.tipiAtto"><a href="#/{{tipoAtto.proponente ? 'grouped-search/past' : 'ricerca/tematica'}}/{{tipoAtto.codice}}"><span class="fa fa-plus-square"></span>
+						&nbsp;<span>{{tipoAtto.descrizione}}</span></a></li>
+					</ul>
+				</li>
+				<li ng-if="configurationParams.menu_ricerca_libera_enabled"><a ui-sref="attoLibera"><span class="fa fa-globe"></span>
+						&nbsp;<span translate="global.menu.ricerca.libera">libera</span></a></li>
+				<li ng-if="configurationParams.menu_ricerca_storica_enabled" ui-sref-active="active" class="dropdown dropdown-submenu">
+			         <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+			          <span class="fa fa-history"></span> &nbsp;
+			          <span translate="global.menu.ricerca.storica.main">storica</span>
+			         </a>
+			         <ul class="dropdown-menu">
+					      <li><a ui-sref="attoStorica({tipo:'atti-dirigenziali'})"><span
+					        class="fa fa-history"></span> &nbsp; <span
+					        translate="global.menu.ricerca.storica.determine">Ricerca Storica Atti Dirigenziali</span> </a></li>
+					      <li><a ui-sref="attoStorica({tipo:'atti-giunta'})"><span
+					        class="fa fa-history"></span> &nbsp; <span
+					        translate="global.menu.ricerca.storica.delibere">Ricerca Storica Atti di Giunta</span> </a></li>
+			    	 </ul>
+			    </li>
+			</ul>
+		</li>
+
+		<li ui-sref-active="active" ng-switch-when="true" role="presentation"
+			ng-if="aooAbilitata() && profiloattivo && profiloattivo.futureEnabled"
+			has-ruolo="ROLE_ISTRUTTORE_PROPOSTA"
+			class="dropdown pointer">
+			<a class="dropdown-toggle"
+				data-toggle="dropdown" href=""> 
+				<span> 
+					<span class="fa fa-book"></span> <span class="hidden-tablet"
+							translate="global.menu.atto.title">atto</span>
+					 <b class="caret"></b>
+				</span>
+			</a>
+			<ul class="dropdown-menu">
+				
+				<li
+					has-ruolo="ROLE_ISTRUTTORE_PROPOSTA"
+					class="divider"></li>
+				<li
+					has-ruolo="ROLE_ISTRUTTORE_PROPOSTA" class="dropdown dropdown-submenu">
+					<a href="#"><span class="fa fa-plus-square"></span>
+						&nbsp;<span translate="global.menu.atto.nuovo">Nuovo Atto</span></a>
+					<ul class="dropdown-menu">
+						<li ng-repeat="tipoAtto in profiloattivo.tipiAtto" ng-if="tipoAtto.enabled"><a href="#/atto/nuovo/{{tipoAtto.id}}/0"><span class="fa fa-plus-square"></span>
+						&nbsp;<span>{{tipoAtto.descrizione}}</span></a></li>
+					</ul>
+				</li>
+				<li ng-if="configurationParams.menu_predisposizioneatto_clona_enabled"
+					has-ruolo="ROLE_ISTRUTTORE_PROPOSTA">
+					<a href="#/atto/clonazione/"><span class="fa fa-files-o"></span>
+						&nbsp;<span translate="global.menu.atto.clona">Clona Atto</span></a>
+				</li>
+				<li
+					has-ruolo="ROLE_ISTRUTTORE_PROPOSTA"
+					class="divider"></li>
+			</ul></li>
+
+
+		<!-- <li ui-sref-active="active" ng-switch-when="true" role="presentation"
+			has-ruolo="ROLE_SEGRETARIO_GIUNTA,ROLE_OPERATORE_ODG_GIUNTA,ROLE_PRESIDENTE_GIUNTA,ROLE_OPERATORE_RESOCONTO_GIUNTA"
+			class="dropdown pointer"><a class="dropdown-toggle"
+			data-toggle="dropdown" href=""> <span> <span
+					class="fa fa-book"></span> <span class="hidden-tablet"
+					translate="global.menu.odg.title">O.d.g</span> <b class="caret"></b>
+			</span>
+		</a>
+			<ul class="dropdown-menu">
+				<li has-ruolo="ROLE_AMMINISTRATORE_RP,ROLE_SEGRETARIO_GIUNTA,ROLE_OPERATORE_ODG_GIUNTA,ROLE_PRESIDENTE_GIUNTA,ROLE_OPERATORE_RESOCONTO_GIUNTA">
+					<a href="#/sedutaGiunta"><span class="fa fa-table"></span>
+						&nbsp;<span translate="global.menu.odg.sedutagiunta">Seduta	di Giunta</span></a>
+				</li>
+				<li
+					has-ruolo="ROLE_ISTRUTTORE_PROPOSTA,ROLE_OPERATORE_ODG_GIUNTA,ROLE_OPERATORE_RESOCONTO_GIUNTA"
+					class="divider"></li>
+			</ul></li> -->
+
+		
+		<li ui-sref-active="active" ng-switch-when="true" has-ruolo="ROLE_OPERATORE_RESOCONTO_CONSIGLIO" class="dropdown pointer">
+			  <a class="dropdown-toggle" data-toggle="dropdown" href="">
+			       <span>
+			            <span class="fa fa-users"></span>
+			            <span class="hidden-tablet"
+								translate="global.menu.gestionePareriConsQuart.title">
+			                 gestionePareriConsQuart
+			           </span>
+			           <b class="caret"></b>
+			     </span>
+			</a>
+			<ul class="dropdown-menu">
+				 <li ui-sref-active="active"><a ui-sref="commissioniCons"><span
+										class="glyphicon glyphicon-asterisk"></span>
+				      &#xA0;<span translate="global.menu.pareri.commissionicons">commissionicons</span></a>
+				</li>
+				<li ui-sref-active="active"><a ui-sref="consQuartRev"><span
+										class="glyphicon glyphicon-asterisk"></span>
+				      &#xA0;<span translate="global.menu.pareri.consquartrev">consquartrev</span></a>
+				</li>
+			</ul>
+		</li>
+		
+		<li ng-if="configurationParams.menu_monitoraggiopubblicazioni_enabled" ui-sref-active="active" ng-switch-when="true"
+			class="dropdown pointer" has-ruolo-in-all-profiles="ROLE_RESPONSABILE_PUBBLICAZIONE_GIUNTA,ROLE_RESPONSABILE_PUBBLICAZIONE_CONSIGLIO,ROLE_RESPONSABILE_PUBBLICAZIONE_AD,ROLE_RESPONSABILE_PUBBLICAZIONE_ORD,ROLE_RESPONSABILE_PUBBLICAZIONE_DEC">
+		 <a class="dropdown-toggle" data-toggle="dropdown" href="">
+		      <span>
+		           <span class="glyphicon glyphicon-list-alt"></span>
+		           <span class="hidden-tablet"
+							translate="global.menu.monitoraggioPubblicazioni.title">
+		                monitoraggioPubblicazioni
+		          </span>
+		          <b class="caret"></b>
+		    </span>
+		</a>
+		<ul class="dropdown-menu">      
+		      <li ui-sref-active="active"><a ui-sref="jobPubblicazione">
+		           &#xA0;<span class="glyphicon glyphicon-th-list"></span> &#xA0;<span translate="global.menu.monitoraggioPubblicazioni.titleAlbo">monitoraggioPubblicazioni</span></a>
+		     </li>
+		     <li ui-sref-active="jobTrasparenza"><a ui-sref="jobTrasparenza">
+		           &#xA0;<span class="glyphicon glyphicon-th-list"></span> &#xA0;<span translate="global.menu.monitoraggioPubblicazioni.titleTrasparenza">monitoraggioPubblicazioniTrasparenza</span></a>
+		     </li>
+		</ul>
+		</li>
+
+
+		<li ui-sref-active="active" ng-switch-when="true" has-ruolo="ROLE_ADMIN,ROLE_AMMINISTRATORE_RP,ROLE_OPERATORE_GESTIONE_UFFICI,ROLE_REFERENTE_TECNICO,ROLE_OPERATORE_SEGRETERIA_GIUNTA,ROLE_OPERATORE_SEGRETERIA_CONSIGLIO"
+					class="dropdown pointer">
+			<a class="dropdown-toggle" data-toggle="dropdown" href="">
+			       <span>
+			            <span class="fa fa-users"></span>
+			            <span class="hidden-tablet"
+								translate="global.menu.gestioneOrganigramma">
+			                 gestioneOrganigramma
+			           </span>
+			           <b class="caret"></b>
+			     </span>
+			</a>
+			<ul class="dropdown-menu">      
+				 <li ui-sref-active="active" has-ruolo="ROLE_ADMIN"><a ui-sref="ruolo"><span
+										class="glyphicon glyphicon-asterisk"></span>
+				      &#xA0;<span translate="global.menu.entities.ruolo">ruolo</span></a>
+				</li>
+				<li ui-sref-active="active" has-ruolo="ROLE_ADMIN,ROLE_AMMINISTRATORE_RP"><a ui-sref="utente"><span
+										class="glyphicon glyphicon-asterisk"></span>
+				      &#xA0;<span translate="global.menu.entities.utente">utente</span></a>
+				</li>
+				<li ui-sref-active="active" has-ruolo="ROLE_ADMIN"><a ui-sref="indirizzo"><span
+										class="glyphicon glyphicon-asterisk"></span>
+				      &#xA0;<span translate="global.menu.entities.indirizzo">indirizzo</span></a>
+				</li>
+				<li has-ruolo="ROLE_ADMIN,ROLE_AMMINISTRATORE_RP" class="divider"></li>
+				<li ui-sref-active="active" has-ruolo="ROLE_ADMIN,ROLE_OPERATORE_GESTIONE_UFFICI"><a ui-sref="aoo"><span
+										class="glyphicon glyphicon-asterisk"></span>
+				      &#xA0;<span translate="global.menu.entities.aoo">aoo</span></a>
+				</li>
+				
+				<li ng-if="configurationParams.menu_organigramma_assessorato_enabled" ui-sref-active="active" has-role="ROLE_ADMIN"><a ui-sref="assessorato"><span
+										class="glyphicon glyphicon-asterisk"></span>
+				                        &#xA0;<span>Assessorato</span></a>
+				               </li>
+				<li ui-sref-active="active" has-ruolo="ROLE_ADMIN"><a ui-sref="gruppoRuolo"><span
+										class="glyphicon glyphicon-asterisk"></span>
+				      &#xA0;<span translate="global.menu.entities.gruppoRuolo">gruppoRuolo</span></a>
+				</li>
+				<li ui-sref-active="active" has-ruolo="ROLE_ADMIN,ROLE_AMMINISTRATORE_RP,ROLE_REFERENTE_TECNICO"><a ui-sref="profilo"><span
+										class="glyphicon glyphicon-asterisk"></span>
+				      &#xA0;<span translate="global.menu.entities.profilo">profilo</span></a>
+				</li> 
+				<li ng-if="configurationParams.menu_organigramma_servizio_enabled" ui-sref-active="active" has-ruolo="ROLE_ADMIN"><a ui-sref="ufficio"><span
+										class="glyphicon glyphicon-asterisk"></span>
+				      &#xA0;<span translate="global.menu.entities.ufficio">ufficio</span></a></li>
+				      
+				<!-- <li ui-sref-active="active" has-ruolo="ROLE_ADMIN,ROLE_OPERATORE_SEGRETERIA_GIUNTA"><a  ui-sref="composizioneGiunta" ><span
+			class="fa fa-users"></span> &#xA0;<span translate="global.menu.composizioneGiunta.title">Composizione Giunta</span></a></li>
+			
+			
+			<li ui-sref-active="active" has-ruolo="ROLE_ADMIN,ROLE_OPERATORE_SEGRETERIA_CONSIGLIO"><a  ui-sref="composizioneConsiglio" ><span
+			class="fa fa-users"></span> &#xA0;<span translate="global.menu.composizioneConsiglio.title">Composizione Consiglio</span></a></li> -->
+			
+			<li ui-sref-active="active" has-ruolo="ROLE_ADMIN,ROLE_OPERATORE_SEGRETERIA_GIUNTA"><a  ui-sref="versioneComposizioneGiunta" ><span
+			class="fa fa-users"></span> &#xA0;<span translate="global.menu.versioneComposizioneGiunta.title">Versione Composizione Giunta</span></a></li>
+			
+			
+			<li ui-sref-active="active" has-ruolo="ROLE_ADMIN,ROLE_OPERATORE_SEGRETERIA_CONSIGLIO"><a  ui-sref="versioneComposizioneConsiglio" ><span
+			class="fa fa-users"></span> &#xA0;<span translate="global.menu.versioneComposizioneConsiglio.title">Versione Composizione Consiglio</span></a></li>
+			
+			
+			</ul>
+		</li>
+
+
+
+<li ui-sref-active="active" ng-switch-when="true"
+			class="dropdown pointer">
+ <a class="dropdown-toggle" data-toggle="dropdown" href="">
+      <span>
+           <span class="fa fa-plus-square-o fa-fw"></span>
+           <span class="hidden-tablet"
+					translate="global.menu.gestioneProgressivi">
+                gestioneProgressivi
+          </span>
+          <b class="caret"></b>
+    </span>
+</a>
+<ul class="dropdown-menu">      
+      <li ui-sref-active="active"><a ui-sref="progressivoProposta"><span
+						class="glyphicon glyphicon-asterisk"></span>
+           &#xA0;<span
+						translate="global.menu.entities.progressivoProposta">progressivoProposta</span></a>
+     </li>
+     <li ui-sref-active="active"><a ui-sref="progressivoAdozione"><span
+						class="glyphicon glyphicon-asterisk"></span>
+           &#xA0;<span
+						translate="global.menu.entities.progressivoAdozione">progressivoAdozione</span></a>
+     </li>
+</ul>
+</li>
+
+<li ui-sref-active="active" ng-switch-when="true"
+			class="dropdown pointer">
+<a has-ruolo="ROLE_ISTRUTTORE_PROPOSTA,ROLE_ADMIN,ROLE_OPERATORE_DELEGA,ROLE_AMMINISTRATORE_RP,ROLE_REFERENTE_TECNICO,ROLE_SUPPORT_MANAGER"  class="dropdown-toggle" data-toggle="dropdown" href="">
+      <span>
+           <span class="fa fa-language"></span>
+           <span class="hidden-tablet"
+					translate="global.menu.gestioneAnagrafiche">
+                gestioneAnagrafiche
+          </span>
+          <b class="caret"></b>
+    </span>
+</a>
+<!-- <a has-role="ROLE_ADMIN,ROLE_AMMINISTRATORE_RP" class="dropdown-toggle" data-toggle="dropdown" href="">
+      <span>
+           <span class="fa fa-language"></span>
+           <span class="hidden-tablet"
+					translate="global.menu.gestioneAnagrafiche">
+                gestioneAnagrafiche
+          </span>
+          <b class="caret"></b>
+    </span>
+</a>-->
+<ul class="dropdown-menu">      
+	  
+      <li ui-sref-active="active" has-role="ROLE_ADMIN"><a ui-sref="tipoAtto"><span
+						class="glyphicon glyphicon-asterisk"></span>
+           &#xA0;<span translate="global.menu.entities.tipoAtto">tipoAtto</span></a>
+     </li>
+     <li ui-sref-active="active" has-role="ROLE_ADMIN"><a ui-sref="tipoProgressivo"><span
+						class="glyphicon glyphicon-asterisk"></span>
+           &#xA0;<span translate="global.menu.entities.tipoProgressivo">tipoProgressivo</span></a>
+     </li>
+     <li ng-if="configurationParams.menu_anagrafiche_sistemaaccreditato_enabled" ui-sref-active="active" has-role="ROLE_ADMIN"><a ui-sref="sistemaAccreditato"><span
+						class="glyphicon glyphicon-asterisk"></span>
+           &#xA0;<span translate="global.menu.entities.sistemaAccreditato">sistemaAccreditato</span></a>
+     </li>
+     <li ui-sref-active="active" has-role="ROLE_ADMIN"><a ui-sref="tipoIter"><span
+						class="glyphicon glyphicon-asterisk"></span>
+           &#xA0;<span translate="global.menu.entities.tipoIter">tipo Iter</span></a>
+     </li>
+     <li ui-sref-active="active" has-role="ROLE_ADMIN"><a ui-sref="tipoAoo"><span
+						class="glyphicon glyphicon-asterisk"></span>
+           &#xA0;<span translate="global.menu.entities.tipoAoo">tipoAoo</span></a>
+     </li>
+     <li ng-if="configurationParams.menu_anagrafiche_tipoodg_enabled" ui-sref-active="active" has-role="ROLE_ADMIN,ROLE_AMMINISTRATORE_RP"><a ui-sref="tipoOdg"><span
+						class="glyphicon glyphicon-asterisk"></span>
+           &#xA0;<span translate="global.menu.entities.tipoOdg">tipoOdg</span></a>
+     </li>
+     <li ui-sref-active="active" has-role="ROLE_ADMIN"><a ui-sref="tipoDocumento"><span
+						class="glyphicon glyphicon-asterisk"></span>
+           &#xA0;<span translate="global.menu.entities.tipoDocumento">tipoDocumento</span></a>
+     </li>
+     <li ng-if="configurationParams.menu_anagrafiche_tipoadempimento_enabled" ui-sref-active="active" has-role="ROLE_ADMIN"><a ui-sref="tipoAdempimento"><span
+						class="glyphicon glyphicon-asterisk"></span>
+           &#xA0;<span translate="global.menu.entities.tipoAdempimento">tipoAdempimento</span></a>
+     </li>
+     <li ui-sref-active="active" has-role="ROLE_ADMIN,ROLE_AMMINISTRATORE_RP"><a
+					ui-sref="qualificaProfessionale"><span
+						class="glyphicon glyphicon-asterisk"></span>
+           &#xA0;<span
+						translate="global.menu.entities.qualificaProfessionale">qualificaProfessionale</span></a></li>
+       <li ng-if="isVisibleRiferimentinormativi()" ui-sref-active="active" has-role="ROLE_ADMIN,ROLE_AMMINISTRATORE_RP"><a ui-sref="tipoMateria"><span
+		class="glyphicon glyphicon-asterisk"></span>
+            &#xA0;<span translate="global.menu.entities.tipoMateria">tipoMateria</span></a>
+      </li>
+
+
+      <li ng-if="configurationParams.menu_anagrafiche_tipodeterminazione_enabled" ui-sref-active="active" has-role="ROLE_ADMIN,ROLE_AMMINISTRATORE_RP"><a ui-sref="tipoDeterminazione"><span
+						class="glyphicon glyphicon-asterisk"></span>
+                        &#xA0;<span
+						translate="global.menu.entities.tipoDeterminazione">tipoDeterminazione</span></a></li>
+
+	  <li ui-sref-active="active" has-ruolo="ROLE_ADMIN,ROLE_AMMINISTRATORE_RP,ROLE_OPERATORE_DELEGA,ROLE_REFERENTE_TECNICO"><a ui-sref="delega"><span
+						class="glyphicon glyphicon-asterisk"></span>
+                        &#xA0;<span
+						translate="global.menu.entities.delega">delega</span></a></li>
+	  <li ui-sref-active="active" has-ruolo="ROLE_ADMIN,ROLE_AMMINISTRATORE_RP,ROLE_OPERATORE_DELEGA,ROLE_REFERENTE_TECNICO"><a ui-sref="delegaTask"><span
+						class="glyphicon glyphicon-asterisk"></span>
+                        &#xA0;<span
+						translate="global.menu.entities.delegaTask">delegaTask</span></a></li>
+      <li ui-sref-active="active" has-ruolo="ROLE_SUPPORT_MANAGER" ng-if="!impersonificazioneAttiva()"><a ui-sref="impersonifica"><span
+						class="glyphicon glyphicon-asterisk"></span>
+                        &#xA0;<span
+						translate="global.menu.entities.impersonificate">impersonifica</span></a></li>
+
+      <li class="divider" has-role="ROLE_ADMIN,ROLE_AMMINISTRATORE_RP"></li>
+      <li ui-sref-active="active" has-role="ROLE_ADMIN,ROLE_AMMINISTRATORE_RP"><a ui-sref="modelloHtml"><span
+						class="glyphicon glyphicon-asterisk"></span>
+                &#xA0;<span translate="global.menu.entities.modelloHtml">modelloHtml</span></a></li>
+       <li ui-sref-active="active" has-ruolo="ROLE_REFERENTE_TECNICO,ROLE_ISTRUTTORE_PROPOSTA,ROLE_ADMIN,ROLE_AMMINISTRATORE_RP"><a ui-sref="modelloCampoAdmin({flag:'admin'})"><span
+						class="glyphicon glyphicon-asterisk"></span>
+                &#xA0;<span translate="global.menu.entities.modelliCampo">modelliCampo</span></a></li>
+       <!-- <li ui-sref-active="active" has-role="ROLE_ADMIN,ROLE_AMMINISTRATORE_RP"><a ui-sref="modelloCampoAdmin({flag:'admin'})"><span
+						class="glyphicon glyphicon-asterisk"></span>
+				          &#xA0;<span translate="global.menu.entities.modelliCampo">modelliCampo</span></a></li> -->
+        <li ng-if="configurationParams.menu_anagrafiche_rubricabeneficiario_enabled" ui-sref-active="active" has-ruolo-in-all-profiles="ROLE_ISTRUTTORE_PROPOSTA,ROLE_ADMIN,ROLE_AMMINISTRATORE_RP"><a ui-sref="rubricaBeneficiario"><span
+						class="glyphicon glyphicon-asterisk"></span>
+         					 &#xA0;<span translate="global.menu.entities.rubricaBeneficiario">rubricaBeneficiari</span></a></li>
+         					 
+         					 
+           <li ui-sref-active="active" has-ruolo-in-all-profiles="ROLE_OPERATORE_SEGRETERIA_CONSIGLIO"><a ui-sref="esitoPareri"><span
+						class="glyphicon glyphicon-asterisk"></span>
+         					 &#xA0;<span translate="global.menu.entities.esitoPareri">esitoPareri</span></a></li>
+         					 
+		<!-- <li ui-sref-active="active" has-role="ROLE_ADMIN,ROLE_AMMINISTRATORE_RP"><a ui-sref="rubricaBeneficiario"><span
+						class="glyphicon glyphicon-asterisk"></span>
+							 &#xA0;<span translate="global.menu.entities.rubricaBeneficiario">rubricaBeneficiari</span></a></li> -->
+       <li ng-if="configurationParams.menu_anagrafiche_ambitodl33_enabled || configurationParams.menu_anagrafiche_materiadl33_enabled" class="divider" has-role="ROLE_ADMIN,ROLE_AMMINISTRATORE_RP"></li>          
+	   <li ng-if="configurationParams.menu_anagrafiche_materiadl33_enabled && configurationParams.section_trasparenza_enabled" ui-sref-active="active" has-role="ROLE_ADMIN,ROLE_AMMINISTRATORE_RP"><a
+		ui-sref="materiaDl33"><span
+			class="glyphicon glyphicon-asterisk"></span>
+	                    &#xA0;<span
+			translate="global.menu.entities.materiaDl33">materiaDl33</span></a></li>
+	<li ng-if="configurationParams.menu_anagrafiche_ambitodl33_enabled && configurationParams.section_trasparenza_enabled" ui-sref-active="active" has-role="ROLE_ADMIN,ROLE_AMMINISTRATORE_RP"><a ui-sref="ambitoDl33"><span
+						class="glyphicon glyphicon-asterisk"></span>
+                        &#xA0;<span
+						translate="global.menu.entities.ambitoDl33">ambitoDl33</span></a></li>
+
+  <li ng-if="configurationParams.section_trasparenza_enabled" class="divider" has-role="ROLE_ADMIN,ROLE_AMMINISTRATORE_RP"></li>
+	<li ng-if="configurationParams.section_trasparenza_enabled" ui-sref-active="active" has-role="ROLE_ADMIN,ROLE_AMMINISTRATORE_RP"><a ui-sref="dato"><span
+						class="glyphicon glyphicon-asterisk"></span>
+                        &#xA0;<span
+						translate="global.menu.entities.dato">dato</span></a></li>
+
+	<li ng-if="configurationParams.section_trasparenza_enabled" ui-sref-active="active" has-role="ROLE_ADMIN,ROLE_AMMINISTRATORE_RP"><a ui-sref="scheda"><span
+						class="glyphicon glyphicon-asterisk"></span>
+                        &#xA0;<span
+						translate="global.menu.entities.scheda">scheda</span></a></li>
+<!--     <li ui-sref-active="active" ><a ui-sref="schedaDato"><span class="glyphicon glyphicon-asterisk"></span> -->
+<!--                         &#xA0;<span translate="global.menu.entities.schedaDato">schedaDato</span></a></li> -->
+  <li ng-if="configurationParams.section_trasparenza_enabled" class="divider" has-role="ROLE_ADMIN,ROLE_AMMINISTRATORE_RP"></li>
+
+	<li ng-if="configurationParams.section_trasparenza_enabled" ui-sref-active="active" has-role="ROLE_ADMIN,ROLE_AMMINISTRATORE_RP"><a ui-sref="obbligo_DL33"><span
+						class="glyphicon glyphicon-asterisk"></span>
+                        &#xA0;<span
+						translate="global.menu.entities.obbligo_DL33">obbligo_DL33</span></a></li>
+	<li ng-if="configurationParams.section_trasparenza_enabled" ui-sref-active="active" has-role="ROLE_ADMIN,ROLE_AMMINISTRATORE_RP"><a ui-sref="cat_obbligo_DL33"><span
+						class="glyphicon glyphicon-asterisk"></span>
+                        &#xA0;<span
+						translate="global.menu.entities.cat_obbligo_DL33">cat_obbligo_DL33</span></a></li>
+	<li ng-if="configurationParams.section_trasparenza_enabled" ui-sref-active="active" has-role="ROLE_ADMIN,ROLE_AMMINISTRATORE_RP"><a ui-sref="macro_cat_obbligo_dl33"><span
+						class="glyphicon glyphicon-asterisk"></span>
+                        &#xA0;<span
+						translate="global.menu.entities.macro_cat_obbligo_dl33">macro_cat_obbligo_dl33</span></a></li>	
+	
+	<li ng-if="configurationParams.menu_anagrafiche_rubricadestinatarioesterno_enabled" ui-sref-active="active" has-ruolo="ROLE_ISTRUTTORE_PROPOSTA,ROLE_ADMIN,ROLE_AMMINISTRATORE_RP"><a ui-sref="rubricaDestinatarioEsterno"><span
+						class="glyphicon glyphicon-asterisk"></span>
+     					&#xA0;<span
+						translate="global.menu.entities.rubricaDestinatarioEsterno">rubricaDestinatarioEsterno</span></a></li>
+	<!-- <li ui-sref-active="active" has-ruolo="ROLE_ADMIN,ROLE_AMMINISTRATORE_RP"><a ui-sref="rubricaDestinatarioEsterno"><span
+						class="glyphicon glyphicon-asterisk"></span>
+     					&#xA0;<span
+						translate="global.menu.entities.rubricaDestinatarioEsterno">rubricaDestinatarioEsterno</span></a></li> -->
+						
+	<li class="divider"></li>
+
+	<li ui-sref-active="active" has-role="ROLE_ADMIN"><a ui-sref="configurazioneRiversamento"><span
+						class="glyphicon glyphicon-asterisk"></span>
+                        &#xA0;<span
+						translate="global.menu.entities.configurazioneRiversamento">configurazioneRiversamento</span></a></li>
+	<li ui-sref-active="active" has-role="ROLE_ADMIN"><a ui-sref="configurazioneTask"><span
+						class="glyphicon glyphicon-asterisk"></span>
+           &#xA0;<span translate="global.menu.entities.configurazioneTask">Configurazione Processo</span></a>
+     </li>
+	<li ui-sref-active="active" has-role="ROLE_ADMIN"><a ui-sref="tipoDocumentoSerie"><span
+						class="glyphicon glyphicon-asterisk"></span>
+                        &#xA0;<span
+						translate="global.menu.entities.tipoDocumentoSerie">tipoDocumentoSerie</span></a></li>
+	<li ng-if="configurationParams.menu_anagrafiche_classificazione_enabled" ui-sref-active="active" has-role="ROLE_ADMIN"><a ui-sref="classificazione"><span
+						class="glyphicon glyphicon-asterisk"></span>
+                        &#xA0;<span
+						translate="global.menu.entities.classificazione">classificazione</span></a></li>
+                       
+</ul> 
+</li>
+
+<li ui-sref-active="active" ng-if="impersonificazioneAttiva()"><a href="#" ng-click="stopImpersonifica()" style="background-color: #5cb85c !important;">
+				<span class="glyphicon glyphicon-user"></span> &#xA0;<span translate="global.menu.entities.stopImpersonificate">termina impersonificazione</span></a></li>
+
+
+<li ui-sref-active="active"><a ui-sref="avanzamento" ng-switch-when="true" has-role="ROLE_ADMIN"><span 
+                class="glyphicon glyphicon-th-list"></span> &#xA0;<span translate="global.menu.entities.avanzamento">Storico Lavorazioni</span></a></li>
+
+
+<li ng-class="{active: $state.includes('admin')}" ng-switch-when="true"
+			has-role="ROLE_ADMIN" class="dropdown pointer">
+    <a class="dropdown-toggle" data-toggle="dropdown" href="">
+         <span>
+              <span class="fa  fa-tachometer"></span>
+              <span class="hidden-tablet"
+					translate="global.menu.admin.main">Admin</span>
+              <b class="caret"></b>
+        </span>
+  </a>
+  <ul class="dropdown-menu">
+  <li ng-if="configurationParams.menu_monitoraggio_reportsms_enabled" ui-sref-active="active" has-role="ROLE_ADMIN"><a ui-sref="smsReport"><span
+						class="glyphicon glyphicon-envelope"></span>
+        &nbsp;<span translate="global.menu.admin.smsReport">SMS Report</span></a>
+  </li>
+  <li ng-if="configurationParams.menu_monitoraggio_reportnotifiche_enabled" ui-sref-active="active" has-role="ROLE_ADMIN"><a ui-sref="newsReport"><span
+						class="glyphicon glyphicon-eye-open"></span>
+        &nbsp;<span translate="global.menu.admin.newsReport">News Report</span></a>
+  </li>
+  <li ng-if="configurationParams.menu_monitoraggio_reportdocumentale_enabled" ui-sref-active="active" has-role="ROLE_ADMIN"><a ui-sref="diogeneReport"><span
+						class="glyphicon glyphicon-eye-open"></span>
+        &nbsp;<span translate="global.menu.admin.diogeneReport">diogeneReport</span></a>
+  </li>
+  <li ng-if="configurationParams.menu_monitoraggio_metriche_enabled" ui-sref-active="active" has-role="ROLE_ADMIN"><a ui-sref="metrics"><span
+						class="glyphicon glyphicon-dashboard"></span>
+        &#xA0;<span translate="global.menu.admin.metrics">Metrics</span></a>
+  </li>
+  <li ng-if="configurationParams.menu_monitoraggio_schedulermanagement_enabled" ui-sref-active="active" has-role="ROLE_ADMIN"><a ui-sref="schedulerChecking"><span
+						class="glyphicon glyphicon-time"></span>
+        &nbsp;<span>Scheduler Management</span></a>
+  </li>
+   <!-- <li ui-sref-active="active" has-role="ROLE_ADMIN"><a ui-sref="tracker"><span
+						class="glyphicon glyphicon-eye-open"></span>
+        &nbsp;<span translate="global.menu.admin.tracker">User tracking</span></a>
+  </li> -->
+  
+<!--   <li ui-sref-active="active"><a ui-sref="health"><span
+						class="glyphicon glyphicon-heart"></span>
+        &#xA0;<span translate="global.menu.admin.health">Health</span></a>
+  </li> 
+  <li ui-sref-active="active"><a ui-sref="configuration"><span
+						class="glyphicon glyphicon-list-alt"></span>
+        &#xA0;<span translate="global.menu.admin.configuration">Configuration</span></a>
+  </li>-->
+  <!-- <li ui-sref-active="active" has-role="ROLE_ADMIN"><a ui-sref="audits"><span
+						class="glyphicon glyphicon-bell"></span>
+        &#xA0;<span translate="global.menu.admin.audits">Audits</span></a>
+  </li>
+  -->
+  <li ng-if="configurationParams.menu_monitoraggio_accessi_enabled" ui-sref-active="active" has-role="ROLE_ADMIN"><a ui-sref="monitoraggioAccesso"><span
+						class="glyphicon glyphicon-bell"></span>
+        &#xA0;<span translate="global.menu.admin.monitoraggioAccessos">monitoraggioAccessos</span></a>
+  </li>
+  <li ng-if="configurationParams.menu_monitoraggio_log_enabled" ui-sref-active="active" has-role="ROLE_ADMIN"><a ui-sref="logs"><span
+						class="glyphicon glyphicon-tasks"></span>
+        &#xA0;<span translate="global.menu.admin.logs">Logs</span></a>
+  </li>
+ <!--  <li ng-if="configurationParams.menu_monitoraggio_api_enabled" ui-sref-active="active"><a ui-sref="docs"><span
+						class="glyphicon glyphicon-book"></span>
+        &#xA0;<span translate="global.menu.admin.apidocs">API Docs</span></a>
+  </li> -->
+</ul>
+</li>
+
+<li ng-if="configurationParams.menu_helpdesk_enabled" ui-sref-active="active" not-has-role="ROLE_ADMIN" class="dropdown pointer hidden">
+    <a ui-sref="richiestaHDU">
+    	<span class="fa  fa-info-circle"></span> <span class="hidden-tablet" translate="global.menu.helpdesk">Helpdesk</span>
+    </a>
+</li>
+
+<li ng-if="configurationParams.menu_richiestedirigente_enabled" ui-sref-active="active" ng-if="aoosDirigente && aoosDirigente.length > 0" class="dropdown pointer">
+    <a ui-sref="richiesteDirigente">
+    	<span class="fa  fa-info-circle"></span> <span class="hidden-tablet" translate="global.menu.richiesteDirigenti">richieste dirigente</span>
+    </a>
+</li>
+
+<li ng-if="configurationParams.menu_messaggi_enabled" ui-sref-active="active" not-has-role="ROLE_ADMIN,ROLE_AMMINISTRATORE_RP" class="dropdown pointer hidden">
+    <a ui-sref="msgu">
+    	<span class="fa  fa-info-circle"></span> <span class="hidden-tablet" translate="global.menu.messaggi">Messaggi</span>
+    </a>
+</li>
+
+<li ng-if="configurationParams.menu_gestionehelpdesk_enabled" ng-switch-when="true" has-role="ROLE_ADMIN,ROLE_AMMINISTRATORE_RP" class="dropdown pointer">
+    <a class="dropdown-toggle" data-toggle="dropdown" href="">
+         <span>
+              <span class="fa  fa-info-circle"></span>
+              <span class="hidden-tablet"
+					translate="global.menu.managehelpdesk">Helpdesk</span>
+              <b class="caret"></b>
+        </span>
+  </a>
+  <ul class="dropdown-menu">
+  <li ng-if="configurationParams.menu_gestionehelpdesk_messaggio_enabled" ui-sref-active="active" has-role="ROLE_ADMIN,ROLE_AMMINISTRATORE_RP"><a ui-sref="msg"><span
+						class="glyphicon glyphicon-asterisk"></span>
+                        &#xA0;<span translate="global.menu.entities.msg">Messaggio</span></a></li>
+  <li ng-if="configurationParams.menu_gestionehelpdesk_categoriamessaggio_enabled" ui-sref-active="active" has-role="ROLE_ADMIN,ROLE_AMMINISTRATORE_RP"><a ui-sref="categoriaMsg"><span
+						class="glyphicon glyphicon-asterisk"></span>
+                        &#xA0;<span translate="global.menu.entities.categoriaMsg">Categorie Messaggi</span></a></li>     
+  <li ng-if="configurationParams.menu_gestionehelpdesk_messaggioistantaneo_enabled" ui-sref-active="active" has-role="ROLE_ADMIN"><a ui-sref="messaggio"><span
+						class="glyphicon glyphicon-asterisk"></span>
+                        &#xA0;<span>Messaggio Istantaneo</span></a></li>                    
+  <li ng-if="configurationParams.menu_gestionehelpdesk_richiestehd_enabled" ui-sref-active="active" has-role="ROLE_ADMIN"><a ui-sref="richiestaHD"><span
+						class="glyphicon glyphicon-asterisk"></span>
+                  &#xA0;<span
+						translate="global.menu.entities.richiestaHD">RichiestaHD</span></a></li>
+	<li ng-if="configurationParams.menu_gestionehelpdesk_gestionerichiestehd_enabled" ui-sref-active="active" has-role="ROLE_AMMINISTRATORE_RP"><a ui-sref="richiesteDirigente"><span
+	class="glyphicon glyphicon-asterisk"></span>
+	            &#xA0;<span
+	translate="global.menu.manageRichiesteDirigente">gestione richiesteDirigente</span></a></li>
+  <!-- <li ui-sref-active="active" ><a ui-sref="richiestaHDFeedback"><span class="glyphicon glyphicon-asterisk"></span>
+                  &#xA0;<span translate="global.menu.entities.richiestaHDFeedback">RichiestaHD Feedback</span></a></li> -->
+  <li ng-if="configurationParams.menu_gestionehelpdesk_storicorichiestehd_enabled" ui-sref-active="active"><a ui-sref="statoRichiestaHD"><span
+						class="glyphicon glyphicon-asterisk"></span>
+                        &#xA0;<span
+						translate="global.menu.entities.statoRichiestaHD">statoRichiestaHD</span></a></li>
+  <li ng-if="configurationParams.menu_gestionehelpdesk_tiorichiestahd_enabled" ui-sref-active="active"><a ui-sref="tipoRichiestaHD"><span
+						class="glyphicon glyphicon-asterisk"></span>
+                              &#xA0;<span
+						translate="global.menu.entities.tipoRichiestaHD">tipoRichiestaHD</span></a></li>             
+  <li ng-if="configurationParams.menu_gestionehelpdesk_faq_enabled" ui-sref-active="active" has-role="ROLE_ADMIN"><a ui-sref="faq"><span
+						class="glyphicon glyphicon-asterisk"></span>
+                                    &#xA0;<span
+						translate="global.menu.entities.faq">FAQ</span></a></li>   
+  <li ng-if="configurationParams.menu_gestionehelpdesk_categoriafaq_enabled" ui-sref-active="active" has-role="ROLE_ADMIN"><a ui-sref="categoriaFaq"><span
+						class="glyphicon glyphicon-asterisk"></span>
+                                          &#xA0;<span
+						translate="global.menu.entities.categoriaFaq">categoriaFaq</span></a></li>
+
+  </ul>
+</li>
+</ul>
+<h2 style="color: red; font-weight: bold;" ng-if="configurationParams && configurationParams.msgManutenzione">{{configurationParams.msgManutenzione}}</h2>
+
+<ol id="top" class="breadcrumb"> 
+	<li>
+		<a href="#/"> <span class="fa fa-home"></span>&nbsp;<span translate="global.menu.home"></span></a>
+	</li>
+	<li ng-repeat="key in navigatoretitle">{{key.title}}</li>
+	<!-- <li ng-repeat="key in navigatoretitle"><a href="{{key.link}}">{{key.title}}</a></li> -->
+	<li class="pull-right">
+        <span>{{counterTimeAuth|date:'mm:ss'}}</span>
+	</li>
+	<li class="pull-right" ng-show="profiloattivo.descrizione">
+      	{{profiloattivo.descrizione}}<span ng-show="profiloattivo.aoo.codice"> - ({{profiloattivo.aoo.codice}}) - </span><span ng-repeat="tipoAtto in profiloattivo.tipiAtto">{{tipoAtto.codice}} </span>
+	</li>
+</ol>
+
+</div>
+
+<div class="modal fade" style="z-index: 9999" id="genericMessage">
+	    <div class="modal-dialog">
+	        <div class="modal-content">
+	            <form name="deleteForm" >
+	                <div class="modal-header">
+	                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+	                    <h4 class="modal-title">{{genericMessage.title}}</h4>
+	                </div>
+	                <div class="modal-body">
+	                    <p ng-bind-html="genericMessage.body"></p>
+	                </div>
+	                <div class="modal-footer">
+	                    <button ng-if="genericMessage.okButton" type="button" class="btn btn-primary" data-dismiss="modal">
+	                        OK
+	                    </button>
+	                    <button ng-if="genericMessage.siButton" type="button" class="btn btn-primary" ng-click="genericMessage.siFunction ? genericMessage.siFunction() : return;">
+	                        Si
+	                    </button>
+	                    <button ng-if="genericMessage.noButton" type="button" class="btn btn-danger" ng-click="genericMessage.noFunction ? genericMessage.noFunction() : return;">
+	                        No
+	                    </button>
+	                </div>
+	            </form>
+	        </div>
+	    </div>
+	</div>

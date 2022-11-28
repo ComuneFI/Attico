@@ -1,0 +1,18 @@
+{
+    "cifra2gestattiApp": {
+        "tipodato" : {
+            "home": {
+                "title": "Tipi dato",
+                "createLabel": "Crea un nuovo tipo dato",
+                "createOrEditLabel": "Crea o modifica un tipo dato"
+            },
+            "delete": {
+                "question": "Sei sicuro di voler cancellare il tipo dato con ID {{ id }}?"
+            },
+            "detail": {
+                "title": "Tipo dato"
+            },
+            "nome": "Nome"
+        }
+    }
+}

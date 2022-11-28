@@ -1,0 +1,20 @@
+{
+    "cifra2gestattiApp": {
+        "gruppoRuolo" : {
+            "home": {
+                "title": "Groups role list",
+                "createLabel": "Create a new GruppoRuolo",
+                "createOrEditLabel": "Create or edit a GruppoRuolo"
+            },
+            "delete": {
+                "question": "Are you sure you want to delete GruppoRuolo {{ id }}?"
+            },
+            "detail": {
+                "title": "GruppoRuolo"
+            },
+            "denominazione": "Denominazione",
+            "aoo": "Ufficio",
+            "ruoli":"Ruoli"
+        }
+    }
+}

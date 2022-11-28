@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    
+    <changeSet author="mancos" id="201810261530-1">
+    	<sql>
+    		INSERT INTO `sezione` (`descrizione`, `codice`) VALUES ('Dati Identificativi', 'datiidentificativiverbale');
+    	</sql> 
+    </changeSet>
+    <changeSet author="mancos" id="201810261530-2">
+    	<sql>
+    		INSERT INTO `sezione_tipoatto` (`tipoatto_id`, `sezione_id`, `visibile`) VALUES (1, 27, 0);
+			INSERT INTO `sezione_tipoatto` (`tipoatto_id`, `sezione_id`, `visibile`) VALUES (2, 27, 0);
+			INSERT INTO `sezione_tipoatto` (`tipoatto_id`, `sezione_id`, `visibile`) VALUES (3, 27, 0);
+			INSERT INTO `sezione_tipoatto` (`tipoatto_id`, `sezione_id`, `visibile`) VALUES (4, 27, 0);
+			INSERT INTO `sezione_tipoatto` (`tipoatto_id`, `sezione_id`, `visibile`) VALUES (5, 27, 0);
+			INSERT INTO `sezione_tipoatto` (`tipoatto_id`, `sezione_id`, `visibile`) VALUES (7, 27, 0);
+			INSERT INTO `sezione_tipoatto` (`tipoatto_id`, `sezione_id`, `visibile`) VALUES (8, 27, 0);
+			INSERT INTO `sezione_tipoatto` (`tipoatto_id`, `sezione_id`, `visibile`) VALUES (9, 27, 0);
+			INSERT INTO `sezione_tipoatto` (`tipoatto_id`, `sezione_id`, `visibile`) VALUES (10, 27, 0);
+			INSERT INTO `sezione_tipoatto` (`tipoatto_id`, `sezione_id`, `visibile`) VALUES (11, 27, 0);
+			INSERT INTO `sezione_tipoatto` (`tipoatto_id`, `sezione_id`, `visibile`) VALUES (12, 27, 0);
+			INSERT INTO `sezione_tipoatto` (`tipoatto_id`, `sezione_id`, `visibile`) VALUES (13, 27, 0);
+			INSERT INTO `sezione_tipoatto` (`tipoatto_id`, `sezione_id`, `visibile`) VALUES (14, 27, 0);
+			INSERT INTO `sezione_tipoatto` (`tipoatto_id`, `sezione_id`, `visibile`) VALUES (15, 27, 0);
+			INSERT INTO `sezione_tipoatto` (`tipoatto_id`, `sezione_id`, `visibile`) VALUES (16, 27, 0);
+			INSERT INTO `sezione_tipoatto` (`tipoatto_id`, `sezione_id`, `visibile`) VALUES (17, 27, 1);
+			INSERT INTO `sezione_tipoatto` (`tipoatto_id`, `sezione_id`, `visibile`) VALUES (19, 27, 0);
+    	</sql>
+    </changeSet>  
+    <changeSet author="mancos" id="201810261530-3">
+    	<sql>
+    		UPDATE `sezione_tipoatto` SET `visibile`=0 WHERE `tipoatto_id`=17 and `sezione_id`=1;
+    		UPDATE `sezione_tipoatto` SET `visibile`=0 WHERE `tipoatto_id`=17 and `sezione_id`=23;
+    	</sql> 
+    </changeSet>
+</databaseChangeLog>
+

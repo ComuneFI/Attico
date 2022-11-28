@@ -1,0 +1,20 @@
+<h3 style="font-family: &quot;Titillium Web&quot;, sans-serif; color: rgb(0, 0, 0); text-align: center;"><span th:if="${parere.tipoParere != 'Parere Contabile'}" style="line-height: 36px;">[[${parere.titolo}]]</span></h3>
+<h3 style="font-family: &quot;Titillium Web&quot;, sans-serif; color: rgb(0, 0, 0); text-align: center;"><span th:if="${parere.tipoParere != 'Parere Contabile'}" style="line-height: 36px;"><br></span></h3>
+<p style="font-family: Calibri; font-size: 10pt; font-weight: bold; text-align: justify;">	<span>In ordine all'istruttoria effettuata, in data	[[${parere.data.toString("dd/MM/yyyy")}]], sulla proposta:</span><br><br></p>
+<p style="font-family: Calibri; font-size: 10pt; font-weight: bold; text-align: justify;">	<span>Codice Atto: [[${parere.atto.codiceCifra}]]<br><br></span></p>
+<p style="font-family: Calibri; font-size: 10pt; text-align: justify;">	<span style="font-weight: bold;">Oggetto: </span><span th:utext="${parere.atto.oggetto}"></span></p>
+<p style="font-family: Calibri; font-size: 10pt; font-weight: bold; text-align: justify;" th:utext="${parere.parere}">	<span><br>+${parere.parere}</span></p>
+<p style="font-family: Calibri; font-size: 10pt; font-weight: bold; text-align: justify;">	<span><br>Data: [[${#dates.format(#dates.createNow(), 'dd/MM/yyyy')}]]</span></p>
+<h3 style="font-family: &quot;Titillium Web&quot;, sans-serif; color: rgb(0, 0, 0); text-align: justify;"><p style="font-family: Calibri; font-size: 10pt; font-weight: bold; text-align: justify;">	<span>Sottoscrittori</span></p>
+<table style="page-break-inside: avoid;" width="100%" cellspacing="0" cellpadding="0">
+	<tbody>
+		<tr th:each="item: ${#lists.sort(parere.sottoscrittori)}">
+			<td>				<div style="font-family: Calibri; font-size: 10pt;">[[${item.qualificaProfessionale.denominazione}]]</div>
+				<div style="font-family: Calibri; font-size: 10pt;">[[${item.profilo.utente.nome}]] [[${item.profilo.utente.cognome}]]</div>
+				<br>			</td>
+		</tr>
+	</tbody>
+</table>
+<p>&nbsp;</p>
+<p style="font-family: Calibri; font-size: 8pt; text-align: justify;">	<span>Documento informatico firmato digitalmente ai sensi del Testo Unico D.P.R. 28 dicembre 2000, n. 445 e del D.Lgs 7 marzo 2005, n. 82 e norme collegate che sostituisce il testo cartaceo e la firma autografa.</span></p>
+</h3>

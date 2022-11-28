@@ -1,0 +1,28 @@
+{
+    "cifra2gestattiApp": {
+        "attivita" : {
+            "home": {
+                "title": "Elenco Attivita'",
+                "createLabel": "Crea un'Attivita'",
+                "createOrEditLabel": "Crea/Modifica Attivita'"
+            },
+            "delete": {
+                "question": "Sei sicuro dii voler eliminare l'Attivita' {{ id }}?"
+            },
+            "detail": {
+                "title": "Attivita'"
+            },
+            "codice": "Codice",
+            "descrizione": "Descrizione",
+            "taskBpm": "TaskBpm",
+            "TipoAtto": "Tipo atto",
+            "modificabile": "Modificabile",
+            "mostraMaschera": "Mostra Maschera",
+            "completaTaskBpm":"Completa TaskBpm",
+            "annullaTaskBpm":"Annulla TaskBpm",
+            "statoByStatoOut": "Stato finale",
+            "statoByStatoIn": "Stato iniziale",
+            "TipoIter": "Tipo Iter"
+        }
+    }
+}
