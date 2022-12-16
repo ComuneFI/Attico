@@ -1,0 +1,141 @@
+# This repository adheres to the publiccode.yml standard by including this 
+# metadata file that makes public software easily discoverable.
+# More info at https://github.com/italia/publiccode.yml
+
+publiccodeYmlVersion: '0.2'
+categories:
+  - workflow-management
+  - document-management
+  - task-management
+dependsOn:
+  open:
+    - name: OpenJDK
+      optional: false
+      version: '1.8'
+      versionMax: ''
+      versionMin: ''
+    - name: LibreOffice
+      optional: false
+      version: ''
+      versionMax: ''
+      versionMin: ''
+    - name: Spring Framework
+      optional: false
+      version: 4.1.7
+      versionMax: ''
+      versionMin: ''
+    - name: AngularJS
+      optional: false
+      version: 1.3.11
+      versionMax: ''
+      versionMin: ''
+    - name: Camunda Platform
+      optional: false
+      version: '7.8'
+      versionMax: ''
+      versionMin: ''
+    - name: Percona XtraDB Cluster
+      optional: false
+      version: ''
+      versionMax: ''
+      versionMin: ''
+  proprietary:
+    - name: JEnte
+      optional: true
+      version: ''
+      versionMax: ''
+      versionMin: ''
+description:
+  it:
+    features:
+      - Gestione di flussi di lavoro complessi tramite workflow BPMN
+      - |-
+        Funzionalità Scrivania con elenco delle attività in carico ad un utente
+        o ad un gruppo di lavoro
+      - Funzionalità Scrivania con elenco delle attività chiuse
+      - Funzionalità Scrivania con elenco delle attività da assegnare
+      - Funzionalità integrate di firma digitale remota
+      - |-
+        Funzionalità integrate di editing del testo e generazione di documenti
+        in standard PDF/A
+      - Integrazione con sistema di contabilità “JENTE”
+    genericName: Gestione Atti Amministrativi
+    longDescription: |2
+       
+
+      Il sistema per la Gestione Atti Amministrativi ATTICO supporta in  maniera
+      efficace, efficiente e nel rispetto della normativa vigente  nazionale e
+      regionale, tutte le attività relative alla gestione degli  atti
+      amministrativi di competenza comunale.  
+
+
+      Dispone delle  funzionalità necessarie alla gestione automatizzata di
+      tutte le attività  legate al ciclo di vita degli atti amministrativi fino
+      alla  divulgazione e alla pubblicazione degli stessi.  
+
+
+      Gestisce le  proposte degli atti amministrativi, i pareri di legittimità,
+      gli  allegati tecnici e le note a supporto della trattazione in Giunta e 
+      Consiglio.  
+
+
+      Consente la gestione separata e indipendente di tutti  gli atti degli Enti
+      che non dispongono di tali funzionalità o che  desiderano sostituire il
+      sistema in uso. Supporta la trasmissione  tramite posta elettronica
+      certificata di documenti sottoscritti con  firma digitale, facilitando la
+      fruizione e la condivisione delle  informazioni all’interno dei differenti
+      Uffici.   
+
+
+      Consente il  monitoraggio e l'approvazione dei processi degli atti
+      amministrativi,  finalizzato alla composizione dell’ordine del giorno per
+      la segreteria  della Giunta e di Consiglio.  
+
+
+      Permette, tramite un cruscotto  avanzato, il monitoraggio puntuale e
+      costante delle attività svolte e  dei processi amministrativi,
+      l'assegnazione di task, la gestione dei  carichi di lavoro etc.
+    shortDescription: |-
+      Attico permette la gestione di complessi iter burocratici per la
+      lavorazione degli atti amministrativi, dalla loro istruttoria fino alla
+      pubblicazione
+developmentStatus: stable
+intendedAudience:
+  countries:
+    - it
+  scope:
+    - government
+it:
+  conforme:
+    gdpr: true
+    lineeGuidaDesign: false
+    misureMinimeSicurezza: true
+    modelloInteroperabilita: false
+  countryExtensionVersion: '0.2'
+  piattaforme:
+    anpr: false
+    cie: false
+    pagopa: false
+    spid: false
+legal:
+  license: GPL-3.0-or-later
+localisation:
+  availableLanguages:
+    - it
+  localisationReady: true
+maintenance:
+  contacts:
+    - name: Comune di Firenze
+  contractors:
+    - name: ' Links Management And Technology S.p.A'
+      until: '2022-12-31'
+      website: 'https://www.linksmt.it'
+  type: contract
+name: ATTICO - Gestione Atti Amministrativi del Comune di Firenze
+platforms:
+  - web
+releaseDate: '2022-11-28'
+softwareType: standalone/web
+url: 'https://github.com/ComuneFI/Attico'
+usedBy:
+  - Comune di Firenze
