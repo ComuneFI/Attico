@@ -117,6 +117,8 @@ it:
     cie: false
     pagopa: false
     spid: false
+  riuso:
+    codiceIPA: c_d612
 legal:
   license: GPL-3.0-or-later
 localisation:
