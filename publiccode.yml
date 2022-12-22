@@ -127,7 +127,9 @@ localisation:
   localisationReady: true
 maintenance:
   contacts:
-    - name: Comune di Firenze
+    - affiliation: Comune di Firenze
+      email: fabio.logiudice@comune.fi.it
+      name: Fabio Lo Giudice
   contractors:
     - name: ' Links Management And Technology S.p.A'
       until: '2022-12-31'
